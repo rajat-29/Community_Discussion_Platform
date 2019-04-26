@@ -12,14 +12,18 @@ submit.addEventListener("click", function() {
     	var data = request.responseText;
     	if(data === 'true') {
     		console.log('hello user');
-            window.location.href = "../home.html";
+            window.location = "/home";
+            //window.location.href = "h.html";
     	}
     	else {
+            alert('Enter Correct Details')
     		console.log('getout');
+            n.value = "";
+            pass.value = "";
     	}
       //  console.log(data);
 
-
     });
+
 })
 

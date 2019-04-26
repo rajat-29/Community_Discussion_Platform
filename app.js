@@ -2,7 +2,7 @@
   var path = require('path')
   var app = express()
   var session = require('express-session');
-  var ejs = require('ejs')
+  var ejs = require('ejs');
 
   // view engine setup
   app.set('views', path.join(__dirname, 'Views'));
@@ -12,7 +12,11 @@
 
   app.use(express.urlencoded({extended: true}))
   app.use(express.json())									/*include express*/
-  app.use(session({secret: "xYzUCAchitkara"}));
+  app.use(session({
+    secret: "xYzUCAchitkara",
+    resave: false,
+    saveUninitialized: true,
+    }))
 
   var mongoose = require('mongoose');						/*include mongo*/
   var mongoDB = 'mongodb://localhost/user';
@@ -56,15 +60,26 @@
         {
            req.session.isLogin = 1;
            req.session.name = req.body.name;
+           req.session.data = result;
          //console.log("hello user");        
-           console.log(req.session.name);
+          // console.log(req.session.name);
            res.send("true");
           // res.render('list');
         }
       })
-
-       
+     
   })
+
+  app.get('/', function(req,res){
+    if(req.session.isLogin) {
+      console.log('hi');
+    }
+  })
+
+  app.get('/home' , function(req,res){
+    console.log('yes raj');
+  res.render('main', {data: req.session.data});
+})
 
 
   console.log("Running on port 8000");
