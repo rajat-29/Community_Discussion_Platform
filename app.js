@@ -45,6 +45,8 @@
   app.post('/checkLogin',function (req, res)         /*post data */
   {
      // console.log(req.body);
+     // console.log(req.session.isLogin);
+      req.session.isLogin = 0;
       var username = req.body.name;
       var pasword = req.body.password;
       users.findOne({name: username,password: pasword}, function(error,result)
@@ -70,17 +72,16 @@
      
   })
 
-  app.get('/', function(req,res){
-    if(req.session.isLogin) {
-      console.log('hi');
-    }
-  })
-
   app.get('/home' , function(req,res){
-    console.log('yes raj');
-  res.render('main', {data: req.session.data});
+   // console.log('yes raj');
+  //  console.log(req.session.isLogin);
+    if(req.session.isLogin) {
+  		res.render('main', {data: req.session.data});
+	} else {
+		//console.log('hello');
+		res.render('index');
+	}
 })
-
 
   console.log("Running on port 8000");
   app.listen(8000)
