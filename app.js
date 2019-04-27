@@ -53,7 +53,7 @@
       req.session.isLogin = 0;
       var username = req.body.name;
       var pasword = req.body.password;
-      users.findOne({name: username,password: pasword}, function(error,result)
+      users.findOne({email: username,password: pasword}, function(error,result)
       {
         if(error)
         throw error;
@@ -70,7 +70,7 @@
            userdata.name = result.name;
            userdata.email = result.email;         
            userdata.city = result.city;
-           userdata.dob = result.dob;
+           userdata.role = result.role;
            userdata.phone = result.phone;
            userdata.gender = result.gender;
          //console.log("hello user");        

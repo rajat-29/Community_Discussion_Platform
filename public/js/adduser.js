@@ -9,17 +9,18 @@ var cancelling = document.getElementById('cancelling');
 
 
 adding.addEventListener("click", function() {  
-	 console.log(n.value);
+	// console.log(pass.value);
 	
 	var obj = new Object();
 	obj.name = n.value;
 	obj.email = email.value;
-	obj.pass = pass.value;
+	obj.password = pass.value;
 	obj.phone = phone.value;
 	obj.city = city.value;
+	obj.gender = 'Male';
 	obj.role = role.value;
 
-    var request = new XMLHttpRequest();
+   	var request = new XMLHttpRequest();
     request.open('POST',"/addnewuser");
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify(obj))
@@ -32,4 +33,10 @@ adding.addEventListener("click", function() {
 
 cancelling.addEventListener("click", function(){
 	window.location = "/addusers";
+})
+
+var homepage = document.getElementById('homepage');
+
+homepage.addEventListener("click", function() {			// home page //
+	window.location = "/home";
 })
