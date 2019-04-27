@@ -1,0 +1,77 @@
+<style>
+
+      	.main {
+		width: 50%;
+		height: auto;
+		margin: 0 auto;
+		box-shadow: 0 10px 20px -12px #000;
+		margin-top: 2%;
+		padding-top: 2%;		
+	}
+
+	.container p {
+		font-size: 40px;
+		font-weight: bold;
+	}
+
+@media (max-width: 768px) {
+
+		.main {
+			width: 90%;
+		height: auto;
+		margin: 0 auto;
+		box-shadow: 0 10px 20px -12px #000;
+		margin-left: 2%;
+		padding-top: 2%;
+		}
+
+}
+
+</style>
+
+
+		<div class="main">
+
+			<div class="container" id="myForm">
+				
+					<p>Add User</p>
+
+					<div class="form-group" style="margin: 10px">
+						<input type="text" class="form-control" placeholder="Name" id="n"><br/>
+					</div>
+
+					<div class="form-group" style="margin: 10px">
+						<input type="text" name="" class="form-control" placeholder="Email" id="email"><br/>
+					</div>
+
+					<div class="form-group" style="margin: 10px">
+						<input type="password" name="" class="form-control" placeholder="Password" id="pass"><br/>
+					</div>
+
+					<div class="form-group" style="margin: 10px">
+						<input type="text" name="" class="form-control" placeholder="Phone" id="phone"><br/>
+					</div>
+
+					<div class="form-group" style="margin: 10px">
+						<input type="text" name="" class="form-control" placeholder="City" id="city"><br/>
+					</div>
+
+					<span><b>Role :</b></span>
+
+					<select class="browser-default custom-select" id="selectoption">
+  						<option value="" disabled selected>Choose your option</option>
+ 						<option value="User" >User</option>
+ 						<option value="Community Builder">Community Builder</option>
+  						<option value="Admin">Admin</option>
+					</select>
+
+					<div class="form-group" style="margin: 10px">
+						<button class="btn btn-success" id="adding">Add User</button>
+						<button class="btn btn-danger" id="cancelling">Cancel</button>
+					</div>		
+			
+				
+			</div>
+		</div>
+
+	</div>

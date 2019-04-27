@@ -3,6 +3,7 @@
   var app = express()
   var session = require('express-session');
   var ejs = require('ejs');
+  var userdata = new Object();
 
   // view engine setup
   app.set('views', path.join(__dirname, 'Views'));
@@ -38,6 +39,9 @@
     password: String,
     phone: Number,
     city: String,
+    dob: String,
+    gender: String,
+    role: String,    
   })
 
    var users = mongoose.model('usernames', userSchema);
@@ -62,7 +66,13 @@
         {
            req.session.isLogin = 1;
            req.session.name = req.body.name;
-           req.session.data = result;
+
+           userdata.name = result.name;
+           userdata.email = result.email;         
+           userdata.city = result.city;
+           userdata.dob = result.dob;
+           userdata.phone = result.phone;
+           userdata.gender = result.gender;
          //console.log("hello user");        
           // console.log(req.session.name);
            res.send("true");
@@ -72,16 +82,41 @@
      
   })
 
-  app.get('/home' , function(req,res){
+  app.get('/home' , function(req,res){				/*get data */
    // console.log('yes raj');
-  //  console.log(req.session.isLogin);
+    //console.log(userdata);
     if(req.session.isLogin) {
-  		res.render('main', {data: req.session.data});
+  		res.render('main', {data: userdata});
 	} else {
 		//console.log('hello');
 		res.render('index');
 	}
-})
+ })
+
+  app.get('/addusers' , function(req,res){
+  	if (req.session.isLogin) {
+  		res.render('adduser');
+  	} else {
+  		res.render('index');
+  	}
+  })
+
+  app.post('/addnewuser',function (req, res)          /*post data */
+  {
+      console.log(req.body);
+      users.create(req.body,function(error,result)
+      {
+        if(error)
+        throw error;
+        else
+        {
+          console.log(result);
+        }
+      })
+       res.send("data saved");
+  })
+
+
 
   console.log("Running on port 8000");
   app.listen(8000)

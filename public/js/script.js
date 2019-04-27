@@ -1,3 +1,5 @@
+// main page //
+
 var n = document.getElementById('n');
 var pass = document.getElementById('pass');
 var submit = document.getElementById('submit');
@@ -22,8 +24,8 @@ submit.addEventListener("click", function() {
             pass.value = "";
     	}
       //  console.log(data);
-
     });
-
 })
+
+
 
