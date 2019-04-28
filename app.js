@@ -3,6 +3,9 @@
   var app = express()
   var session = require('express-session');
   var ejs = require('ejs');
+  var mongodb = require('mongodb');
+  var MongoDataTable = require('mongo-datatable');
+  var MongoClient = mongodb.MongoClient;
   var userdata = new Object();
 
   // view engine setup
@@ -41,7 +44,8 @@
     city: String,
     dob: String,
     gender: String,
-    role: String,    
+    role: String,   
+    status: String, 
   })
 
    var users = mongoose.model('usernames', userSchema);
@@ -73,6 +77,7 @@
            userdata.role = result.role;
            userdata.phone = result.phone;
            userdata.gender = result.gender;
+           userdata.status = result.status;
          //console.log("hello user");        
           // console.log(req.session.name);
            res.send("true");
@@ -114,6 +119,28 @@
         }
       })
        res.send("data saved");
+  })
+
+  app.get('/userlist' , function(req,res){        /*get data */
+    console.log('yes raj');
+    //console.log(userdata);
+    if(req.session.isLogin) {
+      res.render('userlist');
+  } else {
+    //console.log('hello');
+    res.render('index');
+  }
+ })
+
+  app.get('/showuser' , function(req, res) {
+    console.log('dsfaffagfa');
+    var data = users.find({}).exec(function(error,result)
+      {
+        if(error)
+        throw error;
+        else
+        res.send(JSON.stringify(result))
+    });
   })
 
 

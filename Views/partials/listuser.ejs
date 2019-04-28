@@ -1,0 +1,120 @@
+<style>
+
+ 	.main {
+		width: 100%;
+		height: auto;
+		margin: 0 auto;
+		box-shadow: 0 10px 20px -12px #000;
+		padding-top: 1%;
+		padding-left: 1%;		
+	}
+
+	.entries{
+		margin-top: 2%;
+	}
+
+	#datatableses {
+		margin-top: 2%;
+	}
+
+	@media (max-width: 768px) {
+
+		.main {
+			width: 90%;
+		height: auto;
+		margin: 0 auto;
+		box-shadow: 0 10px 20px -12px #000;
+		margin-left: 2%;
+		padding-top: 2%;
+		}
+
+		#roles {
+			width: 20%;
+		}
+
+		.entries {
+			margin-top: 7%;
+		}
+
+		.entries span {
+			font-size: 20px;
+		}
+
+		.fa {
+			width: 10%;
+		}
+
+
+	}
+
+</style>
+
+
+		<div class="main">
+
+			<div class="userbtns">
+				<button type="button" class="btn btn-primary" style="background-color: black">User List</button>				
+
+				<select id="roles" class="btn btn-primary" class="mdb-select md-form colorful-select dropdown-primary" style="background-color: black;float: right;margin-right: 1%;margin-left: 1%;">
+        			<option selected>All</option>
+  					<option value="1">Admin</option>
+ 					<option value="2">Users</option>
+ 					<option value="2">Community Builder</option>
+				</select>
+
+				<select id="roles" class="btn btn-primary" class="mdb-select md-form colorful-select dropdown-primary" style="background-color: black;float: right;margin-left: 1%;">
+        			<option selected>All</option>
+  					<option value="1">Pending</option>
+ 					<option value="2">Confirmed</option>
+				</select>
+
+				 <button class="btn btn-primary" style="float: right;background-color: black;"><span class="glyphicon glyphicon-refresh"></span> Refresh</button>				
+			</div>
+
+			<div class="entries">
+				<span>Show
+					<select>
+        				<option value="10" selected>10</option>
+  						<option value="20">20</option>
+ 						<option value="30">30</option>
+					</select>
+					entries
+				</span>
+
+				<form class="form" style="width: 20%;float: right;margin-right: 2%;">
+ 					<input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
+				</form>
+			</div>
+
+			<div>
+				<table class="table table-bordered" id="datatableses">
+  					<thead>
+    				<tr>
+       					<th>Username</th>
+       					<th>Phone</th>
+       				 	<th>City</th>
+       				 	<th>Status</th>
+       				 	<th>Role</th>
+       				 	<th>Actions</th>
+      				</tr>
+   					</thead>
+   					<tbody>
+   						<tr>
+   							<td>admin</td>
+   							<td>123456789</td>
+   							<td>Panchkula</td>
+   							<td>Confirmed</td>
+   							<td>Admin</td>
+   							<td><i class="fa fa-envelope" style="color:black"></i>
+   								<i class="fa fa-pencil-square-o" style="color:black;">
+   								</i>
+   								<i class="fa fa-remove" style="color:black;margin-right: 2%;"></i></td>
+   						</tr>
+   					</tbody>
+  				</table>
+			</div>
+
+
+		</div>
+
+	</div>
