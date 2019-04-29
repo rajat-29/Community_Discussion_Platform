@@ -2,22 +2,54 @@ var tasks = [];
 var list = document.getElementById('datatableses');
 
 
+$.getJSON( '/showuser', function( queryResult ) {
+  var table = $('#datatableses').dataTable( {
+    responsive: true,
+    autoWidth: false,
+    data: queryResult,
+    columns: [
+        { mData: "name" },
+        { mData: "phone"},
+        { mData: "city"},
+        { mData: "status"},
+        { mData: "role"},
+        { mData:  function () { return "<i class='fa fa-envelope'></i>" }},
+
+        ]
+      } );
+});
+/*
+
+$('#datatableses').DataTable( {
+    serverSide: true,
+    ajax: '/showuser'
+} );
+*/
+
+/*
+
 addEventListener("load", function () {
 	console.log('ramjiii');
 	var request = new XMLHttpRequest();
     request.open('GET',"/showuser");
     request.send();
     request.addEventListener("load",function() {
+    	tasks = JSON.parse(request.responseText);
+
     	//console.log('ramjiii');
     	//console.log(JSON.parse(request.responseText));
-    	tasks = JSON.parse(request.responseText);
-			for(var i in tasks)
+    	
+			/*for(var i in tasks)
             {
                 addtoDOM(tasks[i]);
                console.log(tasks[i]);
-            }
-    })
-})
+            }*/
+/*    })
+})*/
+
+    /*	$('#datatableses').DataTable( {
+   			 data: tasks
+	} );*/
 
 function addtoDOM(obj)
 {
