@@ -19,6 +19,8 @@ adding.addEventListener("click", function() {
 	obj.city = city.value;
 	obj.gender = 'Male';
 	obj.role = role.value;
+	obj.status = 'Pending';
+	obj.flag = 1;
 
    	var request = new XMLHttpRequest();
     request.open('POST',"/addnewuser");

@@ -45,7 +45,8 @@
     dob: String,
     gender: String,
     role: String,   
-    status: String, 
+    status: String,
+    flag: Number, 
   })
 
    var users = mongoose.model('usernames', userSchema);
