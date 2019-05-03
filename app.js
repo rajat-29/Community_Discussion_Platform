@@ -145,6 +145,21 @@
   })
 
 
+  app.get('/changePassword' , function(req,res){
+    if (req.session.isLogin) {
+      res.render('changePassword');
+    } else {
+      res.render('index');
+    }
+  })
+
+   app.put('/:pro',function (req, res)          /*post data */
+  {
+        var id =  req.params.pro.toString();
+        console.log(id);
+  })
+
+
 
   console.log("Running on port 8000");
   app.listen(8000)

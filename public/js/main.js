@@ -1,6 +1,7 @@
 var homepage = document.getElementById('homepage');
 var adduser = document.getElementById('addnewuser');
 var requestusers = document.getElementById('requestusers');
+var changePassword = document.getElementById('changePassword');
 
 homepage.addEventListener("click", function() {			// home page //
 	window.location = "/home";
@@ -12,5 +13,9 @@ adduser.addEventListener("click", function() {  		// add user page //
 
 requestusers.addEventListener("click", function() {	
 	window.location = "/userlist";
+})
+
+changePassword.addEventListener("click", function() {	
+	window.location = "/changePassword";
 })
 
