@@ -159,6 +159,11 @@
         console.log(id);
   })
 
+   app.get('/yes', function(req,res) {
+    req.session.isLogin = 0;
+    res.render('index');
+   })
+
 
 
   console.log("Running on port 8000");
