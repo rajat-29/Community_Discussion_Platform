@@ -178,6 +178,7 @@
 
    app.get('/yes', function(req,res) {
     req.session.isLogin = 0;
+    req.session.destroy();
     res.render('index');
    })
 
