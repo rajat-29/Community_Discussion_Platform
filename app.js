@@ -71,6 +71,7 @@
         {
            req.session.isLogin = 1;
            req.session.name = req.body.name;
+           req.session.password = req.body.password;
 
            userdata.name = result.name;
            userdata.email = result.email;         
@@ -145,19 +146,35 @@
   })
 
 
-  app.get('/changePassword' , function(req,res){
-    if (req.session.isLogin) {
+  app.get('/changePassword' , function(req,res){        /*get data */
+    if(req.session.isLogin) {
       res.render('changePassword');
-    } else {
-      res.render('index');
+  } else {
+    res.render('index');
+  }
+ })
+
+
+  app.post('/changePassword' , function(req,res){
+    password = req.body;
+    if(password.oldpass != req.session.password)
+    {
+      res.send("Incorrect Old Password");
+    } 
+    else
+    {
+      users.updateOne({"password" : password.oldpass},{$set: { "password" : password.newpass}} ,
+        function(error,result)
+        {
+          if(error)
+            throw error;
+          else
+            req.session.password = password.newpass;
+        })
+      res.send("Password Changed Successfully")
     }
   })
 
-   app.put('/:pro',function (req, res)          /*post data */
-  {
-        var id =  req.params.pro.toString();
-        console.log(id);
-  })
 
    app.get('/yes', function(req,res) {
     req.session.isLogin = 0;
