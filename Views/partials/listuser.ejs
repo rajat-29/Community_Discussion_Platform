@@ -58,11 +58,6 @@
    		 font-weight: 700;
 		float: left;
 	}
-
-
-
-
-
 	
 	@media (max-width: 768px) {
 
@@ -174,6 +169,64 @@
       <!-- Modal footer -->
       <div class="modal-footer">
         <button id="sendmail" type="button" class="btn btn-danger" data-dismiss="modal">Send</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- update modal -->
+
+
+<div class="modal" id="updateModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Update</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+
+<div class="modal-body">
+
+	<form method="POST" action="/senddata">
+  		<label class="control-label col-sm-3" for="email">Username : </label> 
+  			<input class="col-sm-9" type="text" id="username"><br><br>
+
+  		<label class="control-label col-sm-3" for="email">Phone:</label>		
+  			<input class="col-sm-9" type="text"><br><br>
+
+  		<label class="control-label col-sm-3" for="email">City:</label>		
+  			<input class="col-sm-9" type="text"><br><br>
+
+  		 <label class="control-label col-sm-3" for="email">Status:</label>		
+  			<select class="col-sm-9" type="text">
+  			<option>Confirmed</option>
+  			<option>Pending</option>
+  			</select><br><br>
+
+  		<label class="control-label col-sm-3" for="email">Role:</label>		
+  			<select class="col-sm-9" type="text">
+  			<option>Admin</option>
+  			<option>User</option>
+  			<option>Community Builder</option>
+  			</select>	<br><br>	
+
+
+
+  			
+	</form>
+
+ </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button id="sendmail" type="button" class="btn btn-default" data-dismiss="modal">Update</button>
       </div>
 
     </div>

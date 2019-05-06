@@ -18,9 +18,8 @@ $.getJSON( '/showuser', function( queryResult ) {
         { mData: "status"},
         { mData: "role"},
         { mData:  function () {
-        	
         	console.log(rajat);
-         return "<center><button class='first' data-toggle='modal' data-target='#myModal'><i class='fa fa-envelope' aria-hidden='true'></i></button><button class='second'><i class='fa fa-edit' aria-hidden='true'></i></button><button class='third'><i class='fa fa-check-circle' aria-hidden='true'></i></button></center>" }},
+         return "<center><button class='first' data-toggle='modal' data-target='#myModal'><i class='fa fa-envelope' aria-hidden='true'></i></button><button class='second' data-toggle='modal' data-target='#updateModal'><i class='fa fa-edit' aria-hidden='true'></i></button><button class='third'><i class='fa fa-check-circle' aria-hidden='true'></i></button></center>" }},
 
         ]
       } );

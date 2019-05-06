@@ -3,6 +3,7 @@ var adduser = document.getElementById('addnewuser');
 var requestusers = document.getElementById('requestusers');
 var changePassword = document.getElementById('changePassword');
 var yes = document.getElementById('yes');
+var usertags = document.getElementById('tags');
 
 homepage.addEventListener("click", function() {			// home page //
 	window.location = "/home";
@@ -22,5 +23,9 @@ changePassword.addEventListener("click", function() {
 
 yes.addEventListener("click", function() {	
 	window.location = "/yes";
+})
+
+usertags.addEventListener("click", function() {
+	window.location = "/tag";
 })
 

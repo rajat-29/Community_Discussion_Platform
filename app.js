@@ -49,7 +49,14 @@
     flag: Number, 
   })
 
+   var tagSchema = new mongoose.Schema({
+    tags: Number,
+    createdBy: String,
+    createDate: String,
+   })
+
    var users = mongoose.model('usernames', userSchema);
+   var t = mongoose.model('tags', tagSchema);
 
   app.post('/checkLogin',function (req, res)         /*post data */
   {
@@ -181,6 +188,49 @@
     req.session.destroy();
     res.render('index');
    })
+
+   app.get('/tag', function(req,res) {
+    if(req.session.isLogin) {
+      res.render('Tags');
+       } else {
+      res.render('index');
+     }
+    })
+
+   app.get('/listusers', function(req,res) {
+    if(req.session.isLogin) {
+      res.render('Listtags');
+       } else {
+      res.render('index');
+     }
+    })
+
+
+   app.get('/showtags' , function(req, res) {
+    console.log('tagib');
+    var data = t.find({}).exec(function(error,result)
+      {
+        if(error)
+        throw error;
+        else
+        res.send(JSON.stringify(result))
+    });
+  })
+
+   app.post('/addtagtobase',function (req, res)          /*post data */
+  {
+      console.log(req.body);
+      t.create(req.body,function(error,result)
+      {
+        if(error)
+        throw error;
+        else
+        {
+          console.log(result);
+        }
+      })
+       res.send("data saved");
+  })
 
 
 
