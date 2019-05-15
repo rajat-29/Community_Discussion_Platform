@@ -125,10 +125,8 @@
        				 	<th>Actions</th>
       				</tr>
    					</thead>
-   					<tbody>
-   						<tr>
-
-   						</tr>
+   					<tbody id="list">
+   						
    					</tbody>
   				</table>
 
@@ -195,38 +193,35 @@
 <div class="modal-body">
 
 	<form method="POST" action="/senddata">
-  		<label class="control-label col-sm-3" for="email">Username : </label> 
-  			<input class="col-sm-9" type="text" id="username"><br><br>
+  		<label class="control-label col-sm-3">Username : </label> 
+  			<input class="col-sm-9" type="text" id="updateuser"><br><br>
 
-  		<label class="control-label col-sm-3" for="email">Phone:</label>		
-  			<input class="col-sm-9" type="text"><br><br>
+  		<label class="control-label col-sm-3">Phone:</label>		
+  			<input class="col-sm-9" type="text" id="updatephone"><br><br>
 
-  		<label class="control-label col-sm-3" for="email">City:</label>		
-  			<input class="col-sm-9" type="text"><br><br>
+  		<label class="control-label col-sm-3">City:</label>		
+  			<input class="col-sm-9" type="text" id="updatecity"><br><br>
 
-  		 <label class="control-label col-sm-3" for="email">Status:</label>		
-  			<select class="col-sm-9" type="text">
+  		 <label class="control-label col-sm-3">Status:</label>		
+  			<select class="col-sm-9" type="text" id="updatestatus">
   			<option>Confirmed</option>
   			<option>Pending</option>
   			</select><br><br>
 
   		<label class="control-label col-sm-3" for="email">Role:</label>		
-  			<select class="col-sm-9" type="text">
+  			<select class="col-sm-9" type="text" id="updaterole">
   			<option>Admin</option>
   			<option>User</option>
   			<option>Community Builder</option>
   			</select>	<br><br>	
 
-
-
-  			
 	</form>
 
  </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button id="sendmail" type="button" class="btn btn-default" data-dismiss="modal">Update</button>
+        <button id="updatedetails" type="button" class="btn btn-default" data-dismiss="modal">Update</button>
       </div>
 
     </div>

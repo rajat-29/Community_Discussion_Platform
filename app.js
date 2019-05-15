@@ -42,7 +42,6 @@
     password: String,
     phone: Number,
     city: String,
-    dob: String,
     gender: String,
     role: String,   
     status: String,
@@ -150,6 +149,20 @@
         else
         res.send(JSON.stringify(result))
     });
+  })
+
+  app.post('/:pro', function(req,res) {
+    var id =  req.params.pro.toString()
+        console.log(id)
+        users.update( { "_id" : id, $set : req.body.text } , function(err,result)
+        {
+          if(err)
+          throw err
+          else
+          {
+            res.send("DATA UPDATED SUCCESFULLY")
+          }
+        })
   })
 
 
