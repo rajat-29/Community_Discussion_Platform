@@ -151,10 +151,9 @@
     });
   })
 
-  app.post('/:pro', function(req,res) {
-    var id =  req.params.pro.toString()
-        console.log(id)
-        users.update( { "_id" : id, $set : req.body.text } , function(err,result)
+  app.post('/updateuserdetails', function(req,res) {
+  console.log(req.body._id);
+        users.updateOne( { "_id" : req.body._id}, {$set : req.body } , function(err,result)
         {
           if(err)
           throw err

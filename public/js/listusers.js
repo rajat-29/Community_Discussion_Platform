@@ -83,14 +83,20 @@ function addtoDom(obj,id) {
 			obj1.role = updaterole.value;
 			obj1.status = updatestatus.value;
 			obj1.flag = obj.flag;
-			var filename = obj._id.toString();
+			obj1._id = obj._id;
+			obj = obj1;
 			var request = new XMLHttpRequest();
-			request.open('POST', filename);
+			request.open('POST', '/updateuserdetails');
 			request.setRequestHeader("Content-Type","application/json");
-			request.send(JSON.stringify({text: obj1}))
+			request.send(JSON.stringify(obj1))
 			request.addEventListener("load",function()
         	{
-         		 console.log(request.responseText)
+         		 console.log(request.responseText);
+         		 username.innerHTML = obj.name;
+         		 phone.innerHTML = obj.phone;
+         		 city.innerHTML = obj.city;
+         		 status.innerHTML = obj.status;
+         		 role.innerHTML = obj.role;
         	});
 		}
 
