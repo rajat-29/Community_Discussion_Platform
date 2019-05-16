@@ -7,10 +7,28 @@ showtags.addEventListener("click", function() {
 })
 
 submit.addEventListener("click", function() {
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1;
+    var yyyy = today.getFullYear();
+    var hrs = today.getHours();
+    var mins = today.getMinutes();
+    var format = "AM";
+    if(hrs>12)
+    {
+        hrs=hrs-12;
+        format="PM";
+    }
+    today = + dd + '-' + getMonths(mm) + '-' + yyyy;
+    today = today + " ";
+    today = today + "(" + hrs + ':' + mins + '' + format + ")";
+    console.log(today);
+
     var obj = new Object();
     obj.tags = tagvalue.value;
     obj.createdBy = "Admin";
-    obj.createDate = new Date();
+    obj.createDate = today;
 
     console.log(obj);
 
@@ -24,3 +42,8 @@ submit.addEventListener("click", function() {
     });  
      window.location = "/tag"
 })
+
+function getMonths(mno) {
+    var month = ["Jan","Feb","March","April","May","June","July","Aug","Sep","Oct","Nov","Dec"];
+    return month[mno-1];
+}
