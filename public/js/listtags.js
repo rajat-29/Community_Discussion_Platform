@@ -1,6 +1,6 @@
 var list = document.getElementById('listing');
-
-
+var btnss = document.getElementById('btnss');
+var deletedata = document.getElementById('deletedata');
 
 
 $.getJSON( '/showtags', function( queryResult ) {
@@ -40,7 +40,27 @@ function addtoDom(obj,id) {
   active.style.width = '10px';
   a3.appendChild(active)
   a3.setAttribute("id", "deleteid")
-  actions.appendChild(a3)
+  actions.appendChild(a3);
+  a3.onclick=() =>
+  {
+    deletedata.innerHTML = obj.tags;
+    $('#deletetag').modal('show');
+    btnss.onclick=() =>
+    {
+      var obj1 = Object()
+      var filename = obj._id.toString();
+        console.log(filename);
+
+      var request = new XMLHttpRequest();
+      request.open('DELETE',filename);
+      request.send()
+      request.addEventListener("load",function(event)
+          {
+             list.removeChild(tr);
+             console.log(request.responseText);
+          });
+    }
+  }
 
   tr.appendChild(actions);
  

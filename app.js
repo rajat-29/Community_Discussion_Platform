@@ -244,6 +244,22 @@
        res.send("data saved");
   })
 
+  app.delete('/:pro',function(req,res)
+  {
+      var id = req.params.pro.toString();
+      console.log(id);
+      t.deleteOne({ "_id": id },function(err,result)
+      {
+          if(err)
+          throw error
+          else
+          {
+            console.log(result);
+              res.send("data deleted SUCCESFULLY")
+          }
+      });
+  })
+
 
 
   console.log("Running on port 8000");
