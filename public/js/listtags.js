@@ -1,6 +1,7 @@
 var list = document.getElementById('listing');
 var btnss = document.getElementById('btnss');
 var deletedata = document.getElementById('deletedata');
+var refresh = document.getElementById('refresh');
 
 $.getJSON( '/showtags', function( queryResult ) {
   var id = 0;
@@ -11,6 +12,19 @@ $.getJSON( '/showtags', function( queryResult ) {
   }
   update_table()
 });
+
+refresh.addEventListener("click", function() {
+  $("#listing tr").remove();
+$.getJSON( '/showtags', function( queryResult ) {
+  var id = 0;
+  for(var i in queryResult)
+  {
+   addtoDom(queryResult[i],id);
+    id++;
+  }
+  update_table()
+});
+})
 
 function addtoDom(obj,id) {
 
@@ -62,11 +76,9 @@ function addtoDom(obj,id) {
   }
 
   tr.appendChild(actions);
- 
-
   list.appendChild(tr);
-
 }
+
 
 
 function update_table()

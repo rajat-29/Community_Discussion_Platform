@@ -97,6 +97,20 @@ function headers()
 			}
 				update_table()
 		}
+
+		else if(selectBox.value == 'Community Builder')
+		{
+			for(var i in queryResult)
+			{
+			if(queryResult[i].role == 'Community Builder')
+				{
+					addtoDom(queryResult[i],id%2)
+					id++;
+				}
+			}
+				update_table()
+		}
+
 		else if(selectBox.value == 'All')
 		{
 			for(var i in queryResult)
