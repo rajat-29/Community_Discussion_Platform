@@ -96,17 +96,17 @@
 			<div class="userbtns">
 				<button type="button" class="btn btn-primary" style="background-color: black">User List</button>				
 
-				<select id="roles" class="btn btn-primary" class="mdb-select md-form colorful-select dropdown-primary" style="background-color: black;float: right;margin-right: 1%;margin-left: 1%;">
+				<select id="roles" class="btn btn-primary" class="mdb-select md-form colorful-select dropdown-primary" style="background-color: black;float: right;margin-right: 1%;margin-left: 1%;" onchange="headers();">
         			<option selected>All</option>
-  					<option value="1">Admin</option>
- 					<option value="2">Users</option>
- 					<option value="2">Community Builder</option>
+  					<option value="Admin">Admin</option>
+ 					<option value="Users">Users</option>
+ 					<option value="Community Builder">Community Builder</option>
 				</select>
 
-				<select id="roles" class="btn btn-primary" class="mdb-select md-form colorful-select dropdown-primary" style="background-color: black;float: right;margin-left: 1%;">
+				<select id="selectoption" class="btn btn-primary" class="mdb-select md-form colorful-select dropdown-primary" style="background-color: black;float: right;margin-left: 1%;" onchange="pendingusers();">
         			<option selected>All</option>
-  					<option value="1">Pending</option>
- 					<option value="2">Confirmed</option>
+  					<option value="Pending">Pending</option>
+ 					<option value="Confirmed">Confirmed</option>
 				</select>
 
 				 <button class="btn btn-primary" id="refresh" style="float: right;background-color: black;"><span class="glyphicon glyphicon-refresh"></span> Refresh</button>				

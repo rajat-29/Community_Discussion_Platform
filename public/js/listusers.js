@@ -21,6 +21,94 @@ $.getJSON( '/showuser', function( queryResult ) {
 
 });
 
+function pendingusers()
+{
+	var selectBox = document.getElementById('selectoption');
+	console.log(selectBox.value);
+	$("#list tr").remove();
+		$.getJSON( '/showuser', function( queryResult ) {
+		var id = 0;
+		if(selectBox.value == 'Pending')
+		{
+			for(var i in queryResult)
+			{
+			if(queryResult[i].status == 'Pending')
+				{
+					addtoDom(queryResult[i],id%2)
+					id++;
+				}
+			}
+				update_table()
+		}
+
+		else if(selectBox.value == 'Confirmed')
+		{
+			for(var i in queryResult)
+			{
+			if(queryResult[i].status == 'Confirmed')
+				{
+					addtoDom(queryResult[i],id%2)
+					id++;
+				}
+			}
+				update_table()
+		}
+		else if(selectBox.value == 'All')
+		{
+			for(var i in queryResult)
+			{		
+					addtoDom(queryResult[i],id%2)
+					id++;
+			}
+				update_table()
+		}
+		});
+}
+
+function headers()
+{
+	var selectBox = document.getElementById('roles');
+	console.log(selectBox.value);
+		$("#list tr").remove();
+		$.getJSON( '/showuser', function( queryResult ) {
+		var id = 0;
+		if(selectBox.value == 'Admin')
+		{
+			for(var i in queryResult)
+			{
+			if(queryResult[i].role == 'Admin')
+				{
+					addtoDom(queryResult[i],id%2)
+					id++;
+				}
+			}
+				update_table()
+		}
+
+		else if(selectBox.value == 'Users')
+		{
+			for(var i in queryResult)
+			{
+			if(queryResult[i].role == 'User')
+				{
+					addtoDom(queryResult[i],id%2)
+					id++;
+				}
+			}
+				update_table()
+		}
+		else if(selectBox.value == 'All')
+		{
+			for(var i in queryResult)
+			{		
+					addtoDom(queryResult[i],id%2)
+					id++;
+			}
+				update_table()
+		}
+		});
+}
+
 function addtoDom(obj,id) {
 	var tr = document.createElement("tr")
 	tr.setAttribute("id","id"+id.toString())
@@ -179,10 +267,7 @@ if(obj.flag == '1')
 			actions.appendChild(a4)
 		}
 
-	
-
 	tr.appendChild(actions);
-
 	list.appendChild(tr);
 }
 
@@ -213,5 +298,6 @@ sendmail.addEventListener("click", function() {
 
 })
 	
+
 
 
