@@ -1,3 +1,4 @@
+
 <style>
 
  	.main {
@@ -154,7 +155,7 @@
 
 	<form method="POST" action="/senddata">
   		<label class="control-label col-sm-2" for="email">To:</label> 
-  			<input class="col-sm-10" type="text" id="username"><br><br>
+  			<input class="col-sm-10" type="text" id="usermail"><br><br>
 
   		<label class="control-label col-sm-2" for="email">Subject:</label>		
   			<input class="col-sm-10" type="text" value="This mail is from CQ"><br><br><br>
@@ -227,3 +228,29 @@
     </div>
   </div>
 </div>
+
+
+<!-- activate deactivate modal -->
+
+<div class="modal fade" id="deactivateuser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalCenterTitle"><b>Deactivate User ?</b></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="deleteuser"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="btnss">Yes</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

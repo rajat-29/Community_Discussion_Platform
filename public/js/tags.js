@@ -8,6 +8,13 @@ showtags.addEventListener("click", function() {
 
 submit.addEventListener("click", function() {
 
+    if(tagvalue.value == '')
+    {
+        alert("Tag can't be empty");
+        window.location = "/tag"
+        return false;
+    }
+
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1;

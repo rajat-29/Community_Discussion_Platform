@@ -2,7 +2,6 @@ var list = document.getElementById('listing');
 var btnss = document.getElementById('btnss');
 var deletedata = document.getElementById('deletedata');
 
-
 $.getJSON( '/showtags', function( queryResult ) {
   var id = 0;
   for(var i in queryResult)
@@ -33,7 +32,7 @@ function addtoDom(obj,id) {
   var actions = document.createElement("td")
 
   var a3 = document.createElement("a")
-  a3.setAttribute("class", "btn btn-warning btn-sm activebtn actionbtns")
+  a3.setAttribute("class", "btn btn-warning btn-sm emailbtn actionbtns")
   a3.style.background = 'black'
   var active = document.createElement("span")
   active.setAttribute("class", "fa fa-trash")

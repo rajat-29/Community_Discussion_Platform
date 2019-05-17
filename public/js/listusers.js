@@ -5,7 +5,9 @@ var updaterole = document.getElementById('updaterole');
 var refresh = document.getElementById('refresh');
 var username = document.getElementById('username');
 var sendmail = document.getElementById('sendmail');
-var table;
+var usermail = document.getElementById('usermail');
+var deleteuser = document.getElementById('deleteuser');
+var btnss = document.getElementById('btnss');
 var rajat = new Object();
 
 $.getJSON( '/showuser', function( queryResult ) {
@@ -48,17 +50,22 @@ function addtoDom(obj,id) {
 	var a1 = document.createElement("a")
 	a1.setAttribute("class", "btn btn-primary btn-sm emailbtn actionbtns")
 	a1.style.background = "#000"
-	var mail = document.createElement("span")
+	var mail = document.createElement("p")
 	mail.setAttribute("class", "fa fa-envelope")
 	mail.style.color = "#fff"
 	a1.appendChild(mail)
 	a1.style.marginRight = '5%'
 	a1.setAttribute("id", "emailid")
 	actions.appendChild(a1)
+	a1.onclick=() =>
+	{
+		$('#myModal').modal('show');
+		usermail.value = obj.name;
+	}
 
 	var a2 = document.createElement("a")
 	a2.setAttribute("class", "btn btn-primary btn-sm editbtn actionbtns opne-update-box")
-	var edit = document.createElement("span")
+	var edit = document.createElement("p")
 	edit.setAttribute("class", "fa fa-edit")
 	a2.appendChild(edit)
 	a2.style.marginRight = '5%'
@@ -103,24 +110,80 @@ function addtoDom(obj,id) {
 	}
 
 	var a3 = document.createElement("a")
-	a3.setAttribute("class", "btn btn-warning btn-sm activebtn actionbtns")
-	var active = document.createElement("span")
+	a3.setAttribute("class", "btn btn-warning btn-sm")
+	var active = document.createElement("p")
 	active.setAttribute("class", "fa fa-times-circle")
 	a3.appendChild(active)
-	a3.style.marginRight = '5%'
 	a3.setAttribute("id", "deleteid")
-	actions.appendChild(a3)
+	
+	a3.onclick=() =>
+	{
+		$('#deactivateuser').modal('show');
+		deleteuser.innerHTML = "Are you sure you want to Deactivate " + "\"" + obj.name + "\"";
+		btnss.onclick=() =>
+		{
+			actions.removeChild(a3)
+			actions.appendChild(a4)
+			var obj1 = new Object();
+			obj1._id = obj._id;
+			obj1.flag = 0;
+			obj.flag = 0;
+			console.log(obj1._id);
+			var request = new XMLHttpRequest()
+			request.open('POST','/deativateuserdata');
+			request.setRequestHeader("Content-Type","application/json");
+			request.send(JSON.stringify(obj1))
+			request.addEventListener("load",function()
+        	{
+         		 console.log(request.responseText);
+        	});
+		}
+	}
+
+	var a4 = document.createElement("a")
+		a4.setAttribute("class", "btn btn-success btn-sm activebtn actionbtns")
+		var active = document.createElement("p")
+		active.setAttribute("class", "fa fa-check-circle")
+		a4.appendChild(active)
+
+		a4.onclick=() =>
+		{
+			$('#deactivateuser').modal('show');
+			deleteuser.innerHTML = "Are you sure you want to Reactivate " + "\"" + obj.name + "\"";
+			btnss.onclick=() =>
+			{
+				actions.removeChild(a4)
+				actions.appendChild(a3)
+				var obj1 = new Object();
+				obj1._id = obj._id;
+				obj1.flag = 1;
+				obj.flag = 1;
+				var request = new XMLHttpRequest()
+				request.open('POST','/reativateuserdata');
+				request.setRequestHeader("Content-Type","application/json");
+				request.send(JSON.stringify(obj1))
+				request.addEventListener("load",function()
+        		{
+         			 console.log(request.responseText);
+        		});
+			}
+		}
+
+if(obj.flag == '1') 
+		{
+			
+			actions.appendChild(a3)
+		}
+		else
+		{
+			actions.appendChild(a4)
+		}
+
+	
 
 	tr.appendChild(actions);
 
 	list.appendChild(tr);
-}
-
-function update_table()
-{
-	$(document).ready(function() {
-		$('#datatableses').DataTable();
-	})
 }
 
 
@@ -137,6 +200,13 @@ refresh.addEventListener("click", function() {
 
 });
 })
+
+function update_table()
+{
+	$(document).ready(function() {
+		$('#datatableses').DataTable();
+	})
+}
 
 sendmail.addEventListener("click", function() {
 	var request = new XMLHttpRequest();

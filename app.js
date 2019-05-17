@@ -260,6 +260,34 @@
       });
   })
 
+  app.post('/deativateuserdata', function(req,res) {
+  console.log(req.body._id);
+        users.updateOne( { "_id" : req.body._id}, {$set: { "flag" : req.body.flag}} ,
+         function(err,result)
+        {
+          if(err)
+          throw err
+          else
+          {
+            res.send("FLAG UPDATED SUCCESFULLY")
+          }
+        })
+  })
+
+  app.post('/reativateuserdata', function(req,res) {
+  console.log(req.body._id);
+        users.updateOne( { "_id" : req.body._id}, {$set: { "flag" : req.body.flag}} ,
+         function(err,result)
+        {
+          if(err)
+          throw err
+          else
+          {
+            res.send("FLAG UPDATED SUCCESFULLY")
+          }
+        })
+  })
+
 
 
   console.log("Running on port 8000");
