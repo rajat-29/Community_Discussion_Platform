@@ -1,11 +1,12 @@
-var n = document.getElementById('n');
-var email = document.getElementById('email');
-var pass = document.getElementById('pass');
+var n = document.getElementById('name');
+var email = document.getElementById('email2');
+var pass = document.getElementById('password2');
 var phone = document.getElementById('phone');
-var city = document.getElementById('city');
-var role = document.getElementById('selectoption');
-var adding = document.getElementById('adding');
-var cancelling = document.getElementById('cancelling');
+var city = document.getElementById('City');
+var role = document.getElementById('roleid');
+var gender = document.getElementById('genderid')
+var adding = document.getElementById('submit-btn');
+var cancelling = document.getElementById('cancel-btn');
 
 
 adding.addEventListener("click", function() {  
@@ -17,10 +18,13 @@ adding.addEventListener("click", function() {
 	obj.password = pass.value;
 	obj.phone = phone.value;
 	obj.city = city.value;
-	obj.gender = 'Male';
+	obj.gender = gender.value;
 	obj.role = role.value;
 	obj.status = 'Pending';
 	obj.flag = 1;
+	obj.interest = '';
+	obj.bitmore = '';
+	obj.expectation = '';
 
    	var request = new XMLHttpRequest();
     request.open('POST',"/addnewuser");
@@ -35,10 +39,4 @@ adding.addEventListener("click", function() {
 
 cancelling.addEventListener("click", function(){
 	window.location = "/addusers";
-})
-
-var homepage = document.getElementById('homepage');
-
-homepage.addEventListener("click", function() {			// home page //
-	window.location = "/home";
 })

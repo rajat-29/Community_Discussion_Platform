@@ -1,55 +1,102 @@
 <!DOCTYPE html>
-<html>
-<head>
-		<title>CQ</title>
-		    <meta name="viewport" content="width=device-width, initial-scale=1">
-	   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	</head>
-	<style>
-		body {
-			height: 100vh;
-		}
-
-	</style>
-	<body>
-
-	<% include partials/top-bar %>
-	<% include partials/side-navbar %>
-	<% include partials/adduser-form %>
+<html >
+    <head>
+        <title>CQ</title>
+        <meta name="viewport" content="width=device-width" initial-scale="1.0">
+        <link href="css/sidebar.css" rel="stylesheet" type = "text/css">
+        <link href="css/header.css" rel="stylesheet" type = "text/css">
+        <link href = "css/addusercss.css" type="text/css" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
+        <!-- BOOTSTRAP 3-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/openpanel.js"></script>
 
 
-	<script type="text/javascript" src="js/adduser.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
-	<script type="text/javascript">
-		var menu = document.getElementById("menu");
-		var sideBtn = document.getElementById("sideBtn");
-		var span = menu.getElementsByTagName("span");
-		sideBtn.addEventListener("click", function () {
-			if(menu.style.width == '300px') {
-				menu.style.width = '50px';
-		
-				for(var i = 0;i<span.length;i++) {
-					span[i].style.display = 'none';
-				}
-			} 
+    </head>
 
-			else {
-				menu.style.width = '300px';
-				setTimeout(function () {
-					for(var i = 0;i<span.length;i++) {
-						span[i].style.display = 'inline';
-					
-					}
-				}, 210);
+   
+    <body class="body">
+        <% include partials/top-bar.ejs %>
+        <div id="viewscreen" >
+            <% include partials/side-navbar.ejs %>
 
-			}
-		})
-	</script>
-  
+            <div id="rightview" >
+                <div class="container-fluid div-min-width" style="padding:0;">
+                    <div class="row">
+                        <div class="col-lg-12 parentDiv" style="padding:0">
+                            <div class="container">
+                                <div class="col-sm-3">
+                                </div>
+                                <div class="col-sm-6 mainDiv">
+                                    <br>
+                                    <h1 class="heading">Add User</h1>
+                                    <form class="form-horizontal formDiv">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="name" placeholder="Name">
+                                                <br>
+                                            </div>
 
-</body>
-</html>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="email2" placeholder="Email">
+                                                <br>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" id="password2" placeholder="User Password">
+                                                <br>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="phone" placeholder="Phone">
+                                                <br>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="City" placeholder="City">
+                                                <br>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Role</label>
+                                                <br>
+                                                <select data-style="btn-info" class="form-control" id="roleid">
+                                                    <optgroup label="Select User Role">
+                                                        <option value="User">User</option>
+                                                        <option value="Community Manager">Community Builder</option>
+                                                        <option value="admin">Admin</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Gender</label>
+                                                <br>
+                                                <select data-style="btn-info" class="form-control" id="genderid">
+                                                    <optgroup label="Select Gender">
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input type="submit" value="Add User" class="btn btn-success" id="submit-btn">
+                                                <input value="Cancel" class="btn btn-danger" id="cancel-btn">
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+	</html>
+      <script type="text/javascript" src="js/adduser.js"></script>

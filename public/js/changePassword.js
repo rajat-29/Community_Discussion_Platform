@@ -1,4 +1,4 @@
-var adding = document.getElementById('submit');
+var adding = document.getElementById('submit-btn');
 
 adding.addEventListener("click", function() {
 	var oldpass = document.getElementById('oldpass');

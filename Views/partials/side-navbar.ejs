@@ -1,121 +1,107 @@
-<style>
-	.rajat {
-		display: flex;
-		overflow-y: hidden;
-		height: 92vh;
-		width: 100%;
-	}
+<div id="sidebar">
+    <ul class="sidebar-list">
+        <li class="list" id="mobile-pic">
+            <div style="margin-right:10px">
+                <center>
+                    <img src="images/default.png" id="mobile-img">
+                </center>
+            </div>
+        </li>
+        <li class="list" id="bars">
+        <a onclick="openbar()" id="open">
+            <span class="list-span">
+                <i class="fas fa-bars" id="icon"></i>
+            </span>
+                Cq
+        </a>
+        </li>
 
-	#menu {
-		height: 92vh;
-		background-color: #222D3C;
-		width: 50px;
-		transition-property: width;
-		transition-duration: 0.7s;
-		box-sizing: border-box;
-		float: left;
-	}
+        <li class="list">
+            <a onclick="homepage()">
+                <span class="list-span">
+                    <i class="fas fa-home" id="icon"></i>
+                </span>
+                Home
+            </a>
+        </li>
 
-	.fa {
-		color: #fff;
-		font-size: 25px;
-		width: 30px;
-		margin: 6px 15px;
-		margin-left: 11px;
-		box-sizing: border-box;
-	}
-
-	#menu span {
-		display: none;
-	}
-
-	.menu-item {
-		cursor: pointer;
-		opacity: 0.8;
-		color: #fff;
-		font-family: sans-serif;
-		font-size: 14px;
-	}
-
-	.menu-item:hover {
-		opacity: 1;
-		background-color: #4d5866;
-	}
-
-	.logout {
-		margin-left: 40%;
-		margin-top: 18%;
-	}
-
-	.logout #confirm {
-		font-size: 30px;
-		color:white;
-		font-weigth: bold;
-	}
-
-	#ask {
-		font-size: 15px;
-		color:white;
-		margin-left: 3%;
-		margin-top: 3%;
-	}
-
-	.logout .btn {
-		width:14%;
-	}
-
-	#exampleModalCenter {
-		background-color: rgba(54,70,93,0.95);
-	}
+        <li class="list">
+            <a onclick="open_adduser_page()">
+                <span class="list-span">
+                    <i class="fas fa-plus-square" id="icon"></i>
+                </span>
+                Add User
+            </a>
+        </li>
 
 
-@media (max-width: 768px) {
+        <li class="list">
+            <a onclick="openuserlist()">
+                <span class="list-span">
+                    <i class="fas fa-list" id="icon"></i>
+                </span>
+                Users List
+            </a>
+        </li>
 
+        <li class="list">
+            <a href="#">
+                <span class="list-span">
+                    <i class =" fas fa-list-alt" id="icon"></i>
+                </span>
+                Community List
+            </a>
+        </li>
 
-	.menu {
-		width: 50%;
-	}
+        <li class="list">
+            <a href="#">
+                <span class="list-span">
+                    <i class="fas fa-toggle-off" id="icon"></i>
+                </span>
+                Switch As User
+            </a>
+        </li>
 
-	.logout {
-		margin-left: 20%;
-		margin-top: 50%;
-	}
+        <li class="list">
+            <a onclick="opentagpage()">
+                <span class="list-span">
+                    <i class="fas fa-tags" id="icon"></i>
+                </span>
+                Tag Panel
+            </a>
+        </li>
 
-	.logout .btn {
-		width:35%;
-	}
+        <li class="list">
+            <a onclick="changepassword()">
+                <span class="list-span">
+                    <i class="fas fa-lock" id="icon"></i>
+                </span>
+                Change Password
+            </a>
+        </li>
 
-
-	}
-
-
-</style>
-
-<div class="rajat">
-
-		 <div id="menu">
-			<div class="menu-item" id="sideBtn"><i class="fa fa-bars"></i><span>cq</span></div>
-			<div class="menu-item"><i class="fa fa-home" id="homepage"></i><span>Home</span></div>
-			<div class="menu-item"><i class="fa fa-plus-square" id="addnewuser"></i><span>Add User</span></div>
-			<div class="menu-item"><i class="fa fa-list-ul" id="requestusers"></i><span>Users List</span></div>
-			<div class="menu-item"><i class="fa fa-list-alt"></i><span>Community List</span></div>
-			<div class="menu-item"><i class="fa fa-toggle-off"></i><span>Switch As User</span></div>
-			<div class="menu-item"><i class="fa fa-tags" id="tags"></i><span>Tag Panel</span></div>
-			<div class="menu-item"><i class="fa fa-lock" id="changePassword"></i><span>Change Password</span></div>
-			<div class="menu-item"><i class="fa fa-sign-out" data-toggle="modal" data-target="#exampleModalCenter"></i><span>Logout</span></div>
-		</div>
-
-			<div class="modal" id="exampleModalCenter" tabindex="-1" role="dialog" 	aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-
-	  			<div class="logout">
-
-	  			<span id="confirm">Confirm Logout!</span>
-	  			<p id="ask">Do you really want logout?</p>
-
-	  			<button type="button" class="btn" id="yes">Yes</button>
-	  			<button type="button" class="btn" id="no" data-dismiss="modal">No</button>
-	  			</div>
-			</div>
+        <li class="list">
+            <a onclick="openlogoutpage()">
+                <span class="list-span">
+                    <i class="fas fa-sign-out-alt" id="icon"></i>
+                </span>
+                Logout
+            </a>
+        </li>
 
 
 
+    </ul>
+</div>
+
+<div class="modal" id="exampleModalCenter" tabindex="-1" role="dialog"  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+                <div class="logout">
+
+                <span id="confirm">Confirm Logout!</span>
+                <p id="ask">Do you really want logout?</p>
+
+                <button type="button" class="btn" id="yes">Yes</button>
+                <button type="button" class="btn" id="no" data-dismiss="modal">No</button>
+                </div>
+</div>

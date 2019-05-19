@@ -1,70 +1,232 @@
 <!DOCTYPE html>
-<html>
-<head>
-		<title>CQ</title>
-		    <meta name="viewport" content="width=device-width, initial-scale=1">
+<html >
+    <head>
+        <title>CQ</title>
+        <meta name="viewport" content="width=device-width" initial-scale="1.0">
+        <link href="css/sidebar.css" rel="stylesheet" type = "text/css">
+        <link href="css/header.css" rel="stylesheet" type = "text/css">
+        <link href = "css/profilecss.css" type="text/css" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
+        <!-- BOOTSTRAP 3-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/openpanel.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+        
 
-	   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	  
-	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-
-	  
-	  	<link rel="stylesheet" type="text/css" href="css/datatables.css">
+        <link rel="stylesheet" type="text/css" href="css/datatables.css">
 		<link type="text/css" href="css/datatables.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">		
-		
-	</head>
-	<style>
-		body {
-			height: 100vh;
-			margin: 0;
-			padding: 0;
-			margin-right: 5px;
-		}
 
-	</style>
-		
 
-	
+    </head>
+    <style>
+    	#myModal, #deactivateuser, #updateModal
+    	{
+    		margin-top: 7%;
+    	}
+    </style>
 
-	<body>
+    <body class="body">
+        <% include partials/top-bar.ejs %>
+        <div id="viewscreen" >
 
-	<% include partials/top-bar %>
-	<% include partials/side-navbar %>
-	<% include partials/listuser %>
+            <% include partials/side-navbar.ejs %>
+            <div id="rightview">
+                <div class="container-fluid div-min-width" style="padding:0">
+                    <div class="row">
+                        <div class="col-lg-12 parentDiv" style="padding:0">
+                            <div class="to-center-div">
 
-<script type="text/javascript" src="js/datatables.js"></script>
+                                <div class="container childDiv">
+
+                                    <div class="panel panel-default" style="background: rgb(249, 249, 249);box-shadow: 0 3px 10px 0 rgba(115,143,147,.3);overflow-x: scroll;.inner-border::-webkit-scrollbar:display: none;">
+                                        <div class="panel-body">
+
+                                            <div class="userbtns">
+				<button type="button" class="btn btn-primary" style="background-color: black">User List</button>				
+
+				<select id="roles" class="btn btn-primary" class="mdb-select md-form colorful-select dropdown-primary" style="background-color: black;float: right;margin-right: 1%;margin-left: 1%;" onchange="headers();">
+        			<option selected>All</option>
+  					<option value="Admin">Admin</option>
+ 					<option value="Users">Users</option>
+ 					<option value="Community Builder">Community Builder</option>
+				</select>
+
+				<select id="selectoption" class="btn btn-primary" class="mdb-select md-form colorful-select dropdown-primary" style="background-color: black;float: right;margin-left: 1%;" onchange="pendingusers();">
+        			<option selected>All</option>
+  					<option value="Pending">Pending</option>
+ 					<option value="Confirmed">Confirmed</option>
+				</select>
+
+				 <button class="btn btn-primary" id="refresh" style="float: right;background-color: black;"><span class="glyphicon glyphicon-refresh"></span> Refresh</button>				
+			</div>
+
+			<div>
+				<table class="table table-bordered" id="datatableses">
+  					<thead>
+    				<tr>
+       					<th>Username</th>
+       					<th>Phone</th>
+       				 	<th>City</th>
+       				 	<th>Status</th>
+       				 	<th>Role</th>
+       				 	<th>Actions</th>
+      				</tr>
+   					</thead>
+   					<tbody id="list">
+   						
+   					</tbody>
+  				</table>
+
+		</div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+		        <!-- mail modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Send Reminder Mail</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+
+<div class="modal-body">
+
+	<form method="POST" action="/senddata">
+  		<label class="control-label col-sm-2" for="email">To:</label> 
+  			<input class="col-sm-10" type="text" id="usermail"><br><br>
+
+  		<label class="control-label col-sm-2" for="email">Subject:</label>		
+  			<input class="col-sm-10" type="text" value="This mail is from CQ"><br><br><br>
+
+  		<textarea class="form-control" rows="12" id="comment"></textarea>	
+	</form>
+
+ </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button id="sendmail" type="button" class="btn btn-danger" data-dismiss="modal">Send</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- update modal -->
+
+
+<div class="modal" id="updateModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Update</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+
+<div class="modal-body">
+
+	<form method="POST" action="/senddata">
+  		<label class="control-label col-sm-3">Username : </label> 
+  			<input class="col-sm-9" type="text" id="updateuser"><br><br>
+
+  		<label class="control-label col-sm-3">Phone:</label>		
+  			<input class="col-sm-9" type="text" id="updatephone"><br><br>
+
+  		<label class="control-label col-sm-3">City:</label>		
+  			<input class="col-sm-9" type="text" id="updatecity"><br><br>
+
+  		 <label class="control-label col-sm-3">Status:</label>		
+  			<select class="col-sm-9" type="text" id="updatestatus">
+  			<option>Confirmed</option>
+  			<option>Pending</option>
+  			</select><br><br>
+
+  		<label class="control-label col-sm-3" for="email">Role:</label>		
+  			<select class="col-sm-9" type="text" id="updaterole">
+  			<option>Admin</option>
+  			<option>User</option>
+  			<option>Community Builder</option>
+  			</select>	<br><br>	
+
+	</form>
+
+ </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button id="updatedetails" type="button" class="btn btn-default" data-dismiss="modal">Update</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- activate deactivate modal -->
+
+<div class="modal" id="deactivateuser">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title"><b><p id="deleteuserheading"></p></b></h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+
+<div class="modal-body">
+
+	<p id="deleteuser"></p>
+
+ </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="btnss">Yes</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+        <script type="text/javascript" src="js/datatables.js"></script>
 <script type="text/javascript" src="js/datatables.min.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
+
 	<script type="text/javascript" src="js/listusers.js"></script>
 
-	<script type="text/javascript">
-		var menu = document.getElementById("menu");
-		var sideBtn = document.getElementById("sideBtn");
-		var span = menu.getElementsByTagName("span");
-		sideBtn.addEventListener("click", function () {
-			if(menu.style.width == '300px') {
-				menu.style.width = '50px';
-		
-				for(var i = 0;i<span.length;i++) {
-					span[i].style.display = 'none';
-				}
-			} 
+	</body>
+	</html>
 
-			else {
-				menu.style.width = '300px';
-				setTimeout(function () {
-					for(var i = 0;i<span.length;i++) {
-						span[i].style.display = 'inline';
-					
-					}
-				}, 210);
-
-			}
-		})
-	</script>
-  
-
-</body>
-</html>

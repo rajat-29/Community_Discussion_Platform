@@ -46,6 +46,9 @@
     role: String,   
     status: String,
     flag: Number, 
+    interest: String,
+    bitmore: String,
+    expectation: String,
   })
 
    var tagSchema = new mongoose.Schema({
@@ -182,7 +185,7 @@
     } 
     else
     {
-      users.updateOne({"password" : password.oldpass},{$set: { "password" : password.newpass}} ,
+      users.updateOne({"name" : req.session.name},{$set: { "password" : password.newpass}} ,
         function(error,result)
         {
           if(error)
@@ -209,7 +212,7 @@
      }
     })
 
-   app.get('/listusers', function(req,res) {
+   app.get('/listuserstags', function(req,res) {
     if(req.session.isLogin) {
       res.render('Listtags');
        } else {
@@ -232,6 +235,7 @@
    app.post('/addtagtobase',function (req, res)          /*post data */
   {
       console.log(req.body);
+      req.body.createdBy = req.session.name;
       t.create(req.body,function(error,result)
       {
         if(error)
@@ -287,6 +291,45 @@
           }
         })
   })
+
+   app.get('/editUserProfile', function(req,res) {
+    if(req.session.isLogin) {
+      res.render('editUserProfile', {data: userdata});
+       } else {
+      res.render('index');
+     }
+    })
+
+
+   app.get('/editUserDetails', function(req,res) {
+    if(req.session.isLogin) {
+      res.render('editUserDetails', {data: userdata});
+    
+       } else {
+      res.render('index');
+     }
+    })
+
+     app.post('/updateeditUserDetails', function(req,res) {
+        users.updateOne( { "name" : req.session.name}, {$set : req.body } , function(err,result)
+        {
+          if(err)
+          throw err
+          else
+          {
+            userdata.name = req.body.name;
+           userdata.email = req.body.email;         
+           userdata.city = req.body.city;
+           userdata.phone = req.body.phone;
+           userdata.gender = req.body.gender;
+           userdata.interest = req.body.interest;
+           userdata.bitmore = req.body.bitmore;
+           userdata.expectation = req.body.expectation;
+            res.send("DATA UPDATED SUCCESFULLY")
+          }
+        })
+  })
+
 
 
 

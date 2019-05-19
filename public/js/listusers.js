@@ -7,6 +7,7 @@ var username = document.getElementById('username');
 var sendmail = document.getElementById('sendmail');
 var usermail = document.getElementById('usermail');
 var deleteuser = document.getElementById('deleteuser');
+var deleteuserheading = document.getElementById('deleteuserheading');
 var btnss = document.getElementById('btnss');
 var rajat = new Object();
 
@@ -221,6 +222,7 @@ function addtoDom(obj,id) {
 	a3.onclick=() =>
 	{
 		$('#deactivateuser').modal('show');
+		deleteuserheading.innerHTML = "Deactivate User ?"
 		deleteuser.innerHTML = "Are you sure you want to Deactivate " + "\"" + obj.name + "\"";
 		btnss.onclick=() =>
 		{
@@ -251,6 +253,7 @@ function addtoDom(obj,id) {
 		a4.onclick=() =>
 		{
 			$('#deactivateuser').modal('show');
+			deleteuserheading.innerHTML = "Reactivate User ?"
 			deleteuser.innerHTML = "Are you sure you want to Reactivate " + "\"" + obj.name + "\"";
 			btnss.onclick=() =>
 			{

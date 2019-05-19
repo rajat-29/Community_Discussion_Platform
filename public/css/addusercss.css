@@ -1,0 +1,56 @@
+.div-min-width
+{
+    min-width: 360px;
+}
+.imageDiv
+{
+    display: none;
+}
+
+.panelDiv
+{
+    box-shadow: 0 3px 10px 0 rgba(115,143,147,.3);
+}
+.to-center-div
+{
+    margin-top: 2%;
+}
+
+.mainDiv
+{
+    background-color: #fff;
+    border: 5px solid rgba(0,0,0,0.1);
+    margin-top: 40px;
+}
+.heading
+{
+    font-size: 36px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+}
+
+.div-min-width
+{
+    min-width: 360px;
+
+}
+
+@media (min-width: 768px)
+{
+    .imageDiv
+    {
+        display: block;
+    }
+    .to-center-div
+    {
+        margin-left:60px;
+    }
+    .main
+    {
+        width: 80%;
+    }
+
+}

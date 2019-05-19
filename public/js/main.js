@@ -4,6 +4,7 @@ var requestusers = document.getElementById('requestusers');
 var changePassword = document.getElementById('changePassword');
 var yes = document.getElementById('yes');
 var usertags = document.getElementById('tags');
+var editProfile = document.getElementById('dpimage');
 
 homepage.addEventListener("click", function() {			// home page //
 	window.location = "/home";
@@ -29,3 +30,6 @@ usertags.addEventListener("click", function() {
 	window.location = "/tag";
 })
 
+editProfile.addEventListener("click", function() {
+	window.location = "/editUserProfile";
+})

@@ -1,9 +1,9 @@
 var showtags = document.getElementById('showtags');
-var submit = document.getElementById('submit');
+var submit = document.getElementById('submit-btn');
 var tagvalue = document.getElementById('taging');
 
 showtags.addEventListener("click", function() {
-    window.location = "/listusers"
+    window.location = "/listuserstags"
 })
 
 submit.addEventListener("click", function() {
@@ -34,7 +34,7 @@ submit.addEventListener("click", function() {
 
     var obj = new Object();
     obj.tags = tagvalue.value;
-    obj.createdBy = "Admin";
+    
     obj.createDate = today;
 
     console.log(obj);
