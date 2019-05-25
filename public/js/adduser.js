@@ -10,6 +10,13 @@ var cancelling = document.getElementById('cancel-btn');
 
 
 adding.addEventListener("click", function() {  
+
+	if(name.value == '' || email.value == '' || phone.value == '' || city.value == '')
+	{
+		alert("Field can't be Empty");
+		return false;
+		window.location = "/addusers";
+	}
 	// console.log(pass.value);
 	
 	var obj = new Object();
@@ -19,6 +26,7 @@ adding.addEventListener("click", function() {
 	obj.phone = phone.value;
 	obj.city = city.value;
 	obj.gender = gender.value;
+	obj.dob = '';
 	obj.role = role.value;
 	obj.status = 'Pending';
 	obj.flag = 1;

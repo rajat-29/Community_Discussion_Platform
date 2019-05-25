@@ -55,6 +55,11 @@ function openlogoutpage()
     })  
 }
 
+function newUserProfileDetails()
+{
+    window.location = "/newUserProfileDetails";
+}
+
 
 
 

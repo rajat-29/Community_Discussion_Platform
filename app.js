@@ -40,9 +40,10 @@
     name: String,
     email: String,
     password: String,
-    phone: Number,
+    phone: String,
     city: String,
     gender: String,
+    dob: String,
     role: String,   
     status: String,
     flag: Number, 
@@ -88,6 +89,7 @@
            userdata.role = result.role;
            userdata.phone = result.phone;
            userdata.gender = result.gender;
+           userdata.dob = result.dob;
            userdata.status = result.status;
          //console.log("hello user");        
           // console.log(req.session.name);
@@ -101,17 +103,36 @@
   app.get('/home' , function(req,res){				/*get data */
    // console.log('yes raj');
     //console.log(userdata);
-    if(req.session.isLogin) {
-  		res.render('main', {data: userdata});
-	} else {
-		//console.log('hello');
-		res.render('index');
-	}
+    if(req.session.isLogin) 
+    {
+      if(userdata.role == 'Admin') 
+      {
+        console.log('hencjkasbcjkbc')
+        res.render('main', {data: userdata});
+      }
+      else if(userdata.role == 'User')
+      {
+        if(userdata.dob == '')
+        {
+          res.render('newUserDetails', {data: userdata});
+        }
+        else
+        {
+          res.render('newUsereditProfile', {data: userdata});
+        }         
+      }
+	  } 
+
+     else 
+     {
+	   	//console.log('hello');
+	   	res.render('index');
+	   }
  })
 
   app.get('/addusers' , function(req,res){
   	if (req.session.isLogin) {
-  		res.render('adduser');
+  		res.render('adduser', {data: userdata});
   	} else {
   		res.render('index');
   	}
@@ -136,7 +157,7 @@
     console.log('yes raj');
     //console.log(userdata);
     if(req.session.isLogin) {
-      res.render('userlist');
+      res.render('userlist', {data: userdata});
   } else {
     //console.log('hello');
     res.render('index');
@@ -170,7 +191,7 @@
 
   app.get('/changePassword' , function(req,res){        /*get data */
     if(req.session.isLogin) {
-      res.render('changePassword');
+      res.render('changePassword', {data: userdata});
   } else {
     res.render('index');
   }
@@ -206,7 +227,7 @@
 
    app.get('/tag', function(req,res) {
     if(req.session.isLogin) {
-      res.render('Tags');
+      res.render('Tags', {data: userdata});
        } else {
       res.render('index');
      }
@@ -214,7 +235,7 @@
 
    app.get('/listuserstags', function(req,res) {
     if(req.session.isLogin) {
-      res.render('Listtags');
+      res.render('Listtags', {data: userdata});
        } else {
       res.render('index');
      }
@@ -300,6 +321,14 @@
      }
     })
 
+   app.get('/newUsereditProfile', function(req,res) {
+    if(req.session.isLogin) {
+      res.render('newUsereditProfile', {data: userdata});
+       } else {
+      res.render('index');
+     }
+    })
+
 
    app.get('/editUserDetails', function(req,res) {
     if(req.session.isLogin) {
@@ -311,7 +340,7 @@
     })
 
      app.post('/updateeditUserDetails', function(req,res) {
-        users.updateOne( { "name" : req.session.name}, {$set : req.body } , function(err,result)
+        users.updateOne( { "email" : req.session.name}, {$set : req.body } , function(err,result)
         {
           if(err)
           throw err
@@ -329,6 +358,36 @@
           }
         })
   })
+
+     app.post('/updateeditUserDob', function(req,res) {
+        users.updateOne( { "email" : req.session.name}, {$set : req.body } , function(err,result)
+        {
+          if(err)
+          throw err
+          else
+          {
+            userdata.dob = req.body.dob;
+            userdata.name = req.body.name;
+           userdata.email = req.body.email;         
+           userdata.city = req.body.city;
+           userdata.phone = req.body.phone;
+           userdata.gender = req.body.gender;
+           userdata.interest = req.body.interest;
+           userdata.bitmore = req.body.bitmore;
+           userdata.expectation = req.body.expectation;
+            res.send("DATA UPDATED SUCCESFULLY")
+          }
+        })
+  })
+
+     app.get('/newUserProfileDetails', function(req,res) {
+    if(req.session.isLogin) {
+      res.render('newUserProfileDetails', {data: userdata});
+    
+       } else {
+      res.render('index');
+     }
+    })
 
 
 
