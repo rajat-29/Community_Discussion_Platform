@@ -80,7 +80,7 @@
         else
         {
            req.session.isLogin = 1;
-           req.session.name = req.body.name;
+           req.session.email = req.body.name;
            req.session.password = req.body.password;
 
            userdata.name = result.name;
@@ -91,6 +91,7 @@
            userdata.gender = result.gender;
            userdata.dob = result.dob;
            userdata.status = result.status;
+           req.session.name = userdata.name;
          //console.log("hello user");        
           // console.log(req.session.name);
            res.send("true");
@@ -206,7 +207,7 @@
     } 
     else
     {
-      users.updateOne({"name" : req.session.name},{$set: { "password" : password.newpass}} ,
+      users.updateOne({"email" : req.session.email},{$set: { "password" : password.newpass}} ,
         function(error,result)
         {
           if(error)
@@ -340,7 +341,7 @@
     })
 
      app.post('/updateeditUserDetails', function(req,res) {
-        users.updateOne( { "email" : req.session.name}, {$set : req.body } , function(err,result)
+        users.updateOne( { "email" : req.session.email}, {$set : req.body } , function(err,result)
         {
           if(err)
           throw err
@@ -360,7 +361,7 @@
   })
 
      app.post('/updateeditUserDob', function(req,res) {
-        users.updateOne( { "email" : req.session.name}, {$set : req.body } , function(err,result)
+        users.updateOne( { "email" : req.session.email}, {$set : req.body } , function(err,result)
         {
           if(err)
           throw err
@@ -380,9 +381,27 @@
         })
   })
 
+     app.get('/newUsereditProfile', function(req,res) {
+    if(req.session.isLogin) {
+      res.render('newUsereditProfile', {data: userdata});
+    
+       } else {
+      res.render('index');
+     }
+    })
+
      app.get('/newUserProfileDetails', function(req,res) {
     if(req.session.isLogin) {
       res.render('newUserProfileDetails', {data: userdata});
+    
+       } else {
+      res.render('index');
+     }
+    })
+
+     app.get('/newUserchangePassword', function(req,res) {
+    if(req.session.isLogin) {
+      res.render('newUserchangePassword', {data: userdata});
     
        } else {
       res.render('index');

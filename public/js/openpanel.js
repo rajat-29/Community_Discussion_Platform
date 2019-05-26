@@ -55,11 +55,20 @@ function openlogoutpage()
     })  
 }
 
+function newUsereditProfile()
+{
+    window.location = "/newUsereditProfile";
+}
+
 function newUserProfileDetails()
 {
     window.location = "/newUserProfileDetails";
 }
 
+function newUserchangePassword()
+{
+  window.location = "/newUserchangePassword";   
+}
 
 
 
