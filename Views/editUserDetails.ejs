@@ -12,6 +12,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/openpanel.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
 
     </head>
@@ -58,7 +60,7 @@
 
                               <div class="col-sm-5 form-group" style="padding:0;">
                                   <label>DOB :</label>
-                                  <input class="form-control dobDate" id="date" value="" name="dob" placeholder="DD-MM-YYYY" type="text" autocomplete="off" required="">
+                                  <input class="form-control dobDate" id="date" value="<%= data.dob  %>" name="dob" placeholder="DD-MM-YYYY" type="text" autocomplete="off" required="">
                               </div>
 
                               <div class="form-group col-sm-5 col-sm-push-2" style="padding:0;">

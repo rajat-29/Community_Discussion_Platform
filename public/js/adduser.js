@@ -8,6 +8,9 @@ var gender = document.getElementById('genderid')
 var adding = document.getElementById('submit-btn');
 var cancelling = document.getElementById('cancel-btn');
 
+var colorLi = document.getElementById("sidebar-adduser");
+colorLi.setAttribute("style", "background-color:#337ab7");
+
 
 adding.addEventListener("click", function() {  
 

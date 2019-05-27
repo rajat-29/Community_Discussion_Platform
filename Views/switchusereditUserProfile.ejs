@@ -12,17 +12,15 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/openpanel.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
 
     </head>
 
     <body class="body">
-        <% include partials/usertop-bar.ejs %>
+        <% include partials/top-bar.ejs %>
         <div id="viewscreen" >
-            <% include partials/userside-navbar.ejs %>
-  
+
+            <% include partials/switchuserside-navbar.ejs %>
             <div id="rightview">
                 <div class="container-fluid div-min-width" style="padding:0">
                     <div class="row">
@@ -41,7 +39,7 @@
                                             </div>
 
                                             <div>
-                                            	<button type="button" class="btn btn-info" onclick="newUserProfileDetails()" style="float: right;margin-right: 2%">Edit</button>
+                                            	<button type="button" class="btn btn-info" onclick="editUserDetails()" style="float: right;margin-right: 2%">Edit</button>
                                             </div>
                                             <br>
                                             <br>
@@ -101,7 +99,6 @@
 
 
         </div>
-        
 
 	</body>
 	</html>

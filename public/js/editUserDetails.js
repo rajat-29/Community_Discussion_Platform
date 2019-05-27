@@ -42,6 +42,7 @@ function updateNewUserDetails()
 	if(dateses.value == '')
 	{
 		alert("ENTER DOB");
+		return false;
 	}
 	var obj1 = Object()
 	obj1.dob = dateses.value;

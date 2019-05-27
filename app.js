@@ -408,6 +408,15 @@
      }
     })
 
+     app.get('/switchasuser', function(req,res) {
+    if(req.session.isLogin) {
+      res.render('switchusereditUserProfile', {data: userdata});
+    
+       } else {
+      res.render('index');
+     }
+    })
+
 
 
 

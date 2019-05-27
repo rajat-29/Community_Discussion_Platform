@@ -1,5 +1,9 @@
 var adding = document.getElementById('submit-btn');
 
+var colorLi = document.getElementById("sidebar-changePassword");
+colorLi.setAttribute("style", "background-color:#337ab7");
+
+
 adding.addEventListener("click", function() {
 	var oldpass = document.getElementById('oldpass');
 	var newpass = document.getElementById('newpass');

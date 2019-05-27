@@ -9,6 +9,11 @@ var usermail = document.getElementById('usermail');
 var deleteuser = document.getElementById('deleteuser');
 var deleteuserheading = document.getElementById('deleteuserheading');
 var btnss = document.getElementById('btnss');
+
+var colorLi = document.getElementById("sidebar-userlist");
+colorLi.setAttribute("style", "background-color:#337ab7");
+
+
 var rajat = new Object();
 
 $.getJSON( '/showuser', function( queryResult ) {
@@ -221,27 +226,39 @@ function addtoDom(obj,id) {
 	
 	a3.onclick=() =>
 	{
-		$('#deactivateuser').modal('show');
-		deleteuserheading.innerHTML = "Deactivate User ?"
-		deleteuser.innerHTML = "Are you sure you want to Deactivate " + "\"" + obj.name + "\"";
-		btnss.onclick=() =>
-		{
-			actions.removeChild(a3)
-			actions.appendChild(a4)
-			var obj1 = new Object();
-			obj1._id = obj._id;
-			obj1.flag = 0;
-			obj.flag = 0;
-			console.log(obj1._id);
-			var request = new XMLHttpRequest()
-			request.open('POST','/deativateuserdata');
-			request.setRequestHeader("Content-Type","application/json");
-			request.send(JSON.stringify(obj1))
-			request.addEventListener("load",function()
-        	{
-         		 console.log(request.responseText);
-        	});
-		}
+		$.confirm({
+    	title: 'Deactivate User ?',
+    	content: "Are you sure you want to Deactivate " + "\"" + obj.name + "\"",
+    	draggable: true,
+   		buttons: {
+        Yes: {
+             btnClass: 'btn-success any-other-class',
+            	action: function () {
+            	 btnClass: 'btn-red any-other-class'
+            	actions.removeChild(a3)
+				actions.appendChild(a4)
+				var obj1 = new Object();
+				obj1._id = obj._id;
+				obj1.flag = 0;
+				obj.flag = 0;
+				console.log(obj1._id);
+				var request = new XMLHttpRequest()
+				request.open('POST','/deativateuserdata');
+				request.setRequestHeader("Content-Type","application/json");
+				request.send(JSON.stringify(obj1))
+				request.addEventListener("load",function()
+        		{
+         			 console.log(request.responseText);
+        		});
+        	}
+   		},
+        No: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {      
+        	}
+   		},
+    	}
+		});
 	}
 
 	var a4 = document.createElement("a")
@@ -250,14 +267,18 @@ function addtoDom(obj,id) {
 		active.setAttribute("class", "fa fa-check-circle")
 		a4.appendChild(active)
 
-		a4.onclick=() =>
-		{
-			$('#deactivateuser').modal('show');
-			deleteuserheading.innerHTML = "Reactivate User ?"
-			deleteuser.innerHTML = "Are you sure you want to Reactivate " + "\"" + obj.name + "\"";
-			btnss.onclick=() =>
-			{
-				actions.removeChild(a4)
+	a4.onclick=() =>
+	{
+			$.confirm({
+    	title: 'Reactivate User ?',
+    	content: "Are you sure you want to Reactivate " + "\"" + obj.name + "\"",
+    	draggable: true,
+   		buttons: {
+        Yes: {
+             btnClass: 'btn-success any-other-class',
+            	action: function () {
+            	 btnClass: 'btn-red any-other-class'
+            	actions.removeChild(a4)
 				actions.appendChild(a3)
 				var obj1 = new Object();
 				obj1._id = obj._id;
@@ -271,18 +292,26 @@ function addtoDom(obj,id) {
         		{
          			 console.log(request.responseText);
         		});
-			}
-		}
+        	}
+   		},
+        No: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {      
+        	}
+   		},
+    	}
+		});
+	}
 
-if(obj.flag == '1') 
-		{
+	if(obj.flag == '1') 
+	{
 			
-			actions.appendChild(a3)
-		}
-		else
-		{
-			actions.appendChild(a4)
-		}
+		actions.appendChild(a3)
+	}
+	else
+	{
+		actions.appendChild(a4)
+	}
 
 	tr.appendChild(actions);
 	list.appendChild(tr);

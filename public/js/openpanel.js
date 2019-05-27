@@ -26,6 +26,30 @@ function openuserlist()
     window.location = "/userlist";
 }
 
+function switchasuser()
+{
+      $.confirm({
+    title: 'Switch as User',
+    content: 'Do you really want switch state...',
+    draggable: true,
+    buttons: {
+        Yes: {
+             btnClass: 'btn-success any-other-class',
+            action: function () {
+             btnClass: 'btn-red any-other-class'
+            window.location = "/switchasuser";
+        }
+    },
+        No: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {
+            
+        }
+    },
+    }
+    });
+}
+
 function opentagpage()
 {
     window.location = "/tag"
@@ -48,11 +72,24 @@ function editUserDetails()
 
 function openlogoutpage()
 {
-    $('#exampleModalCenter').modal('show');
-    var yes = document.getElementById('yes');
-    yes.addEventListener("click", function() {
-        window.location = "/yes";
-    })  
+    $.confirm({
+    theme: 'supervan',
+    title: 'Confirm Logout!',
+    content: 'Do you really want logout?',
+    draggable: true,
+    buttons: {
+        Yes: {
+            action: function () {
+             window.location = "/yes";
+        }
+    },
+        No: {
+             action: function () {
+            
+        }
+    },
+    }
+    });
 }
 
 function newUsereditProfile()
@@ -69,8 +106,6 @@ function newUserchangePassword()
 {
   window.location = "/newUserchangePassword";   
 }
-
-
 
 
 

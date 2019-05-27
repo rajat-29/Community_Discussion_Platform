@@ -16,7 +16,7 @@
         </a>
         </li>
 
-        <li class="list">
+        <li class="list" id="sidebar-home">
             <a onclick="homepage()">
                 <span class="list-span">
                     <i class="fas fa-home" id="icon"></i>
@@ -25,7 +25,7 @@
             </a>
         </li>
 
-        <li class="list">
+        <li class="list" id="sidebar-adduser">
             <a onclick="open_adduser_page()">
                 <span class="list-span">
                     <i class="fas fa-plus-square" id="icon"></i>
@@ -35,7 +35,7 @@
         </li>
 
 
-        <li class="list">
+        <li class="list" id="sidebar-userlist">
             <a onclick="openuserlist()">
                 <span class="list-span">
                     <i class="fas fa-list" id="icon"></i>
@@ -54,7 +54,7 @@
         </li>
 
         <li class="list">
-            <a href="#">
+            <a onclick="switchasuser()">
                 <span class="list-span">
                     <i class="fas fa-toggle-off" id="icon"></i>
                 </span>
@@ -62,7 +62,7 @@
             </a>
         </li>
 
-        <li class="list">
+        <li class="list" id="sidebar-tags">
             <a onclick="opentagpage()">
                 <span class="list-span">
                     <i class="fas fa-tags" id="icon"></i>
@@ -71,7 +71,7 @@
             </a>
         </li>
 
-        <li class="list">
+        <li class="list" id="sidebar-changePassword">
             <a onclick="changepassword()">
                 <span class="list-span">
                     <i class="fas fa-lock" id="icon"></i>
@@ -92,16 +92,4 @@
 
 
     </ul>
-</div>
-
-<div class="modal" id="exampleModalCenter" tabindex="-1" role="dialog"  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-
-                <div class="logout">
-
-                <span id="confirm">Confirm Logout!</span>
-                <p id="ask">Do you really want logout?</p>
-
-                <button type="button" class="btn" id="yes">Yes</button>
-                <button type="button" class="btn" id="no" data-dismiss="modal">No</button>
-                </div>
 </div>

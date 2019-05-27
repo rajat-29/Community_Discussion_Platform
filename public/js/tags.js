@@ -2,6 +2,9 @@ var showtags = document.getElementById('showtags');
 var submit = document.getElementById('submit-btn');
 var tagvalue = document.getElementById('taging');
 
+var colorLi = document.getElementById("sidebar-tags");
+colorLi.setAttribute("style", "background-color:#337ab7");
+
 showtags.addEventListener("click", function() {
     window.location = "/listuserstags"
 })

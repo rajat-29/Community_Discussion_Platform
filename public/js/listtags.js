@@ -3,6 +3,9 @@ var btnss = document.getElementById('btnss');
 var deletedata = document.getElementById('deletedata');
 var refresh = document.getElementById('refresh');
 
+var colorLi = document.getElementById("sidebar-tags");
+colorLi.setAttribute("style", "background-color:#337ab7");
+
 $.getJSON( '/showtags', function( queryResult ) {
   var id = 0;
   for(var i in queryResult)
@@ -56,7 +59,38 @@ function addtoDom(obj,id) {
   actions.appendChild(a3);
   a3.onclick=() =>
   {
-    deletedata.innerHTML = obj.tags;
+    $.confirm({
+      title: 'Delete Tag!',
+      content: "Are you sure you want to delete " + "\"" + obj.tags + "\"",
+      draggable: true,
+      buttons: {
+        Yes: {
+             btnClass: 'btn-success any-other-class',
+              action: function () {
+               btnClass: 'btn-red any-other-class'
+              var obj1 = Object()
+              var filename = obj._id.toString();
+              console.log(filename);
+
+               var request = new XMLHttpRequest();
+               request.open('DELETE',filename);
+               request.send()
+               request.addEventListener("load",function(event)
+              {
+                 list.removeChild(tr);
+                 console.log(request.responseText);
+              });
+              }
+            },
+        No: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {      
+          }
+      },
+      }
+    });
+
+    /*deletedata.innerHTML = obj.tags;
     $('#deletetag').modal('show');
     btnss.onclick=() =>
     {
@@ -72,7 +106,7 @@ function addtoDom(obj,id) {
              list.removeChild(tr);
              console.log(request.responseText);
           });
-    }
+    }*/
   }
 
   tr.appendChild(actions);
