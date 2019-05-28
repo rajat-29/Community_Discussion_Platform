@@ -9,6 +9,9 @@ var usermail = document.getElementById('usermail');
 var deleteuser = document.getElementById('deleteuser');
 var deleteuserheading = document.getElementById('deleteuserheading');
 var btnss = document.getElementById('btnss');
+var comment = document.getElementById("comment");
+	$.trumbowyg.svgPath = '/css/trumbowgy.svg';
+  	$('#comment').trumbowyg();
 
 var colorLi = document.getElementById("sidebar-userlist");
 colorLi.setAttribute("style", "background-color:#337ab7");

@@ -37,6 +37,8 @@ submit.addEventListener("click", function() {
 
     var obj = new Object();
     obj.tags = tagvalue.value;
+
+    tagvalue.value="";
     
     obj.createDate = today;
 
@@ -48,10 +50,12 @@ submit.addEventListener("click", function() {
     request.send(JSON.stringify(obj))
     request.addEventListener("load",function() {
         console.log("Data Posted Successfully");
-        alert("Tags Saved");
+         document.querySelector('.added').innerHTML = 'Saved'
+        document.querySelector('.added').classList.add('animate')
     });  
-     window.location = "/tag"
+     //window.location = "/tag"
 })
+
 
 function getMonths(mno) {
     var month = ["Jan","Feb","March","April","May","June","July","Aug","Sep","Oct","Nov","Dec"];

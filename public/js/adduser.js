@@ -7,6 +7,7 @@ var role = document.getElementById('roleid');
 var gender = document.getElementById('genderid')
 var adding = document.getElementById('submit-btn');
 var cancelling = document.getElementById('cancel-btn');
+var display_email = document.getElementById("display_email");
 
 var colorLi = document.getElementById("sidebar-adduser");
 colorLi.setAttribute("style", "background-color:#337ab7");
@@ -51,3 +52,27 @@ adding.addEventListener("click", function() {
 cancelling.addEventListener("click", function(){
 	window.location = "/addusers";
 })
+
+function email_avail()
+{
+	document.getElementById("email_info").style.display = 'block';
+	document.getElementById("email_info").style.marginTop = '10px';
+	document.getElementById("email_info").style.marginBottom = '10px';
+	
+	var obj1 = new Object();
+	obj1.email = email.value;
+	
+	var request = new XMLHttpRequest();
+    request.open('POST',"/checkemail");
+    request.setRequestHeader("Content-Type","application/json");
+    request.send(JSON.stringify({email: email.value}));
+    request.addEventListener("load",function() {
+    	var data = request.responseText;
+    	if(data === 'true') {
+    		display_email.innerHTML= "User " + obj1.email + " is already exist";
+    	}
+    	else {
+            display_email.innerHTML= obj1.email + " is available";
+    	}
+    });  
+}

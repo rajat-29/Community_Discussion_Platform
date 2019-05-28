@@ -131,6 +131,27 @@
 	   }
  })
 
+  app.post('/checkemail',function (req, res) {
+
+     var emailes = req.body.email;
+
+     users.findOne({email: emailes}, function(error,result)
+      {
+        if(error)
+        throw error;
+
+      if(!result) {
+        console.log(emailes);
+        res.send("false");
+      }
+        else
+        {
+           res.send("true");
+        }
+      })
+
+  })
+
   app.get('/addusers' , function(req,res){
   	if (req.session.isLogin) {
   		res.render('adduser', {data: userdata});
@@ -410,14 +431,12 @@
 
      app.get('/switchasuser', function(req,res) {
     if(req.session.isLogin) {
-      res.render('switchusereditUserProfile', {data: userdata});
+      res.render('switchasUser');
     
        } else {
       res.render('index');
      }
     })
-
-
 
 
   console.log("Running on port 8000");

@@ -18,7 +18,8 @@ submit.addEventListener("click", function() {
             //window.location.href = "h.html";
     	}
     	else {
-            alert('Enter Correct Details')
+            document.getElementById("wrong_id").style.display = "block";
+            document.getElementById("forming").style.height = "340px";
     		console.log('getout');
             n.value = "";
             pass.value = "";
