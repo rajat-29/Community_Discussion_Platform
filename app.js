@@ -5,6 +5,7 @@
   var ejs = require('ejs');
   var mongodb = require('mongodb');
   var MongoDataTable = require('mongo-datatable');
+  var mailer = require('nodemailer');
   var MongoClient = mongodb.MongoClient;
   var userdata = new Object();
 
@@ -61,6 +62,14 @@
    var users = mongoose.model('usernames', userSchema);
    var t = mongoose.model('tags', tagSchema);
 
+   let transporter = mailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'codemailler12@gmail.com',
+      pass: 'admincq@12'
+    },
+   });
+
   app.post('/checkLogin',function (req, res)         /*post data */
   {
      // console.log(req.body);
@@ -100,6 +109,7 @@
       })
      
   })
+
 
   app.get('/home' , function(req,res){				/*get data */
    // console.log('yes raj');
@@ -186,20 +196,30 @@
   }
  })
 
-  app.get('/showuser' , function(req, res) {
-    console.log('dsfaffagfa');
-    var data = users.find({}).exec(function(error,result)
-      {
-        if(error)
-        throw error;
-        else
-        res.send(JSON.stringify(result))
-    });
+  app.post('/showuser' , function(req, res) {
+
+    console.log(req.body.search.value.length)
+    
+
+    users.countDocuments(function(e,count){
+      var start=parseInt(req.body.start);
+      var len=parseInt(req.body.length);
+
+      users.find({
+
+      }).skip(start).limit(len)
+    .then(data=> {
+      res.send({"recordsTotal": count, "recordsFiltered" : count, data})
+     })
+     .catch(err => {
+      res.send(err)
+     })
+   });
   })
 
   app.post('/updateuserdetails', function(req,res) {
-  console.log(req.body._id);
-        users.updateOne( { "_id" : req.body._id}, {$set : req.body } , function(err,result)
+  console.log(req.body);
+        users.updateOne( { "email" : req.body.email}, {$set : req.body } , function(err,result)
         {
           if(err)
           throw err
@@ -438,6 +458,16 @@
      }
     })
 
+     app.post('/sendMail', function(request,response) {
+      console.log(request.body)
+      transporter.sendMail(request.body, (error, info) => {
+        if(error) {
+          console.log(error)
+        } else {
+          console.log("Mail Sent" + info.response);
+        }
+      })
+     })
 
   console.log("Running on port 8000");
   app.listen(8000)

@@ -20,18 +20,56 @@
         <link rel="stylesheet" type="text/css" href="css/datatables.css">
         <link type="text/css" href="css/datatables.min.css">
         <link rel="stylesheet" type="text/css" href="css/trumbowgy.css">
+        <style>
+    .main {
+        margin-left: 100px;
+        margin-top: 80px;
+        background-color: rgb(250, 250, 250);
+        transition: .5s;
+    }
 
-        
+    .usertable {
+        border-width: 1px;
+        margin: 50px;
+        border-style: solid;
+        border-color: rgb(204, 203, 203);
+        width: 100%;
+    }
+    
+    .actioncolumn {
+        text-align: center;
+
+    }
+
+    .actionbut {
+
+        padding: 5px 8px 5px 8px;
+        cursor: pointer;
+        margin: 5px;
+        font-size: 14px;
+        color: white;
+        display: inline-block;
+    }
+
+    .emailbut {
+        background-color: black;
+
+    }
+
+    .editbut {
+        background-color: blue;
+    }
 
 
+    .deactivatebut {
+        background-color: rgb(255, 196, 0);
+    }
+
+    .activatebut {
+        background-color: rgb(81, 255, 0);
+    }
 
 
-    </head>
-    <style>
-    	#myModal, #deactivateuser, #updateModal
-    	{
-    		margin-top: 3%;
-    	}
 
 @media (max-width: 768px)
 {
@@ -41,7 +79,7 @@
       }
 }
     </style>
-
+    </head>
     <body class="body">
         <% include partials/top-bar.ejs %>
         <div id="viewscreen" >
@@ -81,7 +119,7 @@
 				<table class="table table-bordered" id="datatableses">
   					<thead>
     				<tr>
-       					<th>Username</th>
+       					<th>Username/Email</th>
        					<th>Phone</th>
        				 	<th>City</th>
        				 	<th>Status</th>
@@ -114,94 +152,175 @@
 
 
 		        <!-- mail modal -->
-<div class="modal" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
 
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Send Reminder Mail</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
+<div id="myModal" class="modal fade" role="dialog" style="z-index:9999;">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
 
-      <!-- Modal body -->
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                     <h3 id="eheading" style="text-align:left;" class="modal-title">Send Reminder Mail</h3>
+                                                </div>
 
-<div class="modal-body">
+                                                <div class="modal-body">
+                                                        <div class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <div class="col-lg-5 col-lg-offset-3" style="width:50%;">
+                                                            </div>
+                                                        </div>
 
-	<form method="POST" action="/senddata">
-  		<label class="control-label col-sm-2" for="email">To:</label> 
-  			<input class="col-sm-10" type="text" id="usermail"><br><br>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-sm-2">To:</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" class="form-control" id="to">
+                                                            </div>
+                                                        </div>
 
-  		<label class="control-label col-sm-2" for="email">Subject:</label>		
-  			<input class="col-sm-10" type="text" value="This mail is from CQ"><br><br><br>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-sm-2">Subject:</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" class="form-control" id="subject" value="This mail is from CQ">
+                                                            </div>
+                                                        </div>
 
-  		<textarea class="form-control" rows="12" id="comment"></textarea>	
-	</form>
+                                                        <div class="form-group">
+                                                            
+                                                            <div class="col-sm-12">
+                                                                <textarea type="text" id="comment" cols="90" rows="15"></textarea> 
+                                                            </div>
+                                                        </div>
 
- </div>
 
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button id="sendmail" type="button" class="btn btn-danger" data-dismiss="modal">Send</button>
-      </div>
+                                                    </div>
+                                                </div>
 
-    </div>
-  </div>
-</div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="sendmail()">Send</button>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
 
 
 <!-- update modal -->
 
 
-<div class="modal" id="updateModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
+<div id="updateModal" class="modal fade" role="dialog" style="z-index:9999;">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
 
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Update</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                     <h3 id="eheading" style="text-align:left;" class="modal-title">Update <span id="nameses"></span></h3>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                        <div class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <div class="col-lg-5 col-lg-offset-3" style="width:50%;">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-sm-2">Username:</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" class="form-control" id="username" placeholder="Username" readonly>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-sm-2">Phone:</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" class="form-control" id="phone" placeholder="Username">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-sm-2">City:</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" class="form-control" id="city" placeholder="City">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-sm-2">Status:</label>
+                                                            <div class="col-sm-10">
+                                                                <select class="form-control" id="status">
+                                                                    <option value="Pending">Pending</option>
+                                                                    <option value="Confirmed">Confirmed</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-sm-2">Role:</label>
+                                                            <div class="col-sm-10">
+                                                                <select class="form-control" id="role">
+                                                                    <option value="User">User</option>
+                                                                    <option value="Community Manager">Community Manager</option>
+                                                                    <option value="Admin">Admin</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <div class="col-sm-offset-2 col-sm-10" style="text-align:left;">
+                                                                <button class = "btn btn-default" id="editsubmit" data-dismiss="modal" onclick="updateuserdetails()">Update</button>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+<center>
+        <div class="modal fade in" id="mailModal" role="dialog" style="z-index: 9999; display: none; padding-left: 0px;">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="mailheader">Send Reminder Mail</h4>
+                <button type="button" class="close" data-dismiss="modal">x</button>
+              </div>
+              <div class="modal-body">
+                <div class="form-horizontal"> <!-- form -->
+                  <div class="form-group">
+                    <label class="control-label col-sm-2" for="email">To:</label>
+                    <div class="col-sm-10">
+                      <input type="email" name="username" class="form-control" id="emailPop" readonly="">
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-2">Subject:</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Title" value="(This mail is from CQ)">
+                  </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-12"><!--Body-->
+                  <textarea type="text" class="form-control trumbowyg-textarea" cols="30" rows="20" name="body" id="body" style="padding: 0;"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button class="btn btn-default" id="mailbutton" style="float:right">Send</button>
+            </div>
+          </div>
+        </div>
+         <!-- form -->
+        </div>
       </div>
-
-      <!-- Modal body -->
-
-<div class="modal-body">
-
-	<form method="POST" action="/senddata">
-  		<label class="control-label col-sm-3">Username : </label> 
-  			<input class="col-sm-9" type="text" id="updateuser"><br><br>
-
-  		<label class="control-label col-sm-3">Phone:</label>		
-  			<input class="col-sm-9" type="text" id="updatephone"><br><br>
-
-  		<label class="control-label col-sm-3">City:</label>		
-  			<input class="col-sm-9" type="text" id="updatecity"><br><br>
-
-  		 <label class="control-label col-sm-3">Status:</label>		
-  			<select class="col-sm-9" type="text" id="updatestatus">
-  			<option>Confirmed</option>
-  			<option>Pending</option>
-  			</select><br><br>
-
-  		<label class="control-label col-sm-3" for="email">Role:</label>		
-  			<select class="col-sm-9" type="text" id="updaterole">
-  			<option>Admin</option>
-  			<option>User</option>
-  			<option>Community Builder</option>
-  			</select>	<br><br>	
-
-	</form>
-
- </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button id="updatedetails" type="button" class="btn btn-default" data-dismiss="modal">Update</button>
-      </div>
-
     </div>
   </div>
-</div>
+  </center>                                
 
 <script src="js/trumbowgy.js"></script>
 

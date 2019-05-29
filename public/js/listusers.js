@@ -1,4 +1,4 @@
-var list = document.getElementById('list');
+/*var list = document.getElementById('list');
 var updatedetails = document.getElementById('updatedetails');
 var updatestatus = document.getElementById('updatestatus');
 var updaterole = document.getElementById('updaterole');
@@ -334,19 +334,167 @@ refresh.addEventListener("click", function() {
 
 });
 })
+*/
+var d;
+var nameses = document.getElementById("nameses");
+var username = document.getElementById("username");
+var phone = document.getElementById("phone");
+var city = document.getElementById("city");
+var status = document.getElementById("status");
+var role = document.getElementById("role");
+var subject = document.getElementById("subject");
+var to = document.getElementById("to");
 
-function update_table()
-{
+$.trumbowyg.svgPath = '/css/trumbowgy.svg';
+  	$('#comment').trumbowyg();
+
 	$(document).ready(function() {
-		$('#datatableses').DataTable();
+		$('#datatableses').DataTable({
+			"processing": true,
+			"serverSide": true,
+			"ajax": {
+				"url": "/showuser",
+				"type": "POST", 
+			},
+			"columns": [
+			{
+				"data" : "email"
+			},
+			{
+				"data" : "phone"
+			},
+			{
+				"data" : "city"
+			},
+			{
+				"data" : "status"
+			},
+			{
+				"data" : "role"
+			},
+			{
+				"data" : null
+			},
+			],
+			"columnDefs": [{
+                "targets": -1,
+
+                "render": function (data, type, row, meta) {
+                  
+                   // d=data;
+
+                   //console.log($(this).parent().parent());
+                   	if(data.flag==1)
+                  return '<center><span class="actionbut emailbut" id="emailbut" data-toggle="modal" data-target="#myModal"><i class="fas fa-envelope"></i></span><span class="actionbut editbut" id="editbut" data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut deactivatebut" id="deactivatebut"><i class="fa fa-times-circle"></i></span></center>';
+                
+                else
+                  return '<center><span class="actionbut emailbut" id="emailbut" data-toggle="modal" data-target="#myModal"><i class="fas fa-envelope"></i></span><span class="actionbut editbut" id="editbut" data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut activatebut" id="activatebut"><i class="fa fa-check-circle"></i></span></center>'
+
+                }
+            }],
+
+		}  );
+	});
+
+	$(document).on("click", "#editbut", function() {
+		d = $(this).parent().parent().parent()[0].children;
+		console.log(d[5].innerHTML);
+		$('#username').val(d[0].innerHTML);
+		$('#phone').val(d[1].innerHTML);
+		$('#city').val(d[2].innerHTML);
+		document.getElementById('status').value=d[3].innerHTML;
+		document.getElementById('role').value=d[4].innerHTML;
+		nameses.innerHTML = d[0].innerHTML
 	})
-}
 
-sendmail.addEventListener("click", function() {
-	var request = new XMLHttpRequest();
+	$(document).on("click", "#emailbut", function() {
+		d = $(this).parent().parent().parent()[0].children;
+		console.log(d[0]);
+		$('#to').val(d[0].innerHTML);
+	})
 
-})
-	
+	$(document).on("click", "#deactivatebut", function() {
+		d = $(this).parent().parent().parent()[0].children;
+		console.log(d)
+		$.confirm({
+    	title: 'Deactivate User ?',
+    	content: "Are you sure to Deactivate " + d[0].innerHTML,
+    	draggable: true,
+   		buttons: {
+        Yes: {
+             btnClass: 'btn-success any-other-class',
+            	action: function () {
+            	 btnClass: 'btn-red any-other-class'				
+        	}
+   		},
+        No: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {      
+        	}
+   		},
+    	}
+		});
+	})
 
+	$(document).on("click", "#activatebut", function() {
+		d = $(this).parent().parent().parent()[0].children;
+		$.confirm({
+    	title: 'Reactivate User ?',
+    	content: "Are you sure to Reactivate " + d[0].innerHTML,
+    	draggable: true,
+   		buttons: {
+        Yes: {
+             btnClass: 'btn-success any-other-class',
+            	action: function () {
+            	 btnClass: 'btn-red any-other-class'				
+        	}
+   		},
+        No: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {      
+        	}
+   		},
+    	}
+		});
+	})
 
+	function updateuserdetails()
+	{
+		console.log('d')
+		var obj1 = Object()
+			obj1.email = username.value;
+			obj1.phone = phone.value;
+			obj1.city = city.value;
+			obj1.status = document.getElementById("status").value;
+			obj1.role = role.value;
+			console.log(obj1)
+			var request = new XMLHttpRequest();
+			request.open('POST', '/updateuserdetails');
+			request.setRequestHeader("Content-Type","application/json");
+			request.send(JSON.stringify(obj1))
+			request.addEventListener("load",function()
+        	{
+         		 console.log(request.responseText);
+        	});
+        	location.reload();
+	}
 
+	function sendmail()
+	{
+		console.log('m');
+		var data = new Object()
+			data.to=to.value;
+			data.from="codemailler12@gmail.com";
+			data.subject=subject.value;
+			data.text= $("#comment").val();
+		
+		console.log(data);
+		var request = new XMLHttpRequest();
+			request.open('POST', '/sendMail');
+			request.setRequestHeader("Content-Type","application/json");
+			request.send(JSON.stringify(data))
+			request.addEventListener("load",function()
+        	{
+         		 console.log(request.responseText);
+        	});
+	}
