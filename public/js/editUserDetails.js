@@ -8,6 +8,9 @@ var journey = document.getElementById('journey');
 var expectation = document.getElementById('expectation');
 var rightadmin = document.getElementById('rightadmin');
 var dateses = document.getElementById('dateses');
+var dateques = document.getElementById("date");
+
+ 
 
 rightadmin.innerHTML = email.value;
 

@@ -349,12 +349,17 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
   	$('#comment').trumbowyg();
 
 	$(document).ready(function() {
-		$('#datatableses').DataTable({
+		 let table = $('#datatableses').DataTable({
 			"processing": true,
 			"serverSide": true,
 			"ajax": {
 				"url": "/showuser",
-				"type": "POST", 
+				"type": "POST",
+				"data": function ( d )
+            	{
+                	d.role   = $('#roles').val();
+                	d.status = $('#selectoption').val();
+            	}, 
 			},
 			"columns": [
 			{
@@ -384,17 +389,33 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
                    // d=data;
 
                    //console.log($(this).parent().parent());
+                   //console.log(row)
                    	if(data.flag==1)
-                  return '<center><span class="actionbut emailbut" id="emailbut" data-toggle="modal" data-target="#myModal"><i class="fas fa-envelope"></i></span><span class="actionbut editbut" id="editbut" data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut deactivatebut" id="deactivatebut"><i class="fa fa-times-circle"></i></span></center>';
-                
+                  return '<center><span class="actionbut emailbut" id="emailbut" data-toggle="modal" data-target="#myModal"><i class="fas fa-envelope"></i></span><span class="actionbut editbut" id="editbut" data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut deactivatebut" id="deactivatebut" onclick=deactivateUser("'+row._id+'","'+row.name+'","'+row.flag+'")><i class="fa fa-times-circle"></i></span></center>';               
                 else
-                  return '<center><span class="actionbut emailbut" id="emailbut" data-toggle="modal" data-target="#myModal"><i class="fas fa-envelope"></i></span><span class="actionbut editbut" id="editbut" data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut activatebut" id="activatebut"><i class="fa fa-check-circle"></i></span></center>'
+                  return '<center><span class="actionbut emailbut" id="emailbut" data-toggle="modal" data-target="#myModal"><i class="fas fa-envelope"></i></span><span class="actionbut editbut" id="editbut" data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut activatebut" id="activatebut" onclick=reactivateUser("'+row._id+'","'+row.name+'","'+row.flag+'")><i class="fa fa-check-circle"></i></span></center>'
 
                 }
             }],
 
-		}  );
+		});
+
+		 $('#refresh').on('click', function () {
+        table.ajax.reload(null, false);
+   		 });
+
+
+        $('#selectoption').on('click', function () {
+        table.ajax.reload(null, false);
+    	});
+
+    	$('#roles').on('click', function () {
+        table.ajax.reload(null, false);
+    });
 	});
+
+
+    
 
 	$(document).on("click", "#editbut", function() {
 		d = $(this).parent().parent().parent()[0].children;
@@ -411,51 +432,6 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
 		d = $(this).parent().parent().parent()[0].children;
 		console.log(d[0]);
 		$('#to').val(d[0].innerHTML);
-	})
-
-	$(document).on("click", "#deactivatebut", function() {
-		d = $(this).parent().parent().parent()[0].children;
-		console.log(d)
-		$.confirm({
-    	title: 'Deactivate User ?',
-    	content: "Are you sure to Deactivate " + d[0].innerHTML,
-    	draggable: true,
-   		buttons: {
-        Yes: {
-             btnClass: 'btn-success any-other-class',
-            	action: function () {
-            	 btnClass: 'btn-red any-other-class'				
-        	}
-   		},
-        No: {
-            btnClass: 'btn-danger any-other-class',
-             action: function () {      
-        	}
-   		},
-    	}
-		});
-	})
-
-	$(document).on("click", "#activatebut", function() {
-		d = $(this).parent().parent().parent()[0].children;
-		$.confirm({
-    	title: 'Reactivate User ?',
-    	content: "Are you sure to Reactivate " + d[0].innerHTML,
-    	draggable: true,
-   		buttons: {
-        Yes: {
-             btnClass: 'btn-success any-other-class',
-            	action: function () {
-            	 btnClass: 'btn-red any-other-class'				
-        	}
-   		},
-        No: {
-            btnClass: 'btn-danger any-other-class',
-             action: function () {      
-        	}
-   		},
-    	}
-		});
 	})
 
 	function updateuserdetails()
@@ -498,3 +474,75 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
          		 console.log(request.responseText);
         	});
 	}
+
+
+function deactivateUser(ides,namess,flages)
+{
+		var obj1 = new Object();
+				obj1._id = ides;
+				obj1.flag = 0;
+				console.log(obj1._id);
+	$.confirm({
+    	title: 'Deactivate User ?',
+    	content: "Are you sure to Deactivate " + namess,
+    	draggable: true,
+   		buttons: {
+        Yes: {
+             btnClass: 'btn-success any-other-class',
+            	action: function () {
+            	 btnClass: 'btn-red any-other-class'
+            	 var request = new XMLHttpRequest()
+				request.open('POST','/deativateuserdata');
+				request.setRequestHeader("Content-Type","application/json");
+				request.send(JSON.stringify(obj1))
+				request.addEventListener("load",function()
+        		{
+         			 console.log(request.responseText);
+         			 location.reload();
+        		});				
+        	}
+   		},
+        No: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {      
+        	}
+   		},
+    	}
+		});
+}
+
+function reactivateUser(ides,namess,flages)
+{
+		var obj1 = new Object();
+				obj1._id = ides;
+				obj1.flag = 1;
+				console.log(obj1._id);
+	$.confirm({
+    	title: 'Deactivate User ?',
+    	content: "Are you sure to Reactivate " + namess,
+    	draggable: true,
+   		buttons: {
+        Yes: {
+             btnClass: 'btn-success any-other-class',
+            	action: function () {
+            	 btnClass: 'btn-red any-other-class'
+            	var request = new XMLHttpRequest()
+				request.open('POST','/reativateuserdata');
+				request.setRequestHeader("Content-Type","application/json");
+				request.send(JSON.stringify(obj1))
+				request.addEventListener("load",function()
+        		{
+         			 console.log(request.responseText);
+         			  location.reload();
+        		});			
+        	}
+   		},
+        No: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {      
+        	}
+   		},
+    	}
+		});
+}
+

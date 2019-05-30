@@ -66,7 +66,7 @@
     service: 'gmail',
     auth: {
       user: 'codemailler12@gmail.com',
-      pass: 'admincq@12'
+      pass: 'codequotient12'
     },
    });
 
@@ -196,12 +196,15 @@
   }
  })
 
-  app.post('/showuser' , function(req, res) {
+app.post('/showuser' , function(req, res) {
 
-    console.log(req.body.search.value.length)
-    
+  console.log(req.body.status)
+console.log(req.body.role)
 
-    users.countDocuments(function(e,count){
+
+if(req.body.role === 'All' && req.body.status === 'All')
+{
+      users.countDocuments(function(e,count){
       var start=parseInt(req.body.start);
       var len=parseInt(req.body.length);
 
@@ -215,10 +218,77 @@
       res.send(err)
      })
    });
+}
+
+else if(req.body.role === 'All' && req.body.status !== 'All')
+{
+  console.log(req.body);
+  var length;
+      users.countDocuments(function(e,count){
+      var start=parseInt(req.body.start);
+      var len=parseInt(req.body.length);
+
+      users.find({status: req.body.status}).then(data => length = data.length);
+
+      users.find({ status: req.body.status }).skip(start).limit(len)
+    .then(data=> {
+      res.send({"recordsTotal": count, "recordsFiltered" : length, data})
+     })
+     .catch(err => {
+      res.send(err)
+     })
+   });  
+}
+
+else if(req.body.role !== 'All' && req.body.status === 'All')
+{
+       console.log(req.body);
+  var length;
+      users.countDocuments(function(e,count){
+      var start=parseInt(req.body.start);
+      var len=parseInt(req.body.length);
+
+      users.find({role: req.body.role}).then(data => length = data.length);
+
+      users.find({ role: req.body.role }).skip(start).limit(len)
+    .then(data=> {
+      res.send({"recordsTotal": count, "recordsFiltered" : length, data})
+     })
+     .catch(err => {
+      res.send(err)
+     })
+   }); 
+}
+
+else
+{
+       var length;
+      users.countDocuments(function(e,count){
+      var start=parseInt(req.body.start);
+      var len=parseInt(req.body.length);
+
+      users.find({role: req.body.role, status: req.body.status}).then(data => length = data.length);
+
+      users.find({role: req.body.role, status: req.body.status}).skip(start).limit(len)
+    .then(data=> {
+      res.send({"recordsTotal": count, "recordsFiltered" : length, data})
+     })
+     .catch(err => {
+      res.send(err)
+     })
+   }); 
+}
+
+ 
+
+    //console.log(req.body.search.value.length)
+    
+
+
   })
 
   app.post('/updateuserdetails', function(req,res) {
-  console.log(req.body);
+  //console.log(req.body);
         users.updateOne( { "email" : req.body.email}, {$set : req.body } , function(err,result)
         {
           if(err)
