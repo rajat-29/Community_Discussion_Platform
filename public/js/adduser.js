@@ -12,7 +12,7 @@ var display_email = document.getElementById("display_email");
 var colorLi = document.getElementById("sidebar-adduser");
 colorLi.setAttribute("style", "background-color:#337ab7");
 
-
+console.log(phone.value.length)
 adding.addEventListener("click", function() {  
 
 	if(name.value == '' || email.value == '' || phone.value == '' || city.value == '')
@@ -21,6 +21,8 @@ adding.addEventListener("click", function() {
 		return false;
 		window.location = "/addusers";
 	}
+
+
 	// console.log(pass.value);
 	
 	var obj = new Object();
@@ -37,6 +39,7 @@ adding.addEventListener("click", function() {
 	obj.interest = '';
 	obj.bitmore = '';
 	obj.expectation = '';
+	obj.photoname = 'default.png'
 
    	var request = new XMLHttpRequest();
     request.open('POST',"/addnewuser");

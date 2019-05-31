@@ -3,6 +3,7 @@
 var n = document.getElementById('n');
 var pass = document.getElementById('pass');
 var submit = document.getElementById('submit');
+var github_login = document.getElementById('github_login');
 
 submit.addEventListener("click", function() {
 	//console.log(pass.value);
@@ -26,6 +27,12 @@ submit.addEventListener("click", function() {
     	}
       //  console.log(data);
     });
+})
+
+github_login.addEventListener("click", function() {
+    console.log('aaya github');
+    window.location = "/auth/github";
+
 })
 
 pass.addEventListener("keyup", function() {

@@ -9,6 +9,7 @@ var expectation = document.getElementById('expectation');
 var rightadmin = document.getElementById('rightadmin');
 var dateses = document.getElementById('dateses');
 var dateques = document.getElementById("date");
+var profilepic = document.getElementById("profilepic");
 
  
 
@@ -26,6 +27,7 @@ function updateUserDetails()
 			obj1.interest = interest.value;
 			obj1.bitmore = journey.value;
 			obj1.expectation = expectation.value;
+			obj1.photoname = profilepic.src;
 
 			console.log(obj1);
 
