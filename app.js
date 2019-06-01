@@ -104,7 +104,7 @@ passport.deserializeUser(function(user,done){
   })
 
    var tagSchema = new mongoose.Schema({
-    tags: Number,
+    tags: String,
     createdBy: String,
     createDate: String,
    })
@@ -294,9 +294,11 @@ app.post('/showuser' , function(req, res) {
       if (req.body.search.value)
                     {
 
+                       
+
                         data = data.filter((value) => {
                             return value.email.includes(req.body.search.value)
-
+                            //return value.city.includes(req.body.search.value)
 
                         })
                     }
@@ -455,15 +457,28 @@ app.get('/listuserstags', function(req,res) {
      }
 })
 
-app.get('/showtags' , function(req, res) {
+app.post('/showtags' , function(req, res) {
     console.log('tagib');
-    var data = t.find({}).exec(function(error,result)
-      {
-        if(error)
-        throw error;
-        else
-        res.send(JSON.stringify(result))
-    });
+          t.countDocuments(function(e,count){
+      var start=parseInt(req.body.start);
+      var len=parseInt(req.body.length);
+      t.find({
+      }).skip(start).limit(len)
+    .then(data=> {
+       if (req.body.search.value)
+                    {
+                      console.log("asdf")
+                        data = data.filter((value) => {
+                            return value.tags.includes(req.body.search.value)
+                        })
+                    } 
+ 
+      res.send({"recordsTotal": count, "recordsFiltered" : count, data})
+     })
+     .catch(err => {
+      res.send(err)
+     })
+   });
 })
 
 app.post('/addtagtobase',function (req, res) {

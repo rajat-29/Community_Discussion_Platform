@@ -47,7 +47,7 @@ pass.addEventListener("keyup", function() {
         var data = request.responseText;
         if(data === 'true') {
             console.log('hello user');
-            window.location = "/home";
+            window.location = "/admin/home";
             //window.location.href = "h.html";
         }
         else {
