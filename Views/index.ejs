@@ -10,75 +10,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<style>
-	body {
-	margin: 0;
-	padding: 0;
-	height: auto;
-}
-
-header {
-	z-index: 1;
-	background-color: white;
-	color: #000;
-}
-
-.top-bar {
-	height: 60px;
-	width: 100%;
-	text-align: left;
-    box-shadow: 0 0 10px rgba(0,0,0,0.6);
-    top: 0;
-}
-
-.top-bar p{
-	margin: 0;
-	font-size: 30px;
-	padding: 10px;
-	font-weight: bold;
-}
-
-.container {
-	margin-top: 8%;
-}
-
-.login-form {
-	height: 300px;
-	width: 60%;
-	background-color: #fff;
-	box-shadow: 0 0 10px rgba(0,0,0,0.6);
-}
-
-.login-form p {
-	padding: 1%;
-	font-size: 34px;
-}
-
-.footer {
-	position: absolute;
-	right: 0;
-	left: 0;
-	bottom: 0;
-	height: 80px;
-
-}
-
-.footer p {
-	height: 80px;
-	font-size:25px;
-	font-weight:bold;
-	color:#7f7f84;
-	box-shadow: 0 0 10px rgba(0,0,0,0.6);
-	margin: 0;
-}
-
-@media(max-width: 768px)
-{
-  .login-form{
-    width: 100%;
-  }
-}
-</style>
 <body>
 
 	<header class="top-bar">  <!--top bar to display cq -->
@@ -87,8 +18,12 @@ header {
 
 	<center>
 		<div class="container">
-			<div class="login-form">
+			<div class="login-form" id="forming">
 				<p>Log Into Your Account</p>
+
+				<div class="alert alert-danger" id="wrong_id">
+ 				 Username/Password Incorrect.
+				</div>
 
 					<div class="form-group" style="margin: 10px">
 						<input type="text" required="required" class="form-control" placeholder="Username" id="n"><br/>
@@ -100,7 +35,10 @@ header {
 
 					<div class="form-group" style="margin: 10px">
 						<button class="btn btn-success" id="submit">Login</button>
+						<button class="btn btn-success" id="github_login">Github</button>
 					</div>
+
+					
 					
 				
 			

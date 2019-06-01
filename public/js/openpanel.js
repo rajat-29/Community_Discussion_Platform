@@ -52,7 +52,7 @@ function switchasuser()
 
 function opentagpage()
 {
-    window.location = "/tag"
+    window.location = "/userestag";
 }
 
 function changepassword()
@@ -106,12 +106,6 @@ function newUserchangePassword()
 {
   window.location = "/newUserchangePassword";   
 }
-
-
-;
-
-
-
 
 
 

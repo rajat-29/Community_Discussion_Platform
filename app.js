@@ -256,6 +256,7 @@ app.post('/showuser' , function(req, res) {
 
   console.log(req.body.status)
   console.log(req.body.role)
+  var flag;
 
   if(req.body.role === 'All' && req.body.status === 'All')
   {
@@ -268,8 +269,11 @@ app.post('/showuser' , function(req, res) {
       if (req.body.search.value)
                     {
                         data = data.filter((value) => {
-                            return value.email.includes(req.body.search.value)
-                        })
+            flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
+             || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
+             || value.role.includes(req.body.search.value);
+            return flag;
+          })
                     }   
       res.send({"recordsTotal": count, "recordsFiltered" : count, data})
      })
@@ -293,14 +297,12 @@ app.post('/showuser' , function(req, res) {
     .then(data=> {
       if (req.body.search.value)
                     {
-
-                       
-
-                        data = data.filter((value) => {
-                            return value.email.includes(req.body.search.value)
-                            //return value.city.includes(req.body.search.value)
-
-                        })
+                  data = data.filter((value) => {
+            flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
+             || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
+             || value.role.includes(req.body.search.value);
+            return flag;
+          })
                     }
       res.send({"recordsTotal": count, "recordsFiltered" : length, data})
      })
@@ -325,10 +327,11 @@ app.post('/showuser' , function(req, res) {
        if (req.body.search.value)
                     {
                         data = data.filter((value) => {
-                            return value.email.includes(req.body.search.value)
-                             
-
-                        })
+            flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
+             || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
+             || value.role.includes(req.body.search.value);
+            return flag;
+          })
                     }
       res.send({"recordsTotal": count, "recordsFiltered" : length, data})
      })
@@ -352,10 +355,11 @@ app.post('/showuser' , function(req, res) {
        if (req.body.search.value)
                     {
                         data = data.filter((value) => {
-                            return value.email.includes(req.body.search.value)
-                             
-
-                        })
+            flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
+             || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
+             || value.role.includes(req.body.search.value);
+            return flag;
+          })
                     }
       res.send({"recordsTotal": count, "recordsFiltered" : length, data})
      })
@@ -407,78 +411,12 @@ app.post('/changePassword' , function(req,res){
     }
 })
 
-app.get('/yes', function(req,res) {
-    req.session.isLogin = 0;
-    req.session.destroy();
+app.get('/userestag' , function(req,res){ 
+    if(req.session.isLogin) {
+      res.render('Tags',{data: userdata});
+   } else {
     res.render('index');
-})
-
-app.get('/tag', function(req,res) {
-    if(req.session.isLogin) {
-      res.render('Tags', {data: userdata});
-       } else {
-      res.render('index');
-     }
-    })
-
-     app.post('/upload',(req,res) => {
-      upload(req,res,(err)=>{
-        if(err)
-        {
-          throw error;
-        }
-        else{
-          console.log(req.file);
-          console.log(photoname);
-
-          console.log(userdata.ides);
-          userdata.photoname = photoname;
-                
-                 res.render('editUserDetails', {data: userdata});
-            
-        }
-      })
-    });
-
-     app.get('/switchasuser', function(req,res) {
-       if(req.session.isLogin) {
-         res.render('switchasUser');
-    
-       } else {
-          res.render('index');
-       }
-})
-
-app.get('/listuserstags', function(req,res) {
-    if(req.session.isLogin) {
-      res.render('Listtags', {data: userdata});
-       } else {
-      res.render('index');
-     }
-})
-
-app.post('/showtags' , function(req, res) {
-    console.log('tagib');
-          t.countDocuments(function(e,count){
-      var start=parseInt(req.body.start);
-      var len=parseInt(req.body.length);
-      t.find({
-      }).skip(start).limit(len)
-    .then(data=> {
-       if (req.body.search.value)
-                    {
-                      console.log("asdf")
-                        data = data.filter((value) => {
-                            return value.tags.includes(req.body.search.value)
-                        })
-                    } 
- 
-      res.send({"recordsTotal": count, "recordsFiltered" : count, data})
-     })
-     .catch(err => {
-      res.send(err)
-     })
-   });
+    }
 })
 
 app.post('/addtagtobase',function (req, res) {
@@ -495,6 +433,96 @@ app.post('/addtagtobase',function (req, res) {
       })
        res.send("data saved");
 })
+
+app.post('/showtags' , function(req, res) {
+    console.log('tagib');
+    var flag;
+          t.countDocuments(function(e,count){
+      var start=parseInt(req.body.start);
+      var len=parseInt(req.body.length);
+      t.find({
+      }).skip(start).limit(len)
+    .then(data=> {
+       if (req.body.search.value)
+                    {
+                      console.log("asdf")
+                        data = data.filter((value) => {
+                            flag = value.tags.includes(req.body.search.value) || value.createDate.includes(req.body.search.value)
+             || value.createdBy.includes(req.body.search.value);
+            return flag;
+                        })
+                    } 
+ 
+      res.send({"recordsTotal": count, "recordsFiltered" : count, data})
+     })
+     .catch(err => {
+      res.send(err)
+     })
+   });
+})
+
+app.get('/listuserstags', function(req,res) {
+    if(req.session.isLogin) {
+      res.render('Listtags', {data: userdata});
+       } else {
+      res.render('index');
+     }
+})
+
+app.get('/yes', function(req,res) {
+    req.session.isLogin = 0;
+    req.session.destroy();
+    res.render('index');
+})
+
+app.post('/upload',(req,res) => {
+      upload(req,res,(err)=>{
+        if(err)
+        {
+          throw error;
+        }
+        else{
+          console.log(req.file);
+          console.log(photoname);
+
+          console.log(userdata.ides);
+          userdata.photoname = photoname;
+                
+                 res.render('editUserDetails', {data: userdata});
+            
+        }
+      })
+});
+
+app.post('/Userupload',(req,res) => {
+      upload(req,res,(err)=>{
+        if(err)
+        {
+          throw error;
+        }
+        else{
+          console.log(req.file);
+          console.log(photoname);
+
+          console.log(userdata.ides);
+          userdata.photoname = photoname;
+                
+                 res.render('newUserProfileDetails', {data: userdata});
+            
+        }
+      })
+});
+
+     app.get('/switchasuser', function(req,res) {
+       if(req.session.isLogin) {
+         res.render('switchasUser');
+    
+       } else {
+          res.render('index');
+       }
+})
+
+
 
 app.delete('/:pro',function(req,res) {
       var id = req.params.pro.toString();

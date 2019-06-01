@@ -1,4 +1,4 @@
-  $(document).ready(function() {
+ $(document).ready(function() {
      let table = $('#rajates').DataTable({
       "processing": true,
       "serverSide": true,
