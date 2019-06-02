@@ -26,6 +26,11 @@ function openuserlist()
     window.location = "/userlist";
 }
 
+function communitypage()
+{
+    window.location = "/communityList"
+}
+
 function switchasuser()
 {
       $.confirm({

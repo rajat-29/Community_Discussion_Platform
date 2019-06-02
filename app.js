@@ -109,8 +109,18 @@ passport.deserializeUser(function(user,done){
     createDate: String,
    })
 
+   var communitySchema = new mongoose.Schema({
+    name: String,
+    rule: String,
+    location: String,
+    owner: String,
+    createDate: String,
+    status: String,
+   })
+
    var users = mongoose.model('usernames', userSchema);
    var t = mongoose.model('tags', tagSchema);
+   var community = mongoose.model('communities', userSchema);
 
    let transporter = mailer.createTransport({
     service: 'gmail',
@@ -168,7 +178,7 @@ app.get('/home' , function(req,res){        /*get data */
         console.log('hencjkasbcjkbc')
         res.render('main', {data: userdata});
       }
-      else if(userdata.role == 'User')
+      else if(userdata.role == 'User' || userdata.role == 'Community Manager')
       {
         if(userdata.dob == '')
         {
@@ -370,6 +380,105 @@ app.post('/showuser' , function(req, res) {
   }
 });
 
+app.get('/communityList' , function(req,res){  
+    console.log('yes raj');
+    //console.log(userdata);
+    if(req.session.isLogin) {
+      res.render('CommunityList', {data: userdata});
+   } else {
+    //console.log('hello');
+    res.render('index');
+    }
+})
+
+app.post('/showcommunity' , function(req, res) {
+
+  console.log(req.body.status)
+
+  if(req.body.status === 'All') {
+    var flag;
+   community.countDocuments(function(e,count){
+      var start=parseInt(req.body.start);
+      var len=parseInt(req.body.length);
+      community.find({
+      }).skip(start).limit(len)
+    .then(data=> {
+      if (req.body.search.value)
+      {
+        console.log(data)
+        data = data.filter((value) => {
+            flag = value.name.includes(req.body.search.value);
+            return flag;
+        })
+      }   
+      res.send({"recordsTotal": count, "recordsFiltered" : count, data})
+     })
+     .catch(err => {
+      res.send(err)
+     })
+   });
+
+  }
+
+  else if(req.body.status === 'Direct')
+  {
+      //console.log(req.body);
+      var length;
+      var flag;
+      community.countDocuments(function(e,count){
+      var start=parseInt(req.body.start);
+      var len=parseInt(req.body.length);
+
+      community.find({rule: req.body.status}).then(data => length = data.length);
+
+      community.find({ rule: req.body.status }).skip(start).limit(len)
+    .then(data=> {
+      if (req.body.search.value)
+      {
+        console.log(data)
+        data = data.filter((value) => {
+            flag = value.name.includes(req.body.search.value);
+            return flag;
+        })
+      }
+      res.send({"recordsTotal": count, "recordsFiltered" : length, data})
+     })
+     .catch(err => {
+      res.send(err)
+     })
+   });  
+  }
+
+  else if(req.body.status === 'Permission')
+  {
+      //console.log(req.body);
+      var length;
+       var flag;
+      community.countDocuments(function(e,count){
+      var start=parseInt(req.body.start);
+      var len=parseInt(req.body.length);
+
+      community.find({rule: req.body.status}).then(data => length = data.length);
+
+      community.find({ rule: req.body.status }).skip(start).limit(len)
+    .then(data=> {
+      if (req.body.search.value)
+      {
+        console.log(data)
+        data = data.filter((value) => {
+            flag = value.name.includes(req.body.search.value);
+            return flag;
+        })
+      }
+      res.send({"recordsTotal": count, "recordsFiltered" : length, data})
+     })
+     .catch(err => {
+      res.send(err)
+     })
+   });  
+  }
+})  
+
 app.post('/updateuserdetails', function(req,res) {
   //console.log(req.body);
         users.updateOne( { "email" : req.body.email}, {$set : req.body } , function(err,result)
@@ -513,7 +622,7 @@ app.post('/Userupload',(req,res) => {
       })
 });
 
-     app.get('/switchasuser', function(req,res) {
+app.get('/switchasuser', function(req,res) {
        if(req.session.isLogin) {
          res.render('switchasUser');
     
@@ -521,7 +630,6 @@ app.post('/Userupload',(req,res) => {
           res.render('index');
        }
 })
-
 
 
 app.delete('/:pro',function(req,res) {
@@ -583,6 +691,8 @@ app.get('/editUserDetails', function(req,res) {
       res.render('index');
      }
 })
+
+// new user profile //
 
 app.get('/newUsereditProfile', function(req,res) {
     if(req.session.isLogin) {
@@ -660,7 +770,9 @@ app.get('/newUserchangePassword', function(req,res) {
      }
 })
 
-  app.get('/auth/github',
+// github aunthentication //
+
+app.get('/auth/github',
   passport.authenticate('github'));
 
 app.get('/auth/github/callback',
@@ -671,6 +783,20 @@ app.get('/auth/github/callback',
         //console.log("githubsignin succesful");
         //console.log(req.session.passport.user._json.email)
 
+         users.find({
+          "email": req.session.passport.user._json.email
+        })
+        .then(data => {
+          console.log(data);
+          userdata.dob = data.dob;
+          userdata.phone = data.phone;
+          //console.log("added");
+        })
+        .catch(err => {
+          console.error(err)
+          //res.send(error)
+        });
+
         var temp = users.update({
           "email": req.session.passport.user._json.email
         }, {
@@ -678,11 +804,11 @@ app.get('/auth/github/callback',
           "email": req.session.passport.user._json.email,
           "city": req.session.passport.user._json.location,
           "gender": "-",
-          "visibility": true,
           "status": "Pending",
           "role": "User",
           "dob": "",
           "phone": "-",
+          "photoname": "default.png"
         }, {
           upsert: true
         },function(err,updated){
@@ -690,17 +816,7 @@ app.get('/auth/github/callback',
           console.log(updated);
         });
         //console.log(temp);
-        users.find({
-          "email": req.session.passport.user._json.email
-        })
-        .then(data => {
-         // console.log(data);
-          //console.log("added");
-        })
-        .catch(err => {
-          console.error(err)
-          //res.send(error)
-        });
+
         req.session.isLogin = 1;
         req.session.name = req.session.passport.user._json.name;
         req.session.email = req.session.passport.user._json.email;
@@ -709,13 +825,12 @@ app.get('/auth/github/callback',
         userdata.email = req.session.passport.user._json.email;
         userdata.gender = "-";
         userdata.role = 'User';
-        userdata.phone = "-",
-        userdata.dob = "",
+        userdata.photoname = "default.png"
         userdata.city = req.session.passport.user._json.location,
-        console.log(req.session.passport);
+       // console.log(req.session.passport);
         res.redirect('/home');
         //res.send('Github login successful');
-        });
+});
 
 console.log("Running on port 8000");
 app.listen(8000)
