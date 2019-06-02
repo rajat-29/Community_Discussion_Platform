@@ -112,16 +112,8 @@ function newUserchangePassword()
   window.location = "/newUserchangePassword";   
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+function openCommunityPage()
+{
+    window.location = "/openCommunityPage";
+}
 

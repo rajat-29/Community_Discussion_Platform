@@ -113,14 +113,17 @@ passport.deserializeUser(function(user,done){
     name: String,
     rule: String,
     location: String,
+    email: String,
     owner: String,
     createDate: String,
     status: String,
+    desc: String,
+    commphoto: String,
    })
 
    var users = mongoose.model('usernames', userSchema);
    var t = mongoose.model('tags', tagSchema);
-   var community = mongoose.model('communities', userSchema);
+   var community = mongoose.model('communities', communitySchema);
 
    let transporter = mailer.createTransport({
     service: 'gmail',
@@ -631,7 +634,6 @@ app.get('/switchasuser', function(req,res) {
        }
 })
 
-
 app.delete('/:pro',function(req,res) {
       var id = req.params.pro.toString();
       console.log(id);
@@ -831,6 +833,51 @@ app.get('/auth/github/callback',
         res.redirect('/home');
         //res.send('Github login successful');
 });
+
+// community pages //
+
+app.get('/openCommunityPage' , function(req,res){
+    if (req.session.isLogin) 
+    {
+      if(userdata.role == 'User' )
+      {
+         res.render('newUserCommunityPage', {data: userdata});
+      } 
+      else if(userdata.role == 'Community Manager' )
+      {
+         res.render('communityUserCommunityPage', {data: userdata});
+      }
+    }
+    else
+    {
+      res.render('index');
+    }
+})
+
+app.get('/addNewCommunity' , function(req,res){ 
+    if(req.session.isLogin) {
+      res.render('addNewCommunity', {data: userdata});
+   } else {
+    res.render('index');
+    }
+})
+
+app.post('/addNewCommunitytobase',function (req, res) {
+     
+      req.body.email = req.session.email;
+      req.body.owner = req.session.name;
+       console.log(req.body);
+      community.create(req.body,function(error,result)
+      {
+        if(error)
+        throw error;
+        else
+        {
+         // console.log(result);
+        }
+      })
+       res.send("data saved");
+})
 
 console.log("Running on port 8000");
 app.listen(8000)

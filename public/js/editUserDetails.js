@@ -59,7 +59,8 @@ function updateNewUserDetails()
 	obj1.interest = interest.value;
 	obj1.bitmore = journey.value;
 	obj1.expectation = expectation.value;
-
+	obj1.photoname = profilepic.src;
+	
 	console.log(obj1);
 
 		var request = new XMLHttpRequest();
