@@ -42,6 +42,7 @@ passport.deserializeUser(function(user,done){
   //Set Storage Engine
 
   var photoname ;
+  var community_photo;
 
     var storage = multer.diskStorage({
       destination : './public/uploads/',
@@ -56,6 +57,8 @@ passport.deserializeUser(function(user,done){
      var upload = multer({
       storage : storage,
     }).single('myFile');
+
+ 
 
   // view engine setup
   app.set('views', path.join(__dirname, 'Views'));
@@ -878,6 +881,8 @@ app.post('/addNewCommunitytobase',function (req, res) {
       })
        res.send("data saved");
 })
+
+
 
 console.log("Running on port 8000");
 app.listen(8000)

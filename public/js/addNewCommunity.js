@@ -7,6 +7,7 @@ var directadmin = document.getElementById("directadmin");
 var permisadmin = document.getElementById("permisadmin");
 //var filename = document.getElementById("filename");
 var addinges = document.getElementById("adding");
+var refresh = document.getElementById("first-btn");
 
 // console.log(directadmin.checked);
 // console.log(permisadmin.checked);
@@ -66,3 +67,7 @@ function getMonths(mno) {
     var month = ["Jan","Feb","March","April","May","June","July","Aug","Sep","Oct","Nov","Dec"];
     return month[mno-1];
 }
+
+refresh.addEventListener("click", function() {
+     window.location = "/addNewCommunity";
+})

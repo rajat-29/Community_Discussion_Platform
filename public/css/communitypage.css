@@ -101,3 +101,25 @@ a {
     background-color: transparent;
 }
 
+.panel-body {
+    padding: 15px;
+}
+
+.community-div {
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    border-color: #CCCCCC;
+}
+
+element.style {
+    padding: 10px;
+    z-index: 1;
+}
+
+@media (min-width: 768px) {
+.col-sm-1 {
+    width: 8.33333333%;
+}
+}
+
+
