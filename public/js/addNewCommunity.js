@@ -25,7 +25,7 @@ addinges.addEventListener("click", function() {
     {
         obj1.rule = permisadmin.value;
     }
-    obj1.commphoto = "-";
+    obj1.commphoto = "uploads/defaultCommunity.jpg";
     obj1.location = "Not Added";
     obj1.status = "Active";
 

@@ -1,3 +1,5 @@
+var obj2;
+
 $(document).ready(function() {
 		 let table = $('#datatableses').DataTable({
 			"processing": true,
@@ -27,17 +29,32 @@ $(document).ready(function() {
 				"data" : "createDate"
 			},
 			{
-				"data" : "status"
+				"data" : null,
+      		    "orderable" : "false"
 			},
 			{
-				"data" : null
+				"data" : null,
+        		"orderable" : "false"
 			},
 			],
 			"columnDefs": [{
+                "targets": -2,
+
+                "render": function (data, type, row, meta) {
+                	//console.log(row.name);
+                  return '<center><span class="actionbut editbut" id="editbut" onclick=updateCommunity("'+row._id+'","'+row.name+'","'+row.status+'") data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut emailbut" id="infobut"  onclick=InfoCommunity("'+row.name+'","'+row.desc+'","'+row.commphoto+'") data-toggle="modal" data-target="#infoModal"><i class="fas fa-info"></i></span></center>';
+                }
+            },
+            {
                 "targets": -1,
 
                 "render": function (data, type, row, meta) {
-                  return '<center><span class="actionbut editbut" id="editbut" data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut emailbut" id="infobut" data-toggle="modal" data-target="#infoModal"><i class="fas fa-info"></i></span></center>';
+             
+                   if(row.status=="Active")
+                      data ='<img src='+ row.commphoto +' style="width: 80px;height: 80px;border: 4px solid green;">';
+                  else
+                     data ='<img src='+row.commphoto+' style="width: 80px;height: 80px;border: 4px solid red;">';
+                return data;
                 }
             }],
 
@@ -53,20 +70,42 @@ $(document).ready(function() {
     	});
 });
 
-$(document).on("click", "#editbut", function() {
-	var nameses = document.getElementById("nameses");
-		d = $(this).parent().parent().parent()[0].children;
-	//	console.log(d[5].innerHTML);
-		$('#username').val(d[0].innerHTML);
-		document.getElementById('role').value=d[5].innerHTML;
-		nameses.innerHTML = d[0].innerHTML;
-})
 
-$(document).on("click", "#infobut", function() {
-	var memes = document.getElementById("memes");
-		d = $(this).parent().parent().parent()[0].children;
-	//	console.log(d[5].innerHTML);
-		$('#username').val(d[0].innerHTML);
-		//document.getElementById('role').value=d[5].innerHTML;
-		memes.innerHTML = d[0].innerHTML;
-})
+
+function updateCommunity(ides,namess,statuses)
+{
+		var nameses = document.getElementById("nameses");
+		nameses.innerHTML = namess;
+
+		 $('#username').val(namess);
+		 document.getElementById('role').value=statuses;
+
+		 obj2 = new Object();
+		 obj2.name = namess;
+		 obj2._id = ides;
+}
+
+function updateCommunitydetails()
+{
+	obj2.status = document.getElementById('role').value;
+	var request = new XMLHttpRequest();
+			request.open('POST', '/updatecommunitydetails');
+			request.setRequestHeader("Content-Type","application/json");
+			request.send(JSON.stringify(obj2))
+			request.addEventListener("load",function()
+        	{
+         		 console.log(request.responseText);
+         		 
+        	});
+	location.reload();
+}
+
+function InfoCommunity(nameing,descrip,photonamees)
+{
+		var memes = document.getElementById("memes");
+		memes.innerHTML = nameing;
+
+		document.getElementById("CommunityProfilePic").src=photonamees;
+    document.getElementById("locInfo").innerHTML=descrip;
+
+}

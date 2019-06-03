@@ -133,8 +133,8 @@ p {
        				 	<th>Community Location</th>
        				 	<th>Community Owner</th>
        				 	<th>Create Date</th>
-                        <th>Status</th>
                         <th>Actions</th>
+                        <th>Community Pic</th>
       				</tr>
    					</thead>
    					<tbody id="list">
@@ -201,7 +201,7 @@ p {
 
                                                         <div class="form-group">
                                                             <div class="col-sm-offset-2 col-sm-10" style="text-align:left;">
-                                                                <button class = "btn btn-default" id="editsubmit" data-dismiss="modal" onclick="updateuserdetails()">Update</button>
+                                                                <button class = "btn btn-default" id="editsubmit" data-dismiss="modal" onclick="updateCommunitydetails()">Update</button>
                                                             </div>
                                                         </div>
 
@@ -228,11 +228,14 @@ p {
 
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                     <h3 id="eheading" style="text-align:left;" class="modal-title">Community <span id="memes"></span></h3>
+                                                    <div style="display: flex;">
+                                                    <img src="uploads/defaultCommunity.jpg" id="CommunityProfilePic" style="width: 100px;height: 100px;">
+                                                     <h3 id="eheading" style="text-align:left;margin-top: 35px;margin-left: 10px;" class="modal-title">Community <span id="memes"></span></h3>
+                                                     </div>
                                                 </div>
 
                                                 <p style="font-size:15px;font-weight:bold;padding: 10px;">Community Description</p>
-                                                <p id="locInfo" style="font-size:15px;float:right"></p>
+                                                <p id="locInfo" style="font-size:15px;margin-left: 15px;float:left"></p>
                                                 <div id="communityDesc" class="well well-lg" style="word-wrap: break-word;"></div>
 
                                                 <div class="modal-footer">

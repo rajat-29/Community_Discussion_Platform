@@ -17,7 +17,11 @@ submit.addEventListener("click", function() {
     		console.log('hello user');
             window.location = "/home";
             //window.location.href = "h.html";
-    	}
+        }
+        else if(data === 'false')
+        {
+            window.location = "/404";
+        }
     	else {
             document.getElementById("wrong_id").style.display = "block";
             document.getElementById("forming").style.height = "340px";

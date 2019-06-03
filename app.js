@@ -37,8 +37,6 @@ passport.deserializeUser(function(user,done){
   })
 );
 
-
-
   //Set Storage Engine
 
   var photoname ;
@@ -122,6 +120,7 @@ passport.deserializeUser(function(user,done){
     status: String,
     desc: String,
     commphoto: String,
+    ownerId : String,
    })
 
    var users = mongoose.model('usernames', userSchema);
@@ -154,6 +153,12 @@ app.post('/checkLogin',function (req, res)         /*post data */
       }
         else
         {
+          if(result.flag == 0)
+          {
+           res.send("false");
+          }
+          else 
+          {
            req.session.isLogin = 1;
            req.session.email = req.body.name;
            req.session.password = req.body.password;
@@ -169,7 +174,10 @@ app.post('/checkLogin',function (req, res)         /*post data */
            userdata.ides = result._id;
            userdata.photoname = result.photoname;
            req.session.name = userdata.name;
+           req.session.iding = result._id;
+           //console.log(req.session.iding);
            res.send("true");
+          }
         }
       })     
 })
@@ -202,6 +210,10 @@ app.get('/home' , function(req,res){        /*get data */
       //console.log('hello');
       res.render('index');
      }
+ })
+
+ app.get("/404" ,function(req,res) {
+   res.render("404");
  })
 
 app.post('/checkemail',function (req, res) {
@@ -784,13 +796,13 @@ app.get('/auth/github/callback',
         passport.authenticate('github', {
         failureRedirect: '/index.html'
         }),
-        function (req, res) {
+          function (req, res) {
         //console.log("githubsignin succesful");
         //console.log(req.session.passport.user._json.email)
 
-         users.find({
+          users.find({
           "email": req.session.passport.user._json.email
-        })
+          })
         .then(data => {
           console.log(data);
           userdata.dob = data.dob;
@@ -869,6 +881,7 @@ app.post('/addNewCommunitytobase',function (req, res) {
      
       req.body.email = req.session.email;
       req.body.owner = req.session.name;
+      req.body.ownerId = req.session.iding;
        console.log(req.body);
       community.create(req.body,function(error,result)
       {
@@ -882,7 +895,31 @@ app.post('/addNewCommunitytobase',function (req, res) {
        res.send("data saved");
 })
 
+app.post('/updatecommunitydetails', function(req,res) {
+  console.log(req.body);
+        community.updateOne( { "_id" : req.body._id}, {$set : req.body } , function(err,result)
+        {
+          if(err)
+          throw err
+          else
+          {
+            res.send("DATA UPDATED SUCCESFULLY")
+          }
+        })
+})
 
+app.get('/getOwnCommunity',function(req,res) {
+  if(req.session.isLogin){
+    console.log("okokok")
+    community.find({'ownerId':req.session.iding}, function(err, result){
+     console.log(result);
+      res.send(result);
+});
+
+} else {
+    res.redirect('/');
+  }
+})
 
 console.log("Running on port 8000");
 app.listen(8000)
