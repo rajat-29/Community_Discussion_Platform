@@ -121,6 +121,7 @@ passport.deserializeUser(function(user,done){
     desc: String,
     commphoto: String,
     ownerId : String,
+    memberno: String,
    })
 
    var users = mongoose.model('usernames', userSchema);
@@ -153,6 +154,7 @@ app.post('/checkLogin',function (req, res)         /*post data */
       }
         else
         {
+          console.log(result)
           if(result.flag == 0)
           {
            res.send("false");
@@ -212,9 +214,9 @@ app.get('/home' , function(req,res){        /*get data */
      }
  })
 
- app.get("/404" ,function(req,res) {
+app.get("/404" ,function(req,res) {
    res.render("404");
- })
+})
 
 app.post('/checkemail',function (req, res) {
 
@@ -912,14 +914,54 @@ app.get('/getOwnCommunity',function(req,res) {
   if(req.session.isLogin){
     console.log("okokok")
     community.find({'ownerId':req.session.iding}, function(err, result){
-     console.log(result);
+     //console.log(result);
       res.send(result);
-});
+    });
 
-} else {
+  } else {
     res.redirect('/');
   }
 })
+
+app.get('/searchingCommunity', function(req,res) {
+  if(req.session.isLogin) {
+      res.render('searchingCommunity', {data: userdata});
+   } else {
+    res.render('index');
+    }
+})
+
+app.get('/getCommunityforSearch',function(req,res){
+
+    community.find({}).exec(function(error,result){
+        if(error)
+        throw error;
+        else {
+          result.abc = req.session.iding;
+          console.log('')
+            res.send(JSON.stringify(result));
+        }
+    })
+})
+
+app.get('/:pro',function(req,res) {
+      var id = req.params.pro.toString();
+      //console.log(id);
+      community.findOne({ "_id": id },function(err,reses)
+      {
+          if(err)
+          throw error;
+          else
+          {
+            console.log(reses);
+           // userdata.commName = result.name;
+            console.log(reses.location)
+             res.render('communityInformation', {data: userdata,newdata:reses});
+              //res.send("data deleted SUCCESFULLY")
+          }
+      });
+ })
+
 
 console.log("Running on port 8000");
 app.listen(8000)

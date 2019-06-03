@@ -91,3 +91,8 @@ function addToDOM(obj,s)
 document.getElementById('can-create-community').appendChild(div1)    
 
 }
+
+function searchingCommunity()
+{
+    window.location = "/searchingCommunity";
+}
