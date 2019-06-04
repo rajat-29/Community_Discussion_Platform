@@ -1,11 +1,32 @@
 $(document).ready(function() {
   initaliseTable();
+  groupmembers();
 })
 
 function initaliseTable() {
     var s="true"
     var xml=new XMLHttpRequest();
     xml.open("GET","/getOwnCommunity");
+    xml.setRequestHeader("Content-Type","application/json");
+    console.log("okokokoko");
+    xml.addEventListener("load",function()
+    {
+     
+     var data=JSON.parse(xml.responseText);
+     console.log(data);
+      for(var i=0;i<data.length;i++)
+      {
+       addToDOM(data[i],s)
+      }
+     // initaliseTable1();
+     })
+    xml.send();
+}
+
+function groupmembers() {
+    var s="false"
+    var xml=new XMLHttpRequest();
+    xml.open("GET","/getOtherCommunity");
     xml.setRequestHeader("Content-Type","application/json");
     console.log("okokokoko");
     xml.addEventListener("load",function()
@@ -53,7 +74,7 @@ function addToDOM(obj,s)
     var p=document.createElement('p')
     var a2=document.createElement('a');
     a2.setAttribute("class","comnametxt")
-    a2.setAttribute("href","")
+    a2.href = "/discussion/" + filenaming;
     a2.innerHTML=obj.name;
 
     var a3=document.createElement('a')
@@ -61,6 +82,7 @@ function addToDOM(obj,s)
     a3.setAttribute("href","")
     a3.setAttribute("style", "padding-left:5px;")
     a3.innerHTML="Request";
+    a3.href = '/setting/' + filenaming;
 
     p.appendChild(a2)
     p.appendChild(a3)

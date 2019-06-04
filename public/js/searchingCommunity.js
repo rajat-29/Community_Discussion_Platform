@@ -25,13 +25,9 @@ function loadFromServer()
     request.onload = function()
     {
         commArr = JSON.parse(request.responseText);
-
-//console.log(commArr);
-
         for(i in commArr)
         {
-
-                 addToDom(commArr[i]);
+            addToDom(commArr[i]);
         }
     }
 }
@@ -70,7 +66,7 @@ function addToDom(ob)
     var div11 = document.createElement("div");
     div11.setAttribute("class","col-sm-2 col-xs-3 col-lg-1 col-md-2");
     var img = document.createElement("img");
-    img.setAttribute("src",ob.commphoto);
+    img.src = "/uploads/default.png"
     img.setAttribute("style","height: 50px;width: 50px;border: 3px solid #fff;background: rgb(255, 255, 255) !important;box-shadow: 0 0 10px rgba(0,0,0,0.5);")
     div11.appendChild(img);
     div1.appendChild(div11);
@@ -94,6 +90,9 @@ function addToDom(ob)
     btn.innerHTML = "JOIN";
     else if(ob.rule=="Permission"){
         btn.innerHTML = "ASK TO JOIN";
+    }
+    btn.onclick=function(){
+        window.location = "/joincommunity/" + ob._id;
     }
     div131.appendChild(btn);
     div13.appendChild(div131);
@@ -130,4 +129,6 @@ function addToDom(ob)
     console.log(parentDiv)
 
 }
+
+
 

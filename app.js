@@ -119,6 +119,8 @@ var userSchema = new mongoose.Schema({					/*define structure of database*/
     bitmore: String,
     expectation: String,
     photoname: String,
+    owned: Array,
+    joinedComm: Array,
 })
 
 // tag data base schema //
@@ -141,30 +143,13 @@ var communitySchema = new mongoose.Schema({
     commphoto: String,
     ownerId : String,
     memberno: String,
+    commuser: Array,
 })
 
-// community to member data base scehma //
-var cmSchema = new mongoose.Schema({
-  communityid : String,
-  ownerid : String,
-  requestedMembers : Array,
-  joinedMembers : Array
-})
-            
-//  member to community data base scehma //                  
-var mcSchema = new mongoose.Schema({
-  memberid: String,
-  communityid: String,
-  ownedCommunities: Array,
-  requestedCommunities: Array,
-  joinedCommunities: Array
-})
 
 var users = mongoose.model('usernames', userSchema);
 var t = mongoose.model('tags', tagSchema);
 var community = mongoose.model('communities', communitySchema);
-var cm = mongoose.model('communityMember',cmSchema);
-var mc = mongoose.model('memberCommunity',mcSchema);
 
 let transporter = mailer.createTransport({
     service: 'gmail',
@@ -923,14 +908,23 @@ app.post('/addNewCommunitytobase',function (req, res) {
       req.body.owner = req.session.name;
       req.body.ownerId = req.session.iding;
       req.body.memberno = '1';
-       console.log(req.body);
+       //console.log(req.body);
       community.create(req.body,function(error,result)
       {
         if(error)
         throw error;
         else
         {
-         // console.log(result);
+          console.log(result._id);
+          var cid = result._id;
+          users.updateOne(  { "_id" : req.session.iding } , { $push : { owned : cid } } , function(err,result)
+          {
+            if(err)
+            throw err;
+            else {
+              console.log(result);
+            }
+          })
         }
       })
        res.send("data saved");
@@ -962,6 +956,16 @@ app.get('/getOwnCommunity',function(req,res) {
   }
 })
 
+app.get('/getOtherCommunity',function(req,res) {
+   console.log('aaya bapu')
+   //console.log(req.session.iding)
+    var abc = ObjectId(req.session.iding);
+    community.find({ commuser: abc}, function(err, result){
+     console.log(result);
+      res.send(result);
+    });
+})
+
 app.get('/searchingCommunity', function(req,res) {
   if(req.session.isLogin) {
       res.render('searchingCommunity', {data: userdata});
@@ -971,13 +975,13 @@ app.get('/searchingCommunity', function(req,res) {
 })
 
 app.get('/getCommunityforSearch',function(req,res){
-var abc = ObjectId(req.session.iding);
-console.log(abc);
+   var abc = ObjectId(req.session.iding);
+   console.log(abc);
     community.find({'ownerId' : { $ne : abc }}).exec(function(error,result){
         if(error)
         throw error;
         else {
-                //result.abc = req.session.iding;
+                
           console.log('')
             res.send(JSON.stringify(result));
         }
@@ -1048,6 +1052,69 @@ app.post('/updatecommdetails', function(req,res) {
           {
             res.send("DATA UPDATED SUCCESFULLY")
           }
+        })
+})
+
+app.get('/inviteUser/:pros',function(req,res) {
+      var id = req.params.pros.toString();
+      //console.log(id);
+       community.findOne({ "_id": id },function(err,reses)
+      {
+          if(err)
+          throw err;
+          else
+          {
+            console.log(reses);
+           // userdata.commName = result.name;
+            //console.log(reses.location)
+             res.render('InfocommunitySettings', {data: userdata,newdata:reses});
+              //res.send("data deleted SUCCESFULLY")
+          }
+      });
+})
+
+app.get('/discussion/:pros',function(req,res) {
+      var id = req.params.pros.toString();
+      //console.log(id);
+       community.findOne({ "_id": id },function(err,reses)
+      {
+          if(err)
+          throw err;
+          else
+          {
+            console.log(reses);
+           // userdata.commName = result.name;
+            //console.log(reses.location)
+             res.render('communityDiscussions', {data: userdata,newdata:reses});
+              //res.send("data deleted SUCCESFULLY")
+          }
+      });
+})
+
+app.get('/joincommunity/:pros',function(req,res) {
+      var id = req.params.pros.toString();
+      var abc = ObjectId(req.session.iding);
+      console.log(id)
+
+      community.updateOne(  { "_id" : id } , { $push : { commuser : abc } } , function(err,result)
+        {
+            if(err)
+            throw err;
+          else
+          {
+              //res.render('searchingCommunity', {data: userdata});
+              users.updateOne(  { "_id" : abc } , { $push : { joinedComm : id } } , function(err,result)
+               {
+                 if(err)
+                  throw err;
+                    else
+                 {
+                         res.render('searchingCommunity', {data: userdata});
+                 }
+          
+        })
+          }
+          
         })
 })
 

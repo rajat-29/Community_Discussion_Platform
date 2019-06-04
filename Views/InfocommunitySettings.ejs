@@ -42,6 +42,19 @@
     border: 1px solid #fff;
 }
 
+#dpimage
+{
+    cursor: pointer !important;
+    width: 40px;
+    margin-left: 30px;
+    margin-top: 10px;
+    margin-right: 10px;
+    float: right;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 0;
+}
+
   </style>
 
 
@@ -144,59 +157,42 @@
 <!--  for -->
 
 
-    <div class="container">
-    <div style="margin-top:30px;">  
-        <div class="col-12">
-            <div class="card allSidesSoft">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <form class="image-container communitypicform" method="post" enctype="multipart/form-data" action="">
-                            <img src="/<%=newdata.commphoto%>" id="community-profile-image" style="width: 150px; height: 150px" class="img-thumbnail allSidesSoft">
-                            <div class="middle">
-                                <input type="button" class="btn btn-default btn-sm" id="changeProfilePicBtn" value="Change">
-                                <input type="file"  id="communityProfileUpload" name="communityImage">
-                            </div>
-                        </form>
-                        <div class="ml-auto">
-                            <input type="button" class="btn btn-danger btn-sm d-none" id="btnDiscard" value="Discard Changes">
-                        </div>
-                    </div>
-                    <br>
-           
-                    <div class="panel-group">
-                        <div class="form-group">
-                           <label>Community Name :</label>
-                           <input type="text" value="<%=newdata.name%>" class="form-control" name="communityName" maxlength="70" required="" id="commname">
-                        </div>
-                        <div class="form-group">
-                            <label>Community Rule:</label>
-                            <select class="form-control" name="communityMembershipRule" id="commrule">
-                                <option value="Permission">Private</option>
-                                <option value="Direct" selected="">Direct</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Community Description:</label>
-                            <textarea type="text" class="form-control trumbowyg-textarea" rows="15" name="communityDescription" id="description" required="" tabindex="-1" style="height: 260px;"></textarea>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                          <input type="submit" class="btn btn-primary pull-right btnEditForm" style="margin:1px" value="Update" onclick="EditcommunityList()">
-                      </div>
-          
-                </div>
-           </div>
-        </div>
-    </div>
+<div class="container">
+<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12" style="padding-bottom:5px;border-bottom:1px solid #c4c4c4">
+  <nonlink class="manageCommunity-head-btn" style="cursor: context-menu;">
+    Manage Community
+  </nonlink>
+  <a href="/inviteUser/<%=newdata._id%>" style="float:right;font-weight:600">
+    Invite Users
+  </a>
+  
+  <a class="pc" href="/editCommunity/<%=newdata._id%>" style="float:right;font-weight:600;margin-right:15px">
+    Edit Community
+  </a>
+  
 </div>
 
+    
+  </div>
+  <div class="col-sm-3 col-lg-3 col-md-3 col-xs-7 manageCommunity-commuity-div" style="margin-left: 10%;">
 
-<!--Header-->
+    <input type="text" class="form-control" id="finding-input" placeholder="Enter name..." style="margin-top:4px;" onkeyup="findUsers()">
 
+  </div>
+  <div class="col-sm-7 col-lg-7 col-md-7 col-xs-5" style="border-left:1px solid #CCCCCC">
+    <div id="comlist">
+
+
+      <div class="col-sm-12 allcoms well well-sm" style="margin-top:5px;font-weight:bold" id="">  <center>No any user</center>  </div>  </div>
+  </div>
+</div>
+
+</div> <!--Header-->
 
     
 
 </div></div></div>
+
 
                     <div>
                       
@@ -209,40 +205,7 @@
 
         </div>
   
-        <script src="/js/trumbowgy.js"></script>
 
-<script type="text/javascript">
 
-document.getElementById('commrule').value = <%-JSON.stringify(newdata)%>.rule;
-
-var commname = document.getElementById("commname");
-var commrule = document.getElementById("commrule");
-var description = document.getElementById("description");
-
-function EditcommunityList()
-{
-  var obj1 = new Object();
-  obj1._id = <%-JSON.stringify(newdata)%>._id;
-  obj1.name = commname.value;
-  obj1.rule = commrule.value;
-  obj1.desc = description.value;
-  console.log(obj1);
-
-  var request = new XMLHttpRequest();
-      request.open('POST', '/updatecommdetails');
-      request.setRequestHeader("Content-Type","application/json");
-      request.send(JSON.stringify(obj1))
-      request.addEventListener("load",function()
-          {
-             console.log(request.responseText);
-          });
-      window.location = '/'+ obj1._id;
-}
-
-$.trumbowyg.svgPath = '/css/trumbowgy.svg';
-    $('#description').trumbowyg();
-       
-</script>
-
-	</body>
-	</html>
+  </body>
+  </html>
