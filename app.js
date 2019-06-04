@@ -1,18 +1,19 @@
-  var express = require('express')
-  var path = require('path')
-  var app = express()
-  var session = require('express-session');
-  var ejs = require('ejs');
-  var mongodb = require('mongodb');
-  var MongoDataTable = require('mongo-datatable');
-  var mailer = require('nodemailer');
-  var multer = require('multer');
-  var GitHubStrategy = require('passport-github').Strategy;
-  var passport = require('passport');
-  app.use(passport.initialize());
-  app.use(passport.session());
-  var MongoClient = mongodb.MongoClient;
-  var userdata = new Object();
+var express = require('express')
+var path = require('path')
+var app = express()
+var session = require('express-session');
+var ejs = require('ejs');
+var mongodb = require('mongodb');
+var MongoDataTable = require('mongo-datatable');
+var mailer = require('nodemailer');
+var multer = require('multer');
+var GitHubStrategy = require('passport-github').Strategy;
+var passport = require('passport');
+app.use(passport.initialize());
+app.use(passport.session());
+ObjectId = require('mongodb').ObjectID;
+var MongoClient = mongodb.MongoClient;
+var userdata = new Object();
 
 passport.serializeUser(function(user,done){
         done(null,user);
@@ -22,72 +23,88 @@ passport.deserializeUser(function(user,done){
         done(null,user);
 });
 
-  passport.use(new GitHubStrategy({
-    clientID: 'd5a2f28b6d23da7ffbf2',
-    clientSecret: '613eb429246db76ea0ff8533f4e7a519721d6c66',
-    callbackURL: "/auth/github/callback",
-    session:true
-  },
-  function(accessToken, refreshToken, profile, cb) {
+passport.use(new GitHubStrategy({
+clientID: 'd5a2f28b6d23da7ffbf2',
+clientSecret: '613eb429246db76ea0ff8533f4e7a519721d6c66',
+callbackURL: "/auth/github/callback",
+session:true
+},
+function(accessToken, refreshToken, profile, cb) {
     console.log('###############################');
             //console.log('passport callback function fired');
           //  console.log(profile);
-
             return cb(null,profile);
   })
 );
 
   //Set Storage Engine
 
-  var photoname ;
-  var community_photo;
+var photoname ;
+var community_photo;
 
-    var storage = multer.diskStorage({
-      destination : './public/uploads/',
-      filename : function(req, file, callback)
+// user photo upload //
+var storage = multer.diskStorage({
+destination : './public/uploads/',
+    filename : function(req, file, callback)
       {
-        photoname=file.fieldname + '-' + userdata.ides + '@' +path.extname(file.originalname)
+        photoname=file.fieldname + '-' + Date.now() + '@' +path.extname(file.originalname)
         req.session.imagePath = photoname;
         callback(null,photoname);
       }
-    })
+})
 
-     var upload = multer({
+var upload = multer({
       storage : storage,
-    }).single('myFile');
+}).single('myFile');
 
- 
+// community photo upload //
+
+var storagecomm = multer.diskStorage({
+destination : './public/uploads/',
+    filename : function(req, file, callback)
+      {
+        community_photo=file.fieldname + '-' + userdata.ides + '@' +path.extname(file.originalname)
+        req.session.imagePath = community_photo;
+        callback(null,community_photo);
+      }
+})
+
+var uploadcomm = multer({
+      storage : storagecomm,
+}).single('myFile');
 
   // view engine setup
-  app.set('views', path.join(__dirname, 'Views'));
-  app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'Views'));
+app.set('view engine', 'ejs');
 
-  app.use(express.static(path.join(__dirname,'/public'))) /*folder path*/
-  app.use(express.static(path.join(__dirname,'public/uploads')));
+app.use(express.static(path.join(__dirname,'/public'))) /*folder path*/
+app.use(express.static(path.join(__dirname,'public/uploads')));
 
-  app.use(express.urlencoded({extended: true}))
-  app.use(express.json())									/*include express*/
-  app.use(session({
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())									/*include express*/
+app.use(session({
     secret: "xYzUCAchitkara",
     resave: false,
     saveUninitialized: true,
-    }))
+}))
 
-  var mongoose = require('mongoose');						/*include mongo*/
-  var mongoDB = 'mongodb://localhost/user';
+var mongoose = require('mongoose');						/*include mongo*/
+var mongoDB = 'mongodb://localhost/user';
 
-  mongoose.set('useFindAndModify', false);
-  mongoose.connect(mongoDB,{ useNewUrlParser: true});
+mongoose.set('useFindAndModify', false);
+mongoose.connect(mongoDB,{ useNewUrlParser: true});
 
-  mongoose.connection.on('error',(err) => {					/*database connect*/
+mongoose.connection.on('error',(err) => {					/*database connect*/
     console.log('DB connection Error');
-  })
+})
 
-  mongoose.connection.on('connected',(err) => {
+mongoose.connection.on('connected',(err) => {
     console.log('DB connected');
-  })
+})
 
-   var userSchema = new mongoose.Schema({					/*define structure of database*/
+
+// user data base scehema //
+var userSchema = new mongoose.Schema({					/*define structure of database*/
     name: String,
     email: String,
     password: String,
@@ -102,15 +119,17 @@ passport.deserializeUser(function(user,done){
     bitmore: String,
     expectation: String,
     photoname: String,
-  })
+})
 
-   var tagSchema = new mongoose.Schema({
+// tag data base schema //
+var tagSchema = new mongoose.Schema({
     tags: String,
     createdBy: String,
     createDate: String,
-   })
+})
 
-   var communitySchema = new mongoose.Schema({
+// community data base scheme //
+var communitySchema = new mongoose.Schema({
     name: String,
     rule: String,
     location: String,
@@ -122,19 +141,38 @@ passport.deserializeUser(function(user,done){
     commphoto: String,
     ownerId : String,
     memberno: String,
-   })
+})
 
-   var users = mongoose.model('usernames', userSchema);
-   var t = mongoose.model('tags', tagSchema);
-   var community = mongoose.model('communities', communitySchema);
+// community to member data base scehma //
+var cmSchema = new mongoose.Schema({
+  communityid : String,
+  ownerid : String,
+  requestedMembers : Array,
+  joinedMembers : Array
+})
+            
+//  member to community data base scehma //                  
+var mcSchema = new mongoose.Schema({
+  memberid: String,
+  communityid: String,
+  ownedCommunities: Array,
+  requestedCommunities: Array,
+  joinedCommunities: Array
+})
 
-   let transporter = mailer.createTransport({
+var users = mongoose.model('usernames', userSchema);
+var t = mongoose.model('tags', tagSchema);
+var community = mongoose.model('communities', communitySchema);
+var cm = mongoose.model('communityMember',cmSchema);
+var mc = mongoose.model('memberCommunity',mcSchema);
+
+let transporter = mailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'codemailler12@gmail.com',
       pass: 'codequotient12'
     },
-   });
+});
 
 app.post('/checkLogin',function (req, res)         /*post data */
   {
@@ -884,6 +922,7 @@ app.post('/addNewCommunitytobase',function (req, res) {
       req.body.email = req.session.email;
       req.body.owner = req.session.name;
       req.body.ownerId = req.session.iding;
+      req.body.memberno = '1';
        console.log(req.body);
       community.create(req.body,function(error,result)
       {
@@ -932,12 +971,13 @@ app.get('/searchingCommunity', function(req,res) {
 })
 
 app.get('/getCommunityforSearch',function(req,res){
-
-    community.find({}).exec(function(error,result){
+var abc = ObjectId(req.session.iding);
+console.log(abc);
+    community.find({'ownerId' : { $ne : abc }}).exec(function(error,result){
         if(error)
         throw error;
         else {
-          result.abc = req.session.iding;
+                //result.abc = req.session.iding;
           console.log('')
             res.send(JSON.stringify(result));
         }
@@ -950,7 +990,7 @@ app.get('/:pro',function(req,res) {
       community.findOne({ "_id": id },function(err,reses)
       {
           if(err)
-          throw error;
+          throw err;
           else
           {
             console.log(reses);
@@ -961,6 +1001,57 @@ app.get('/:pro',function(req,res) {
           }
       });
  })
+
+app.get('/setting/:pros',function(req,res) {
+      var id = req.params.pros.toString();
+     // console.log(id);
+      community.findOne({ "_id": id },function(err,reses)
+      {
+          if(err)
+          throw err;
+          else
+          {
+            console.log(reses);
+           // userdata.commName = result.name;
+            console.log(reses.location)
+             res.render('communitySettings', {data: userdata,newdata:reses});
+              //res.send("data deleted SUCCESFULLY")
+          }
+      });
+})
+
+app.get('/editCommunity/:pros',function(req,res) {
+      var id = req.params.pros.toString();
+      //console.log(id);
+       community.findOne({ "_id": id },function(err,reses)
+      {
+          if(err)
+          throw err;
+          else
+          {
+            console.log(reses);
+           // userdata.commName = result.name;
+            console.log(reses.location)
+             res.render('editcommunitySettings', {data: userdata,newdata:reses});
+              //res.send("data deleted SUCCESFULLY")
+          }
+      });
+})
+
+app.post('/updatecommdetails', function(req,res) {
+  //console.log(req.body);
+        community.updateOne( { "_id" : req.body._id}, {$set : req.body } , function(err,result)
+        {
+          if(err)
+          throw err
+          else
+          {
+            res.send("DATA UPDATED SUCCESFULLY")
+          }
+        })
+})
+
+
 
 
 console.log("Running on port 8000");

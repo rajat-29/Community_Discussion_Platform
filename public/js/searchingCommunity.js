@@ -1,6 +1,6 @@
 var refresh = document.getElementById("first-btn");
 refresh.addEventListener("click", function() {
-     window.location = "/searchingCommunity";
+     window.location = "/openCommunityPage";
 })
 
 var searchbtn = document.getElementById("search-btn");

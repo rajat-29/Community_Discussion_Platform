@@ -69,5 +69,10 @@ function getMonths(mno) {
 }
 
 refresh.addEventListener("click", function() {
-     window.location = "/addNewCommunity";
+     window.location = "/openCommunityPage";
 })
+
+function searchingCommunity()
+{
+    window.location = "/searchingCommunity";
+}

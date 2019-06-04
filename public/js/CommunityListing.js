@@ -24,6 +24,8 @@ function initaliseTable() {
 
 function addToDOM(obj,s)
 {
+    var filenaming = obj._id;
+    console.log(filenaming);
     var div1=document.createElement('div');
     div1.setAttribute("class","col-sm-12 col-xs-12 myCommunity community-div");
     div1.setAttribute("style","marginTop:5px;");
@@ -74,8 +76,9 @@ function addToDOM(obj,s)
 
         var a4=document.createElement('a')
         a4.setAttribute("class","community-short-btn")
-        a4.setAttribute("href","")
+//a4.setAttribute("href","")
         a4.setAttribute("style","float:right;")
+        // a4.href = "filenaming";
         var l1=document.createElement('label')
         l1.setAttribute("class","label label-success")
         l1.setAttribute("style","cursor:pointer !important;")
@@ -85,6 +88,12 @@ function addToDOM(obj,s)
         a4.appendChild(l1)
         div4.appendChild(a4)
         div1.appendChild(div4)
+        div4.onclick=function(){
+                console.log('ayayay')
+            window.location = '/setting/' + filenaming;
+        }
+
+    
     }
 
 
