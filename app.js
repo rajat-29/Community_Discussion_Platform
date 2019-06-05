@@ -121,6 +121,7 @@ var userSchema = new mongoose.Schema({					/*define structure of database*/
     photoname: String,
     owned: Array,
     joinedComm: Array,
+    asktojoincomm: Array,
 })
 
 // tag data base schema //
@@ -129,6 +130,10 @@ var tagSchema = new mongoose.Schema({
     createdBy: String,
     createDate: String,
 })
+
+
+var users = mongoose.model('usernames', userSchema);
+var t = mongoose.model('tags', tagSchema);
 
 // community data base scheme //
 var communitySchema = new mongoose.Schema({
@@ -143,12 +148,10 @@ var communitySchema = new mongoose.Schema({
     commphoto: String,
     ownerId : String,
     memberno: String,
-    commuser: Array,
+    commuser: [{'type': mongoose.Schema.Types.ObjectId , 'ref':users}],
+    commasktojoin: [{'type': mongoose.Schema.Types.ObjectId , 'ref':users}],
 })
 
-
-var users = mongoose.model('usernames', userSchema);
-var t = mongoose.model('tags', tagSchema);
 var community = mongoose.model('communities', communitySchema);
 
 let transporter = mailer.createTransport({
@@ -925,6 +928,7 @@ app.post('/addNewCommunitytobase',function (req, res) {
               console.log(result);
             }
           })
+
         }
       })
        res.send("data saved");
@@ -966,6 +970,16 @@ app.get('/getOtherCommunity',function(req,res) {
     });
 })
 
+app.get('/getPendingCommunity',function(req,res) {
+  // console.log('aaya bapu')
+   //console.log(req.session.iding)
+    var abc = ObjectId(req.session.iding);
+    community.find({ commasktojoin: abc}, function(err, result){
+     console.log(result);
+      res.send(result);
+    });
+})
+
 app.get('/searchingCommunity', function(req,res) {
   if(req.session.isLogin) {
       res.render('searchingCommunity', {data: userdata});
@@ -977,12 +991,11 @@ app.get('/searchingCommunity', function(req,res) {
 app.get('/getCommunityforSearch',function(req,res){
    var abc = ObjectId(req.session.iding);
    console.log(abc);
-    community.find({'ownerId' : { $ne : abc }}).exec(function(error,result){
+
+    community.find({ $and: [{ ownerId : { $not : { $eq : abc }}},{commuser : {$nin : [abc] }},{commasktojoin : {$nin : [abc] }}] }).exec(function(error,result){
         if(error)
         throw error;
         else {
-                
-          console.log('')
             res.send(JSON.stringify(result));
         }
     })
@@ -1091,33 +1104,114 @@ app.get('/discussion/:pros',function(req,res) {
       });
 })
 
-app.get('/joincommunity/:pros',function(req,res) {
-      var id = req.params.pros.toString();
+app.post('/joincommunity',function(req,res) {
+     
       var abc = ObjectId(req.session.iding);
-      console.log(id)
+      //console.log(id)
 
-      community.updateOne(  { "_id" : id } , { $push : { commuser : abc } } , function(err,result)
+        console.log(req.body);
+      if(req.body.rule == "Direct")
+      {
+        community.updateOne({"_id" :req.body._id},{ $push : {commuser : abc}},function(error,result)
         {
-            if(err)
-            throw err;
-          else
-          {
-              //res.render('searchingCommunity', {data: userdata});
-              users.updateOne(  { "_id" : abc } , { $push : { joinedComm : id } } , function(err,result)
-               {
-                 if(err)
-                  throw err;
-                    else
-                 {
-                         res.render('searchingCommunity', {data: userdata});
-                 }
-          
+            if(error)
+            throw error;
+            else {
+                res.send("USER JOINED WITH COMMUNITY");
+            }
         })
-          }
-          
+
+        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+        users.updateOne({"_id" : abc},{ $push : {joinedComm : req.body._id }},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                console.log("ENTERED IN USER DATABASE ALSO")
+            }
         })
+      }
+
+       else if(req.body.rule == "Permission")
+      {
+        community.updateOne({"_id" : req.body._id},{ $push : {commasktojoin : abc}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                res.send("USER HAS REQUESTED THIS COMMUNITY");
+            }
+        })
+
+        users.updateOne({"_id" : abc},{ $push : {asktojoincomm : req.body._id }},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                console.log("ENTERED IN USER DATABASE ALSO")
+            }
+        })
+      }
 })
 
+app.post('/getUsers',function(req,res) {
+    console.log(req.body._id)
+   if(req.session.isLogin){
+      console.log("----------------------"+req.body._id);
+      var abc = ObjectId(req.body._id );
+    community.findOne({ "_id" : abc}).populate("commuser"). // only return the Persons name
+     exec(function (err, result) {
+     if (err) 
+      return err;
+    else
+    {
+      console.log("result"+result)
+      res.send(JSON.stringify(result.commuser))
+    }
+    })
+    }
+})
+
+app.post('/getRequest',function(req,res) {
+    console.log(req.body._id)
+   if(req.session.isLogin){
+      console.log("----------------------"+req.body._id);
+      var abc = ObjectId(req.body._id );
+    community.findOne({ "_id" : abc}).populate("commasktojoin"). // only return the Persons name
+     exec(function (err, result) {
+     if (err) 
+      return err;
+    else
+    {
+      console.log("result"+result)
+      res.send(JSON.stringify(result.commasktojoin))
+    }
+    })
+    }
+})
+
+app.post('/leavePendingcommunity',function(req,res) {
+
+  var abc = ObjectId(req.session.iding);
+
+  community.updateOne({"_id" :req.body._id},{ $pull : {commasktojoin : abc}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+               // res.send("USER Left WITH COMMUNITY");
+            }
+        })
+
+  users.updateOne({"_id" :abc},{ $pull : {asktojoincomm : req.body._id}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                //res.send("USER Left WITH COMMUNITY");
+            }
+        })
+})
 
 
 

@@ -92,7 +92,18 @@ function addToDom(ob)
         btn.innerHTML = "ASK TO JOIN";
     }
     btn.onclick=function(){
-        window.location = "/joincommunity/" + ob._id;
+
+        var request = new XMLHttpRequest();
+        var filename = '/joincommunity';
+        request.open('POST',filename);
+        request.setRequestHeader("content-Type","application/JSON");
+        request.send(JSON.stringify(ob));
+        request.onload = function()
+        {
+            console.log(request.responseText);
+
+        }
+        parentDiv.removeChild(wrapperdiv);
     }
     div131.appendChild(btn);
     div13.appendChild(div131);

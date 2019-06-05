@@ -177,14 +177,14 @@
 
     
     <div class="panel-body allSidesSoft" style="background:#fff">
-        <a class="manageCommunity-child-btn manageCommunity-btn-active" id="UsersShowBtn">Users (<%=newdata.memberno%>)</a>
+        <a class="manageCommunity-child-btn manageCommunity-btn-active" id="UsersShowBtn" onclick="initaliseusers()"></a>
         <br>
         <a class="manageCommunity-child-btn" id="AdminsShowBtn">
             Managers (0)
         </a>
-        
-        
-        
+        <br>
+        <a class="manageCommunity-child-btn" id="invitedUserShowBtn" onclick="initaliserequests()">
+          Requests(0)</a>
         <br>
         <a class="manageCommunity-child-btn" id="invitedUserShowBtn">
           Invited Members (0)
@@ -203,10 +203,7 @@
 
 </div> <!--Header-->
 
-    
-
 </div></div></div>
-
 
                     <div>
                       
@@ -218,7 +215,180 @@
 
 
         </div>
+<script type="text/javascript">
+  var commid ="<%= newdata._id %>";
+  console.log(commid)
+$(document).ready(function() {
+    initaliseusers();
+    
+})
 
+function initaliseusers()
+{
+  var xml=new XMLHttpRequest();
+  xml.open("POST","/getUsers");
+  xml.setRequestHeader("Content-Type","application/json");
+    document.getElementById('comlist').innerHTML=""
+  xml.addEventListener("load",function()
+  {
+      var data=JSON.parse(xml.responseText);
+     // console.log("---------"+xml.responseText);
+     // console.log(data)
+      if(data.length==0)
+      {
+        noUser();
+      }
+      else
+      for(i in data)
+      {
+        addtoUserDOM(data[i])
+      }
+      document.getElementById('UsersShowBtn').innerHTML="Users ("+data.length+")"
+  })
+  xml.send(JSON.stringify({"_id":commid}));
+}
+
+function initaliserequests()
+{
+  var xml=new XMLHttpRequest();
+  xml.open("POST","/getRequest");
+  xml.setRequestHeader("Content-Type","application/json");
+    document.getElementById('comlist').innerHTML=""
+  xml.addEventListener("load",function()
+  {
+      var data=JSON.parse(xml.responseText);
+    //  console.log("---------"+xml.responseText);
+      //console.log(data)
+      if(data.length==0)
+      {
+        noUser();
+      }
+      else
+      for(i in data)
+      {
+        addtoUserDOM(data[i])
+      }
+      document.getElementById('invitedUserShowBtn').innerHTML="Requests ("+data.length+")"
+  })
+  xml.send(JSON.stringify({"_id":commid}));
+}
+
+function noUser()
+{
+  console.log('fdsfgsg')
+  var div1=document.createElement('div')
+  div1.setAttribute("class","col-sm-12 col-xs-12 allcoms community-user-div")
+  div1.setAttribute("style","margin-top:5px;display:flex;")
+  var div3=document.createElement('div')
+  div3.setAttribute("class","col-sm-8 col-xs-6 scrollable")
+  div3.setAttribute("style", "margin-top: 25px;");
+  var a2=document.createElement('a')
+  a2.setAttribute("class","comusername")
+  a2.innerHTML="There are no Users"
+  a2.setAttribute("href","")
+  div3.appendChild(a2)
+  div1.appendChild(div3)
+    document.getElementById('comlist').appendChild(div1)
+
+
+}
+
+
+function addtoUserDOM(obj)
+{
+  var div1=document.createElement('div')
+  div1.setAttribute("class","col-sm-12 col-xs-12 allcoms community-user-div")
+  div1.setAttribute("style","margin-top:5px;display:flex;")
+  var div2=document.createElement('div')
+  div2.setAttribute("class","col-sm-2 col-xs-3")
+  div2.setAttribute("style","padding:5px;")
+  var a1=document.createElement('a')
+  a1.setAttribute("href","")
+  var img1=document.createElement('img')
+  img1.setAttribute("src",obj.photoname)
+  img1.setAttribute("class","community-member-pic")
+  img1.setAttribute("id","dpimage")
+  img1.setAttribute("style", "width:50px;height:50px;")
+  a1.appendChild(img1)
+  div2.appendChild(a1)
+  div1.appendChild(div2)
+  var div3=document.createElement('div')
+  div3.setAttribute("class","col-sm-8 col-xs-6 scrollable")
+  div3.setAttribute("style", "margin-top: 25px;");
+  var a2=document.createElement('a')
+  a2.setAttribute("class","comusername")
+  a2.innerHTML=obj.name
+  a2.setAttribute("href","")
+  div3.appendChild(a2)
+  div1.appendChild(div3)
+  var div4=document.createElement('div')
+  div4.setAttribute("class","col-sm-2 col-xs-3")
+  div4.setAttribute("style", "margin-top: 25px;")
+  var a3=document.createElement('a')
+  a3.setAttribute("class","community-user-short-btn")
+  a3.setAttribute("style","float:left")
+  var i1=document.createElement('i')
+  i1.setAttribute("class","fa fa-chevron-up")
+  a3.appendChild(i1);
+  a3.onclick=function(){
+    console.log('ayayayaya')
+    $.confirm({
+      title: 'Confirm Promote!',
+      content: "Do you really want promote this user? " ,
+      draggable: true,
+      buttons: {
+        Yes: {
+             btnClass: 'btn-success any-other-class',
+              action: function () {
+               btnClass: 'btn-red any-other-class'
+                   
+          }
+      },
+        No: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {      
+          }
+      },
+      }
+    });
+  }
+  div4.appendChild(a3)
+  var a4=document.createElement('a')
+  a4.setAttribute("class","community-user-short-btn")
+  a4.setAttribute("style","float:right")
+  var i2=document.createElement('i')
+  i2.setAttribute("class","fa fa-times")
+  a4.appendChild(i2);
+  a4.onclick=function(){
+        $.confirm({
+      title: 'Really want to Remove?',
+      content: "Do you really want remove this user? " ,
+      draggable: true,
+      buttons: {
+        Yes: {
+             btnClass: 'btn-success any-other-class',
+              action: function () {
+               btnClass: 'btn-red any-other-class'
+                   
+          }
+      },
+        No: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {      
+          }
+      },
+      }
+    });
+  }
+  div4.appendChild(a4)
+  div1.appendChild(div4)
+  document.getElementById('comlist').appendChild(div1)
+}
+
+
+
+
+</script>
 
 	</body>
 	</html>
