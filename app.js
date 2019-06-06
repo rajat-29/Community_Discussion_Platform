@@ -1037,6 +1037,24 @@ app.get('/setting/:pros',function(req,res) {
       });
 })
 
+app.get('/showCommunityMembers/:pros',function(req,res) {
+      var id = req.params.pros.toString();
+     // console.log(id);
+      community.findOne({ "_id": id },function(err,reses)
+      {
+          if(err)
+          throw err;
+          else
+          {
+            console.log(reses);
+           // userdata.commName = result.name;
+            console.log(reses.location)
+             res.render('showCommunityMembers', {data: userdata,newdata:reses});
+              //res.send("data deleted SUCCESFULLY")
+          }
+      });
+})
+
 app.get('/editCommunity/:pros',function(req,res) {
       var id = req.params.pros.toString();
       //console.log(id);

@@ -110,7 +110,7 @@
 
     
       <li>
-          <a href="" class="community-profile-option-btn">
+          <a href="/discussion/<%=newdata._id%>" class="community-profile-option-btn">
             Discussions
           </a>
       </li>
@@ -156,81 +156,27 @@
 
 <!--  for -->
 
+<div class="container">
 
-<div class="container" style="width:90% !important">
-  
-</div>
-<div class="container discussion-input discussion-container">
-  <div class="panel panel-default allSidesSoft" style="border-radius:0;border:1px solid rgb(182, 182, 182) !important;">
-    <div class="panel-body" style="padding:5px;background:#f9f9f9;">
-      <div class="col-sm-1 col-xs-3">
-        <a href="">
-          <img src="/<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage" style="border:2px solid #fff;width: 50px;height: 50px;">
-        </a>
-      </div>
-      <p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 20px;font-size: 20px;">
-        Start a discussion
-      </p>
+<div style="margin-top:20px;margin-bottom:50px">
+  <div class="col-sm-3 col-md-3 col-xs-4 col-lg-2">
+    <a class="communitymembers-head-btn" onclick="AllAdminList()" id="admins-list-btn" style="font-size: 20px;"><b>
+      Managers (0)</b>
+    </a>
+  </div>
+  <div class="col-sm-3 col-md-3 col-xs-4 col-lg-2">
+    <a class="communitymembers-head-btn active-link-btn" onclick="initaliseusers()" id="users-list-btn" style="font-size: 20px;"><b>Members (0)</b></a>
+  </div>
+  <div class="col-sm-12">
+      
+      <div id="comUsersList">
+
+ </div>
     </div>
-<form method="POST" enctype="multipart/form-data" id="discussionPostForm">
-
-    <div class="panel-body discussion-panel-body">
-      <div class="col-sm-12 col-xs-12" style="padding:0;border-top: 1px solid white;">
-        <input type="text" style="width:100%" class="discussion-input-title" name="title" placeholder="Enter a discussion title....." id="discussion-title" autocomplete="off" required="">
-      </div>
-    </div>
-
-    <div class="panel-body discussion-body" style="display: block;width: 100%;">
-        <div class="col-sm-12 col-xs-12" style="padding:0;border-top: 1px solid white;">
-          <!--Textarea-->
-            <textarea class="discussion-body-textarea" name="details" placeholder="Enter discussion details" id="discussion-details" autocomplete="off" required=""></textarea>
-          <!------------>
-        </div>
-
-        <div class="link-preview-main col-sm-12 col-xs-12">
-          <!-- preview here -->
-        </div>
-        <div class="tag-conatiner-custom-div">
-          <select id="tagEditor" name="tags" class="form-control input-sm select2-multiple select2-hidden-accessible" style="width:100%"  >
-            <!--Tags option appended here-->
-              <option class="tagSuggestInput">Hello</option>
-              <option class="tagSuggestInput">Hey</option>
-              <option class="tagSuggestInput">Rid</option>
-              <option class="tagSuggestInput">Ram</option>
-              <option class="tagSuggestInput">Ji</option>
-              <option class="tagSuggestInput">QWE</option>
-              <option class="tagSuggestInput">Looo</option>
-              <option class="tagSuggestInput">Bye</option>
-              <option class="tagSuggestInput">Bro</option>
-              <option class="tagSuggestInput">Li</option>
-          </select>
-        </div>
-
-        <div class="image-preview-main col-sm-12 col-xs-12" >
-          <center>
-            <img src="" class="allSides preview-image" id="previewImage">
-          </center>
-        </div>
-        <input type="file" multiple="" class="discussion-file-btn" name="discussionImageFile" id="discussionImageFile" accept="image/x-png,image/gif,image/jpeg">
-        <div class="col-sm-12 col-xs-12" style="padding:0; ">
-          
-          <a class="discussion-image-btn" id="discussionImageClickBtn" style="width:40px;height: 40px;"><i class="fa fa-image" ></i></a>
-          
-          <button class="btn btn-primary" type="submit" style="float:right" id="discussion-post">
-            <p class="discussion-post-btn-txt">Post</p>
-          
-          </button>
-        </div>
-    </div>
-  </form>
-  <div class="panel-footer"></div>
   </div>
 </div> <!--Header-->
 
-    
-
 </div></div></div>
-
 
                     <div>
                       
@@ -242,7 +188,93 @@
 
 
         </div>
+<script type="text/javascript">
+  var commid ="<%= newdata._id %>";
+  console.log(commid)
+$(document).ready(function() {
+    initaliseusers();
+    
+})
 
+function initaliseusers()
+{
+  var xml=new XMLHttpRequest();
+  xml.open("POST","/getUsers");
+  xml.setRequestHeader("Content-Type","application/json");
+    document.getElementById('comUsersList').innerHTML=""
+  xml.addEventListener("load",function()
+  {
+      var data=JSON.parse(xml.responseText);
+     // console.log("---------"+xml.responseText);
+     // console.log(data)
+      if(data.length==0)
+      {
+        noUser();
+      }
+      else
+      for(i in data)
+      {
+        addtoUserDOM(data[i])
+      }
+      document.getElementById('users-list-btn').innerHTML="Members ("+data.length+")"
+  })
+  xml.send(JSON.stringify({"_id":commid}));
+}
+
+
+function noUser()
+{
+  console.log('fdsfgsg')
+  var div1=document.createElement('div')
+  div1.setAttribute("class","col-sm-12 col-xs-12 allcoms community-user-div")
+  div1.setAttribute("style","margin-top:5px;display:flex;")
+  var div3=document.createElement('div')
+  div3.setAttribute("class","col-sm-8 col-xs-6 scrollable")
+  div3.setAttribute("style", "margin-top: 25px;");
+  var a2=document.createElement('a')
+  a2.setAttribute("class","comusername")
+  a2.innerHTML="There are no Users"
+  a2.setAttribute("href","")
+  div3.appendChild(a2)
+  div1.appendChild(div3)
+    document.getElementById('comUsersList').appendChild(div1)
+}
+
+function addtoUserDOM(obj)
+{
+  var div1=document.createElement('div')
+  div1.setAttribute("class","col-sm-12 col-xs-12 allcoms community-user-div comUsersFxnCall")
+  div1.setAttribute("style","margin-top:5px;")
+  var div2=document.createElement('div')
+  div2.setAttribute("class","col-sm-2 col-xs-5")
+  div2.setAttribute("style","padding:5px;")
+  var a1=document.createElement('a')
+  a1.setAttribute("href","")
+  var img1=document.createElement('img')
+  img1.setAttribute("src","/uploads/default.png")
+  img1.setAttribute("class","community-member-pic")
+
+  img1.setAttribute("style", "width:50px;height:50px;")
+  a1.appendChild(img1)
+  div2.appendChild(a1)
+  div1.appendChild(div2)
+  var div3=document.createElement('div')
+  div3.setAttribute("class","col-sm-10 col-xs-7 scrollable")
+  div3.setAttribute("style", "margin-top: 25px;");
+  var a2=document.createElement('a')
+  a2.setAttribute("class","comusername")
+  a2.innerHTML=obj.name
+  a2.setAttribute("href","")
+  div3.appendChild(a2)
+  div1.appendChild(div3)
+ 
+  document.getElementById('comUsersList').appendChild(div1)
+}
+
+
+
+
+</script>
 
 	</body>
 	</html>
