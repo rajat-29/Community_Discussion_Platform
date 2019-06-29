@@ -121,7 +121,7 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
 			data.to=to.value;
 			data.from="codemailler12@gmail.com";
 			data.subject=subject.value;
-			data.text= $("#comment").val();
+			data.html= $("#comment").val();
 		
 		console.log(data);
 		var request = new XMLHttpRequest();

@@ -55,6 +55,30 @@ function switchasuser()
     });
 }
 
+function switchasAdmin()
+{
+      $.confirm({
+    title: 'Switch as Admin',
+    content: 'Do you really want switch state...',
+    draggable: true,
+    buttons: {
+        Yes: {
+             btnClass: 'btn-success any-other-class',
+            action: function () {
+             btnClass: 'btn-red any-other-class'
+            window.location = "/switchasadmin";
+        }
+    },
+        No: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {
+            
+        }
+    },
+    }
+    });
+}
+
 function opentagpage()
 {
     window.location = "/userestag";

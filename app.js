@@ -15,6 +15,8 @@ ObjectId = require('mongodb').ObjectID;
 var MongoClient = mongodb.MongoClient;
 var userdata = new Object();
 
+// passport calling //
+
 passport.serializeUser(function(user,done){
         done(null,user);
 });
@@ -37,12 +39,13 @@ function(accessToken, refreshToken, profile, cb) {
   })
 );
 
-  //Set Storage Engine
+//Set Storage Engine For images
 
 var photoname ;
 var community_photo;
 
 // user photo upload //
+
 var storage = multer.diskStorage({
 destination : './public/uploads/',
     filename : function(req, file, callback)
@@ -73,7 +76,7 @@ var uploadcomm = multer({
       storage : storagecomm,
 }).single('myFile');
 
-  // view engine setup
+// view engine setup
 app.set('views', path.join(__dirname, 'Views'));
 app.set('view engine', 'ejs');
 
@@ -101,7 +104,6 @@ mongoose.connection.on('error',(err) => {					/*database connect*/
 mongoose.connection.on('connected',(err) => {
     console.log('DB connected');
 })
-
 
 // user data base scehema //
 var userSchema = new mongoose.Schema({					/*define structure of database*/
@@ -131,7 +133,6 @@ var tagSchema = new mongoose.Schema({
     createDate: String,
 })
 
-
 var users = mongoose.model('usernames', userSchema);
 var t = mongoose.model('tags', tagSchema);
 
@@ -154,6 +155,7 @@ var communitySchema = new mongoose.Schema({
 
 var community = mongoose.model('communities', communitySchema);
 
+// node mailler //
 let transporter = mailer.createTransport({
     service: 'gmail',
     auth: {
@@ -162,6 +164,7 @@ let transporter = mailer.createTransport({
     },
 });
 
+// login checking //
 app.post('/checkLogin',function (req, res)         /*post data */
   {
      // console.log(req.body);
@@ -210,6 +213,7 @@ app.post('/checkLogin',function (req, res)         /*post data */
       })     
 })
 
+// admin side //
 app.get('/home' , function(req,res){        /*get data */
    // console.log('yes raj');
     //console.log(userdata);
@@ -240,10 +244,12 @@ app.get('/home' , function(req,res){        /*get data */
      }
  })
 
+// user deactivated //
 app.get("/404" ,function(req,res) {
    res.render("404");
 })
 
+// check wheater email exits or not //
 app.post('/checkemail',function (req, res) {
 
      var emailes = req.body.email;
@@ -264,6 +270,7 @@ app.post('/checkemail',function (req, res) {
       })
 })
 
+// render new user //
 app.get('/addusers' , function(req,res){
   	if (req.session.isLogin) {
   		res.render('adduser', {data: userdata});
@@ -272,6 +279,7 @@ app.get('/addusers' , function(req,res){
   	}
 })
 
+// send mail to users node mailler //
 app.post('/sendMail', function(request,response) {
     console.log(request.body)
       transporter.sendMail(request.body, (error, info) => {
@@ -283,6 +291,7 @@ app.post('/sendMail', function(request,response) {
       })
 })
 
+// add new user //
 app.post('/addnewuser',function (req, res) {
       console.log(req.body);
       users.create(req.body,function(error,result)
@@ -297,6 +306,7 @@ app.post('/addnewuser',function (req, res) {
        res.send("data saved");
 })
 
+// render user list page //
 app.get('/userlist' , function(req,res){  
     console.log('yes raj');
     //console.log(userdata);
@@ -308,6 +318,7 @@ app.get('/userlist' , function(req,res){
     }
 })
 
+// data table on user list //
 app.post('/showuser' , function(req, res) {
 
   console.log(req.body.status)
@@ -426,6 +437,7 @@ app.post('/showuser' , function(req, res) {
   }
 });
 
+// render community list page //
 app.get('/communityList' , function(req,res){  
     console.log('yes raj');
     //console.log(userdata);
@@ -437,6 +449,7 @@ app.get('/communityList' , function(req,res){
     }
 })
 
+// data table on community list //
 app.post('/showcommunity' , function(req, res) {
 
   console.log(req.body.status)
@@ -525,6 +538,7 @@ app.post('/showcommunity' , function(req, res) {
   }
 })  
 
+// page to update user details //
 app.post('/updateuserdetails', function(req,res) {
   //console.log(req.body);
         users.updateOne( { "email" : req.body.email}, {$set : req.body } , function(err,result)
@@ -538,6 +552,7 @@ app.post('/updateuserdetails', function(req,res) {
         })
 })
 
+// render change password page //
 app.get('/changePassword' , function(req,res){ 
     if(req.session.isLogin) {
       res.render('changePassword', {data: userdata});
@@ -546,6 +561,7 @@ app.get('/changePassword' , function(req,res){
     }
 })
 
+// change admin password //
 app.post('/changePassword' , function(req,res){
     password = req.body;
     if(password.oldpass != req.session.password)
@@ -566,6 +582,7 @@ app.post('/changePassword' , function(req,res){
     }
 })
 
+// render user tag page //
 app.get('/userestag' , function(req,res){ 
     if(req.session.isLogin) {
       res.render('Tags',{data: userdata});
@@ -574,6 +591,7 @@ app.get('/userestag' , function(req,res){
     }
 })
 
+// add tages to database //
 app.post('/addtagtobase',function (req, res) {
       console.log(req.body);
       req.body.createdBy = req.session.name;
@@ -589,6 +607,7 @@ app.post('/addtagtobase',function (req, res) {
        res.send("data saved");
 })
 
+// data tables on tags //
 app.post('/showtags' , function(req, res) {
     console.log('tagib');
     var flag;
@@ -616,6 +635,7 @@ app.post('/showtags' , function(req, res) {
    });
 })
 
+// show tags //
 app.get('/listuserstags', function(req,res) {
     if(req.session.isLogin) {
       res.render('Listtags', {data: userdata});
@@ -624,12 +644,14 @@ app.get('/listuserstags', function(req,res) {
      }
 })
 
+// logout the user and admin //
 app.get('/yes', function(req,res) {
     req.session.isLogin = 0;
     req.session.destroy();
     res.render('index');
 })
 
+// upload admin image //
 app.post('/upload',(req,res) => {
       upload(req,res,(err)=>{
         if(err)
@@ -649,6 +671,7 @@ app.post('/upload',(req,res) => {
       })
 });
 
+// upload user image //
 app.post('/Userupload',(req,res) => {
       upload(req,res,(err)=>{
         if(err)
@@ -668,15 +691,74 @@ app.post('/Userupload',(req,res) => {
       })
 });
 
+// switch as user //
 app.get('/switchasuser', function(req,res) {
        if(req.session.isLogin) {
-         res.render('switchasUser');
+
+        users.updateOne( { "_id" : req.session.iding}, {$set: { "role" : "superAdmin"}} ,
+         function(err,result)
+        {
+          if(err)
+          throw err
+          else
+          {
+           // res.send("FLAG UPDATED SUCCESFULLY")
+           console.log(req.session)
+           userdata.role = "superAdmin"
+          }
+        })
+
+         res.render('switchasUser', {data: userdata});
     
        } else {
           res.render('index');
        }
 })
 
+app.get('/switchasadmin', function(req,res) {
+       if(req.session.isLogin) {
+
+        users.updateOne( { "_id" : req.session.iding}, {$set: { "role" : "Admin"}} ,
+         function(err,result)
+        {
+          if(err)
+          throw err
+          else
+          {
+           // res.send("FLAG UPDATED SUCCESFULLY")
+           console.log(req.session)
+           userdata.role = "Admin"
+          }
+        })
+
+         res.render('switchasUser', {data: userdata});
+    
+       } else {
+          res.render('index');
+       }
+})
+
+app.get('/switchUserPage', function(req,res) {
+       if(req.session.isLogin) {
+
+         res.render('editUserProfile', {data: userdata});
+    
+       } else {
+          res.render('index');
+       }
+})
+
+app.get('/switchAdminPage', function(req,res) {
+       if(req.session.isLogin) {
+
+         res.render('editUserProfile', {data: userdata});
+    
+       } else {
+          res.render('index');
+       }
+})
+
+// delete tags //
 app.delete('/:pro',function(req,res) {
       var id = req.params.pro.toString();
       console.log(id);
@@ -692,6 +774,7 @@ app.delete('/:pro',function(req,res) {
       });
  })
 
+// deactivate user //
 app.post('/deativateuserdata', function(req,res) {
   console.log(req.body._id);
         users.updateOne( { "_id" : req.body._id}, {$set: { "flag" : req.body.flag}} ,
@@ -706,6 +789,7 @@ app.post('/deativateuserdata', function(req,res) {
         })
 })
 
+// reactivate user //
 app.post('/reativateuserdata', function(req,res) {
   console.log(req.body._id);
         users.updateOne( { "_id" : req.body._id}, {$set: { "flag" : req.body.flag}} ,
@@ -720,6 +804,7 @@ app.post('/reativateuserdata', function(req,res) {
         })
 })
 
+// render edit button profile page //
 app.get('/editUserProfile', function(req,res) {
     if(req.session.isLogin) {
       res.render('editUserProfile', {data: userdata});
@@ -728,6 +813,7 @@ app.get('/editUserProfile', function(req,res) {
      }
 })
 
+// render update details of admin profile page //
 app.get('/editUserDetails', function(req,res) {
     if(req.session.isLogin) {
       res.render('editUserDetails', {data: userdata});
@@ -739,6 +825,7 @@ app.get('/editUserDetails', function(req,res) {
 
 // new user profile //
 
+// render user edit button profile page //
 app.get('/newUsereditProfile', function(req,res) {
     if(req.session.isLogin) {
       res.render('newUsereditProfile', {data: userdata});
@@ -747,6 +834,7 @@ app.get('/newUsereditProfile', function(req,res) {
      }
 })   
 
+// update  
 app.post('/updateeditUserDetails', function(req,res) {
         users.updateOne( { "email" : req.session.email}, {$set : req.body } , function(err,result)
         {
@@ -890,12 +978,18 @@ app.get('/openCommunityPage' , function(req,res){
       {
          res.render('communityUserCommunityPage', {data: userdata});
       }
+      else if(userdata.role == 'superAdmin' )
+      {
+         res.render('newUserCommunityPage', {data: userdata});
+      }
     }
     else
     {
       res.render('index');
     }
 })
+
+
 
 app.get('/addNewCommunity' , function(req,res){ 
     if(req.session.isLogin) {
@@ -904,6 +998,8 @@ app.get('/addNewCommunity' , function(req,res){
     res.render('index');
     }
 })
+
+
 
 app.post('/addNewCommunitytobase',function (req, res) {
      
@@ -980,6 +1076,10 @@ app.get('/getPendingCommunity',function(req,res) {
     });
 })
 
+
+
+
+
 app.get('/searchingCommunity', function(req,res) {
   if(req.session.isLogin) {
       res.render('searchingCommunity', {data: userdata});
@@ -1037,6 +1137,7 @@ app.get('/setting/:pros',function(req,res) {
       });
 })
 
+
 app.get('/showCommunityMembers/:pros',function(req,res) {
       var id = req.params.pros.toString();
      // console.log(id);
@@ -1072,6 +1173,15 @@ app.get('/editCommunity/:pros',function(req,res) {
           }
       });
 })
+
+
+
+
+
+
+
+
+
 
 app.post('/updatecommdetails', function(req,res) {
   //console.log(req.body);
