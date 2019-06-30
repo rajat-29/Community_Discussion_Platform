@@ -731,7 +731,7 @@ app.get('/switchasadmin', function(req,res) {
           }
         })
 
-         res.render('switchasUser', {data: userdata});
+         res.render('switchasAdmin', {data: userdata});
     
        } else {
           res.render('index');
@@ -1101,8 +1101,8 @@ app.get('/getCommunityforSearch',function(req,res){
     })
 })
 
-app.get('/:pro',function(req,res) {
-      var id = req.params.pro.toString();
+app.get('/info/:pros',function(req,res) {
+      var id = req.params.pros.toString();
       //console.log(id);
       community.findOne({ "_id": id },function(err,reses)
       {

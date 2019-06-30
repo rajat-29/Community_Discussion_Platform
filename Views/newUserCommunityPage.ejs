@@ -57,7 +57,7 @@
                               <a class="btn community-head-btn active" href="#" id="first-btn">
                                 <i class="fa fa-users"></i>
                               </a>
-                              <a class="btn community-head-btn" style="margin-left:10px" href="#" id="search-btn">
+                              <a class="btn community-head-btn" style="margin-left:10px" href="#" id="search-btn" onclick="searchingCommunity()">
                                 <i class="fa fa-search"></i>
                               </a>
                           </div>
@@ -84,9 +84,11 @@
     </div>
 
     <div class="panel-body" style="padding-top:0">
-      <div id="my-pending-commuity">
+    
         <!--Pending Community-->
-      </div>
+      <div id="can-create-community">
+             
+        </div>
     </div>
 
   </div>
@@ -103,5 +105,14 @@
         </div>
         
 
-	</body>
-	</html>
+
+  <script src="/js/CommunityListing.js"></script>
+  </body>
+  </html>
+
+  <script type="text/javascript">
+    var refresh = document.getElementById("first-btn");
+    refresh.addEventListener("click", function() {
+      window.location = "/openCommunityPage";
+    })
+  </script>

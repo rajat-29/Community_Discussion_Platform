@@ -76,7 +76,7 @@ function addToDom(ob)
     div12.setAttribute("class","col-sm-8 col-xs-6 col-lg-8 col-md-8");
     var a12 = document.createElement("a");
     a12.innerHTML = ob.name;
-    a12.href = filenaming;
+    a12.href = '/info/' + filenaming;
     div12.appendChild(a12);
     div1.appendChild(div12);
 

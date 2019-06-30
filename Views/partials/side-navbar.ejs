@@ -3,7 +3,7 @@
         <li class="list" id="mobile-pic">
             <div style="margin-right:10px">
                 <center>
-                    <img src="images/default.png" id="mobile-img">
+                    <img src="/images/default.png" id="mobile-img">
                 </center>
             </div>
         </li>
@@ -83,7 +83,7 @@
         </li>
         <% } %>
 
-        <% if(data.role == "User"){ %>       
+        <% if(data.role == "User" || data.role == "Community Manager"){ %>       
             <li class="list">
             <a onclick="newUsereditProfile()">
                 <span class="list-span">
@@ -94,7 +94,7 @@
         </li>
         <% } %> 
 
-        <% if(data.role == "User"){ %>       
+        <% if(data.role == "User" || data.role == "Community Manager"){ %>       
             <li class="list">
             <a onclick="openCommunityPage()">
                 <span class="list-span">
@@ -105,7 +105,7 @@
         </li>
         <% } %> 
 
-        <% if(data.role == "User"){ %>       
+        <% if(data.role == "User" || data.role == "Community Manager"){ %>       
             <li class="list">
             <a onclick="newUserchangePassword()">
                 <span class="list-span">
@@ -116,7 +116,7 @@
         </li>
         <% } %> 
 
-        <% if(data.role == "User"){ %>       
+        <% if(data.role == "User" || data.role == "Community Manager"){ %>       
             <li class="list">
             <a onclick="openlogoutpage()">
                 <span class="list-span">
