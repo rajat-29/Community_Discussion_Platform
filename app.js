@@ -156,11 +156,12 @@ var communitySchema = new mongoose.Schema({
 var community = mongoose.model('communities', communitySchema);
 
 // node mailler //
+// add your email and password here for email //
 let transporter = mailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'codemailler12@gmail.com',
-      pass: 'codequotient12'
+      user: '',
+      pass: ''
     },
 });
 
