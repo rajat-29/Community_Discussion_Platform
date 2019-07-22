@@ -3,14 +3,15 @@ A web project done in UCA Batch using bootstrap,Nodejs,MongoDb!!
 
 ## Features
 <ul>
-<li>Admin Side</li>
-<li>User Side</li>
-<li>Community Builder Side</li>
-<li>Switch as User Side</li>
-<li>DataTables</li>
-<li>Node Mailler</li>
-<li>Passport</li>
+  <li> Mongoose Database</li>
+  <li>Different View For User, Admin and Super Admin</li>
+  <li>Uploading Photos using Multer</li>  
+  <li>Send Mail using NodeMailler</li>
+  <li>Github Passport</li>
 </ul>
+
+## How To Run?
+It will run under the url http://127.0.0.1:8000/
 
 ## How to Use ?
 <ol type="number">
@@ -24,3 +25,6 @@ A web project done in UCA Batch using bootstrap,Nodejs,MongoDb!!
 <li>Admin can add Users,Community Builders</li>
 <li>Manages Users</li>
 </ol>
+
+## Extra Dependencies :
+
