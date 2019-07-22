@@ -28,3 +28,13 @@ It will run under the url http://127.0.0.1:8000/
 
 ## Extra Dependencies :
 
+<ul>
+  <li>Mongoose</li>
+  <li>Express</li>
+  <li>Express-Session</li>
+  <li>EJS</li>
+  <li>Node Mailer</li>
+  <li>Multer</li>
+  <li>Passport-GitHub</li>
+<ul>
+
