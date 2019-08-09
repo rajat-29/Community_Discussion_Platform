@@ -12,18 +12,27 @@ var display_email = document.getElementById("display_email");
 var colorLi = document.getElementById("sidebar-adduser");
 colorLi.setAttribute("style", "background-color:#337ab7");
 
-console.log(phone.value.length)
 adding.addEventListener("click", function() {  
+
+	var ph = phone.value;
 
 	if(name.value == '' || email.value == '' || phone.value == '' || city.value == '')
 	{
-		alert("Field can't be Empty");
-		return false;
-		window.location = "/addusers";
+		
+			alert("Field can't be Empty");
+			return false;
+	}
+	else if(ph.length<10)
+	{
+		alert('Phone No should be of length 10');
+		return;
 	}
 
-
-	// console.log(pass.value);
+	if(!ValidateEmail(email.value))
+	{
+		alert('Email format is not valid')
+		return;
+	}
 	
 	var obj = new Object();
 	obj.name = n.value;
@@ -51,6 +60,16 @@ adding.addEventListener("click", function() {
     });  
     window.location = "/addusers";
 })
+
+function ValidateEmail(mail) 
+{
+	console.log('vv')
+ if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
+  {
+    return (true)
+  }
+    return (false)
+}
 
 cancelling.addEventListener("click", function(){
 	window.location = "/addusers";

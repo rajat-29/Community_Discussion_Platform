@@ -157,6 +157,7 @@ var community = mongoose.model('communities', communitySchema);
 
 // node mailler //
 // add your email and password here for email //
+
 let transporter = mailer.createTransport({
     service: 'gmail',
     auth: {
@@ -262,6 +263,27 @@ app.post('/checkemail',function (req, res) {
 
       if(!result) {
         console.log(emailes);
+        res.send("false");
+      }
+        else
+        {
+           res.send("true");
+        }
+      })
+})
+
+// check wheater tag exits or not //
+app.post('/checktag',function (req, res) {
+
+     var tageses = req.body.tags;
+
+     t.findOne({tags: tageses}, function(error,result)
+      {
+        if(error)
+        throw error;
+
+      if(!result) {
+        //console.log(emailes);
         res.send("false");
       }
         else

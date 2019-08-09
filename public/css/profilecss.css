@@ -42,3 +42,13 @@
     }
 
 }
+
+@media (max-width: 768px)
+{
+    .imageDiv
+    {
+        display: block;
+        margin-left: 80px;
+    }
+
+}

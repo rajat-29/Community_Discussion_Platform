@@ -35,11 +35,15 @@
                                 </div>
                                 <div class="col-sm-6 mainDiv">
                                     <br>
+                                    <div class="alert alert-info" id="tag_info" style="display: none;">
+                                        <center id="display_email">adsaa</center>
+                                    </div>
+                                   
                                     <h1 class="heading">Create Tag</h1>
                                     <form class="form-horizontal formDiv">
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="taging" placeholder="Enter Tag">
+                                                <input type="text" class="form-control" id="taging" placeholder="Enter Tag" onchange="checkTagAvail()">
                                                 <br>
                                             </div>
 

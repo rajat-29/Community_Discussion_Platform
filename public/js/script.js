@@ -6,6 +6,12 @@ var submit = document.getElementById('submit');
 var github_login = document.getElementById('github_login');
 
 submit.addEventListener("click", function() {
+
+    if(n.value == '' || pass.value == '')
+    {
+        alert("Fields can't be Empty");
+        return;
+    }
 	//console.log(pass.value);
 	var request = new XMLHttpRequest();
     request.open('POST',"/checkLogin");

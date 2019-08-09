@@ -7,12 +7,13 @@ var status = document.getElementById("status");
 var role = document.getElementById("role");
 var subject = document.getElementById("subject");
 var to = document.getElementById("to");
+var table;
 
 $.trumbowyg.svgPath = '/css/trumbowgy.svg';
   	$('#comment').trumbowyg();
 
 	$(document).ready(function() {
-		 let table = $('#datatableses').DataTable({
+		 table = $('#datatableses').DataTable({
 			"processing": true,
 			"serverSide": true,
 			"ajax": {
@@ -96,6 +97,23 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
 	function updateuserdetails()
 	{
 		console.log('d')
+		if(phone.value.length < 10 || phone.value.length > 10)
+		{
+			$.confirm({
+    	title: 'Invalid! Phone Number',
+    	content: "Phone number is not valid",
+    	draggable: true,
+    	zIndex: 99999,
+   		buttons: {
+        OK: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {      
+        	}
+   		},
+    	}
+		});
+			return false;
+		}
 		var obj1 = Object()
 			obj1.email = username.value;
 			obj1.phone = phone.value;
@@ -111,7 +129,7 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
         	{
          		 console.log(request.responseText);
         	});
-        	location.reload();
+        	table.ajax.reload(null, false);
 	}
 
 	function sendmail()
@@ -157,7 +175,7 @@ function deactivateUser(ides,namess,flages)
 				request.addEventListener("load",function()
         		{
          			 console.log(request.responseText);
-         			 location.reload();
+         			table.ajax.reload(null, false);
         		});				
         	}
    		},
@@ -192,7 +210,7 @@ function reactivateUser(ides,namess,flages)
 				request.addEventListener("load",function()
         		{
          			 console.log(request.responseText);
-         			  location.reload();
+         			  table.ajax.reload(null, false);
         		});			
         	}
    		},
