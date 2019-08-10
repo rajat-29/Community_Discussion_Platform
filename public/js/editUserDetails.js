@@ -17,7 +17,12 @@ rightadmin.innerHTML = email.value;
 
 function updateUserDetails()
 {
-	console.log('d')
+	//console.log('d')
+	if(phone.value.length<10)
+	{
+		alert('Phone No should be of length 10');
+		return;
+	}
 	var obj1 = Object()
 			obj1.email = email.value;
 			obj1.name = usernaming.value;
@@ -47,6 +52,11 @@ function updateNewUserDetails()
 	if(dateses.value == '')
 	{
 		alert("ENTER DOB");
+		return false;
+	}
+	else if(phone.value.length<10)
+	{
+		alert('Phone No should be of length 10');
 		return false;
 	}
 	var obj1 = Object()

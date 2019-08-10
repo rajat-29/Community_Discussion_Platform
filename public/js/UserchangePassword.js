@@ -7,6 +7,12 @@ adding.addEventListener("click", function() {
 	obj.oldpass = oldpass.value;
 	obj.newpass = newpass.value;
 
+    if(oldpass.value == '' || newpass.value == '')
+    {
+        alert("Field is Empty")
+        return;
+    }
+
 	var request = new XMLHttpRequest();
 	request.open('POST', '/changePassword');
     request.setRequestHeader("Content-Type","application/json");

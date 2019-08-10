@@ -17,6 +17,13 @@ addinges.addEventListener("click", function() {
     var obj1 = new Object();
     obj1.name = commName.value;
     obj1.desc = description.value;
+
+    if(commName.value == '' || description.value == '')
+    {
+        alert("Field is Empty");
+        return false;
+    }
+
     if(directadmin.checked)
     {
         obj1.rule = directadmin.value;

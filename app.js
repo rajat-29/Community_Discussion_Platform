@@ -66,7 +66,7 @@ var storagecomm = multer.diskStorage({
 destination : './public/uploads/',
     filename : function(req, file, callback)
       {
-        community_photo=file.fieldname + '-' + userdata.ides + '@' +path.extname(file.originalname)
+        community_photo=file.fieldname + '-' + Date.now() + '@' +path.extname(file.originalname)
         req.session.imagePath = community_photo;
         callback(null,community_photo);
       }
@@ -221,7 +221,7 @@ app.get('/home' , function(req,res){        /*get data */
     //console.log(userdata);
     if(req.session.isLogin) 
     {
-      if(userdata.role == 'Admin') 
+      if(userdata.role == 'Admin' || userdata.role == 'superAdmin') 
       {
         console.log('hencjkasbcjkbc')
         res.render('main', {data: userdata});
@@ -694,6 +694,20 @@ app.post('/upload',(req,res) => {
       })
 });
 
+// upload community image //
+app.post('/uploadcomm',(req,res) => {
+      uploadcomm(req,res,(err)=>{
+        if(err)
+        {
+          throw error;
+        }
+        else{
+console.log(community_photo)
+            
+        }
+      })
+});
+
 // upload user image //
 app.post('/Userupload',(req,res) => {
       upload(req,res,(err)=>{
@@ -1030,6 +1044,7 @@ app.post('/addNewCommunitytobase',function (req, res) {
       req.body.owner = req.session.name;
       req.body.ownerId = req.session.iding;
       req.body.memberno = '1';
+      req.body.commphoto = community_photo;
        //console.log(req.body);
       community.create(req.body,function(error,result)
       {
@@ -1115,7 +1130,7 @@ app.get('/getCommunityforSearch',function(req,res){
    var abc = ObjectId(req.session.iding);
    console.log(abc);
 
-    community.find({ $and: [{ ownerId : { $not : { $eq : abc }}},{commuser : {$nin : [abc] }},{commasktojoin : {$nin : [abc] }}] }).exec(function(error,result){
+    community.find({ $and: [{ ownerId : { $not : { $eq : abc }}},{"status": "Active"},{commuser : {$nin : [abc] }},{commasktojoin : {$nin : [abc] }}] }).exec(function(error,result){
         if(error)
         throw error;
         else {

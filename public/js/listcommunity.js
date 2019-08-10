@@ -1,7 +1,8 @@
 var obj2;
+let table;
 
 $(document).ready(function() {
-		 let table = $('#datatableses').DataTable({
+		  table = $('#datatableses').DataTable({
 			"processing": true,
 			"serverSide": true,
 			"ajax": {
@@ -61,6 +62,7 @@ $(document).ready(function() {
 		});
 
 		 $('#refresh').on('click', function () {
+		 //	console.log('cd')
         table.ajax.reload(null, false);
    		 });
 
@@ -97,7 +99,7 @@ function updateCommunitydetails()
          		 console.log(request.responseText);
          		 
         	});
-	location.reload();
+	table.ajax.reload(null, false);
 }
 
 function InfoCommunity(nameing,descrip,photonamees)

@@ -95,12 +95,10 @@
             </div>
 
              <div class="form-group">
-              <div class="col-xs-4 col-sm-3">
-                <span class="btn btn-warning" onclick="$('#file').click()">Upload Image</span>
-              </div>
-              <div class="col-xs-8 col-sm-9" style="white-space: nowrap;">
-                <p id="filename" style="font-size:18px;font-weight:bold;color:#707070;white-space: nowrap;"></p>
-              </div>
+              <form action="/uploadcomm" enctype="multipart/form-data" method="POST">
+                                                                <input type="file" name="myFile" accept="image/*" />
+                                                                <input type="submit" value="Change"/>
+                                                            </form>
             </div>
 
             

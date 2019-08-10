@@ -68,7 +68,7 @@ function pendingmembers() {
 function addToDOM(obj,s)
 {
     var filenaming = obj._id;
-    console.log(filenaming);
+    console.log(obj);
     var div1=document.createElement('div');
     div1.setAttribute("class","col-sm-12 col-xs-12 myCommunity community-div");
     div1.setAttribute("style","marginTop:5px;");
@@ -80,7 +80,7 @@ function addToDOM(obj,s)
     var a1=document.createElement('a');
     a1.setAttribute("href","")
     var img=document.createElement('img');
-    img.setAttribute("src","uploads/defaultCommunity.jpg");
+    img.setAttribute("src",obj.commphoto);
     img.setAttribute("class","cpic");
     img.setAttribute("style", "width:40px;height:40px;");
 
