@@ -43,7 +43,7 @@ $(document).ready(function() {
 
                 "render": function (data, type, row, meta) {
                 	//console.log(row.name);
-                  return '<center><span class="actionbut editbut" id="editbut" onclick=updateCommunity("'+row._id+'","'+row.name+'","'+row.status+'") data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut emailbut" id="infobut"  onclick=InfoCommunity("'+row.name+'","'+row.desc+'","'+row.commphoto+'") data-toggle="modal" data-target="#infoModal"><i class="fas fa-info"></i></span></center>';
+                  return '<span class="actionbut editbut" id="editbut" onclick=updateCommunity("'+row._id+'","'+row.name+'","'+row.status+'") data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut emailbut" id="infobut" onclick=InfoCommunity("'+row._id+'") data-toggle="modal" data-target="#infoModal"><i class="fas fa-info"></i></span>';
                 }
             },
             {
@@ -102,12 +102,25 @@ function updateCommunitydetails()
 	table.ajax.reload(null, false);
 }
 
-function InfoCommunity(nameing,descrip,photonamees)
+function InfoCommunity(ides)
 {
-		var memes = document.getElementById("memes");
-		memes.innerHTML = nameing;
+	$(document).on("click", "#infobut", function() {
+	  	d = $(this).parent().parent()[0].children;
+	  	var html = d[6].innerHTML;
 
-		document.getElementById("CommunityProfilePic").src=photonamees;
-    document.getElementById("locInfo").innerHTML=descrip;
+		var re = /<img[^>]+src="http:\/\/([^">]+)/g
+		var results = re.exec(html);
+
+		// var source = results[0];
+
+
+
+   		console.log(results)
+		var memes = document.getElementById("memes");
+		memes.innerHTML = d[0].innerHTML;
+
+		 //document.getElementById("CommunityProfilePic").src=d[6].innerHTML;
+  //   document.getElementById("locInfo").innerHTML=descrip;
+   })
 
 }

@@ -1,57 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>CQ</title>
+  <title>CQ</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+   
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+   <link rel="stylesheet" type="text/css" href="css/login.css">
+  <!-- BOOTSTRAP CORE STYLE  -->
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <!-- FONT AWESOME STYLE  -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
+    <!-- GOOGLE FONT -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
-<body>
+<body class="body">
 
-	<header class="top-bar">  <!--top bar to display cq -->
-		<p>CQ</p>
-	</header>
 
-	<center>
-		<div class="container">
-			<div class="login-form" id="forming">
-				<p>Log Into Your Account</p>
+  <div class="content-wrapper">
+         <div class="container">
+        <div class="row pad-botm">
+            <div class="col-md-12">
+                <h1 class="header-line">Login Here</h1>
+                
+                            </div>
 
-				<div class="alert alert-danger" id="wrong_id">
+</div>
+<div class="row">
+<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+<div class="panel panel-info">
+<div class="panel-heading">
+Login 
+</div>
+<div class="panel-body">
+<div class="form-group">
+
+	<div class="alert alert-danger" id="wrong_id" style="display: none;">
  				 Username/Password Incorrect.
-				</div>
+	</div>
 
-					<div class="form-group" style="margin: 10px">
-						<input type="text" required="required" class="form-control" placeholder="Username" id="n"><br/>
-					</div>
+<label>Email<span style="color:red;">*</span></label>
+<input class="form-control" type="text" name="bookname" id="n"  placeholder="Enter Your Email" autocomplete="off"  required />
+</div>
 
-					<div class="form-group" style="margin: 10px">
-						<input type="password" name="" class="form-control" placeholder="Password" id="pass"><br/>
-					</div>
 
-					<div class="form-group" style="margin: 10px">
-						<button class="btn btn-success" id="submit">Login</button>
-						<button class="btn btn-success" id="github_login">Github</button>
-					</div>
+<div class="form-group">
+<label>Password<span style="color:red;">*</span></label>
+<input class="form-control" type="password" name="isbn"  id="pass" placeholder="Enter Your Password" required="required" autocomplete="off"  />
+</div>
 
-					
-					
-				
-			
-			</div>	
-		</div>
-	</center>
 
-	<footer class="footer" style="fixed">
-		<center>
-			<p>cq © 2019</p>
-		</center>
-		
-	</footer>
+
+<div class="form-group" style="margin: 10px">
+           <button class="btn btn-success" id="submit">Login</button>
+			<button class="btn btn-success" id="github_login">Github</button>
+          </div>  
+
+                            
+</div>
+         </div>
+             </div>
+
+                   </div>
+   
+                        </div>
+                              </div>
+
+                               <div class="footer-section">
+   
+        <p>CQ © 2019</p>
+        
+</div>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

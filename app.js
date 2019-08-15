@@ -42,7 +42,7 @@ function(accessToken, refreshToken, profile, cb) {
 //Set Storage Engine For images
 
 var photoname ;
-var community_photo;
+var community_photo = "uploads/defaultCommunity.jpg";
 
 // user photo upload //
 
@@ -181,11 +181,11 @@ app.post('/checkLogin',function (req, res)         /*post data */
 
       if(!result) {
         console.log('not exits');
-        res.send("false");
+        res.send("not exits");
       }
         else
         {
-          console.log(result)
+         // console.log(result)
           if(result.flag == 0)
           {
            res.send("false");
@@ -344,120 +344,180 @@ app.get('/userlist' , function(req,res){
 // data table on user list //
 app.post('/showuser' , function(req, res) {
 
-  console.log(req.body.status)
-  console.log(req.body.role)
-  var flag;
+  // console.log(req.body.status)
+  // console.log(req.body.role)
+  // console.log(req.body.order[0].column)
+  // var flag;
 
-  if(req.body.role === 'All' && req.body.status === 'All')
-  {
-      users.countDocuments(function(e,count){
-      var start=parseInt(req.body.start);
-      var len=parseInt(req.body.length);
-      users.find({
-      }).skip(start).limit(len)
-    .then(data=> {
-      if (req.body.search.value)
+  // if(req.body.role === 'All' && req.body.status === 'All')
+  // {
+  //     users.countDocuments(function(e,count){
+  //     var start=parseInt(req.body.start);
+  //     var len=parseInt(req.body.length);
+  //     users.find({
+  //     }).skip(start).limit(len)
+  //   .then(data=> {
+  //     if (req.body.search.value)
+  //                   {
+  //                       data = data.filter((value) => {
+  //           flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
+  //            || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
+  //            || value.role.includes(req.body.search.value);
+  //           return flag;
+  //         })
+  //                   }   
+  //     res.send({"recordsTotal": count, "recordsFiltered" : count, data})
+  //    })
+  //    .catch(err => {
+  //     res.send(err)
+  //    })
+  //  });
+  // }
+
+  // else if(req.body.role === 'All' && req.body.status !== 'All')
+  // {
+  // console.log(req.body);
+  // var length;
+  //     users.countDocuments(function(e,count){
+  //     var start=parseInt(req.body.start);
+  //     var len=parseInt(req.body.length);
+
+  //     users.find({status: req.body.status}).then(data => length = data.length);
+
+  //     users.find({ status: req.body.status }).skip(start).limit(len)
+  //   .then(data=> {
+  //     if (req.body.search.value)
+  //                   {
+  //                 data = data.filter((value) => {
+  //           flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
+  //            || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
+  //            || value.role.includes(req.body.search.value);
+  //           return flag;
+  //         })
+  //                   }
+  //     res.send({"recordsTotal": count, "recordsFiltered" : length, data})
+  //    })
+  //    .catch(err => {
+  //     res.send(err)
+  //    })
+  //  });  
+  // }
+
+  // else if(req.body.role !== 'All' && req.body.status === 'All')
+  // {
+  //      console.log(req.body);
+  // var length;
+  //     users.countDocuments(function(e,count){
+  //     var start=parseInt(req.body.start);
+  //     var len=parseInt(req.body.length);
+
+  //     users.find({role: req.body.role}).then(data => length = data.length);
+
+  //     users.find({ role: req.body.role }).skip(start).limit(len)
+  //   .then(data=> {
+  //      if (req.body.search.value)
+  //                   {
+  //                       data = data.filter((value) => {
+  //           flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
+  //            || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
+  //            || value.role.includes(req.body.search.value);
+  //           return flag;
+  //         })
+  //                   }
+  //     res.send({"recordsTotal": count, "recordsFiltered" : length, data})
+  //    })
+  //    .catch(err => {
+  //     res.send(err)
+  //    })
+  //  }); 
+  // }
+
+  // else
+  // {
+  //      var length;
+  //     users.countDocuments(function(e,count){
+  //     var start=parseInt(req.body.start);
+  //     var len=parseInt(req.body.length);
+
+  //     users.find({role: req.body.role, status: req.body.status}).then(data => length = data.length);
+
+  //     users.find({role: req.body.role, status: req.body.status}).skip(start).limit(len)
+  //   .then(data=> {
+  //      if (req.body.search.value)
+  //                   {
+  //                       data = data.filter((value) => {
+  //           flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
+  //            || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
+  //            || value.role.includes(req.body.search.value);
+  //           return flag;
+  //         })
+  //                   }
+  //     res.send({"recordsTotal": count, "recordsFiltered" : length, data})
+  //    })
+  //    .catch(err => {
+  //     res.send(err)
+  //    })
+  //  }); 
+  // }
+
+      let query = {};
+    let params = {};
+    if(req.body.role === 'All' && req.body.status !== 'All')
+        query = {status: req.body.status};
+    else if(req.body.role !== 'All' && req.body.status === 'All')
+        query = {role: req.body.role};
+    else if(req.body.role !== 'All' && req.body.status !== 'All')
+        query = {role: req.body.role , status: req.body.status};
+
+    let sortingType;
+    if(req.body.order[0].dir === 'asc')
+        sortingType = 1;
+    else
+        sortingType = -1;
+
+    if(req.body.order[0].column === '0')
+        params = {skip : parseInt(req.body.start) , limit : parseInt(req.body.length), sort : {email : sortingType}};
+    else if(req.body.order[0].column === '2')
+        params = {skip : parseInt(req.body.start) , limit : parseInt(req.body.length), sort : {city : sortingType}};
+    else if(req.body.order[0].column === '3')
+        params = {skip : parseInt(req.body.start) , limit : parseInt(req.body.length), sort : {status : sortingType}};
+    else if(req.body.order[0].column === '4')
+        params = {skip : parseInt(req.body.start) , limit : parseInt(req.body.length), sort : {role : sortingType}};
+
+   
+    users.find(query , {} , params , function (err , data)
+        {
+            if(err)
+                console.log(err);
+            else
+            {
+                // console.log(data);
+                users.estimatedDocumentCount(query, function(err , filteredCount)
+                {
+                    if(err)
+                        console.log(err);
+                    else
                     {
-                        data = data.filter((value) => {
-            flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
-             || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
-             || value.role.includes(req.body.search.value);
-            return flag;
-          })
-                    }   
-      res.send({"recordsTotal": count, "recordsFiltered" : count, data})
-     })
-     .catch(err => {
-      res.send(err)
-     })
-   });
-  }
-
-  else if(req.body.role === 'All' && req.body.status !== 'All')
-  {
-  console.log(req.body);
-  var length;
-      users.countDocuments(function(e,count){
-      var start=parseInt(req.body.start);
-      var len=parseInt(req.body.length);
-
-      users.find({status: req.body.status}).then(data => length = data.length);
-
-      users.find({ status: req.body.status }).skip(start).limit(len)
-    .then(data=> {
-      if (req.body.search.value)
-                    {
-                  data = data.filter((value) => {
-            flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
-             || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
-             || value.role.includes(req.body.search.value);
-            return flag;
-          })
+                        if (req.body.search.value)
+                        {
+                           console.log(params);
+                            data = data.filter((value) => {
+                                return value.email.includes(req.body.search.value)
+                                  
+                            })
+                        }
+                        users.countDocuments(function (err, totalCount)
+                        {
+                            if(err)
+                                console.log(err);
+                            else
+                                res.send({"recordsTotal": totalCount,
+                                    "recordsFiltered": filteredCount, data});
+                        })
                     }
-      res.send({"recordsTotal": count, "recordsFiltered" : length, data})
-     })
-     .catch(err => {
-      res.send(err)
-     })
-   });  
-  }
-
-  else if(req.body.role !== 'All' && req.body.status === 'All')
-  {
-       console.log(req.body);
-  var length;
-      users.countDocuments(function(e,count){
-      var start=parseInt(req.body.start);
-      var len=parseInt(req.body.length);
-
-      users.find({role: req.body.role}).then(data => length = data.length);
-
-      users.find({ role: req.body.role }).skip(start).limit(len)
-    .then(data=> {
-       if (req.body.search.value)
-                    {
-                        data = data.filter((value) => {
-            flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
-             || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
-             || value.role.includes(req.body.search.value);
-            return flag;
-          })
-                    }
-      res.send({"recordsTotal": count, "recordsFiltered" : length, data})
-     })
-     .catch(err => {
-      res.send(err)
-     })
-   }); 
-  }
-
-  else
-  {
-       var length;
-      users.countDocuments(function(e,count){
-      var start=parseInt(req.body.start);
-      var len=parseInt(req.body.length);
-
-      users.find({role: req.body.role, status: req.body.status}).then(data => length = data.length);
-
-      users.find({role: req.body.role, status: req.body.status}).skip(start).limit(len)
-    .then(data=> {
-       if (req.body.search.value)
-                    {
-                        data = data.filter((value) => {
-            flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
-             || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
-             || value.role.includes(req.body.search.value);
-            return flag;
-          })
-                    }
-      res.send({"recordsTotal": count, "recordsFiltered" : length, data})
-     })
-     .catch(err => {
-      res.send(err)
-     })
-   }); 
-  }
+                });
+            }
+        })
 });
 
 // render community list page //
@@ -703,6 +763,7 @@ app.post('/uploadcomm',(req,res) => {
         }
         else{
 console.log(community_photo)
+
             
         }
       })
@@ -952,53 +1013,73 @@ app.get('/auth/github/callback',
           function (req, res) {
         //console.log("githubsignin succesful");
         //console.log(req.session.passport.user._json.email)
+        //console.log(req.session.passport.user)
 
-          users.find({
+          users.findOne({
           "email": req.session.passport.user._json.email
           })
         .then(data => {
-          console.log(data);
-          userdata.dob = data.dob;
-          userdata.phone = data.phone;
-          //console.log("added");
+         // console.log(data);
+          if(data)
+          {
+            console.log('afa')
+              req.session.isLogin = 1;
+              req.session.name = req.session.passport.user._json.name;
+              req.session.email = req.session.passport.user._json.email;
+              req.session.role = 'User'
+              userdata.name = req.session.passport.user._json.name;
+              userdata.email = req.session.passport.user._json.email;
+              userdata.gender = "-";
+              userdata.role = 'User';
+              userdata.photoname = req.session.passport.user._json.avatar_url,
+              userdata.city = req.session.passport.user._json.location,
+              userdata.dob = "-",
+              userdata.phone= "-"
+               res.redirect('/home');
+          }
+          else
+          {
+
+                var temp = users.update({
+              "email": req.session.passport.user._json.email
+            }, {
+              "name": req.session.passport.user._json.name,
+              "email": req.session.passport.user._json.email,
+              "city": req.session.passport.user._json.location,
+              "gender": "-",
+              "status": "Pending",
+              "role": "User",
+              "dob": "-",
+              "phone": "-",
+              "photoname":  req.session.passport.user._json.avatar_url,
+              "flag": "1",
+              "interest": "-",
+              "bitmore": "-",
+              "expectation": "-",
+              "owned": "",
+              "joinedComm":  "",
+              "asktojoincomm": "" ,
+            }, {
+              upsert: true
+            },function(err,updated){
+              console.log(err);
+              console.log(updated);
+            });
+                 res.redirect('/home');
+          }
         })
         .catch(err => {
           console.error(err)
           //res.send(error)
         });
 
-        var temp = users.update({
-          "email": req.session.passport.user._json.email
-        }, {
-          "name": req.session.passport.user._json.name,
-          "email": req.session.passport.user._json.email,
-          "city": req.session.passport.user._json.location,
-          "gender": "-",
-          "status": "Pending",
-          "role": "User",
-          "dob": "",
-          "phone": "-",
-          "photoname": "default.png"
-        }, {
-          upsert: true
-        },function(err,updated){
-          console.log(err);
-          console.log(updated);
-        });
+        
         //console.log(temp);
 
-        req.session.isLogin = 1;
-        req.session.name = req.session.passport.user._json.name;
-        req.session.email = req.session.passport.user._json.email;
-        req.session.role = 'User'
-        userdata.name = req.session.passport.user._json.name;
-        userdata.email = req.session.passport.user._json.email;
-        userdata.gender = "-";
-        userdata.role = 'User';
-        userdata.photoname = "default.png"
-        userdata.city = req.session.passport.user._json.location,
+       
+
        // console.log(req.session.passport);
-        res.redirect('/home');
+       
         //res.send('Github login successful');
 });
 
@@ -1045,6 +1126,7 @@ app.post('/addNewCommunitytobase',function (req, res) {
       req.body.ownerId = req.session.iding;
       req.body.memberno = '1';
       req.body.commphoto = community_photo;
+      community_photo = "uploads/defaultCommunity.jpg";
        //console.log(req.body);
       community.create(req.body,function(error,result)
       {

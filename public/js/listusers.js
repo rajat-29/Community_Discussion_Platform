@@ -30,7 +30,7 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
 				"data" : "email"
 			},
 			{
-				"data" : "phone"
+				"data" : "phone", "orderable": false
 			},
 			{
 				"data" : "city"
@@ -42,7 +42,7 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
 				"data" : "role"
 			},
 			{
-				"data" : null
+				"data" : null, "orderable": false
 			},
 			],
 			"columnDefs": [{
