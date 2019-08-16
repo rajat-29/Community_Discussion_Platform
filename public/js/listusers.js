@@ -16,6 +16,7 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
 		 table = $('#datatableses').DataTable({
 			"processing": true,
 			"serverSide": true,
+			"dataSrc":"",
 			"ajax": {
 				"url": "/showuser",
 				"type": "POST",

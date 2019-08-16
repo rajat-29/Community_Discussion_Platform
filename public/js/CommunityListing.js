@@ -9,12 +9,12 @@ function initaliseTable() {
     var xml=new XMLHttpRequest();
     xml.open("GET","/getOwnCommunity");
     xml.setRequestHeader("Content-Type","application/json");
-    console.log("okokokoko");
+    //console.log("okokokoko");
     xml.addEventListener("load",function()
     {
      
      var data=JSON.parse(xml.responseText);
-     console.log(data);
+     //console.log(data);
       for(var i=0;i<data.length;i++)
       {
        addToDOM(data[i],s)
@@ -29,12 +29,12 @@ function groupmembers() {
     var xml=new XMLHttpRequest();
     xml.open("GET","/getOtherCommunity");
     xml.setRequestHeader("Content-Type","application/json");
-    console.log("okokokoko");
+    //console.log("okokokoko");
     xml.addEventListener("load",function()
     {
      
      var data=JSON.parse(xml.responseText);
-     console.log(data);
+     //console.log(data);
       for(var i=0;i<data.length;i++)
       {
        addToDOM(data[i],s)
@@ -49,12 +49,12 @@ function pendingmembers() {
     var xml=new XMLHttpRequest();
     xml.open("GET","/getPendingCommunity");
     xml.setRequestHeader("Content-Type","application/json");
-    console.log("okokokoko");
+    //onsole.log("okokokoko");
     xml.addEventListener("load",function()
     {
      
      var data=JSON.parse(xml.responseText);
-     console.log(data);
+     //console.log(data);
       for(var i=0;i<data.length;i++)
       {
        addToDOM(data[i],s)
@@ -68,7 +68,7 @@ function pendingmembers() {
 function addToDOM(obj,s)
 {
     var filenaming = obj._id;
-    console.log(obj);
+    //console.log(obj);
     var div1=document.createElement('div');
     div1.setAttribute("class","col-sm-12 col-xs-12 myCommunity community-div");
     div1.setAttribute("style","marginTop:5px;");
@@ -206,3 +206,13 @@ function searchingCommunity()
 {
     window.location = "/searchingCommunity";
 }
+
+
+$(window).scroll(function() {
+    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+  
+      $("body").append('<div id="can-create-community"></div>');
+      
+    }
+});
+

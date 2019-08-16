@@ -344,122 +344,6 @@ app.get('/userlist' , function(req,res){
 // data table on user list //
 app.post('/showuser' , function(req, res) {
 
-  // console.log(req.body.status)
-  // console.log(req.body.role)
-  // console.log(req.body.order[0].column)
-  // var flag;
-
-  // if(req.body.role === 'All' && req.body.status === 'All')
-  // {
-  //     users.countDocuments(function(e,count){
-  //     var start=parseInt(req.body.start);
-  //     var len=parseInt(req.body.length);
-  //     users.find({
-  //     }).skip(start).limit(len)
-  //   .then(data=> {
-  //     if (req.body.search.value)
-  //                   {
-  //                       data = data.filter((value) => {
-  //           flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
-  //            || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
-  //            || value.role.includes(req.body.search.value);
-  //           return flag;
-  //         })
-  //                   }   
-  //     res.send({"recordsTotal": count, "recordsFiltered" : count, data})
-  //    })
-  //    .catch(err => {
-  //     res.send(err)
-  //    })
-  //  });
-  // }
-
-  // else if(req.body.role === 'All' && req.body.status !== 'All')
-  // {
-  // console.log(req.body);
-  // var length;
-  //     users.countDocuments(function(e,count){
-  //     var start=parseInt(req.body.start);
-  //     var len=parseInt(req.body.length);
-
-  //     users.find({status: req.body.status}).then(data => length = data.length);
-
-  //     users.find({ status: req.body.status }).skip(start).limit(len)
-  //   .then(data=> {
-  //     if (req.body.search.value)
-  //                   {
-  //                 data = data.filter((value) => {
-  //           flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
-  //            || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
-  //            || value.role.includes(req.body.search.value);
-  //           return flag;
-  //         })
-  //                   }
-  //     res.send({"recordsTotal": count, "recordsFiltered" : length, data})
-  //    })
-  //    .catch(err => {
-  //     res.send(err)
-  //    })
-  //  });  
-  // }
-
-  // else if(req.body.role !== 'All' && req.body.status === 'All')
-  // {
-  //      console.log(req.body);
-  // var length;
-  //     users.countDocuments(function(e,count){
-  //     var start=parseInt(req.body.start);
-  //     var len=parseInt(req.body.length);
-
-  //     users.find({role: req.body.role}).then(data => length = data.length);
-
-  //     users.find({ role: req.body.role }).skip(start).limit(len)
-  //   .then(data=> {
-  //      if (req.body.search.value)
-  //                   {
-  //                       data = data.filter((value) => {
-  //           flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
-  //            || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
-  //            || value.role.includes(req.body.search.value);
-  //           return flag;
-  //         })
-  //                   }
-  //     res.send({"recordsTotal": count, "recordsFiltered" : length, data})
-  //    })
-  //    .catch(err => {
-  //     res.send(err)
-  //    })
-  //  }); 
-  // }
-
-  // else
-  // {
-  //      var length;
-  //     users.countDocuments(function(e,count){
-  //     var start=parseInt(req.body.start);
-  //     var len=parseInt(req.body.length);
-
-  //     users.find({role: req.body.role, status: req.body.status}).then(data => length = data.length);
-
-  //     users.find({role: req.body.role, status: req.body.status}).skip(start).limit(len)
-  //   .then(data=> {
-  //      if (req.body.search.value)
-  //                   {
-  //                       data = data.filter((value) => {
-  //           flag = value.email.includes(req.body.search.value) || value.phone.includes(req.body.search.value)
-  //            || value.city.includes(req.body.search.value) || value.status.includes(req.body.search.value) 
-  //            || value.role.includes(req.body.search.value);
-  //           return flag;
-  //         })
-  //                   }
-  //     res.send({"recordsTotal": count, "recordsFiltered" : length, data})
-  //    })
-  //    .catch(err => {
-  //     res.send(err)
-  //    })
-  //  }); 
-  // }
-
       let query = {};
     let params = {};
     if(req.body.role === 'All' && req.body.status !== 'All')
@@ -692,31 +576,77 @@ app.post('/addtagtobase',function (req, res) {
 
 // data tables on tags //
 app.post('/showtags' , function(req, res) {
-    console.log('tagib');
-    var flag;
-          t.countDocuments(function(e,count){
-      var start=parseInt(req.body.start);
-      var len=parseInt(req.body.length);
-      t.find({
-      }).skip(start).limit(len)
-    .then(data=> {
-       if (req.body.search.value)
-                    {
-                      console.log("asdf")
-                        data = data.filter((value) => {
-                            flag = value.tags.includes(req.body.search.value) || value.createDate.includes(req.body.search.value)
-             || value.createdBy.includes(req.body.search.value);
-            return flag;
-                        })
-                    } 
+   //  console.log('tagib');
+   //  var flag;
+   //        t.countDocuments(function(e,count){
+   //    var start=parseInt(req.body.start);
+   //    var len=parseInt(req.body.length);
+   //    t.find({
+   //    }).skip(start).limit(len)
+   //  .then(data=> {
+   //     if (req.body.search.value)
+   //                  {
+   //                    console.log("asdf")
+   //                      data = data.filter((value) => {
+   //                          flag = value.tags.includes(req.body.search.value) || value.createDate.includes(req.body.search.value)
+   //           || value.createdBy.includes(req.body.search.value);
+   //          return flag;
+   //                      })
+   //                  } 
  
-      res.send({"recordsTotal": count, "recordsFiltered" : count, data})
-     })
-     .catch(err => {
-      res.send(err)
-     })
-   });
-})
+   //    res.send({"recordsTotal": count, "recordsFiltered" : count, data})
+   //   })
+   //   .catch(err => {
+   //    res.send(err)
+   //   })
+   // });
+
+      let query = {};
+    let params = {};
+
+    let sortingType;
+    if(req.body.order[0].dir === 'asc')
+        sortingType = 1;
+    else
+        sortingType = -1;
+
+    if(req.body.order[0].column === '0')
+        params = {skip : parseInt(req.body.start) , limit : parseInt(req.body.length), sort : {tags : sortingType}}; 
+   
+    t.find(query , {} , params , function (err , data)
+        {
+            if(err)
+                console.log(err);
+            else
+            {
+                // console.log(data);
+                t.estimatedDocumentCount(query, function(err , filteredCount)
+                {
+                    if(err)
+                        console.log(err);
+                    else
+                    {
+                        if (req.body.search.value)
+                        {
+                           console.log(params);
+                            data = data.filter((value) => {
+                                return value.tags.includes(req.body.search.value)
+                                  
+                            })
+                        }
+                        t.countDocuments(function (err, totalCount)
+                        {
+                            if(err)
+                                console.log(err);
+                            else
+                                res.send({"recordsTotal": totalCount,
+                                    "recordsFiltered": filteredCount, data});
+                        })
+                    }
+                });
+            }
+        })
+});
 
 // show tags //
 app.get('/listuserstags', function(req,res) {
