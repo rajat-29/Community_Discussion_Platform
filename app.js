@@ -206,8 +206,12 @@ app.post('/checkLogin',function (req, res)         /*post data */
            userdata.status = result.status;
            userdata.ides = result._id;
            userdata.photoname = result.photoname;
-           req.session.name = userdata.name;
+
+           req.session.data = userdata;
+         //  req.session.data = result;
+           req.session.name = result.name;
            req.session.iding = result._id;
+             //window.sessionStorage.setItem('name' , result.name);
            //console.log(req.session.iding);
            res.send("true");
           }
@@ -221,20 +225,20 @@ app.get('/home' , function(req,res){        /*get data */
     //console.log(userdata);
     if(req.session.isLogin) 
     {
-      if(userdata.role == 'Admin' || userdata.role == 'superAdmin') 
+      if(req.session.data.role == 'Admin' || req.session.data.role == 'superAdmin') 
       {
         console.log('hencjkasbcjkbc')
-        res.render('main', {data: userdata});
+        res.render('main', {data: req.session.data});
       }
-      else if(userdata.role == 'User' || userdata.role == 'Community Manager')
+      else if(req.session.data.role == 'User' || req.session.data.role == 'Community Manager')
       {
-        if(userdata.dob == '')
+        if(req.session.data.dob == '')
         {
-          res.render('newUserDetails', {data: userdata});
+          res.render('newUserDetails', {data: req.session.data});
         }
         else
         {
-          res.render('newUsereditProfile', {data: userdata});
+          res.render('newUsereditProfile', {data: req.session.data});
         }         
       }
     } 
@@ -296,7 +300,7 @@ app.post('/checktag',function (req, res) {
 // render new user //
 app.get('/addusers' , function(req,res){
   	if (req.session.isLogin) {
-  		res.render('adduser', {data: userdata});
+  		res.render('adduser', {data: req.session.data});
   	} else {
   		res.render('index');
   	}
@@ -334,7 +338,7 @@ app.get('/userlist' , function(req,res){
     console.log('yes raj');
     //console.log(userdata);
     if(req.session.isLogin) {
-      res.render('userlist', {data: userdata});
+      res.render('userlist', {data: req.session.data});
    } else {
     //console.log('hello');
     res.render('index');
@@ -353,7 +357,13 @@ app.post('/showuser' , function(req, res) {
     else if(req.body.role !== 'All' && req.body.status !== 'All')
         query = {role: req.body.role , status: req.body.status};
 
+    if(req.body.search.value)
+    {
+        query.email = {"$regex" : req.body.search.value , "$options" : "i"};
+    }
+
     let sortingType;
+    console.log(req.body.order);
     if(req.body.order[0].dir === 'asc')
         sortingType = 1;
     else
@@ -376,20 +386,12 @@ app.post('/showuser' , function(req, res) {
             else
             {
                 // console.log(data);
-                users.estimatedDocumentCount(query, function(err , filteredCount)
+                users.countDocuments(query, function(err , filteredCount)
                 {
                     if(err)
                         console.log(err);
                     else
                     {
-                        if (req.body.search.value)
-                        {
-                           console.log(params);
-                            data = data.filter((value) => {
-                                return value.email.includes(req.body.search.value)
-                                  
-                            })
-                        }
                         users.countDocuments(function (err, totalCount)
                         {
                             if(err)
@@ -409,7 +411,7 @@ app.get('/communityList' , function(req,res){
     console.log('yes raj');
     //console.log(userdata);
     if(req.session.isLogin) {
-      res.render('CommunityList', {data: userdata});
+      res.render('CommunityList', {data: req.session.data});
    } else {
     //console.log('hello');
     res.render('index');
@@ -421,88 +423,141 @@ app.post('/showcommunity' , function(req, res) {
 
   console.log(req.body.status)
 
-  if(req.body.status === 'All') {
-    var flag;
-   community.countDocuments(function(e,count){
-      var start=parseInt(req.body.start);
-      var len=parseInt(req.body.length);
-      community.find({
-      }).skip(start).limit(len)
-    .then(data=> {
-      if (req.body.search.value)
-      {
-        console.log(data)
-        data = data.filter((value) => {
-            flag = value.name.includes(req.body.search.value);
-            return flag;
-        })
-      }   
-      res.send({"recordsTotal": count, "recordsFiltered" : count, data})
-     })
-     .catch(err => {
-      res.send(err)
-     })
-   });
+  // if(req.body.status === 'All') {
+  //   var flag;
+  //  community.countDocuments(function(e,count){
+  //     var start=parseInt(req.body.start);
+  //     var len=parseInt(req.body.length);
+  //     community.find({
+  //     }).skip(start).limit(len)
+  //   .then(data=> {
+  //     if (req.body.search.value)
+  //     {
+  //       console.log(data)
+  //       data = data.filter((value) => {
+  //           flag = value.name.includes(req.body.search.value);
+  //           return flag;
+  //       })
+  //     }   
+  //     res.send({"recordsTotal": count, "recordsFiltered" : count, data})
+  //    })
+  //    .catch(err => {
+  //     res.send(err)
+  //    })
+  //  });
 
-  }
+  // }
 
-  else if(req.body.status === 'Direct')
-  {
-      //console.log(req.body);
-      var length;
-      var flag;
-      community.countDocuments(function(e,count){
-      var start=parseInt(req.body.start);
-      var len=parseInt(req.body.length);
+  // else if(req.body.status === 'Direct')
+  // {
+  //     //console.log(req.body);
+  //     var length;
+  //     var flag;
+  //     community.countDocuments(function(e,count){
+  //     var start=parseInt(req.body.start);
+  //     var len=parseInt(req.body.length);
 
-      community.find({rule: req.body.status}).then(data => length = data.length);
+  //     community.find({rule: req.body.status}).then(data => length = data.length);
 
-      community.find({ rule: req.body.status }).skip(start).limit(len)
-    .then(data=> {
-      if (req.body.search.value)
-      {
-        console.log(data)
-        data = data.filter((value) => {
-            flag = value.name.includes(req.body.search.value);
-            return flag;
-        })
-      }
-      res.send({"recordsTotal": count, "recordsFiltered" : length, data})
-     })
-     .catch(err => {
-      res.send(err)
-     })
-   });  
-  }
+  //     community.find({ rule: req.body.status }).skip(start).limit(len)
+  //   .then(data=> {
+  //     if (req.body.search.value)
+  //     {
+  //       console.log(data)
+  //       data = data.filter((value) => {
+  //           flag = value.name.includes(req.body.search.value);
+  //           return flag;
+  //       })
+  //     }
+  //     res.send({"recordsTotal": count, "recordsFiltered" : length, data})
+  //    })
+  //    .catch(err => {
+  //     res.send(err)
+  //    })
+  //  });  
+  // }
 
-  else if(req.body.status === 'Permission')
-  {
-      //console.log(req.body);
-      var length;
-       var flag;
-      community.countDocuments(function(e,count){
-      var start=parseInt(req.body.start);
-      var len=parseInt(req.body.length);
+  // else if(req.body.status === 'Permission')
+  // {
+  //     //console.log(req.body);
+  //     var length;
+  //      var flag;
+  //     community.countDocuments(function(e,count){
+  //     var start=parseInt(req.body.start);
+  //     var len=parseInt(req.body.length);
 
-      community.find({rule: req.body.status}).then(data => length = data.length);
+  //     community.find({rule: req.body.status}).then(data => length = data.length);
 
-      community.find({ rule: req.body.status }).skip(start).limit(len)
-    .then(data=> {
-      if (req.body.search.value)
-      {
-        console.log(data)
-        data = data.filter((value) => {
-            flag = value.name.includes(req.body.search.value);
-            return flag;
-        })
-      }
-      res.send({"recordsTotal": count, "recordsFiltered" : length, data})
-     })
-     .catch(err => {
-      res.send(err)
-     })
-   });  
-  }
+  //     community.find({ rule: req.body.status }).skip(start).limit(len)
+  //   .then(data=> {
+  //     if (req.body.search.value)
+  //     {
+  //       console.log(data)
+  //       data = data.filter((value) => {
+  //           flag = value.name.includes(req.body.search.value);
+  //           return flag;
+  //       })
+  //     }
+  //     res.send({"recordsTotal": count, "recordsFiltered" : length, data})
+  //    })
+  //    .catch(err => {
+  //     res.send(err)
+  //    })
+  //  });  
+  // }
+
+    let query = {};
+    let params = {};
+
+    if(req.body.status === 'Direct')
+        query = {rule: req.body.status};
+    else if(req.body.status === 'Permission')
+        query = {rule: req.body.status};
+
+    if(req.body.search.value)
+    {
+        query.name = {"$regex" : req.body.search.value , "$options" : "i"};
+    }
+
+    let sortingType;
+    if(req.body.order[0].dir === 'asc')
+        sortingType = 1;
+    else
+        sortingType = -1;
+
+    if(req.body.order[0].column === '0')
+        params = {skip : parseInt(req.body.start), limit : parseInt(req.body.length), sort : {name : sortingType}};
+    else if(req.body.order[0].column === '2')
+        params = {skip : parseInt(req.body.start), limit : parseInt(req.body.length), sort : {location : sortingType}};
+    else if(req.body.order[0].column === '3')
+        params = {skip : parseInt(req.body.start), limit : parseInt(req.body.length), sort : {owner : sortingType}};
+    else if(req.body.order[0].column === '4')
+        params = {skip : parseInt(req.body.start), limit : parseInt(req.body.length), sort : {createDate : sortingType}};
+
+    community.find(query, {}, params, function (err, data)
+    {
+        if(err)
+            console.log(err);
+        else
+        {
+            community.countDocuments(query, function(err , filteredCount)
+            {
+                if(err)
+                    console.log(err);
+                else
+                {
+                    community.countDocuments(function (err, totalCount)
+                    {
+                        if(err)
+                            console.log(err);
+                        else
+                            res.send({"recordsTotal": totalCount,
+                                "recordsFiltered": filteredCount, data});
+                    })
+                }
+              });
+        }
+    });
 })  
 
 // page to update user details //
@@ -522,7 +577,7 @@ app.post('/updateuserdetails', function(req,res) {
 // render change password page //
 app.get('/changePassword' , function(req,res){ 
     if(req.session.isLogin) {
-      res.render('changePassword', {data: userdata});
+      res.render('changePassword', {data: req.session.data});
    } else {
     res.render('index');
     }
@@ -552,7 +607,7 @@ app.post('/changePassword' , function(req,res){
 // render user tag page //
 app.get('/userestag' , function(req,res){ 
     if(req.session.isLogin) {
-      res.render('Tags',{data: userdata});
+      res.render('Tags',{data: req.session.data});
    } else {
     res.render('index');
     }
@@ -561,7 +616,7 @@ app.get('/userestag' , function(req,res){
 // add tages to database //
 app.post('/addtagtobase',function (req, res) {
       console.log(req.body);
-      req.body.createdBy = req.session.name;
+      req.body.createdBy = req.session.data.name;
       t.create(req.body,function(error,result)
       {
         if(error)
@@ -604,6 +659,11 @@ app.post('/showtags' , function(req, res) {
       let query = {};
     let params = {};
 
+    if(req.body.search.value)
+    {
+        query.tags = {"$regex" : req.body.search.value , "$options" : "i"};
+    }
+
     let sortingType;
     if(req.body.order[0].dir === 'asc')
         sortingType = 1;
@@ -620,20 +680,12 @@ app.post('/showtags' , function(req, res) {
             else
             {
                 // console.log(data);
-                t.estimatedDocumentCount(query, function(err , filteredCount)
+                t.countDocuments(query, function(err , filteredCount)
                 {
                     if(err)
                         console.log(err);
                     else
                     {
-                        if (req.body.search.value)
-                        {
-                           console.log(params);
-                            data = data.filter((value) => {
-                                return value.tags.includes(req.body.search.value)
-                                  
-                            })
-                        }
                         t.countDocuments(function (err, totalCount)
                         {
                             if(err)
@@ -651,7 +703,7 @@ app.post('/showtags' , function(req, res) {
 // show tags //
 app.get('/listuserstags', function(req,res) {
     if(req.session.isLogin) {
-      res.render('Listtags', {data: userdata});
+      res.render('Listtags', {data: req.session.data});
        } else {
       res.render('index');
      }
@@ -675,10 +727,10 @@ app.post('/upload',(req,res) => {
           console.log(req.file);
           console.log(photoname);
 
-          console.log(userdata.ides);
-          userdata.photoname = photoname;
+          console.log(req.session.data.ides);
+          req.session.data.photoname = photoname;
                 
-                 res.render('editUserDetails', {data: userdata});
+                 res.render('editUserDetails', {data: req.session.data});
             
         }
       })
@@ -710,10 +762,10 @@ app.post('/Userupload',(req,res) => {
           console.log(req.file);
           console.log(photoname);
 
-          console.log(userdata.ides);
-          userdata.photoname = photoname;
+          console.log(req.session.data.ides);
+          req.session.data.photoname = photoname;
                 
-                 res.render('newUserProfileDetails', {data: userdata});
+                 res.render('newUserProfileDetails', {data: req.session.data});
             
         }
       })
@@ -731,12 +783,12 @@ app.get('/switchasuser', function(req,res) {
           else
           {
            // res.send("FLAG UPDATED SUCCESFULLY")
-           console.log(req.session)
-           userdata.role = "superAdmin"
+           //console.log(req.session)
+           req.session.data.role = "superAdmin"
+           console.log(req.session.data)
+            res.render('switchasUser', {data: req.session.data});
           }
         })
-
-         res.render('switchasUser', {data: userdata});
     
        } else {
           res.render('index');
@@ -755,12 +807,10 @@ app.get('/switchasadmin', function(req,res) {
           {
            // res.send("FLAG UPDATED SUCCESFULLY")
            console.log(req.session)
-           userdata.role = "Admin"
+           req.session.data.role = "Admin"
+           res.render('switchasAdmin', {data: req.session.data});
           }
-        })
-
-         res.render('switchasAdmin', {data: userdata});
-    
+        })   
        } else {
           res.render('index');
        }
@@ -768,8 +818,9 @@ app.get('/switchasadmin', function(req,res) {
 
 app.get('/switchUserPage', function(req,res) {
        if(req.session.isLogin) {
-
-         res.render('editUserProfile', {data: userdata});
+        console.log("ji")
+        console.log(req.session.data)
+         res.render('editUserProfile', {data: req.session.data});
     
        } else {
           res.render('index');
@@ -779,7 +830,7 @@ app.get('/switchUserPage', function(req,res) {
 app.get('/switchAdminPage', function(req,res) {
        if(req.session.isLogin) {
 
-         res.render('editUserProfile', {data: userdata});
+         res.render('editUserProfile', {data: req.session.data});
     
        } else {
           res.render('index');
@@ -835,7 +886,7 @@ app.post('/reativateuserdata', function(req,res) {
 // render edit button profile page //
 app.get('/editUserProfile', function(req,res) {
     if(req.session.isLogin) {
-      res.render('editUserProfile', {data: userdata});
+      res.render('editUserProfile', {data: req.session.data});
        } else {
       res.render('index');
      }
@@ -844,7 +895,7 @@ app.get('/editUserProfile', function(req,res) {
 // render update details of admin profile page //
 app.get('/editUserDetails', function(req,res) {
     if(req.session.isLogin) {
-      res.render('editUserDetails', {data: userdata});
+      res.render('editUserDetails', {data: req.session.data});
     
        } else {
       res.render('index');
@@ -852,11 +903,10 @@ app.get('/editUserDetails', function(req,res) {
 })
 
 // new user profile //
-
 // render user edit button profile page //
 app.get('/newUsereditProfile', function(req,res) {
     if(req.session.isLogin) {
-      res.render('newUsereditProfile', {data: userdata});
+      res.render('newUsereditProfile', {data: req.session.data});
        } else {
       res.render('index');
      }
@@ -870,14 +920,14 @@ app.post('/updateeditUserDetails', function(req,res) {
           throw err
           else
           {
-            userdata.name = req.body.name;
-           userdata.email = req.body.email;         
-           userdata.city = req.body.city;
-           userdata.phone = req.body.phone;
-           userdata.gender = req.body.gender;
-           userdata.interest = req.body.interest;
-           userdata.bitmore = req.body.bitmore;
-           userdata.expectation = req.body.expectation;
+            req.session.data.name = req.body.name;
+           req.session.data.email = req.body.email;         
+           req.session.data.city = req.body.city;
+           req.session.data.phone = req.body.phone;
+           req.session.data.gender = req.body.gender;
+           req.session.data.interest = req.body.interest;
+           req.session.data.bitmore = req.body.bitmore;
+           req.session.data.expectation = req.body.expectation;
             res.send("DATA UPDATED SUCCESFULLY")
           }
         })
@@ -890,15 +940,15 @@ app.post('/updateeditUserDob', function(req,res) {
           throw err
           else
           {
-            userdata.dob = req.body.dob;
-            userdata.name = req.body.name;
-           userdata.email = req.body.email;         
-           userdata.city = req.body.city;
-           userdata.phone = req.body.phone;
-           userdata.gender = req.body.gender;
-           userdata.interest = req.body.interest;
-           userdata.bitmore = req.body.bitmore;
-           userdata.expectation = req.body.expectation;
+            req.session.data.dob = req.body.dob;
+            req.session.data.name = req.body.name;
+           req.session.data.email = req.body.email;         
+           req.session.data.city = req.body.city;
+           req.session.data.phone = req.body.phone;
+           req.session.data.gender = req.body.gender;
+           req.session.data.interest = req.body.interest;
+           req.session.data.bitmore = req.body.bitmore;
+           req.session.data.expectation = req.body.expectation;
             res.send("DATA UPDATED SUCCESFULLY")
           }
         })
@@ -906,7 +956,7 @@ app.post('/updateeditUserDob', function(req,res) {
 
 app.get('/newUsereditProfile', function(req,res) {
       if(req.session.isLogin) {
-      res.render('newUsereditProfile', {data: userdata});
+      res.render('newUsereditProfile', {data: req.session.data});
     
        } else {
       res.render('index');
@@ -915,7 +965,7 @@ app.get('/newUsereditProfile', function(req,res) {
 
 app.get('/newUserProfileDetails', function(req,res) {
     if(req.session.isLogin) {
-      res.render('newUserProfileDetails', {data: userdata});
+      res.render('newUserProfileDetails', {data: req.session.data});
     
        } else {
       res.render('index');
@@ -924,7 +974,7 @@ app.get('/newUserProfileDetails', function(req,res) {
 
 app.get('/newUserchangePassword', function(req,res) {
     if(req.session.isLogin) {
-      res.render('newUserchangePassword', {data: userdata});
+      res.render('newUserchangePassword', {data: req.session.data});
     
        } else {
       res.render('index');
@@ -949,7 +999,7 @@ app.get('/auth/github/callback',
           "email": req.session.passport.user._json.email
           })
         .then(data => {
-         // console.log(data);
+          console.log(req.session.passport.user._json);
           if(data)
           {
             console.log('afa')
@@ -957,7 +1007,7 @@ app.get('/auth/github/callback',
               req.session.name = req.session.passport.user._json.name;
               req.session.email = req.session.passport.user._json.email;
               req.session.role = 'User'
-              userdata.name = req.session.passport.user._json.name;
+             userdata.name = req.session.passport.user._json.name;
               userdata.email = req.session.passport.user._json.email;
               userdata.gender = "-";
               userdata.role = 'User';
@@ -1002,33 +1052,26 @@ app.get('/auth/github/callback',
           console.error(err)
           //res.send(error)
         });
-
-        
         //console.log(temp);
-
-       
-
        // console.log(req.session.passport);
-       
         //res.send('Github login successful');
 });
 
 // community pages //
-
 app.get('/openCommunityPage' , function(req,res){
     if (req.session.isLogin) 
     {
-      if(userdata.role == 'User' )
+      if(req.session.data.role == 'User' )
       {
-         res.render('newUserCommunityPage', {data: userdata});
+         res.render('newUserCommunityPage', {data: req.session.data});
       } 
-      else if(userdata.role == 'Community Manager' )
+      else if(req.session.data.role == 'Community Manager' )
       {
-         res.render('communityUserCommunityPage', {data: userdata});
+         res.render('communityUserCommunityPage', {data: req.session.data});
       }
-      else if(userdata.role == 'superAdmin' )
+      else if(req.session.data.role == 'superAdmin' )
       {
-         res.render('newUserCommunityPage', {data: userdata});
+         res.render('newUserCommunityPage', {data: req.session.data});
       }
     }
     else
@@ -1037,17 +1080,13 @@ app.get('/openCommunityPage' , function(req,res){
     }
 })
 
-
-
 app.get('/addNewCommunity' , function(req,res){ 
     if(req.session.isLogin) {
-      res.render('addNewCommunity', {data: userdata});
+      res.render('addNewCommunity', {data: req.session.data});
    } else {
     res.render('index');
     }
 })
-
-
 
 app.post('/addNewCommunitytobase',function (req, res) {
      
@@ -1126,27 +1165,23 @@ app.get('/getPendingCommunity',function(req,res) {
     });
 })
 
-
-
-
-
 app.get('/searchingCommunity', function(req,res) {
   if(req.session.isLogin) {
-      res.render('searchingCommunity', {data: userdata});
+      res.render('searchingCommunity', {data: req.session.data});
    } else {
     res.render('index');
     }
 })
 
-app.get('/getCommunityforSearch',function(req,res){
+app.post('/getCommunityforSearch',function(req,res){
    var abc = ObjectId(req.session.iding);
    console.log(abc);
 
-    community.find({ $and: [{ ownerId : { $not : { $eq : abc }}},{"status": "Active"},{commuser : {$nin : [abc] }},{commasktojoin : {$nin : [abc] }}] }).exec(function(error,result){
+    community.find({ $and: [{ ownerId : { $not : { $eq : abc }}},{"status": "Active"},{commuser : {$nin : [abc] }},{commasktojoin : {$nin : [abc] }}] }).skip(req.body.start).limit(req.body.end).exec(function(error,result){
         if(error)
         throw error;
         else {
-            res.send(JSON.stringify(result));
+            res.send(result);
         }
     })
 })
@@ -1161,9 +1196,9 @@ app.get('/info/:pros',function(req,res) {
           else
           {
             console.log(reses);
-           // userdata.commName = result.name;
+           // req.session.data.commName = result.name;
             console.log(reses.location)
-             res.render('communityInformation', {data: userdata,newdata:reses});
+             res.render('communityInformation', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
       });
@@ -1179,14 +1214,13 @@ app.get('/setting/:pros',function(req,res) {
           else
           {
             console.log(reses);
-           // userdata.commName = result.name;
+           // req.session.data.commName = result.name;
             console.log(reses.location)
-             res.render('communitySettings', {data: userdata,newdata:reses});
+             res.render('communitySettings', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
       });
 })
-
 
 app.get('/showCommunityMembers/:pros',function(req,res) {
       var id = req.params.pros.toString();
@@ -1198,9 +1232,9 @@ app.get('/showCommunityMembers/:pros',function(req,res) {
           else
           {
             console.log(reses);
-           // userdata.commName = result.name;
+           // req.session.data.commName = result.name;
             console.log(reses.location)
-             res.render('showCommunityMembers', {data: userdata,newdata:reses});
+             res.render('showCommunityMembers', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
       });
@@ -1216,22 +1250,13 @@ app.get('/editCommunity/:pros',function(req,res) {
           else
           {
             console.log(reses);
-           // userdata.commName = result.name;
+           // req.session.data.commName = result.name;
             console.log(reses.location)
-             res.render('editcommunitySettings', {data: userdata,newdata:reses});
+             res.render('editcommunitySettings', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
       });
 })
-
-
-
-
-
-
-
-
-
 
 app.post('/updatecommdetails', function(req,res) {
   //console.log(req.body);
@@ -1256,9 +1281,9 @@ app.get('/inviteUser/:pros',function(req,res) {
           else
           {
             console.log(reses);
-           // userdata.commName = result.name;
+           // req.session.data.commName = result.name;
             //console.log(reses.location)
-             res.render('InfocommunitySettings', {data: userdata,newdata:reses});
+             res.render('InfocommunitySettings', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
       });
@@ -1274,9 +1299,9 @@ app.get('/discussion/:pros',function(req,res) {
           else
           {
             console.log(reses);
-           // userdata.commName = result.name;
+           // req.session.data.commName = result.name;
             //console.log(reses.location)
-             res.render('communityDiscussions', {data: userdata,newdata:reses});
+             res.render('communityDiscussions', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
       });
@@ -1391,7 +1416,15 @@ app.post('/leavePendingcommunity',function(req,res) {
         })
 })
 
+app.post('/changePhoto',function (req, res)         /*post data */
+  {
+     // console.log(req.body);
+     // console.log(req.session.isLogin);
+      req.session.photoname = req.body.name;
 
+           res.send("true");
+            
+})
 
 console.log("Running on port 8000");
 app.listen(8000)

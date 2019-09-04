@@ -1,5 +1,6 @@
 var obj2;
 let table;
+var communityDesc = document.getElementById('communityDesc');
 
 $(document).ready(function() {
 		  table = $('#datatableses').DataTable({
@@ -42,8 +43,10 @@ $(document).ready(function() {
                 "targets": -2,
 
                 "render": function (data, type, row, meta) {
-                	//console.log(row.name);
-                  return '<span class="actionbut editbut" id="editbut" onclick=updateCommunity("'+row._id+'","'+row.name+'","'+row.status+'") data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut emailbut" id="infobut" onclick=InfoCommunity("'+row._id+'") data-toggle="modal" data-target="#infoModal"><i class="fas fa-info"></i></span>';
+                	//console.log(data.desc);
+                	 let info = "info(\'" + data.desc + "\')";
+                	 console
+                  return '<span class="actionbut editbut" id="editbut" onclick=updateCommunity("'+row._id+'","'+row.name+'","'+row.status+'") data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut emailbut" id="infobut" onclick=\"' + info +'\" data-toggle="modal" data-target="#infoModal"><i class="fas fa-info"></i></span>';
                 }
             },
             {
@@ -102,25 +105,20 @@ function updateCommunitydetails()
 	table.ajax.reload(null, false);
 }
 
-function InfoCommunity(ides)
+function info(desc)
 {
+
 	$(document).on("click", "#infobut", function() {
 	  	d = $(this).parent().parent()[0].children;
 	  	var html = d[6].innerHTML;
 
-		var re = /<img[^>]+src="http:\/\/([^">]+)/g
-		var results = re.exec(html);
+		communityDesc.innerHTML = desc;
 
-		// var source = results[0];
-
-
-
-   		console.log(results)
 		var memes = document.getElementById("memes");
 		memes.innerHTML = d[0].innerHTML;
 
-		 //document.getElementById("CommunityProfilePic").src=d[6].innerHTML;
-  //   document.getElementById("locInfo").innerHTML=descrip;
+		document.getElementById("CommunityProfilePic").src = d[6].lastChild.currentSrc;
    })
 
 }
+

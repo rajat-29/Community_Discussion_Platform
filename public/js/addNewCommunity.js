@@ -16,7 +16,7 @@ addinges.addEventListener("click", function() {
 
     var obj1 = new Object();
     obj1.name = commName.value;
-    obj1.desc = description.value;
+    obj1.desc = strip_html_tags(description.value);
 
     if(commName.value == '' || description.value == '')
     {
@@ -82,4 +82,13 @@ refresh.addEventListener("click", function() {
 function searchingCommunity()
 {
     window.location = "/searchingCommunity";
+}
+
+function strip_html_tags(str)
+{
+   if ((str===null) || (str===''))
+       return false;
+  else
+   str = str.toString();
+  return str.replace(/<[^>]*>/g, '');
 }

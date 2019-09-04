@@ -51,9 +51,11 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
 
                 "render": function (data, type, row, meta) {
               
-                   	if(data.flag==1)
+              	if(data.role == "Admin")
+                	return '<center><span class="actionbut emailbut" id="emailbut" data-toggle="modal" data-target="#myModal"><i class="fas fa-envelope"></i></span><span class="actionbut editbut" id="editbut" data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span></center>';
+                   else	if(data.flag==1)
                   return '<center><span class="actionbut emailbut" id="emailbut" data-toggle="modal" data-target="#myModal"><i class="fas fa-envelope"></i></span><span class="actionbut editbut" id="editbut" data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut deactivatebut" id="deactivatebut" onclick=deactivateUser("'+row._id+'","'+row.name+'","'+row.flag+'")><i class="fa fa-times-circle"></i></span></center>';               
-                else
+                  else
                   return '<center><span class="actionbut emailbut" id="emailbut" data-toggle="modal" data-target="#myModal"><i class="fas fa-envelope"></i></span><span class="actionbut editbut" id="editbut" data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut activatebut" id="activatebut" onclick=reactivateUser("'+row._id+'","'+row.name+'","'+row.flag+'")><i class="fa fa-check-circle"></i></span></center>'
 
                 }

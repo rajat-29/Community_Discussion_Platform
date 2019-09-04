@@ -11,7 +11,7 @@ var dateses = document.getElementById('dateses');
 var dateques = document.getElementById("date");
 var profilepic = document.getElementById("profilepic");
 
- 
+
 
 rightadmin.innerHTML = email.value;
 
@@ -64,6 +64,7 @@ function updateNewUserDetails()
 	obj1.email = email.value;
 	obj1.name = usernaming.value;
 	obj1.gender = gender.value;
+	obj1.status = "Confirmed";
 	obj1.phone = phone.value;
 	obj1.city = city.value;
 	obj1.interest = interest.value;

@@ -21,6 +21,7 @@ submit.addEventListener("click", function() {
     	var data = request.responseText;
     	if(data === 'true') {
     		console.log('hello user');
+            window.sessionStorage.setItem('email' , n.value);
             window.location = "/home";
             //window.location.href = "h.html";
         }
@@ -49,6 +50,12 @@ pass.addEventListener("keyup", function() {
 
      if (event.keyCode === 13) {
     //console.log(pass.value);
+      if(n.value == '' || pass.value == '')
+    {
+        alert("Fields can't be Empty");
+        return;
+    }
+    //console.log(pass.value);
     var request = new XMLHttpRequest();
     request.open('POST',"/checkLogin");
     request.setRequestHeader("Content-Type","application/json");
@@ -57,11 +64,17 @@ pass.addEventListener("keyup", function() {
         var data = request.responseText;
         if(data === 'true') {
             console.log('hello user');
+            window.sessionStorage.setItem('email' , n.value);
             window.location = "/home";
             //window.location.href = "h.html";
         }
+        else if(data === 'false')
+        {
+            window.location = "/404";
+        }
         else {
-            alert('Enter Correct Details')
+            document.getElementById("wrong_id").style.display = "block";
+            document.getElementById("forming").style.height = "340px";
             console.log('getout');
             n.value = "";
             pass.value = "";

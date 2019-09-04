@@ -1,3 +1,6 @@
+var start=0,end=4;
+var tempdata = [];
+
 var refresh = document.getElementById("first-btn");
 refresh.addEventListener("click", function() {
      window.location = "/openCommunityPage";
@@ -19,17 +22,23 @@ $(document).ready(function() {
 
 function loadFromServer()
 {
+    let obj={
+        start:start,
+        end:end,
+    }
     var request = new XMLHttpRequest();
-    request.open('GET','/getCommunityforSearch');
-    request.send();
+    request.open('POST','/getCommunityforSearch');
     request.onload = function()
     {
         commArr = JSON.parse(request.responseText);
-        for(i in commArr)
+        tempdata = tempdata.concat(commArr);
+        for(var i=0;i<tempdata.length;i++)
         {
             addToDom(commArr[i]);
         }
     }
+    request.setRequestHeader("Content-Type","application/json");
+    request.send(JSON.stringify(obj));
 }
 
 document.getElementById('searchinput').onkeyup=function()
@@ -51,7 +60,7 @@ document.getElementById('searchinput').onkeyup=function()
 function addToDom(ob)
 {
     var filenaming = ob._id;
-    console.log(ob);
+   // console.log(ob);
     var parentDiv = document.createElement("div");
     parentDiv.setAttribute("class","container");
 
@@ -100,7 +109,7 @@ function addToDom(ob)
         request.send(JSON.stringify(ob));
         request.onload = function()
         {
-            console.log(request.responseText);
+            //console.log(request.responseText);
 
         }
         parentDiv.removeChild(wrapperdiv);
@@ -137,9 +146,35 @@ function addToDom(ob)
 
     parentDiv.appendChild(wrapperdiv);
     bigDiv.appendChild(parentDiv);
-    console.log(parentDiv)
+   // console.log(parentDiv)
 
 }
 
+function getDocumentHeight() {
+    console.log("getDocumentHeight");
+    const body = document.body;
+    const html = document.documentElement;
+    
+    return Math.max(
+        body.scrollHeight, body.offsetHeight,
+        html.clientHeight, html.scrollHeight, html.offsetHeight
+    );
+};
+
+ function getScrollTop() {
+    console.log("getScrollTop");
+    return (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+}
 
 
+ window.onscroll = function() {
+        //console.log("onscroll");
+    if (getScrollTop()== getDocumentHeight() - window.innerHeight)
+        {
+             start+=4;
+             end=4;
+             loadFromServer();
+        }
+        else
+            return;
+}
