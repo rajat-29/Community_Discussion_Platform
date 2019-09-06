@@ -117,7 +117,7 @@
     
 
     
-      <li>
+      <li id="hideManage">
           <a href="/setting/<%=newdata._id%>" class="community-profile-option-btn">
             Manage Community
           </a>
@@ -125,7 +125,7 @@
     
 
       <li>
-          <a href="/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/info/<%=newdata._id%>" class="community-profile-option-btn">
             Community Profile
           </a>
       </li>
@@ -189,7 +189,9 @@
 
         </div>
 <script type="text/javascript">
+    var hideManage = document.getElementById('hideManage');
   var commid ="<%= newdata._id %>";
+  var email_id ="<%= data.email %>";
   console.log(commid)
 $(document).ready(function() {
     initaliseusers();
@@ -242,6 +244,11 @@ function noUser()
 
 function addtoUserDOM(obj)
 {
+   if(obj.email == email_id)
+  {
+    console.log("aya")
+     hideManage.setAttribute("style", "display:none");
+  }
   var div1=document.createElement('div')
   div1.setAttribute("class","col-sm-12 col-xs-12 allcoms community-user-div comUsersFxnCall")
   div1.setAttribute("style","margin-top:5px;")

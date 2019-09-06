@@ -166,6 +166,7 @@ let transporter = mailer.createTransport({
     },
 });
 
+
 // login checking //
 app.post('/checkLogin',function (req, res)         /*post data */
   {
@@ -1234,7 +1235,7 @@ app.get('/showCommunityMembers/:pros',function(req,res) {
             console.log(reses);
            // req.session.data.commName = result.name;
             console.log(reses.location)
-             res.render('showCommunityMembers', {data: req.session.data,newdata:reses});
+             res.render('showCommunitymembers', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
       });
@@ -1380,7 +1381,7 @@ app.post('/getRequest',function(req,res) {
    if(req.session.isLogin){
       console.log("----------------------"+req.body._id);
       var abc = ObjectId(req.body._id );
-    community.findOne({ "_id" : abc}).populate("commasktojoin"). // only return the Persons name
+    community.findOne({ "_id" : req.body._id}).populate("commasktojoin"). // only return the Persons name
      exec(function (err, result) {
      if (err) 
       return err;

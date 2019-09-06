@@ -22,7 +22,7 @@ adding.addEventListener("click", function() {
 			alert("Field can't be Empty");
 			return false;
 	}
-	else if(ph.length<10)
+	else if(ph.length<10 || ph.length>10)
 	{
 		alert('Phone No should be of length 10');
 		return;

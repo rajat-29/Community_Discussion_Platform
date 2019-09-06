@@ -117,7 +117,7 @@
     
 
     
-      <li>
+      <li id="hideManage">
           <a href="/setting/<%=newdata._id%>" class="community-profile-option-btn">
             Manage Community
           </a>
@@ -125,7 +125,7 @@
     
 
       <li>
-          <a href="/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/info/<%=newdata._id%>" class="community-profile-option-btn">
             Community Profile
           </a>
       </li>
@@ -184,7 +184,7 @@
         </a>
         <br>
         <a class="manageCommunity-child-btn" id="invitedUserShowBtn" onclick="initaliserequests()">
-          Requests(0)</a>
+          </a>
         <br>
         <a class="manageCommunity-child-btn" id="invitedUserShowBtn">
           Invited Members (0)
@@ -216,10 +216,15 @@
 
         </div>
 <script type="text/javascript">
+
+  var hideManage = document.getElementById('hideManage');
   var commid ="<%= newdata._id %>";
-  console.log(commid)
+  var email_id ="<%= data.email %>";
+ // console.log(email_id);
+  //var f=1;
 $(document).ready(function() {
     initaliseusers();
+    initaliserequestsWithOutDom()
     
 })
 
@@ -273,6 +278,20 @@ function initaliserequests()
   xml.send(JSON.stringify({"_id":commid}));
 }
 
+function initaliserequestsWithOutDom()
+{
+  var xml=new XMLHttpRequest();
+  xml.open("POST","/getRequest");
+  xml.setRequestHeader("Content-Type","application/json");
+    document.getElementById('comlist').innerHTML=""
+  xml.addEventListener("load",function()
+  {
+      var data=JSON.parse(xml.responseText);
+      document.getElementById('invitedUserShowBtn').innerHTML="Requests ("+data.length+")"
+  })
+  xml.send(JSON.stringify({"_id":commid}));
+}
+
 function noUser()
 {
   console.log('fdsfgsg')
@@ -296,6 +315,14 @@ function noUser()
 
 function addtoUserDOM(obj)
 {
+  console.log(obj.email)
+  console.log(email_id)
+  console.log(obj)
+  if(obj.email == email_id)
+  {
+    console.log("aya")
+     hideManage.setAttribute("style", "display:none");
+  }
   var div1=document.createElement('div')
   div1.setAttribute("class","col-sm-12 col-xs-12 allcoms community-user-div")
   div1.setAttribute("style","margin-top:5px;display:flex;")

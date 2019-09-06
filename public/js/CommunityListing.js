@@ -68,7 +68,7 @@ function pendingmembers() {
 function addToDOM(obj,s)
 {
     var filenaming = obj._id;
-    //console.log(obj);
+    console.log(obj.commuser.length);
     var div1=document.createElement('div');
     div1.setAttribute("class","col-sm-12 col-xs-12 myCommunity community-div");
     div1.setAttribute("style","marginTop:5px;");
@@ -100,23 +100,26 @@ function addToDOM(obj,s)
     var a2=document.createElement('a');
     a2.setAttribute("class","comnametxt")
     a2.href = "/discussion/" + filenaming;
-    a2.innerHTML=obj.name;
+    a2.innerHTML=obj.name + "     ";
 
     var a3=document.createElement('a')
     a3.setAttribute("class","comnametxt-user")
     a3.setAttribute("href","")
     a3.setAttribute("style", "padding-left:5px;")
-    a3.innerHTML="Request";
-    a3.href = '/setting/' + filenaming;
+    a3.innerHTML= " Memeber(" + obj.commuser.length + ")";
 
     p.appendChild(a2)
     p.appendChild(a3)
     div3.appendChild(p)
     div1.appendChild(div3)
 
+    a3.href = '/info/' + filenaming;
+
 
     if(s=="true")
     {
+        a3.href = '/setting/' + filenaming;
+        
         var div4=document.createElement('div')
         div4.setAttribute("class","col-sm-1 col-xs-2")
         div4.setAttribute("style", "padding:0;margin-top: 15px;")
@@ -143,6 +146,7 @@ function addToDOM(obj,s)
 
     if(s=="trueflase")
     {
+
         var div4=document.createElement('div')
         div4.setAttribute("class","col-sm-1 col-xs-2")
         div4.setAttribute("style", "padding:0;margin-top: 15px;")
