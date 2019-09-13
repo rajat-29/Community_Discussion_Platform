@@ -170,8 +170,6 @@ let transporter = mailer.createTransport({
 // login checking //
 app.post('/checkLogin',function (req, res)         /*post data */
   {
-     // console.log(req.body);
-     // console.log(req.session.isLogin);
       req.session.isLogin = 0;
       var username = req.body.name;
       var pasword = req.body.password;
@@ -186,7 +184,6 @@ app.post('/checkLogin',function (req, res)         /*post data */
       }
         else
         {
-         // console.log(result)
           if(result.flag == 0)
           {
            res.send("false");
@@ -209,11 +206,8 @@ app.post('/checkLogin',function (req, res)         /*post data */
            userdata.photoname = result.photoname;
 
            req.session.data = userdata;
-         //  req.session.data = result;
            req.session.name = result.name;
            req.session.iding = result._id;
-             //window.sessionStorage.setItem('name' , result.name);
-           //console.log(req.session.iding);
            res.send("true");
           }
         }
@@ -222,13 +216,10 @@ app.post('/checkLogin',function (req, res)         /*post data */
 
 // admin side //
 app.get('/home' , function(req,res){        /*get data */
-   // console.log('yes raj');
-    //console.log(userdata);
     if(req.session.isLogin) 
     {
       if(req.session.data.role == 'Admin' || req.session.data.role == 'superAdmin') 
       {
-        //console.log('hencjkasbcjkbc')
         res.render('main', {data: req.session.data});
       }
       else if(req.session.data.role == 'User' || req.session.data.role == 'Community Manager')
@@ -246,7 +237,6 @@ app.get('/home' , function(req,res){        /*get data */
 
      else 
      {
-      //console.log('hello');
       res.render('index');
      }
  })
@@ -267,7 +257,6 @@ app.post('/checkemail',function (req, res) {
         throw error;
 
       if(!result) {
-        //console.log(emailes);
         res.send("false");
       }
         else
@@ -288,7 +277,6 @@ app.post('/checktag',function (req, res) {
         throw error;
 
       if(!result) {
-        //console.log(emailes);
         res.send("false");
       }
         else
@@ -309,39 +297,31 @@ app.get('/addusers' , function(req,res){
 
 // send mail to users node mailler //
 app.post('/sendMail', function(request,response) {
-   // console.log(request.body)
       transporter.sendMail(request.body, (error, info) => {
         if(error) {
           console.log(error)
         } else {
-         // console.log("Mail Sent" + info.response);
         }
       })
 })
 
 // add new user //
 app.post('/addnewuser',function (req, res) {
-      //console.log(req.body);
       users.create(req.body,function(error,result)
       {
         if(error)
         throw error;
         else
-        {
-          //console.log(result);
-        }
+        {}
       })
        res.send("data saved");
 })
 
 // render user list page //
 app.get('/userlist' , function(req,res){  
-    //console.log('yes raj');
-    //console.log(userdata);
     if(req.session.isLogin) {
       res.render('userlist', {data: req.session.data});
    } else {
-    //console.log('hello');
     res.render('index');
     }
 })
@@ -364,7 +344,6 @@ app.post('/showuser' , function(req, res) {
     }
 
     let sortingType;
-    //console.log(req.body.order);
     if(req.body.order[0].dir === 'asc')
         sortingType = 1;
     else
@@ -386,7 +365,6 @@ app.post('/showuser' , function(req, res) {
                 console.log(err);
             else
             {
-                // console.log(data);
                 users.countDocuments(query, function(err , filteredCount)
                 {
                     if(err)
@@ -409,103 +387,15 @@ app.post('/showuser' , function(req, res) {
 
 // render community list page //
 app.get('/communityList' , function(req,res){  
-   // console.log('yes raj');
-    //console.log(userdata);
     if(req.session.isLogin) {
       res.render('CommunityList', {data: req.session.data});
    } else {
-    //console.log('hello');
     res.render('index');
     }
 })
 
 // data table on community list //
 app.post('/showcommunity' , function(req, res) {
-
-  //console.log(req.body.status)
-
-  // if(req.body.status === 'All') {
-  //   var flag;
-  //  community.countDocuments(function(e,count){
-  //     var start=parseInt(req.body.start);
-  //     var len=parseInt(req.body.length);
-  //     community.find({
-  //     }).skip(start).limit(len)
-  //   .then(data=> {
-  //     if (req.body.search.value)
-  //     {
-  //       console.log(data)
-  //       data = data.filter((value) => {
-  //           flag = value.name.includes(req.body.search.value);
-  //           return flag;
-  //       })
-  //     }   
-  //     res.send({"recordsTotal": count, "recordsFiltered" : count, data})
-  //    })
-  //    .catch(err => {
-  //     res.send(err)
-  //    })
-  //  });
-
-  // }
-
-  // else if(req.body.status === 'Direct')
-  // {
-  //     //console.log(req.body);
-  //     var length;
-  //     var flag;
-  //     community.countDocuments(function(e,count){
-  //     var start=parseInt(req.body.start);
-  //     var len=parseInt(req.body.length);
-
-  //     community.find({rule: req.body.status}).then(data => length = data.length);
-
-  //     community.find({ rule: req.body.status }).skip(start).limit(len)
-  //   .then(data=> {
-  //     if (req.body.search.value)
-  //     {
-  //       console.log(data)
-  //       data = data.filter((value) => {
-  //           flag = value.name.includes(req.body.search.value);
-  //           return flag;
-  //       })
-  //     }
-  //     res.send({"recordsTotal": count, "recordsFiltered" : length, data})
-  //    })
-  //    .catch(err => {
-  //     res.send(err)
-  //    })
-  //  });  
-  // }
-
-  // else if(req.body.status === 'Permission')
-  // {
-  //     //console.log(req.body);
-  //     var length;
-  //      var flag;
-  //     community.countDocuments(function(e,count){
-  //     var start=parseInt(req.body.start);
-  //     var len=parseInt(req.body.length);
-
-  //     community.find({rule: req.body.status}).then(data => length = data.length);
-
-  //     community.find({ rule: req.body.status }).skip(start).limit(len)
-  //   .then(data=> {
-  //     if (req.body.search.value)
-  //     {
-  //       console.log(data)
-  //       data = data.filter((value) => {
-  //           flag = value.name.includes(req.body.search.value);
-  //           return flag;
-  //       })
-  //     }
-  //     res.send({"recordsTotal": count, "recordsFiltered" : length, data})
-  //    })
-  //    .catch(err => {
-  //     res.send(err)
-  //    })
-  //  });  
-  // }
 
     let query = {};
     let params = {};
@@ -616,48 +506,21 @@ app.get('/userestag' , function(req,res){
 
 // add tages to database //
 app.post('/addtagtobase',function (req, res) {
-      //console.log(req.body);
       req.body.createdBy = req.session.data.name;
       t.create(req.body,function(error,result)
       {
         if(error)
         throw error;
         else
-        {
-          //console.log(result);
-        }
+        {}
       })
        res.send("data saved");
 })
 
 // data tables on tags //
 app.post('/showtags' , function(req, res) {
-   //  console.log('tagib');
-   //  var flag;
-   //        t.countDocuments(function(e,count){
-   //    var start=parseInt(req.body.start);
-   //    var len=parseInt(req.body.length);
-   //    t.find({
-   //    }).skip(start).limit(len)
-   //  .then(data=> {
-   //     if (req.body.search.value)
-   //                  {
-   //                    console.log("asdf")
-   //                      data = data.filter((value) => {
-   //                          flag = value.tags.includes(req.body.search.value) || value.createDate.includes(req.body.search.value)
-   //           || value.createdBy.includes(req.body.search.value);
-   //          return flag;
-   //                      })
-   //                  } 
- 
-   //    res.send({"recordsTotal": count, "recordsFiltered" : count, data})
-   //   })
-   //   .catch(err => {
-   //    res.send(err)
-   //   })
-   // });
 
-      let query = {};
+    let query = {};
     let params = {};
 
     if(req.body.search.value)
@@ -680,7 +543,6 @@ app.post('/showtags' , function(req, res) {
                 console.log(err);
             else
             {
-                // console.log(data);
                 t.countDocuments(query, function(err , filteredCount)
                 {
                     if(err)
@@ -725,13 +587,8 @@ app.post('/upload',(req,res) => {
           throw error;
         }
         else{
-          //console.log(req.file);
-          //console.log(photoname);
-
-          c//onsole.log(req.session.data.ides);
-          req.session.data.photoname = photoname;
-                
-                 res.render('editUserDetails', {data: req.session.data});
+          req.session.data.photoname = photoname;   
+          res.render('editUserDetails', {data: req.session.data});
             
         }
       })
@@ -745,9 +602,6 @@ app.post('/uploadcomm',(req,res) => {
           throw error;
         }
         else{
-//console.log(community_photo)
-
-            
         }
       })
 });
@@ -760,13 +614,8 @@ app.post('/Userupload',(req,res) => {
           throw error;
         }
         else{
-          //console.log(req.file);
-          //console.log(photoname);
-
-          //console.log(req.session.data.ides);
           req.session.data.photoname = photoname;
-                
-                 res.render('newUserProfileDetails', {data: req.session.data});
+          res.render('newUserProfileDetails', {data: req.session.data});
             
         }
       })
@@ -783,10 +632,7 @@ app.get('/switchasuser', function(req,res) {
           throw err
           else
           {
-           // res.send("FLAG UPDATED SUCCESFULLY")
-           //console.log(req.session)
            req.session.data.role = "superAdmin"
-           //console.log(req.session.data)
             res.render('switchasUser', {data: req.session.data});
           }
         })
@@ -806,8 +652,6 @@ app.get('/switchasadmin', function(req,res) {
           throw err
           else
           {
-           // res.send("FLAG UPDATED SUCCESFULLY")
-           //console.log(req.session)
            req.session.data.role = "Admin"
            res.render('switchasAdmin', {data: req.session.data});
           }
@@ -819,8 +663,6 @@ app.get('/switchasadmin', function(req,res) {
 
 app.get('/switchUserPage', function(req,res) {
        if(req.session.isLogin) {
-       // console.log("ji")
-       // console.log(req.session.data)
          res.render('editUserProfile', {data: req.session.data});
     
        } else {
@@ -841,14 +683,12 @@ app.get('/switchAdminPage', function(req,res) {
 // delete tags //
 app.delete('/:pro',function(req,res) {
       var id = req.params.pro.toString();
-      //console.log(id);
       t.deleteOne({ "_id": id },function(err,result)
       {
           if(err)
           throw error
           else
           {
-            //console.log(result);
               res.send("data deleted SUCCESFULLY")
           }
       });
@@ -992,9 +832,6 @@ app.get('/auth/github/callback',
         failureRedirect: '/index.html'
         }),
           function (req, res) {
-        //console.log("githubsignin succesful");
-        //console.log(req.session.passport.user._json.email)
-        //console.log(req.session.passport.user)
 
           users.findOne({
           "email": req.session.passport.user._json.email
@@ -1053,9 +890,6 @@ app.get('/auth/github/callback',
           console.error(err)
           //res.send(error)
         });
-        //console.log(temp);
-       // console.log(req.session.passport);
-        //res.send('Github login successful');
 });
 
 // community pages //
@@ -1097,21 +931,21 @@ app.post('/addNewCommunitytobase',function (req, res) {
       req.body.memberno = '1';
       req.body.commphoto = community_photo;
       community_photo = "uploads/defaultCommunity.jpg";
-       //console.log(req.body);
+      
       community.create(req.body,function(error,result)
       {
         if(error)
         throw error;
         else
         {
-         // console.log(result._id);
+         
           var cid = result._id;
           users.updateOne(  { "_id" : req.session.iding } , { $push : { owned : cid } } , function(err,result)
           {
             if(err)
             throw err;
             else {
-            //  console.log(result);
+          
             }
           })
 
@@ -1121,7 +955,6 @@ app.post('/addNewCommunitytobase',function (req, res) {
 })
 
 app.post('/updatecommunitydetails', function(req,res) {
-  //console.log(req.body);
         community.updateOne( { "_id" : req.body._id}, {$set : req.body } , function(err,result)
         {
           if(err)
@@ -1135,9 +968,7 @@ app.post('/updatecommunitydetails', function(req,res) {
 
 app.get('/getOwnCommunity',function(req,res) {
   if(req.session.isLogin){
-    //console.log("okokok")
     community.find({'ownerId':req.session.iding}, function(err, result){
-     //console.log(result);
       res.send(result);
     });
 
@@ -1147,21 +978,15 @@ app.get('/getOwnCommunity',function(req,res) {
 })
 
 app.get('/getOtherCommunity',function(req,res) {
-   //console.log('aaya bapu')
-   //console.log(req.session.iding)
     var abc = ObjectId(req.session.iding);
     community.find({ commuser: abc}, function(err, result){
-   //  console.log(result);
       res.send(result);
     });
 })
 
 app.get('/getPendingCommunity',function(req,res) {
-  // console.log('aaya bapu')
-   //console.log(req.session.iding)
     var abc = ObjectId(req.session.iding);
     community.find({ commasktojoin: abc}, function(err, result){
-    // console.log(result);
       res.send(result);
     });
 })
@@ -1176,7 +1001,6 @@ app.get('/searchingCommunity', function(req,res) {
 
 app.post('/getCommunityforSearch',function(req,res){
    var abc = ObjectId(req.session.iding);
-  // console.log(abc);
 
     community.find({ $and: [{ ownerId : { $not : { $eq : abc }}},{"status": "Active"},{commuser : {$nin : [abc] }},{commasktojoin : {$nin : [abc] }}] }).skip(req.body.start).limit(req.body.end).exec(function(error,result){
         if(error)
@@ -1189,16 +1013,12 @@ app.post('/getCommunityforSearch',function(req,res){
 
 app.get('/info/:pros',function(req,res) {
       var id = req.params.pros.toString();
-      //console.log(id);
       community.findOne({ "_id": id },function(err,reses)
       {
           if(err)
           throw err;
           else
           {
-            //console.log(reses);
-           // req.session.data.commName = result.name;
-            //console.log(reses.location)
              res.render('communityInformation', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
@@ -1207,16 +1027,12 @@ app.get('/info/:pros',function(req,res) {
 
 app.get('/setting/:pros',function(req,res) {
       var id = req.params.pros.toString();
-     // console.log(id);
       community.findOne({ "_id": id },function(err,reses)
       {
           if(err)
           throw err;
           else
           {
-            //console.log(reses);
-           // req.session.data.commName = result.name;
-            //console.log(reses.location)
              res.render('communitySettings', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
@@ -1225,16 +1041,12 @@ app.get('/setting/:pros',function(req,res) {
 
 app.get('/viewprofile/:pros',function(req,res) {
       var id = req.params.pros.toString();
-      console.log(id);
       users.findOne({ "_id": id },function(err,reses)
       {
           if(err)
           throw err;
           else
           {
-            //console.log(reses);
-           // req.session.data.commName = result.name;
-            // console.log(reses.location)
               res.render('communityOwnerInfo', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
@@ -1243,16 +1055,12 @@ app.get('/viewprofile/:pros',function(req,res) {
 
 app.get('/showCommunityMembers/:pros',function(req,res) {
       var id = req.params.pros.toString();
-     // console.log(id);
       community.findOne({ "_id": id },function(err,reses)
       {
           if(err)
           throw err;
           else
           {
-           // console.log(reses);
-           // req.session.data.commName = result.name;
-          //  console.log(reses.location)
              res.render('showCommunitymembers', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
@@ -1261,16 +1069,12 @@ app.get('/showCommunityMembers/:pros',function(req,res) {
 
 app.get('/editCommunity/:pros',function(req,res) {
       var id = req.params.pros.toString();
-      //console.log(id);
        community.findOne({ "_id": id },function(err,reses)
       {
           if(err)
           throw err;
           else
           {
-            //console.log(reses);
-           // req.session.data.commName = result.name;
-            //console.log(reses.location)
              res.render('editcommunitySettings', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
@@ -1278,7 +1082,6 @@ app.get('/editCommunity/:pros',function(req,res) {
 })
 
 app.post('/updatecommdetails', function(req,res) {
-  //console.log(req.body);
         community.updateOne( { "_id" : req.body._id}, {$set : req.body } , function(err,result)
         {
           if(err)
@@ -1292,16 +1095,12 @@ app.post('/updatecommdetails', function(req,res) {
 
 app.get('/inviteUser/:pros',function(req,res) {
       var id = req.params.pros.toString();
-      //console.log(id);
        community.findOne({ "_id": id },function(err,reses)
       {
           if(err)
           throw err;
           else
           {
-           // console.log(reses);
-           // req.session.data.commName = result.name;
-            //console.log(reses.location)
              res.render('InfocommunitySettings', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
@@ -1310,16 +1109,12 @@ app.get('/inviteUser/:pros',function(req,res) {
 
 app.get('/discussion/:pros',function(req,res) {
       var id = req.params.pros.toString();
-      //console.log(id);
        community.findOne({ "_id": id },function(err,reses)
       {
           if(err)
           throw err;
           else
           {
-            //console.log(reses);
-           // req.session.data.commName = result.name;
-            //console.log(reses.location)
              res.render('communityDiscussions', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
@@ -1329,9 +1124,7 @@ app.get('/discussion/:pros',function(req,res) {
 app.post('/joincommunity',function(req,res) {
      
       var abc = ObjectId(req.session.iding);
-      //console.log(id)
-
-        //console.log(req.body);
+  
       if(req.body.rule == "Direct")
       {
         community.updateOne({"_id" :req.body._id},{ $push : {commuser : abc}},function(error,result)
@@ -1377,9 +1170,7 @@ app.post('/joincommunity',function(req,res) {
 })
 
 app.post('/getUsers',function(req,res) {
-    //console.log(req.body._id)
    if(req.session.isLogin){
-     // console.log("----------------------"+req.body._id);
       var abc = ObjectId(req.body._id );
     community.findOne({ "_id" : abc}).populate("commuser"). // only return the Persons name
      exec(function (err, result) {
@@ -1387,7 +1178,6 @@ app.post('/getUsers',function(req,res) {
       return err;
     else
     {
-      //console.log("result"+result)
       res.send(JSON.stringify(result.commuser))
     }
     })
@@ -1395,9 +1185,7 @@ app.post('/getUsers',function(req,res) {
 })
 
 app.post('/getRequest',function(req,res) {
-    //console.log(req.body._id)
    if(req.session.isLogin){
-      //console.log("----------------------"+req.body._id);
       var abc = ObjectId(req.body._id );
     community.findOne({ "_id" : req.body._id}).populate("commasktojoin"). // only return the Persons name
      exec(function (err, result) {
@@ -1405,7 +1193,6 @@ app.post('/getRequest',function(req,res) {
       return err;
     else
     {
-     // console.log("result"+result)
       res.send(JSON.stringify(result.commasktojoin))
     }
     })
@@ -1435,13 +1222,11 @@ app.post('/leavePendingcommunity',function(req,res) {
         })
 })
 
-app.post('/changePhoto',function (req, res)         /*post data */
+ /*post data */
+app.post('/changePhoto',function (req, res)        
   {
-     // console.log(req.body);
-     // console.log(req.session.isLogin);
       req.session.photoname = req.body.name;
-
-           res.send("true");
+      res.send("true");
             
 })
 
