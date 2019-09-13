@@ -228,7 +228,7 @@ app.get('/home' , function(req,res){        /*get data */
     {
       if(req.session.data.role == 'Admin' || req.session.data.role == 'superAdmin') 
       {
-        console.log('hencjkasbcjkbc')
+        //console.log('hencjkasbcjkbc')
         res.render('main', {data: req.session.data});
       }
       else if(req.session.data.role == 'User' || req.session.data.role == 'Community Manager')
@@ -267,7 +267,7 @@ app.post('/checkemail',function (req, res) {
         throw error;
 
       if(!result) {
-        console.log(emailes);
+        //console.log(emailes);
         res.send("false");
       }
         else
@@ -309,26 +309,26 @@ app.get('/addusers' , function(req,res){
 
 // send mail to users node mailler //
 app.post('/sendMail', function(request,response) {
-    console.log(request.body)
+   // console.log(request.body)
       transporter.sendMail(request.body, (error, info) => {
         if(error) {
           console.log(error)
         } else {
-          console.log("Mail Sent" + info.response);
+         // console.log("Mail Sent" + info.response);
         }
       })
 })
 
 // add new user //
 app.post('/addnewuser',function (req, res) {
-      console.log(req.body);
+      //console.log(req.body);
       users.create(req.body,function(error,result)
       {
         if(error)
         throw error;
         else
         {
-          console.log(result);
+          //console.log(result);
         }
       })
        res.send("data saved");
@@ -336,7 +336,7 @@ app.post('/addnewuser',function (req, res) {
 
 // render user list page //
 app.get('/userlist' , function(req,res){  
-    console.log('yes raj');
+    //console.log('yes raj');
     //console.log(userdata);
     if(req.session.isLogin) {
       res.render('userlist', {data: req.session.data});
@@ -364,7 +364,7 @@ app.post('/showuser' , function(req, res) {
     }
 
     let sortingType;
-    console.log(req.body.order);
+    //console.log(req.body.order);
     if(req.body.order[0].dir === 'asc')
         sortingType = 1;
     else
@@ -409,7 +409,7 @@ app.post('/showuser' , function(req, res) {
 
 // render community list page //
 app.get('/communityList' , function(req,res){  
-    console.log('yes raj');
+   // console.log('yes raj');
     //console.log(userdata);
     if(req.session.isLogin) {
       res.render('CommunityList', {data: req.session.data});
@@ -422,7 +422,7 @@ app.get('/communityList' , function(req,res){
 // data table on community list //
 app.post('/showcommunity' , function(req, res) {
 
-  console.log(req.body.status)
+  //console.log(req.body.status)
 
   // if(req.body.status === 'All') {
   //   var flag;
@@ -616,7 +616,7 @@ app.get('/userestag' , function(req,res){
 
 // add tages to database //
 app.post('/addtagtobase',function (req, res) {
-      console.log(req.body);
+      //console.log(req.body);
       req.body.createdBy = req.session.data.name;
       t.create(req.body,function(error,result)
       {
@@ -624,7 +624,7 @@ app.post('/addtagtobase',function (req, res) {
         throw error;
         else
         {
-          console.log(result);
+          //console.log(result);
         }
       })
        res.send("data saved");
@@ -725,10 +725,10 @@ app.post('/upload',(req,res) => {
           throw error;
         }
         else{
-          console.log(req.file);
-          console.log(photoname);
+          //console.log(req.file);
+          //console.log(photoname);
 
-          console.log(req.session.data.ides);
+          c//onsole.log(req.session.data.ides);
           req.session.data.photoname = photoname;
                 
                  res.render('editUserDetails', {data: req.session.data});
@@ -745,7 +745,7 @@ app.post('/uploadcomm',(req,res) => {
           throw error;
         }
         else{
-console.log(community_photo)
+//console.log(community_photo)
 
             
         }
@@ -760,10 +760,10 @@ app.post('/Userupload',(req,res) => {
           throw error;
         }
         else{
-          console.log(req.file);
-          console.log(photoname);
+          //console.log(req.file);
+          //console.log(photoname);
 
-          console.log(req.session.data.ides);
+          //console.log(req.session.data.ides);
           req.session.data.photoname = photoname;
                 
                  res.render('newUserProfileDetails', {data: req.session.data});
@@ -786,7 +786,7 @@ app.get('/switchasuser', function(req,res) {
            // res.send("FLAG UPDATED SUCCESFULLY")
            //console.log(req.session)
            req.session.data.role = "superAdmin"
-           console.log(req.session.data)
+           //console.log(req.session.data)
             res.render('switchasUser', {data: req.session.data});
           }
         })
@@ -807,7 +807,7 @@ app.get('/switchasadmin', function(req,res) {
           else
           {
            // res.send("FLAG UPDATED SUCCESFULLY")
-           console.log(req.session)
+           //console.log(req.session)
            req.session.data.role = "Admin"
            res.render('switchasAdmin', {data: req.session.data});
           }
@@ -819,8 +819,8 @@ app.get('/switchasadmin', function(req,res) {
 
 app.get('/switchUserPage', function(req,res) {
        if(req.session.isLogin) {
-        console.log("ji")
-        console.log(req.session.data)
+       // console.log("ji")
+       // console.log(req.session.data)
          res.render('editUserProfile', {data: req.session.data});
     
        } else {
@@ -841,14 +841,14 @@ app.get('/switchAdminPage', function(req,res) {
 // delete tags //
 app.delete('/:pro',function(req,res) {
       var id = req.params.pro.toString();
-      console.log(id);
+      //console.log(id);
       t.deleteOne({ "_id": id },function(err,result)
       {
           if(err)
           throw error
           else
           {
-            console.log(result);
+            //console.log(result);
               res.send("data deleted SUCCESFULLY")
           }
       });
@@ -856,7 +856,7 @@ app.delete('/:pro',function(req,res) {
 
 // deactivate user //
 app.post('/deativateuserdata', function(req,res) {
-  console.log(req.body._id);
+  //console.log(req.body._id);
         users.updateOne( { "_id" : req.body._id}, {$set: { "flag" : req.body.flag}} ,
          function(err,result)
         {
@@ -871,7 +871,7 @@ app.post('/deativateuserdata', function(req,res) {
 
 // reactivate user //
 app.post('/reativateuserdata', function(req,res) {
-  console.log(req.body._id);
+  //console.log(req.body._id);
         users.updateOne( { "_id" : req.body._id}, {$set: { "flag" : req.body.flag}} ,
          function(err,result)
         {
@@ -1000,10 +1000,10 @@ app.get('/auth/github/callback',
           "email": req.session.passport.user._json.email
           })
         .then(data => {
-          console.log(req.session.passport.user._json);
+          //console.log(req.session.passport.user._json);
           if(data)
           {
-            console.log('afa')
+           // console.log('afa')
               req.session.isLogin = 1;
               req.session.name = req.session.passport.user._json.name;
               req.session.email = req.session.passport.user._json.email;
@@ -1104,14 +1104,14 @@ app.post('/addNewCommunitytobase',function (req, res) {
         throw error;
         else
         {
-          console.log(result._id);
+         // console.log(result._id);
           var cid = result._id;
           users.updateOne(  { "_id" : req.session.iding } , { $push : { owned : cid } } , function(err,result)
           {
             if(err)
             throw err;
             else {
-              console.log(result);
+            //  console.log(result);
             }
           })
 
@@ -1121,7 +1121,7 @@ app.post('/addNewCommunitytobase',function (req, res) {
 })
 
 app.post('/updatecommunitydetails', function(req,res) {
-  console.log(req.body);
+  //console.log(req.body);
         community.updateOne( { "_id" : req.body._id}, {$set : req.body } , function(err,result)
         {
           if(err)
@@ -1135,7 +1135,7 @@ app.post('/updatecommunitydetails', function(req,res) {
 
 app.get('/getOwnCommunity',function(req,res) {
   if(req.session.isLogin){
-    console.log("okokok")
+    //console.log("okokok")
     community.find({'ownerId':req.session.iding}, function(err, result){
      //console.log(result);
       res.send(result);
@@ -1147,11 +1147,11 @@ app.get('/getOwnCommunity',function(req,res) {
 })
 
 app.get('/getOtherCommunity',function(req,res) {
-   console.log('aaya bapu')
+   //console.log('aaya bapu')
    //console.log(req.session.iding)
     var abc = ObjectId(req.session.iding);
     community.find({ commuser: abc}, function(err, result){
-     console.log(result);
+   //  console.log(result);
       res.send(result);
     });
 })
@@ -1161,7 +1161,7 @@ app.get('/getPendingCommunity',function(req,res) {
    //console.log(req.session.iding)
     var abc = ObjectId(req.session.iding);
     community.find({ commasktojoin: abc}, function(err, result){
-     console.log(result);
+    // console.log(result);
       res.send(result);
     });
 })
@@ -1176,7 +1176,7 @@ app.get('/searchingCommunity', function(req,res) {
 
 app.post('/getCommunityforSearch',function(req,res){
    var abc = ObjectId(req.session.iding);
-   console.log(abc);
+  // console.log(abc);
 
     community.find({ $and: [{ ownerId : { $not : { $eq : abc }}},{"status": "Active"},{commuser : {$nin : [abc] }},{commasktojoin : {$nin : [abc] }}] }).skip(req.body.start).limit(req.body.end).exec(function(error,result){
         if(error)
@@ -1196,9 +1196,9 @@ app.get('/info/:pros',function(req,res) {
           throw err;
           else
           {
-            console.log(reses);
+            //console.log(reses);
            // req.session.data.commName = result.name;
-            console.log(reses.location)
+            //console.log(reses.location)
              res.render('communityInformation', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
@@ -1214,10 +1214,28 @@ app.get('/setting/:pros',function(req,res) {
           throw err;
           else
           {
-            console.log(reses);
+            //console.log(reses);
            // req.session.data.commName = result.name;
-            console.log(reses.location)
+            //console.log(reses.location)
              res.render('communitySettings', {data: req.session.data,newdata:reses});
+              //res.send("data deleted SUCCESFULLY")
+          }
+      });
+})
+
+app.get('/viewprofile/:pros',function(req,res) {
+      var id = req.params.pros.toString();
+      console.log(id);
+      users.findOne({ "_id": id },function(err,reses)
+      {
+          if(err)
+          throw err;
+          else
+          {
+            //console.log(reses);
+           // req.session.data.commName = result.name;
+            // console.log(reses.location)
+              res.render('communityOwnerInfo', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
       });
@@ -1232,9 +1250,9 @@ app.get('/showCommunityMembers/:pros',function(req,res) {
           throw err;
           else
           {
-            console.log(reses);
+           // console.log(reses);
            // req.session.data.commName = result.name;
-            console.log(reses.location)
+          //  console.log(reses.location)
              res.render('showCommunitymembers', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
@@ -1250,9 +1268,9 @@ app.get('/editCommunity/:pros',function(req,res) {
           throw err;
           else
           {
-            console.log(reses);
+            //console.log(reses);
            // req.session.data.commName = result.name;
-            console.log(reses.location)
+            //console.log(reses.location)
              res.render('editcommunitySettings', {data: req.session.data,newdata:reses});
               //res.send("data deleted SUCCESFULLY")
           }
@@ -1281,7 +1299,7 @@ app.get('/inviteUser/:pros',function(req,res) {
           throw err;
           else
           {
-            console.log(reses);
+           // console.log(reses);
            // req.session.data.commName = result.name;
             //console.log(reses.location)
              res.render('InfocommunitySettings', {data: req.session.data,newdata:reses});
@@ -1299,7 +1317,7 @@ app.get('/discussion/:pros',function(req,res) {
           throw err;
           else
           {
-            console.log(reses);
+            //console.log(reses);
            // req.session.data.commName = result.name;
             //console.log(reses.location)
              res.render('communityDiscussions', {data: req.session.data,newdata:reses});
@@ -1313,7 +1331,7 @@ app.post('/joincommunity',function(req,res) {
       var abc = ObjectId(req.session.iding);
       //console.log(id)
 
-        console.log(req.body);
+        //console.log(req.body);
       if(req.body.rule == "Direct")
       {
         community.updateOne({"_id" :req.body._id},{ $push : {commuser : abc}},function(error,result)
@@ -1359,9 +1377,9 @@ app.post('/joincommunity',function(req,res) {
 })
 
 app.post('/getUsers',function(req,res) {
-    console.log(req.body._id)
+    //console.log(req.body._id)
    if(req.session.isLogin){
-      console.log("----------------------"+req.body._id);
+     // console.log("----------------------"+req.body._id);
       var abc = ObjectId(req.body._id );
     community.findOne({ "_id" : abc}).populate("commuser"). // only return the Persons name
      exec(function (err, result) {
@@ -1369,7 +1387,7 @@ app.post('/getUsers',function(req,res) {
       return err;
     else
     {
-      console.log("result"+result)
+      //console.log("result"+result)
       res.send(JSON.stringify(result.commuser))
     }
     })
@@ -1377,9 +1395,9 @@ app.post('/getUsers',function(req,res) {
 })
 
 app.post('/getRequest',function(req,res) {
-    console.log(req.body._id)
+    //console.log(req.body._id)
    if(req.session.isLogin){
-      console.log("----------------------"+req.body._id);
+      //console.log("----------------------"+req.body._id);
       var abc = ObjectId(req.body._id );
     community.findOne({ "_id" : req.body._id}).populate("commasktojoin"). // only return the Persons name
      exec(function (err, result) {
@@ -1387,7 +1405,7 @@ app.post('/getRequest',function(req,res) {
       return err;
     else
     {
-      console.log("result"+result)
+     // console.log("result"+result)
       res.send(JSON.stringify(result.commasktojoin))
     }
     })
