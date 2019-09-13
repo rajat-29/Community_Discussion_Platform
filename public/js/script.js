@@ -4,12 +4,23 @@ var n = document.getElementById('n');
 var pass = document.getElementById('pass');
 var submit = document.getElementById('submit');
 var github_login = document.getElementById('github_login');
+var vercode = document.getElementById('vercode');
+
+var verificationcode = document.getElementById('verificationcode');
+var rajat = Math.floor(Math.random() * 1000000) + 100000;
+verificationcode.innerHTML = rajat;
 
 submit.addEventListener("click", function() {
 
-    if(n.value == '' || pass.value == '')
+    if(n.value == '' || pass.value == '' || vercode.value == '')
     {
         alert("Fields can't be Empty");
+        return;
+    }
+
+    if(vercode.value != rajat)
+    {
+        alert("Verification code doesn't match");
         return;
     }
 	//console.log(pass.value);
