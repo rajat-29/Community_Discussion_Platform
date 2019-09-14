@@ -118,20 +118,18 @@
         
         <div class="panel-body" style="border:0;border-radius:0;">
           
-              <div class="col-sm-12 col-xs-12 center-all">
-                
-                      
-                        <!--button class="btn btn-primary joinBtn" data-id="1"> Join <i class="fa fa-plus"></i></button>-->
-                      
-                
-              </div>
+              
           
         </div>
         <div class="panel-footer community-panel-sideBtn-link">
           
             <p class="center-all" style="margin:0">
               <%= newdata.commuser.length %> Members
+
+              <a href="" id="leaveComm" style="float: right;visibility: hidden;">Leave Community</a>
             </p>
+
+
           
         </div>
       </div>
@@ -185,15 +183,6 @@
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-
                     <div>
                       
                  </div>
@@ -206,5 +195,49 @@
         </div>
         
 <script src="/js/joinNewCommunity.js"></script>
+<script>
+  var a = "<%= data.name %>";
+  var b = "<%= newdata.owner %>"
+  var leaveComm = document.getElementById('leaveComm');
+
+  var commid ="<%= newdata._id %>";
+console.log(commid)
+  
+if(a != b)
+{
+  leaveComm.setAttribute("style", "visibility: visibile")
+  leaveComm.setAttribute("style", "float: right")
+}
+if(a == b)
+{
+  leaveComm.setAttribute("style", "visibility: hidden")
+}
+var obj = new Object();
+ obj.commid = commid;
+leaveComm.onclick=function()
+{
+  var request = new XMLHttpRequest()
+                request.open('POST','/leaveCommunityBYUser');
+                request.setRequestHeader("Content-Type","application/json");
+                request.send(JSON.stringify(obj))
+                request.addEventListener("load",function()
+                {
+                  window.alert("Community is Left")
+                      window.location = "/openCommunityPage"
+                }); 
+
+}
+
+
+</script>
+
+
+
 	</body>
 	</html>
+
+
+
+
+
+
