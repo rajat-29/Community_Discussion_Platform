@@ -315,9 +315,8 @@ function noUser()
 
 function addtoUserDOM(obj)
 {
-  console.log(obj.email)
-  console.log(email_id)
-  console.log(obj)
+  console.log(commid)
+  obj.commid = commid;
   if(obj.email == email_id)
   {
     console.log("aya")
@@ -396,6 +395,17 @@ function addtoUserDOM(obj)
              btnClass: 'btn-success any-other-class',
               action: function () {
                btnClass: 'btn-red any-other-class'
+
+                var request = new XMLHttpRequest()
+                request.open('POST','/leaveCommunity');
+                request.setRequestHeader("Content-Type","application/json");
+                request.send(JSON.stringify(obj))
+                request.addEventListener("load",function()
+                {
+                      document.location.reload();
+                }); 
+
+
                    
           }
       },

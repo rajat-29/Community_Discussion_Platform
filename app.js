@@ -1169,6 +1169,32 @@ app.post('/joincommunity',function(req,res) {
       }
 })
 
+app.post('/leaveCommunity',function(req,res) {
+  console.log(req.body.commid);
+
+ console.log(req.body._id);
+
+        community.updateOne({"_id" :req.body.commid},{ $pull : {commuser : req.body._id}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                res.send("USER JOINED WITH COMMUNITY");
+            }
+        })
+
+        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+        users.updateOne({"_id" : req.body._id},{ $pull : {joinedComm : req.body.commid }},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                console.log("ENTERED IN USER DATABASE ALSO")
+            }
+        })
+
+})
+
 app.post('/getUsers',function(req,res) {
    if(req.session.isLogin){
       var abc = ObjectId(req.body._id );
