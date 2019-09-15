@@ -51,12 +51,6 @@ submit.addEventListener("click", function() {
     });
 })
 
-github_login.addEventListener("click", function() {
-    console.log('aaya github');
-    window.location = "/auth/github";
-
-})
-
 pass.addEventListener("keyup", function() {
 
      if (event.keyCode === 13) {

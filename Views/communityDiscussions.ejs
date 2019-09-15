@@ -170,18 +170,18 @@
         Start a discussion
       </p>
     </div>
-<form method="POST" enctype="multipart/form-data" id="discussionPostForm">
+
 
     <div class="panel-body discussion-panel-body">
       <div class="col-sm-12 col-xs-12" style="padding:0;border-top: 1px solid white;">
-        <input type="text" style="width:100%" class="discussion-input-title" name="title" placeholder="Enter a discussion title....." id="discussion-title" autocomplete="off" required="">
+        <input type="text" style="width:100%" class="discussion-input-title" name="title" placeholder="Enter a discussion title....." id="discussion_title" autocomplete="off" required="">
       </div>
     </div>
 
     <div class="panel-body discussion-body" style="display: block;width: 100%;">
         <div class="col-sm-12 col-xs-12" style="padding:0;border-top: 1px solid white;">
           <!--Textarea-->
-            <textarea class="discussion-body-textarea" name="details" placeholder="Enter discussion details" id="discussion-details" autocomplete="off" required=""></textarea>
+            <textarea class="discussion-body-textarea" name="details" placeholder="Enter discussion details" id="discussion_details" autocomplete="off" required=""></textarea>
           <!------------>
         </div>
 
@@ -214,16 +214,19 @@
           
           <a class="discussion-image-btn" id="discussionImageClickBtn" style="width:40px;height: 40px;"><i class="fa fa-image" ></i></a>
           
-          <button class="btn btn-primary" type="submit" style="float:right" id="discussion-post">
+          <button class="btn btn-primary" type="submit" style="float:right" id="discussion_post">
             <p class="discussion-post-btn-txt">Post</p>
           
           </button>
         </div>
     </div>
-  </form>
+  
   <div class="panel-footer"></div>
   </div>
 </div> <!--Header-->  
+
+  <div id="discussionsList">
+                    </div>
 
 </div></div></div>
 
@@ -237,7 +240,7 @@
             </div>
         </div>
 
-
+<script src="/js/createDiscussions.js"></script>
 <script type="text/javascript">
 
   var hideManage = document.getElementById('hideManage');
@@ -246,6 +249,7 @@
 
 $(document).ready(function() {
     initaliseusers();   
+    initaliseDiscussions();
 })
 
 function initaliseusers()
@@ -265,12 +269,29 @@ function initaliseusers()
   xml.send(JSON.stringify({"_id":commid}));
 }
 
+function initaliseDiscussions()
+{
+    var ob = new Object();
+    ob.communityName = "<%=newdata.name%>";
+
+     var xml=new XMLHttpRequest();
+  xml.open("POST","/getDiscussion");
+  xml.setRequestHeader("Content-Type","application/json");
+  xml.addEventListener("load",function()
+  {
+      var data=JSON.parse(xml.responseText);
+     //console.log(data)
+      for(j in data)
+      {
+        addtoDiscussionDOM(data[j])
+      }
+  })
+  xml.send(JSON.stringify(ob));
+}
+
 
 function addtoUserDOM(obj)
 {
-  console.log(obj.email)
-  console.log(email_id)
-  console.log(obj)
   if(obj.email == email_id)
   {
     console.log("aya")
@@ -278,6 +299,86 @@ function addtoUserDOM(obj)
   }
 }
 
+var discussion_title = document.getElementById('discussion_title');
+var discussion_details = document.getElementById('discussion_details');
+var tagEditor = document.getElementById('tagEditor');
+var discussion_post = document.getElementById('discussion_post');
+
+discussion_post.addEventListener("click",function() {
+
+  if(discussion_title.value == '' || discussion_details.value  == '')
+  {
+    alert("Field can't be Empty");
+  }
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1;
+    var yyyy = today.getFullYear();
+    var hrs = today.getHours();
+    var mins = today.getMinutes();
+    var format = "AM";
+    if(hrs>12)
+    {
+        hrs=hrs-12;
+        format="PM";
+    }
+    today = + dd + '-' + getMonths(mm) + '-' + yyyy;
+    today = today + " ";
+    today = today + "(" + hrs + ':' + mins + '' + format + ")";
+
+  var obj = new Object();
+  obj.title = discussion_title.value;
+  obj.details = discussion_details.value;
+  obj.tag = tagEditor.value;
+  obj.communityName = "<%=newdata.name%>";
+  obj.createdBy = "<%= data.name %>";
+  obj.createdDate = today;
+  obj.ownerId = "<%= data.ides %>";
+  console.log(obj);
+
+  var request = new XMLHttpRequest();
+    request.open('POST',"/addnewDiscussion");
+    request.setRequestHeader("Content-Type","application/json");
+    request.send(JSON.stringify(obj))
+    request.addEventListener("load",function() {
+        console.log("Data Posted Successfully");
+        alert("New Discussion Is Registred");
+  });  
+    location.reload();
+})
+
+function addtoDiscussionDOM(obj)
+{
+    var div = '<div class="container discussion-container">'
+                +'<div class="panel panel-default allSidesSoft" style="background:white;">'
+                  +'<div class="dropup" style="margin-right: 10px;">'
+                    +'<a class="discussion-dropdown-menu" data-toggle="dropdown" style="float:right !important" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>'
+                    +'<ul class="dropdown-menu dropdown-menu-right dropdown-menu-discussion">'
+                      +'<li><a class="request-dropdown-options" onclick="">Delete</a></li>'
+                      +'<li id=""><a class="request-dropdown-options" onclick="" id="">Feature</a></li>'
+                      +'<li id=""><a class="request-dropdown-options" onclick="" id="">Publish to CQ</a></li>'
+                    +'</ul>'
+                  +'</div>'
+                  +'<div class="panel-body" style="padding:0; padding-top:10px;">'
+                    +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-title">'
+                      +'<a class="discussion-title" href="#" target="">'+obj.title+'</a>'
+                    +'</div>'
+                    +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-head"> posted by <a href="">'+obj.createdBy +'</a> at '+obj.createdDate +'</div>'
+                  +'</div>'
+                  +'<div class="panel-body" style="padding:0;padding-top:10px;">'
+                    +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-content" style="font-size:16px">'+obj.details +'</div>'
+                  +'</div>'
+                +'</div>'
+              +'</div>';
+
+    $('#discussionsList').append(div); 
+  }
+
+function getMonths(mno) {
+    var month = ["Jan","Feb","March","April","May","June","July","Aug","Sep","Oct","Nov","Dec"];
+    return month[mno-1];
+}
 
 
 

@@ -68,7 +68,6 @@ function pendingmembers() {
 function addToDOM(obj,s)
 {
     var filenaming = obj._id;
-    console.log(obj.commuser.length);
     var div1=document.createElement('div');
     div1.setAttribute("class","col-sm-12 col-xs-12 myCommunity community-div");
     div1.setAttribute("style","marginTop:5px;");
@@ -146,7 +145,7 @@ function addToDOM(obj,s)
 
     if(s=="trueflase")
     {
-
+console.log(obj);
         var div4=document.createElement('div')
         div4.setAttribute("class","col-sm-1 col-xs-2")
         div4.setAttribute("style", "padding:0;margin-top: 15px;")

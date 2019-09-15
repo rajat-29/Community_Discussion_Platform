@@ -155,6 +155,18 @@ var communitySchema = new mongoose.Schema({
 
 var community = mongoose.model('communities', communitySchema);
 
+var discussionSchema = new mongoose.Schema({
+    title: String,
+    details: String,
+    tag: String,
+    communityName: String,
+    createdBy: String,
+    createdDate: String,
+    ownerId: String,
+})
+
+var discussion = mongoose.model('discussiones', discussionSchema);
+
 // node mailler //
 // add your email and password here for email //
 
@@ -1278,6 +1290,33 @@ app.post('/changePhoto',function (req, res)
       req.session.photoname = req.body.name;
       res.send("true");
             
+})
+
+// Discussions
+
+/* create new discussion */
+app.post('/addnewDiscussion',function (req, res) {
+      discussion.create(req.body,function(error,result)
+      {
+        if(error)
+        throw error;
+        else
+        {}
+      })
+       res.send("data saved");
+})
+
+app.post('/getDiscussion',function(req,res) {
+
+    discussion.find({ "communityName" : req.body.communityName}).exec(function (err, result) {
+     if (err) 
+      return err;
+    else
+    {
+      res.send(result)
+    }
+    })
+    
 })
 
 console.log("Running on port 8000");
