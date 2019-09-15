@@ -1332,6 +1332,22 @@ app.delete('/deleteDiscussion/:pros',function(req,res) {
       });
  })
 
+// discussion owner //
+app.get('/discussionOwner/:pros',function(req,res) {
+      var id = req.params.pros.toString();
+      users.findOne({ "_id": id },function(err,reses)
+      {
+          if(err)
+          throw err;
+          else
+          {
+              res.render('discussionOwnerInfo', {data: req.session.data,newdata:reses});
+              //res.send("data deleted SUCCESFULLY")
+
+          }
+      });
+})
+
 
 
 console.log("Running on port 8000");

@@ -358,6 +358,7 @@ discussion_post.addEventListener("click",function() {
 
 function addtoDiscussionDOM(obj)
 {
+  console.log(obj)
      var div = '<div class="container discussion-container">'
                 +'<div class="panel panel-default allSidesSoft" style="background:white;">'
                   +'<div class="dropup" style="margin-right: 10px;">'
@@ -372,7 +373,7 @@ function addtoDiscussionDOM(obj)
                     +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-title">'
                       +'<a class="discussion-title" href="#" target="">'+obj.title+'</a>'
                     +'</div>'
-                    +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-head"> posted by <a href="">'+obj.createdBy +'</a> at '+obj.createdDate +'</div>'
+                    +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-head"> posted by <a href="/discussionOwner/'+obj.ownerId+'">'+obj.createdBy +'</a> at '+obj.createdDate +'</div>'
                   +'</div>'
                   +'<div class="panel-body" style="padding:0;padding-top:10px;">'
                     +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-content" style="font-size:16px">'+obj.details +'</div>'
@@ -390,7 +391,7 @@ function addtoDiscussionDOM(obj)
                     +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-title">'
                       +'<a class="discussion-title" href="#" target="">'+obj.title+'</a>'
                     +'</div>'
-                    +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-head"> posted by <a href="">'+obj.createdBy +'</a> at '+obj.createdDate +'</div>'
+                    +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-head"> posted by <a href="/discussionOwner/'+obj.ownerId+'">'+obj.createdBy +'</a> at '+obj.createdDate +'</div>'
                   +'</div>'
                   +'<div class="panel-body" style="padding:0;padding-top:10px;">'
                     +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-content" style="font-size:16px">'+obj.details +'</div>'
