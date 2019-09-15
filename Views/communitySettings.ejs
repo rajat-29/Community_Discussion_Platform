@@ -246,7 +246,7 @@ function initaliseusers()
       else
       for(i in data)
       {
-        addtoUserDOM(data[i])
+        addtoUserDOM(data[i],1)
       }
       document.getElementById('UsersShowBtn').innerHTML="Users ("+data.length+")"
   })
@@ -271,7 +271,7 @@ function initaliserequests()
       else
       for(i in data)
       {
-        addtoUserDOM(data[i])
+        addtoUserDOM(data[i],2)
       }
       document.getElementById('invitedUserShowBtn').innerHTML="Requests ("+data.length+")"
   })
@@ -294,7 +294,6 @@ function initaliserequestsWithOutDom()
 
 function noUser()
 {
-  console.log('fdsfgsg')
   var div1=document.createElement('div')
   div1.setAttribute("class","col-sm-12 col-xs-12 allcoms community-user-div")
   div1.setAttribute("style","margin-top:5px;display:flex;")
@@ -313,9 +312,9 @@ function noUser()
 }
 
 
-function addtoUserDOM(obj)
+function addtoUserDOM(obj,no)
 {
-  console.log(commid)
+  console.log(no)
   obj.commid = commid;
   if(obj.email == email_id)
   {
@@ -396,17 +395,28 @@ function addtoUserDOM(obj)
               action: function () {
                btnClass: 'btn-red any-other-class'
 
-                var request = new XMLHttpRequest()
-                request.open('POST','/leaveCommunity');
-                request.setRequestHeader("Content-Type","application/json");
-                request.send(JSON.stringify(obj))
-                request.addEventListener("load",function()
+                if(no == 1)
                 {
-                      document.location.reload();
-                }); 
-
-
-                   
+                  var request = new XMLHttpRequest()
+                  request.open('POST','/leaveCommunity');
+                  request.setRequestHeader("Content-Type","application/json");
+                  request.send(JSON.stringify(obj))
+                  request.addEventListener("load",function()
+                  {
+                        document.location.reload();
+                  }); 
+                }  
+                else if(no == 2)
+                {
+                  var request = new XMLHttpRequest()
+                  request.open('POST','/leaveCommunityForRequestUsers');
+                  request.setRequestHeader("Content-Type","application/json");
+                  request.send(JSON.stringify(obj))
+                  request.addEventListener("load",function()
+                  {
+                        document.location.reload();
+                  }); 
+                }
           }
       },
         No: {

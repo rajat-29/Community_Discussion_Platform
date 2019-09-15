@@ -145,7 +145,9 @@ function addToDOM(obj,s)
 
     if(s=="trueflase")
     {
-console.log(obj);
+//console.log(obj);
+        a2.href = "";
+        a3.href = "";
         var div4=document.createElement('div')
         div4.setAttribute("class","col-sm-1 col-xs-2")
         div4.setAttribute("style", "padding:0;margin-top: 15px;")

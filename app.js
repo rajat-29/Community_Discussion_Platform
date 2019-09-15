@@ -1182,10 +1182,6 @@ app.post('/joincommunity',function(req,res) {
 })
 
 app.post('/leaveCommunity',function(req,res) {
-  console.log(req.body.commid);
-
- console.log(req.body._id);
-
         community.updateOne({"_id" :req.body.commid},{ $pull : {commuser : req.body._id}},function(error,result)
         {
             if(error)
@@ -1194,7 +1190,6 @@ app.post('/leaveCommunity',function(req,res) {
                 res.send("USER JOINED WITH COMMUNITY");
             }
         })
-
         //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
         users.updateOne({"_id" : req.body._id},{ $pull : {joinedComm : req.body.commid }},function(error,result)
         {
@@ -1204,12 +1199,30 @@ app.post('/leaveCommunity',function(req,res) {
                 console.log("ENTERED IN USER DATABASE ALSO")
             }
         })
+})
 
+// leave community who requested to join
+app.post('/leaveCommunityForRequestUsers',function(req,res) {
+        community.updateOne({"_id" :req.body.commid},{ $pull : {commasktojoin : req.body._id}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                res.send("USER JOINED WITH COMMUNITY");
+            }
+        })
+        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+        users.updateOne({"_id" : req.body._id},{ $pull : {asktojoincomm : req.body.commid }},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                console.log("ENTERED IN USER DATABASE ALSO")
+            }
+        })
 })
 
 app.post('/leaveCommunityBYUser',function(req,res) {
-  console.log(req.body.commid);
-
         community.updateOne({"_id" :req.body.commid},{ $pull : {commuser : req.session.iding}},function(error,result)
         {
             if(error)
