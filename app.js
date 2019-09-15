@@ -1316,8 +1316,23 @@ app.post('/getDiscussion',function(req,res) {
       res.send(result)
     }
     })
-    
 })
+
+// delete discussions //
+app.delete('/deleteDiscussion/:pros',function(req,res) {
+      var id = req.params.pros.toString();
+      discussion.deleteOne({ "_id": id },function(err,reses)
+      {
+          if(err)
+          throw err;
+          else
+          {
+            res.send("data deleted SUCCESFULLY");
+          }
+      });
+ })
+
+
 
 console.log("Running on port 8000");
 app.listen(8000)
