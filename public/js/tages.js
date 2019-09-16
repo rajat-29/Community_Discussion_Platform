@@ -7,7 +7,7 @@ var colorLi = document.getElementById("sidebar-tags");
 colorLi.setAttribute("style", "background-color:#337ab7");
 
 showtags.addEventListener("click", function() {
-    window.location = "/listuserstags"
+    window.location = "/admin/listuserstags"
 })
 
 submit.addEventListener("click", function() {
@@ -50,7 +50,7 @@ submit.addEventListener("click", function() {
     {
 
         var request = new XMLHttpRequest();
-        request.open('POST',"/addtagtobase");
+        request.open('POST',"/admin/addtagtobase");
         request.setRequestHeader("Content-Type","application/json");
         request.send(JSON.stringify(obj))
         request.addEventListener("load",function() {
@@ -85,7 +85,7 @@ function checkTagAvail()
     obj1.tags = tagvalue.value;
     
     var request = new XMLHttpRequest();
-    request.open('POST',"/checktag");
+    request.open('POST',"/admin/checktag");
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify({tags: tagvalue.value}));
     request.addEventListener("load",function() {

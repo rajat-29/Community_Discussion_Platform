@@ -110,7 +110,7 @@
 
     
       <li>
-          <a href="/discussion/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/community/discussion/<%=newdata._id%>" class="community-profile-option-btn">
             Discussions
           </a>
       </li>
@@ -118,20 +118,20 @@
 
     
       <li id="hideManage">
-          <a href="/setting/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/community/setting/<%=newdata._id%>" class="community-profile-option-btn">
             Manage Community
           </a>
       </li>
     
 
       <li>
-          <a href="/info/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/community/info/<%=newdata._id%>" class="community-profile-option-btn">
             Community Profile
           </a>
       </li>
 
       <li>
-          <a href="/showCommunityMembers/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/community/showCommunityMembers/<%=newdata._id%>" class="community-profile-option-btn">
             Community Members
           </a>
       </li>
@@ -201,7 +201,7 @@ $(document).ready(function() {
 function initaliseusers()
 {
   var xml=new XMLHttpRequest();
-  xml.open("POST","/getUsers");
+  xml.open("POST","/community/getUsers");
   xml.setRequestHeader("Content-Type","application/json");
     document.getElementById('comUsersList').innerHTML=""
   xml.addEventListener("load",function()
@@ -244,6 +244,7 @@ function noUser()
 
 function addtoUserDOM(obj)
 {
+  //console.log(obj)
    if(obj.email == email_id)
   {
     console.log("aya")
@@ -258,7 +259,7 @@ function addtoUserDOM(obj)
   var a1=document.createElement('a')
   a1.setAttribute("href","")
   var img1=document.createElement('img')
-  img1.setAttribute("src","/uploads/default.png")
+  img1.setAttribute("src",obj.photoname)
   img1.setAttribute("class","community-member-pic")
 
   img1.setAttribute("style", "width:50px;height:50px;")

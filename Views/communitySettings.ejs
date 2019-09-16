@@ -110,7 +110,7 @@
 
     
       <li>
-          <a href="/discussion/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/community/discussion/<%=newdata._id%>" class="community-profile-option-btn">
             Discussions
           </a>
       </li>
@@ -118,20 +118,20 @@
 
     
       <li id="hideManage">
-          <a href="/setting/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/community/setting/<%=newdata._id%>" class="community-profile-option-btn">
             Manage Community
           </a>
       </li>
     
 
       <li>
-          <a href="/info/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/community/info/<%=newdata._id%>" class="community-profile-option-btn">
             Community Profile
           </a>
       </li>
 
       <li>
-          <a href="/showCommunityMembers/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/community/showCommunityMembers/<%=newdata._id%>" class="community-profile-option-btn">
             Community Members
           </a>
       </li>
@@ -162,11 +162,11 @@
   <nonlink class="manageCommunity-head-btn" style="cursor: context-menu;">
     Manage Community
   </nonlink>
-  <a href="/inviteUser/<%=newdata._id%>" style="float:right;font-weight:600">
+  <a href="/community/inviteUser/<%=newdata._id%>" style="float:right;font-weight:600">
     Invite Users
   </a>
   
-  <a class="pc" href="/editCommunity/<%=newdata._id%>" style="float:right;font-weight:600;margin-right:15px">
+  <a class="pc" href="/community/editCommunity/<%=newdata._id%>" style="float:right;font-weight:600;margin-right:15px">
     Edit Community
   </a>
   
@@ -231,7 +231,7 @@ $(document).ready(function() {
 function initaliseusers()
 {
   var xml=new XMLHttpRequest();
-  xml.open("POST","/getUsers");
+  xml.open("POST","/community/getUsers");
   xml.setRequestHeader("Content-Type","application/json");
     document.getElementById('comlist').innerHTML=""
   xml.addEventListener("load",function()
@@ -256,7 +256,7 @@ function initaliseusers()
 function initaliserequests()
 {
   var xml=new XMLHttpRequest();
-  xml.open("POST","/getRequest");
+  xml.open("POST","/community/getRequest");
   xml.setRequestHeader("Content-Type","application/json");
     document.getElementById('comlist').innerHTML=""
   xml.addEventListener("load",function()
@@ -281,7 +281,7 @@ function initaliserequests()
 function initaliserequestsWithOutDom()
 {
   var xml=new XMLHttpRequest();
-  xml.open("POST","/getRequest");
+  xml.open("POST","/community/getRequest");
   xml.setRequestHeader("Content-Type","application/json");
     document.getElementById('comlist').innerHTML=""
   xml.addEventListener("load",function()
@@ -398,7 +398,7 @@ function addtoUserDOM(obj,no)
                 if(no == 1)
                 {
                   var request = new XMLHttpRequest()
-                  request.open('POST','/leaveCommunity');
+                  request.open('POST','/community/leaveCommunity');
                   request.setRequestHeader("Content-Type","application/json");
                   request.send(JSON.stringify(obj))
                   request.addEventListener("load",function()
@@ -409,7 +409,7 @@ function addtoUserDOM(obj,no)
                 else if(no == 2)
                 {
                   var request = new XMLHttpRequest()
-                  request.open('POST','/leaveCommunityForRequestUsers');
+                  request.open('POST','/community/leaveCommunityForRequestUsers');
                   request.setRequestHeader("Content-Type","application/json");
                   request.send(JSON.stringify(obj))
                   request.addEventListener("load",function()

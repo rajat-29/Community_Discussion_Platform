@@ -18,17 +18,17 @@ function homepage()
 
 function open_adduser_page()
 {
-     window.location = "/addusers";
+     window.location = "/admin/addusers";
 }
 
 function openuserlist()
 {
-    window.location = "/userlist";
+    window.location = "/admin/userlist";
 }
 
 function communitypage()
 {
-    window.location = "/communityList"
+    window.location = "/admin/communityList"
 }
 
 function switchasuser()
@@ -42,7 +42,7 @@ function switchasuser()
              btnClass: 'btn-success any-other-class',
             action: function () {
              btnClass: 'btn-red any-other-class'
-            window.location = "/switchasuser";
+            window.location = "/admin/switchasuser";
         }
     },
         No: {
@@ -66,7 +66,7 @@ function switchasAdmin()
              btnClass: 'btn-success any-other-class',
             action: function () {
              btnClass: 'btn-red any-other-class'
-            window.location = "/switchasadmin";
+            window.location = "/admin/switchasadmin";
         }
     },
         No: {
@@ -81,12 +81,12 @@ function switchasAdmin()
 
 function opentagpage()
 {
-    window.location = "/userestag";
+    window.location = "/admin/userestag";
 }
 
 function changepassword()
 {
-    window.location = "/changePassword";
+    window.location = "/admin/changePassword";
 }
 
 function editProfile()

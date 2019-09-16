@@ -18,7 +18,7 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
 			"serverSide": true,
 			"dataSrc":"",
 			"ajax": {
-				"url": "/showuser",
+				"url": "/admin/showuser",
 				"type": "POST",
 				"data": function ( d )
             	{
@@ -125,7 +125,7 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
 			obj1.role = role.value;
 			console.log(obj1)
 			var request = new XMLHttpRequest();
-			request.open('POST', '/updateuserdetails');
+			request.open('POST', '/admin/updateuserdetails');
 			request.setRequestHeader("Content-Type","application/json");
 			request.send(JSON.stringify(obj1))
 			request.addEventListener("load",function()
@@ -172,7 +172,7 @@ function deactivateUser(ides,namess,flages)
             	action: function () {
             	 btnClass: 'btn-red any-other-class'
             	 var request = new XMLHttpRequest()
-				request.open('POST','/deativateuserdata');
+				request.open('POST','/admin/deativateuserdata');
 				request.setRequestHeader("Content-Type","application/json");
 				request.send(JSON.stringify(obj1))
 				request.addEventListener("load",function()
@@ -198,7 +198,7 @@ function reactivateUser(ides,namess,flages)
 				obj1.flag = 1;
 				console.log(obj1._id);
 	$.confirm({
-    	title: 'Deactivate User ?',
+    	title: 'Reactivate User ?',
     	content: "Are you sure to Reactivate " + namess,
     	draggable: true,
    		buttons: {
@@ -207,7 +207,7 @@ function reactivateUser(ides,namess,flages)
             	action: function () {
             	 btnClass: 'btn-red any-other-class'
             	var request = new XMLHttpRequest()
-				request.open('POST','/reativateuserdata');
+				request.open('POST','/admin/reativateuserdata');
 				request.setRequestHeader("Content-Type","application/json");
 				request.send(JSON.stringify(obj1))
 				request.addEventListener("load",function()

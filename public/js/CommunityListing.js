@@ -7,7 +7,7 @@ $(document).ready(function() {
 function initaliseTable() {
     var s="true"
     var xml=new XMLHttpRequest();
-    xml.open("GET","/getOwnCommunity");
+    xml.open("GET","/community/getOwnCommunity");
     xml.setRequestHeader("Content-Type","application/json");
     //console.log("okokokoko");
     xml.addEventListener("load",function()
@@ -27,7 +27,7 @@ function initaliseTable() {
 function groupmembers() {
     var s="false"
     var xml=new XMLHttpRequest();
-    xml.open("GET","/getOtherCommunity");
+    xml.open("GET","/community/getOtherCommunity");
     xml.setRequestHeader("Content-Type","application/json");
     //console.log("okokokoko");
     xml.addEventListener("load",function()
@@ -47,7 +47,7 @@ function groupmembers() {
 function pendingmembers() {
     var s="trueflase";
     var xml=new XMLHttpRequest();
-    xml.open("GET","/getPendingCommunity");
+    xml.open("GET","/community/getPendingCommunity");
     xml.setRequestHeader("Content-Type","application/json");
     //onsole.log("okokokoko");
     xml.addEventListener("load",function()
@@ -98,7 +98,7 @@ function addToDOM(obj,s)
     var p=document.createElement('p')
     var a2=document.createElement('a');
     a2.setAttribute("class","comnametxt")
-    a2.href = "/discussion/" + filenaming;
+    a2.href = "/community/discussion/" + filenaming;
     a2.innerHTML=obj.name + "     ";
 
     var a3=document.createElement('a')
@@ -112,12 +112,12 @@ function addToDOM(obj,s)
     div3.appendChild(p)
     div1.appendChild(div3)
 
-    a3.href = '/info/' + filenaming;
+    a3.href = '/community/info/' + filenaming;
 
 
     if(s=="true")
     {
-        a3.href = '/setting/' + filenaming;
+        a3.href = '/community/setting/' + filenaming;
         
         var div4=document.createElement('div')
         div4.setAttribute("class","col-sm-1 col-xs-2")
@@ -139,7 +139,7 @@ function addToDOM(obj,s)
         div1.appendChild(div4)
         div4.onclick=function(){
                 console.log('ayayay')
-            window.location = '/setting/' + filenaming;
+            window.location = '/community/setting/' + filenaming;
         }  
     }
 
@@ -175,7 +175,7 @@ function addToDOM(obj,s)
                btnClass: 'btn-red any-other-class'
 
                 var request = new XMLHttpRequest();
-                var filename = '/leavePendingcommunity';
+                var filename = '/community/leavePendingcommunity';
                 request.open('POST',filename);
                 request.setRequestHeader("content-Type","application/JSON");
                 request.send(JSON.stringify(obj));
@@ -209,7 +209,7 @@ document.getElementById('can-create-community').appendChild(div1)
 
 function searchingCommunity()
 {
-    window.location = "/searchingCommunity";
+    window.location = "/community/searchingCommunity";
 }
 
 

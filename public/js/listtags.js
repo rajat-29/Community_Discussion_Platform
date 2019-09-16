@@ -6,7 +6,7 @@ let table;
       "serverSide": true,
        "dataSrc":"",
       "ajax": {
-        "url": "/showtags",
+        "url": "/admin/showtags",
         "type": "POST",
       },
       "columns": [
@@ -57,11 +57,9 @@ function deleteTag(ides)
                btnClass: 'btn-success any-other-class',
                 action: function () {
                  btnClass: 'btn-red any-other-class'
-               var filename = ides;
-                console.log(filename);
-
+                 var filename = ides;
                  var request = new XMLHttpRequest();
-                 request.open('DELETE',filename);
+                 request.open('DELETE','/admin/'+filename);
                  request.send()
                  request.addEventListener("load",function(event)
                 {

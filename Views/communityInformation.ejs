@@ -141,7 +141,7 @@
           <div class="panel-body" style="border:0;border-radius:0">
             <div id="commuity-owner-detail">
               <!--Owner Info-->
-            <div class="col-sm-12 col-md-12 col-lg-12 adminInfo">  <div class="col-sm-6 col-md-6 col-lg-4 col-xs-4 center-all">      <a href="/viewprofile/5cbf11fe56f5d9f21a83ab3c"><img src="/uploads/default.png" style="width: 40px;height: 40px;" class="adminPic allSides" id="dpimage"></a>  </div><div class="col-sm-6 col-md-6 col-lg-8 col-xs-8 adminContent" style="padding:0">  <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12" style="padding:0">    <span class="label label-success" style="margin-top:10px;">Owner</span>  </div>   <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12" style="padding:0;">     <a href="/viewprofile/<%= newdata.ownerId %>"><%= newdata.owner %></a>   </div></div></div></div>
+            <div class="col-sm-12 col-md-12 col-lg-12 adminInfo">  <div class="col-sm-6 col-md-6 col-lg-4 col-xs-4 center-all">      <a href="/viewprofile/5cbf11fe56f5d9f21a83ab3c"><img id="setImage" src="/uploads/default.png" style="width: 40px;height: 40px;" class="adminPic allSides" id="dpimage"></a>  </div><div class="col-sm-6 col-md-6 col-lg-8 col-xs-8 adminContent" style="padding:0">  <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12" style="padding:0">    <span class="label label-success" style="margin-top:10px;">Owner</span>  </div>   <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12" style="padding:0;">     <a href="/community/viewprofile/<%= newdata.ownerId %>"><%= newdata.owner %></a>   </div></div></div></div>
             <div id="commuity-admins-detail">
               <!--Admin Info-->
             </div>
@@ -198,6 +198,7 @@
 <script>
   var a = "<%= data.name %>";
   var b = "<%= newdata.owner %>"
+
   var leaveComm = document.getElementById('leaveComm');
 
   var commid ="<%= newdata._id %>";
@@ -217,7 +218,7 @@ var obj = new Object();
 leaveComm.onclick=function()
 {
   var request = new XMLHttpRequest()
-                request.open('POST','/leaveCommunityBYUser');
+                request.open('POST','/community/leaveCommunityBYUser');
                 request.setRequestHeader("Content-Type","application/json");
                 request.send(JSON.stringify(obj))
                 request.addEventListener("load",function()

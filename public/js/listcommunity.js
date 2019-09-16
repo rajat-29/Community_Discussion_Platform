@@ -7,7 +7,7 @@ $(document).ready(function() {
 			"processing": true,
 			"serverSide": true,
 			"ajax": {
-				"url": "/showcommunity",
+				"url": "/admin/showcommunity",
 				"type": "POST",
 				"data": function ( d )
             	{
@@ -55,9 +55,9 @@ $(document).ready(function() {
                 "render": function (data, type, row, meta) {
              
                    if(row.status=="Active")
-                      data ='<img src='+ row.commphoto +' style="width: 80px;height: 80px;border: 4px solid green;">';
+                      data ='<img src=/'+ row.commphoto +' style="width: 80px;height: 80px;border: 4px solid green;">';
                   else
-                     data ='<img src='+row.commphoto+' style="width: 80px;height: 80px;border: 4px solid red;">';
+                     data ='<img src=/'+row.commphoto+' style="width: 80px;height: 80px;border: 4px solid red;">';
                 return data;
                 }
             }],
@@ -94,7 +94,7 @@ function updateCommunitydetails()
 {
 	obj2.status = document.getElementById('role').value;
 	var request = new XMLHttpRequest();
-			request.open('POST', '/updatecommunitydetails');
+			request.open('POST', '/admin/updatecommunitydetails');
 			request.setRequestHeader("Content-Type","application/json");
 			request.send(JSON.stringify(obj2))
 			request.addEventListener("load",function()
@@ -121,4 +121,3 @@ function info(desc)
    })
 
 }
-

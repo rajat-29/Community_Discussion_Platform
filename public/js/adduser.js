@@ -51,14 +51,14 @@ adding.addEventListener("click", function() {
 	obj.photoname = 'default.png'
 
    	var request = new XMLHttpRequest();
-    request.open('POST',"/addnewuser");
+    request.open('POST',"/admin/addnewuser");
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify(obj))
     request.addEventListener("load",function() {
         console.log("Data Posted Successfully");
         alert("New User Is Registred");
     });  
-    window.location = "/addusers";
+    window.location = "/admin/addusers";
 })
 
 function ValidateEmail(mail) 
@@ -72,7 +72,7 @@ function ValidateEmail(mail)
 }
 
 cancelling.addEventListener("click", function(){
-	window.location = "/addusers";
+	window.location = "/admin/addusers";
 })
 
 function email_avail()
@@ -85,7 +85,7 @@ function email_avail()
 	obj1.email = email.value;
 	
 	var request = new XMLHttpRequest();
-    request.open('POST',"/checkemail");
+    request.open('POST',"/admin/checkemail");
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify({email: email.value}));
     request.addEventListener("load",function() {

@@ -57,7 +57,7 @@ addinges.addEventListener("click", function() {
     console.log(obj1);
 
     var request = new XMLHttpRequest();
-    request.open('POST',"/addNewCommunitytobase");
+    request.open('POST',"/community/addNewCommunitytobase");
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify(obj1))
     request.addEventListener("load",function() {
@@ -66,7 +66,7 @@ addinges.addEventListener("click", function() {
     }); 
 
     
-    window.location = "/addNewCommunity";
+    window.location = "/community/addNewCommunity";
 
 })
 

@@ -116,20 +116,20 @@
       </li>
       
       <li id="hideManage">
-          <a href="/setting/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/community/setting/<%=newdata._id%>" class="community-profile-option-btn">
             Manage Community
           </a>
       </li>
     
 
       <li>
-          <a href="/info/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/community/info/<%=newdata._id%>" class="community-profile-option-btn">
             Community Profile
           </a>
       </li>
 
       <li>
-          <a href="/showCommunityMembers/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/community/showCommunityMembers/<%=newdata._id%>" class="community-profile-option-btn">
             Community Members
           </a>
       </li>
@@ -277,7 +277,7 @@ function initaliseDiscussions()
     ob.communityName = "<%=newdata.name%>";
 
      var xml=new XMLHttpRequest();
-  xml.open("POST","/getDiscussion");
+  xml.open("POST","/discussion/getDiscussion");
   xml.setRequestHeader("Content-Type","application/json");
   xml.addEventListener("load",function()
   {
@@ -346,7 +346,7 @@ discussion_post.addEventListener("click",function() {
   console.log(obj);
 
   var request = new XMLHttpRequest();
-    request.open('POST',"/addnewDiscussion");
+    request.open('POST',"/discussion/addnewDiscussion");
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify(obj))
     request.addEventListener("load",function() {
@@ -373,7 +373,7 @@ function addtoDiscussionDOM(obj)
                     +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-title">'
                       +'<a class="discussion-title" href="#" target="">'+obj.title+'</a>'
                     +'</div>'
-                    +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-head"> posted by <a href="/discussionOwner/'+obj.ownerId+'">'+obj.createdBy +'</a> at '+obj.createdDate +'</div>'
+                    +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-head"> posted by <a href="/discussion/discussionOwner/'+obj.ownerId+'">'+obj.createdBy +'</a> at '+obj.createdDate +'</div>'
                   +'</div>'
                   +'<div class="panel-body" style="padding:0;padding-top:10px;">'
                     +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-content" style="font-size:16px">'+obj.details +'</div>'
@@ -391,7 +391,7 @@ function addtoDiscussionDOM(obj)
                     +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-title">'
                       +'<a class="discussion-title" href="#" target="">'+obj.title+'</a>'
                     +'</div>'
-                    +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-head"> posted by <a href="/discussionOwner/'+obj.ownerId+'">'+obj.createdBy +'</a> at '+obj.createdDate +'</div>'
+                    +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-head"> posted by <a href="/discussion/discussionOwner/'+obj.ownerId+'">'+obj.createdBy +'</a> at '+obj.createdDate +'</div>'
                   +'</div>'
                   +'<div class="panel-body" style="padding:0;padding-top:10px;">'
                     +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-content" style="font-size:16px">'+obj.details +'</div>'
@@ -406,7 +406,7 @@ function addtoDiscussionDOM(obj)
     var filename = ides;
     console.log(filename);
     var request = new XMLHttpRequest();
-    request.open('DELETE',"/deleteDiscussion/" + filename);
+    request.open('DELETE',"/discussion/deleteDiscussion/" + filename);
     request.send()
     request.addEventListener("load",function(event)
     {

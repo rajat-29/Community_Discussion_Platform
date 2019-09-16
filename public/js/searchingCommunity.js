@@ -9,7 +9,7 @@ refresh.addEventListener("click", function() {
 var searchbtn = document.getElementById("search-btn");
 searchbtn.onclick = function()
 {
-    window.location = '/searchingCommunity';
+    window.location = '/community/searchingCommunity';
 }
 
 var bigDiv = document.getElementById("bigDiv");
@@ -27,7 +27,7 @@ function loadFromServer()
         end:end,
     }
     var request = new XMLHttpRequest();
-    request.open('POST','/getCommunityforSearch');
+    request.open('POST','/community/getCommunityforSearch');
     request.onload = function()
     {
         commArr = JSON.parse(request.responseText);
@@ -60,7 +60,7 @@ document.getElementById('searchinput').onkeyup=function()
 function addToDom(ob)
 {
     var filenaming = ob._id;
-   // console.log(ob);
+    //console.log(ob.commuser.length);
     var parentDiv = document.createElement("div");
     parentDiv.setAttribute("class","container");
 
@@ -75,7 +75,7 @@ function addToDom(ob)
     var div11 = document.createElement("div");
     div11.setAttribute("class","col-sm-2 col-xs-3 col-lg-1 col-md-2");
     var img = document.createElement("img");
-    img.src = ob.commphoto;
+    img.src = "/" + ob.commphoto;
     img.setAttribute("style","height: 50px;width: 50px;border: 3px solid #fff;background: rgb(255, 255, 255) !important;box-shadow: 0 0 10px rgba(0,0,0,0.5);")
     div11.appendChild(img);
     div1.appendChild(div11);
@@ -103,7 +103,7 @@ function addToDom(ob)
     btn.onclick=function(){
 
         var request = new XMLHttpRequest();
-        var filename = '/joincommunity';
+        var filename = '/community/joincommunity';
         request.open('POST',filename);
         request.setRequestHeader("content-Type","application/JSON");
         request.send(JSON.stringify(ob));
@@ -128,7 +128,7 @@ function addToDom(ob)
     div21.setAttribute("class","col-sm-12 col-xs-12 col-lg-12 col-md-12");
     var p21 = document.createElement("p");
     p21.setAttribute("id","memeberpara");
-    p21.innerHTML = ob.memberno;
+    p21.innerHTML = ob.commuser.length + " Members";
     div21.appendChild(p21);
     div2.appendChild(div21);
 
