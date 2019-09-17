@@ -160,8 +160,8 @@ var discussion = mongoose.model('discussiones', discussionSchema);
 let transporter = mailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'codemailler12@gmail.com',
-      pass: 'codequotient12'
+      user: '',
+      pass: ''
     },
 });
 
