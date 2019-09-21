@@ -3,8 +3,6 @@ var submit = document.getElementById('submit-btn');
 var tagvalue = document.getElementById('taging');
 var flag = 1;
 
-var colorLi = document.getElementById("sidebar-tags");
-colorLi.setAttribute("style", "background-color:#337ab7");
 
 showtags.addEventListener("click", function() {
     window.location = "/admin/listuserstags"
@@ -57,17 +55,18 @@ submit.addEventListener("click", function() {
             console.log("Data Posted Successfully");
              document.querySelector('.added').innerHTML = 'Saved'
             document.querySelector('.added').classList.add('animate')
-            alert("Tag Added Successfully")
+          //  alert("Tag Added Successfully")
             document.getElementById("tag_info").style.display = 'none';
         });  
 
     }
     else
     {
-        alert("Tag Exist")
+        alert("Tag Exist");
         document.getElementById("tag_info").style.display = 'none';
-     //window.location = "/tag"
+
     }
+       document.querySelector('.added').classList.remove('animate')
 })
 
 

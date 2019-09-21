@@ -241,7 +241,6 @@
             </div>
         </div>
 
-<script src="/js/createDiscussions.js"></script>
 <script type="text/javascript">
 
   var hideManage = document.getElementById('hideManage');
@@ -256,7 +255,7 @@ $(document).ready(function() {
 function initaliseusers()
 {
   var xml=new XMLHttpRequest();
-  xml.open("POST","/getUsers");
+  xml.open("POST","/community/getUsers");
   xml.setRequestHeader("Content-Type","application/json");
   xml.addEventListener("load",function()
   {

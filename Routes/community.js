@@ -375,4 +375,47 @@ app.post('/leaveCommunityForRequestUsers',function(req,res) {
 })
 
 
+// requested users join communities
+app.post('/requestedUserJoinCommunity',function(req,res) {
+
+   var abc = ObjectId(req.session.iding);
+        community.updateOne({"_id" :req.body.commid},{ $pull : {commasktojoin : req.body._id}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+               // res.send("USER JOINED WITH COMMUNITY");
+            }
+        })
+        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+        users.updateOne({"_id" : req.body._id},{ $pull : {asktojoincomm : req.body.commid }},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                console.log("ENTERED IN USER DATABASE ALSO")
+            }
+        })
+
+        community.updateOne({"_id" :req.body.commid},{ $push : {commuser : req.body._id}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+               
+            }
+        })
+
+        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+        users.updateOne({"_id" : req.body._id},{ $push : {joinedComm : req.body.commid }},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                res.send("USER JOINED WITH COMMUNITY");
+            }
+        })
+})
+
+
 module.exports = app;

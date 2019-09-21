@@ -150,13 +150,10 @@
             <div class="card allSidesSoft">
                 <div class="card-body">
                     <div class="d-flex">
-                        <form class="image-container communitypicform" method="post" enctype="multipart/form-data" action="">
-                            <img src="/<%=newdata.commphoto%>" id="community-profile-image" style="width: 150px; height: 150px" class="img-thumbnail allSidesSoft">
-                            <div class="middle">
-                                <input type="button" class="btn btn-default btn-sm" id="changeProfilePicBtn" value="Change">
-                                <input type="file"  id="communityProfileUpload" name="communityImage">
-                            </div>
-                        </form>
+                        <div class="image-container communitypicform" method="post" enctype="multipart/form-data" action="">
+                            <img src="/<%=newdata.commphoto%>" id="profilepic" style="width: 150px; height: 150px" class="img-thumbnail allSidesSoft">
+                    
+                        </div>
                         <div class="ml-auto">
                             <input type="button" class="btn btn-danger btn-sm d-none" id="btnDiscard" value="Discard Changes">
                         </div>
@@ -212,7 +209,7 @@
         <script src="/js/trumbowgy.js"></script>
 
 <script type="text/javascript">
-
+var profilepic = document.getElementById("profilepic");
 document.getElementById('commrule').value = <%-JSON.stringify(newdata)%>.rule;
 
 var commname = document.getElementById("commname");

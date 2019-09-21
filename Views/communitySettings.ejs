@@ -314,11 +314,10 @@ function noUser()
 
 function addtoUserDOM(obj,no)
 {
-  console.log(no)
+  console.log(obj._id)
   obj.commid = commid;
   if(obj.email == email_id)
   {
-    console.log("aya")
      hideManage.setAttribute("style", "display:none");
   }
   var div1=document.createElement('div')
@@ -343,7 +342,7 @@ function addtoUserDOM(obj,no)
   var a2=document.createElement('a')
   a2.setAttribute("class","comusername")
   a2.innerHTML=obj.name
-  a2.setAttribute("href","")
+  a2.setAttribute("href","/community/viewprofile/" + obj._id)
   div3.appendChild(a2)
   div1.appendChild(div3)
   var div4=document.createElement('div')
@@ -355,27 +354,64 @@ function addtoUserDOM(obj,no)
   var i1=document.createElement('i')
   i1.setAttribute("class","fa fa-chevron-up")
   a3.appendChild(i1);
-  a3.onclick=function(){
-    console.log('ayayayaya')
-    $.confirm({
-      title: 'Confirm Promote!',
-      content: "Do you really want promote this user? " ,
-      draggable: true,
-      buttons: {
-        Yes: {
-             btnClass: 'btn-success any-other-class',
-              action: function () {
-               btnClass: 'btn-red any-other-class'
-                   
-          }
-      },
-        No: {
-            btnClass: 'btn-danger any-other-class',
-             action: function () {      
-          }
-      },
-      }
-    });
+  if(no == 1)
+  {
+    a3.onclick=function(){
+      console.log('ayayayaya')
+      $.confirm({
+        title: 'Confirm Promote!',
+        content: "Do you really want promote this user? " ,
+        draggable: true,
+        buttons: {
+          Yes: {
+               btnClass: 'btn-success any-other-class',
+                action: function () {
+                 btnClass: 'btn-red any-other-class'
+                     
+            }
+        },
+          No: {
+              btnClass: 'btn-danger any-other-class',
+               action: function () {      
+            }
+        },
+        }
+      });
+    }
+  }
+  if(no == 2)
+  {
+    a3.onclick=function(){
+      console.log('ayayayaya')
+      $.confirm({
+        title: 'Confirm Addition!',
+        content: "Do you really want add this user? " ,
+        draggable: true,
+        buttons: {
+          Yes: {
+               btnClass: 'btn-success any-other-class',
+                action: function () {
+                 btnClass: 'btn-red any-other-class'
+
+                 var request = new XMLHttpRequest()
+                  request.open('POST','/community/requestedUserJoinCommunity');
+                  request.setRequestHeader("Content-Type","application/json");
+                  request.send(JSON.stringify(obj))
+                  request.addEventListener("load",function()
+                  {
+                        document.location.reload();
+                  });
+                     
+            }
+        },
+          No: {
+              btnClass: 'btn-danger any-other-class',
+               action: function () {      
+            }
+        },
+        }
+      });
+    }
   }
   div4.appendChild(a3)
   var a4=document.createElement('a')
