@@ -34,7 +34,7 @@ submit.addEventListener("click", function() {
     today = + dd + '-' + getMonths(mm) + '-' + yyyy;
     today = today + " ";
     today = today + "(" + hrs + ':' + mins + '' + format + ")";
-    console.log(today);
+    //console.log(today);
 
     var obj = new Object();
     obj.tags = tagvalue.value;
@@ -43,7 +43,7 @@ submit.addEventListener("click", function() {
     
     obj.createDate = today;
 
-    console.log(obj);
+    //console.log(obj);
     if(flag == 1)
     {
 
@@ -98,3 +98,49 @@ function checkTagAvail()
         }
     });  
 }
+
+
+
+// for(var i=0;i<500;i++)
+// {
+//     var today = new Date();
+//     var dd = today.getDate();
+//     var mm = today.getMonth()+1;
+//     var yyyy = today.getFullYear();
+//     var hrs = today.getHours();
+//     var mins = today.getMinutes();
+//     var format = "AM";
+//     if(hrs>12)
+//     {
+//         hrs=hrs-12;
+//         format="PM";
+//     }
+//     today = + dd + '-' + getMonths(mm) + '-' + yyyy;
+//     today = today + " ";
+//     today = today + "(" + hrs + ':' + mins + '' + format + ")";
+//     var obj = new Object();
+//     obj.tags = generate_random_string(5);
+//     obj.createDate = today;
+
+//     var request = new XMLHttpRequest();
+//         request.open('POST',"/admin/addtagtobase");
+//         request.setRequestHeader("Content-Type","application/json");
+//         request.send(JSON.stringify(obj))
+//         request.addEventListener("load",function() {
+//             console.log("Data Posted Successfully");
+//         }); 
+
+    
+// }
+
+// function generate_random_string(string_length){
+//     let random_string = '';
+//     let random_ascii;
+//     random_ascii = Math.floor((Math.random() * 25) + 65);
+//         random_string += String.fromCharCode(random_ascii)
+//     for(let i = 0; i < string_length-1; i++) {
+//         random_ascii = Math.floor((Math.random() * 25) + 97);
+//         random_string += String.fromCharCode(random_ascii)
+//     }
+//     return random_string
+// }

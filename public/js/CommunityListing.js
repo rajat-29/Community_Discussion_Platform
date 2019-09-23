@@ -92,9 +92,6 @@ function addToDOM(obj,s)
     //div3.setAttribute("style","paddingTop:30px;paddingBottom:5px;")
     div3.setAttribute("style", "padding-top:20px;padding-bottom:5px;")
 
-   
-
-
     var p=document.createElement('p')
     var a2=document.createElement('a');
     a2.setAttribute("class","comnametxt")

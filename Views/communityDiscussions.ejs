@@ -14,11 +14,14 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/js/openpanel.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
         
         <link rel="stylesheet" type="text/css" href="/css/trumbowgy.css">
+
+         
 
          <style>
 
@@ -243,9 +246,13 @@
 
 <script type="text/javascript">
 
+  var socket = io();
+
   var hideManage = document.getElementById('hideManage');
   var commid ="<%= newdata._id %>";
   var email_id ="<%= data.email %>";
+  var currentUser = "<%= data.name %>"
+  //console.log(currentUser)
 
 $(document).ready(function() {
     initaliseusers();   
@@ -342,6 +349,7 @@ discussion_post.addEventListener("click",function() {
   obj.createdBy = "<%= data.name %>";
   obj.createdDate = today;
   obj.ownerId = "<%= data.ides %>";
+  obj.communityId = commid;
   console.log(obj);
 
   var request = new XMLHttpRequest();
@@ -357,7 +365,7 @@ discussion_post.addEventListener("click",function() {
 
 function addtoDiscussionDOM(obj)
 {
-  console.log(obj)
+  //console.log(obj)
      var div = '<div class="container discussion-container">'
                 +'<div class="panel panel-default allSidesSoft" style="background:white;">'
                   +'<div class="dropup" style="margin-right: 10px;">'
@@ -376,7 +384,11 @@ function addtoDiscussionDOM(obj)
                   +'</div>'
                   +'<div class="panel-body" style="padding:0;padding-top:10px;">'
                     +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-content" style="font-size:16px">'+obj.details +'</div>'
-                  +'</div>'
+                    +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-content" style="font-size:16px"  onclick=displayComments("'+obj._id+'")>'+' 0 Comments ' +'</div>'
+                    +'<div class="col-sm-6 col-xs-6 col-lg-6 col-md-6 discussion-content" id="enterComments'+obj._id+'" style="visibility: hidden" ><input type="email" class="form-control" id="comment'+obj._id+'" placeholder="Enter Comment" required><br>'
+                    +'</div>'
+                    +'<button type="submit" value="Add User" class="btn btn-success" id="send'+obj._id+'" onclick=doComment("'+obj._id+'","'+obj.createdBy+'","'+obj.communityId+'") style="visibility: hidden">Submit</button></div>'
+                    +'<div class="comments'+obj._id+'"></div>'  
                 +'</div>'
               +'</div>';
       $('#discussionsList').append(div);
@@ -394,11 +406,79 @@ function addtoDiscussionDOM(obj)
                   +'</div>'
                   +'<div class="panel-body" style="padding:0;padding-top:10px;">'
                     +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-content" style="font-size:16px">'+obj.details +'</div>'
-                  +'</div>'
+                    +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-content" style="font-size:16px"  onclick=displayComments("'+obj._id+'")>'+' 0 Comments ' +'</div>'
+                    +'<div class="col-sm-6 col-xs-6 col-lg-6 col-md-6 discussion-content" id="enterComments'+obj._id+'" style="visibility: hidden" ><input type="email" class="form-control" id="comment'+obj._id+'" placeholder="Enter Comment" required><br>'
+                    +'</div>'
+                    +'<button type="submit" value="Add User" class="btn btn-success" id="send'+obj._id+'" onclick=doComment("'+obj._id+'","'+obj.createdBy+'","'+obj.communityId+'") style="visibility: hidden">Submit</button></div>'
+                    +'<div class="comments'+obj._id+'"></div>'  
                 +'</div>'
               +'</div>';
-    $('#discussionsList').append(div); 
+      $('#discussionsList').append(div);
   }
+
+function displayComments(disId) {
+    //console.log(disId)
+    var inp = document.getElementById('enterComments'+ disId)
+    inp.setAttribute("style","visibility:visible");
+    var subButton = document.getElementById('send'+ disId)
+    subButton.setAttribute("style","visibility:visible");
+
+    var ob = new Object();
+    ob.discussionId = disId;
+
+    var xml=new XMLHttpRequest();
+    xml.open("POST","/discussion/getComments");
+    xml.setRequestHeader("Content-Type","application/json");
+    xml.addEventListener("load",function()
+    {
+      var data=JSON.parse(xml.responseText);
+      //console.log(data)
+      for(j in data)
+      {
+        //   console.log(data[j].discussionId)
+            $('.comments'+ data[j].discussionId).append('<div class="panel-body" style="padding:5px;background:#f9f9f9;">'
+          +'<div class="col-sm-1 col-xs-3"><a href="">'
+          +'<img src="/<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+          + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
+          +'<p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
+        +data[j].commentedBy+'</p><p class="col-sm-11 col-xs-9 discussion-heading" style="font-size: 15px;">'
+        +data[j].comment+'</p></div>');
+      }
+    })
+  xml.send(JSON.stringify(ob));
+}
+
+  
+  function doComment(oa,createBy,commId) {
+    //console.log(oa)
+      var comment = $('#comment'+ oa).val();
+       // var postId = $('#postId').val();
+       //console.log(comment)
+        if(comment != ''){
+            var data = {'comment': comment,'discussionId': oa,'commentedBy' : currentUser,'communityId' : commId};
+        $('.comments'+ oa).append('<div class="panel-body" style="padding:5px;background:#f9f9f9;">'
+          +'<div class="col-sm-1 col-xs-3"><a href="">'
+          +'<img src="/<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+          + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
+          +'<p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
+        +currentUser+'</p><p class="col-sm-11 col-xs-9 discussion-heading" style="font-size: 15px;">'
+        +comment+'</p></div>');
+        $('#comment'+ oa).val('');
+        }
+        
+    socket.emit('comment',data);
+  }
+
+  socket.on('comment',function(data){
+        console.log(data)
+        $('.comments'+ data.discussionId).append('<div class="panel-body" style="padding:5px;background:#f9f9f9;">'
+          +'<div class="col-sm-1 col-xs-3"><a href="">'
+          +'<img src="/<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+          + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
+          +'<p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
+        +data.commentedBy+'</p><p class="col-sm-11 col-xs-9 discussion-heading" style="font-size: 15px;">'
+        +data.comment+'</p></div>');
+  });
 
   function deleteDiscussion(ides)
   {
@@ -420,21 +500,7 @@ function getMonths(mno) {
 }
 
 
-
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	</body>
 	</html>

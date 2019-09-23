@@ -11,6 +11,8 @@ var GitHubStrategy = require('passport-github').Strategy;
 var passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
+var http = require("http").Server(app);
+var io = require("socket.io")(http);
 ObjectId = require('mongodb').ObjectID;
 var MongoClient = mongodb.MongoClient;
 var userdata = new Object();
@@ -92,6 +94,8 @@ mongoose.connection.on('connected',(err) => {
     console.log('DB connected');
 })
 
+mongoose.Promise = global.Promise;
+
 // user data base scehema //
 var userSchema = new mongoose.Schema({					/*define structure of database*/
     name: String,
@@ -150,9 +154,20 @@ var discussionSchema = new mongoose.Schema({
     createdBy: String,
     createdDate: String,
     ownerId: String,
+    communityId: String,
 })
 
 var discussion = mongoose.model('discussiones', discussionSchema);
+
+var commentSchema = new mongoose.Schema({
+    comment: String,    
+    discussionId: String,
+    commentedBy: String,
+    ownerId: String,
+    communityId: String,
+})
+
+var Comments = mongoose.model('commentes', commentSchema);
 
 // node mailler //
 // add your email and password here for email //
@@ -437,5 +452,16 @@ app.post('/changePhoto',function (req, res)
             
 })
 
+io.on('connection',function(socket){
+    socket.on('comment',function(data){
+      //data.ownerId = userdata.ides;
+      console.log(data)
+        var commentData = new Comments(data);
+        commentData.save();
+        socket.broadcast.emit('comment',data);  
+    });
+ 
+});
+
 console.log("Running on port 8000");
-app.listen(8000)
+http.listen(8000)

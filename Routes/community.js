@@ -1,6 +1,8 @@
 let express = require('express');
 var app = require('express').Router();
 let path = require('path');
+var http = require("http").Server(app);
+var io = require("socket.io")(http);
 
 app.use(express.static(path.join(__dirname,'../public')));
 app.use(express.static(path.join(__dirname,'public/uploads')));
@@ -10,6 +12,9 @@ var mongoose = require('mongoose')
 var users = mongoose.model('usernames');
 var t = mongoose.model('tags');
 var community = mongoose.model('communities');
+var Comments = mongoose.model('commentes');
+
+mongoose.Promise = global.Promise;
 
 //Set Storage Engine For images
 
@@ -232,14 +237,20 @@ app.get('/inviteUser/:pros',function(req,res) {
 
 app.get('/discussion/:pros',function(req,res) {
       var id = req.params.pros.toString();
+      console.log(id)
        community.findOne({ "_id": id },function(err,reses)
       {
           if(err)
           throw err;
           else
           {
-             res.render('communityDiscussions', {data: req.session.data,newdata:reses});
-              //res.send("data deleted SUCCESFULLY")
+            Comments.findOne({ "communityId": id },function(err,resesComm)
+            {
+              if(err)
+              throw err;
+                res.render('communityDiscussions', {data: req.session.data,newdata:reses,comments:resesComm});
+            });
+            
           }
       });
 })
@@ -416,6 +427,7 @@ app.post('/requestedUserJoinCommunity',function(req,res) {
             }
         })
 })
+
 
 
 module.exports = app;
