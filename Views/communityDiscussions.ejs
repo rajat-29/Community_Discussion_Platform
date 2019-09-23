@@ -94,12 +94,12 @@
 <div class="container community-profile-conatiner">
 <div class="col-sm-2 col-xs-12 center-mobile pc">
 <a href="">
-  <img src="/<%=newdata.commphoto%>" class="img-communityprofile-pic allSides" style="background:#fff">
+  <img src="<%=newdata.commphoto%>" class="img-communityprofile-pic allSides" style="background:#fff">
 </a>
 </div>
 
 <div class="col-sm-8 communityprofile-name-pc communityprofile-system">
-  <a href="" class="communityprofile-name-pc">
+  <a href="/community/communityProfile/<%=newdata._id%>" class="communityprofile-name-pc">
      <p><%=newdata.name%></p>
   </a>
 </div>
@@ -166,7 +166,7 @@
     <div class="panel-body" style="padding:5px;background:#f9f9f9;">
       <div class="col-sm-1 col-xs-3">
         <a href="">
-          <img src="/<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage" style="border:2px solid #fff;width: 50px;height: 50px;">
+          <img src="<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage" style="border:2px solid #fff;width: 50px;height: 50px;">
         </a>
       </div>
       <p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 20px;font-size: 20px;">
@@ -207,15 +207,8 @@
           </select>
         </div>
 
-        <div class="image-preview-main col-sm-12 col-xs-12" >
-          <center>
-            <img src="" class="allSides preview-image" id="previewImage">
-          </center>
-        </div>
-        <input type="file" multiple="" class="discussion-file-btn" name="discussionImageFile" id="discussionImageFile" accept="image/x-png,image/gif,image/jpeg">
+
         <div class="col-sm-12 col-xs-12" style="padding:0; ">
-          
-          <a class="discussion-image-btn" id="discussionImageClickBtn" style="width:40px;height: 40px;"><i class="fa fa-image" ></i></a>
           
           <button class="btn btn-primary" type="submit" style="float:right" id="discussion_post">
             <p class="discussion-post-btn-txt">Post</p>
@@ -438,7 +431,7 @@ function displayComments(disId) {
         //   console.log(data[j].discussionId)
             $('.comments'+ data[j].discussionId).append('<div class="panel-body" style="padding:5px;background:#f9f9f9;">'
           +'<div class="col-sm-1 col-xs-3"><a href="">'
-          +'<img src="/<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+          +'<img src="<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
           + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
           +'<p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
         +data[j].commentedBy+'</p><p class="col-sm-11 col-xs-9 discussion-heading" style="font-size: 15px;">'
@@ -458,7 +451,7 @@ function displayComments(disId) {
             var data = {'comment': comment,'discussionId': oa,'commentedBy' : currentUser,'communityId' : commId};
         $('.comments'+ oa).append('<div class="panel-body" style="padding:5px;background:#f9f9f9;">'
           +'<div class="col-sm-1 col-xs-3"><a href="">'
-          +'<img src="/<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+          +'<img src="<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
           + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
           +'<p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
         +currentUser+'</p><p class="col-sm-11 col-xs-9 discussion-heading" style="font-size: 15px;">'
@@ -473,7 +466,7 @@ function displayComments(disId) {
         console.log(data)
         $('.comments'+ data.discussionId).append('<div class="panel-body" style="padding:5px;background:#f9f9f9;">'
           +'<div class="col-sm-1 col-xs-3"><a href="">'
-          +'<img src="/<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+          +'<img src="<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
           + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
           +'<p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
         +data.commentedBy+'</p><p class="col-sm-11 col-xs-9 discussion-heading" style="font-size: 15px;">'

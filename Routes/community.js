@@ -181,6 +181,21 @@ app.get('/setting/:pros',function(req,res) {
       });
 })
 
+// render community profile page //
+app.get('/communityProfile/:pros',function(req,res) {
+      var id = req.params.pros.toString();
+      community.findOne({ "_id": id },function(err,reses)
+      {
+          if(err)
+          throw err;
+          else
+          {
+             res.render('communityProfileInfo', {data: req.session.data,newdata:reses});
+              //res.send("data deleted SUCCESFULLY")
+          }
+      });
+})
+
 app.get('/viewprofile/:pros',function(req,res) {
       var id = req.params.pros.toString();
       users.findOne({ "_id": id },function(err,reses)

@@ -91,12 +91,12 @@
 <div class="container community-profile-conatiner">
 <div class="col-sm-2 col-xs-12 center-mobile pc">
 <a href="">
-  <img src="/<%=newdata.commphoto%>" class="img-communityprofile-pic allSides" style="background:#fff">
+  <img src="<%=newdata.commphoto%>" class="img-communityprofile-pic allSides" style="background:#fff">
 </a>
 </div>
 
 <div class="col-sm-8 communityprofile-name-pc communityprofile-system">
-  <a href="" class="communityprofile-name-pc">
+  <a href="/community/communityProfile/<%=newdata._id%>" class="communityprofile-name-pc">
      <p><%=newdata.name%></p>
   </a>
 </div>
@@ -110,7 +110,7 @@
 
     
       <li>
-          <a href="/discussion/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/community/discussion/<%=newdata._id%>" class="community-profile-option-btn">
             Discussions
           </a>
       </li>
@@ -118,20 +118,20 @@
 
     
       <li>
-          <a href="/setting/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/community/setting/<%=newdata._id%>" class="community-profile-option-btn">
             Manage Community
           </a>
       </li>
     
 
       <li>
-          <a href="/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/community/<%=newdata._id%>" class="community-profile-option-btn">
             Community Profile
           </a>
       </li>
 
       <li>
-          <a href="" class="community-profile-option-btn">
+          <a href="/community/showCommunityMembers/<%=newdata._id%>" class="community-profile-option-btn">
             Community Members
           </a>
       </li>

@@ -75,7 +75,7 @@ function addToDom(ob)
     var div11 = document.createElement("div");
     div11.setAttribute("class","col-sm-2 col-xs-3 col-lg-1 col-md-2");
     var img = document.createElement("img");
-    img.src = "/" + ob.commphoto;
+    img.src = ob.commphoto;
     img.setAttribute("style","height: 50px;width: 50px;border: 3px solid #fff;background: rgb(255, 255, 255) !important;box-shadow: 0 0 10px rgba(0,0,0,0.5);")
     div11.appendChild(img);
     div1.appendChild(div11);

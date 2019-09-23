@@ -55,9 +55,9 @@ $(document).ready(function() {
                 "render": function (data, type, row, meta) {
              
                    if(row.status=="Active")
-                      data ='<img src=/'+ row.commphoto +' style="width: 80px;height: 80px;border: 4px solid green;">';
+                      data ='<img src='+ row.commphoto +' style="width: 80px;height: 80px;border: 4px solid green;">';
                   else
-                     data ='<img src=/'+row.commphoto+' style="width: 80px;height: 80px;border: 4px solid red;">';
+                     data ='<img src='+row.commphoto+' style="width: 80px;height: 80px;border: 4px solid red;">';
                 return data;
                 }
             }],

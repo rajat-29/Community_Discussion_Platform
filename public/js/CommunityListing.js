@@ -67,6 +67,7 @@ function pendingmembers() {
 
 function addToDOM(obj,s)
 {
+  console.log(obj)
     var filenaming = obj._id;
     var div1=document.createElement('div');
     div1.setAttribute("class","col-sm-12 col-xs-12 myCommunity community-div");
@@ -102,10 +103,18 @@ function addToDOM(obj,s)
     a3.setAttribute("class","comnametxt-user")
     a3.setAttribute("href","")
     a3.setAttribute("style", "padding-left:5px;")
-    a3.innerHTML= " Memeber(" + obj.commuser.length + ")";
+    a3.innerHTML= " Memeber(" + obj.commuser.length + ")     ";
+
+    var a4=document.createElement('a')
+    a4.setAttribute("class","comnametxt-user")
+    a4.setAttribute("href","")
+    a4.setAttribute("style", "padding-left:5px;")
+    a4.setAttribute("style", "visibility: hidden")
+    a4.innerHTML= " Requests(" + obj.commasktojoin.length + ")";
 
     p.appendChild(a2)
     p.appendChild(a3)
+    p.appendChild(a4)
     div3.appendChild(p)
     div1.appendChild(div3)
 
@@ -115,6 +124,8 @@ function addToDOM(obj,s)
     if(s=="true")
     {
         a3.href = '/community/setting/' + filenaming;
+        a4.href = '/community/setting/' + filenaming;
+        a4.setAttribute("style", "visibility: visible")
         
         var div4=document.createElement('div')
         div4.setAttribute("class","col-sm-1 col-xs-2")
@@ -142,9 +153,11 @@ function addToDOM(obj,s)
 
     if(s=="trueflase")
     {
-//console.log(obj);
+
         a2.href = "";
         a3.href = "";
+        a4.setAttribute("style", "visibility: hidden")
+
         var div4=document.createElement('div')
         div4.setAttribute("class","col-sm-1 col-xs-2")
         div4.setAttribute("style", "padding:0;margin-top: 15px;")
