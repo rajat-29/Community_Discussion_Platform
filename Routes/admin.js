@@ -1,6 +1,8 @@
 let express = require('express');
 let router = express.Router();
 let path = require('path');
+const bcrypt = require('bcrypt');
+let saltRounds = 10
 
 router.use(express.static(path.join(__dirname,'../public')));
 router.use(express.static(path.join(__dirname,'public/uploads')));
@@ -67,15 +69,20 @@ router.post('/changePassword' , function(req,res){
     } 
     else
     {
-      users.updateOne({"email" : req.session.email},{$set: { "password" : password.newpass}} ,
-        function(error,result)
-        {
-          if(error)
-            throw error;
-          else
-            req.session.password = password.newpass;
-        })
-      res.send("Password Changed Successfully")
+          bcrypt.hash(password.newpass, saltRounds, (err, hash) => {
+              if(!err) {
+                users.updateOne({"email" : req.session.email},{$set: { "password" : hash}} ,
+                  function(error,result)
+                  {
+                    if(error)
+                      throw error;
+                    else
+                      req.session.password = password.newpass;
+                  })   
+              }
+              else {}
+          }) 
+          res.send("Password Changed Successfully")
     }
 })
 
@@ -100,17 +107,22 @@ router.post('/checkemail',function (req, res) {
 })
 
 // add new user //
-router.post('/addnewuser',function (req, res) {
+router.post('/addnewuser',function (req, res) {    
+  bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+    if(!err) {
+      req.body.password = hash;
       users.create(req.body,function(error,result)
-      {
-        if(error)
-        throw error;
-        else
-        {}
-      })
-       res.send("data saved");
+        {
+          if(error)
+          throw error;
+          else
+          {}
+        })         
+    }
+    else {}
+  }) 
+  res.send("data saved");
 })
-
 
 // data table on user list //
 router.post('/showuser' , function(req, res) {

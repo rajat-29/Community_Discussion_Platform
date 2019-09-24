@@ -14,7 +14,7 @@ adding.addEventListener("click", function() {
     }
 
 	var request = new XMLHttpRequest();
-	request.open('POST', '/changePassword');
+	request.open('POST', '/admin/changePassword');
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify(obj))
     request.onload = function ()

@@ -12,19 +12,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
+const bcrypt = require('bcrypt');
+let saltRounds = 10
 ObjectId = require('mongodb').ObjectID;
 var MongoClient = mongodb.MongoClient;
 var userdata = new Object();
-
-// passport calling //
-passport.serializeUser(function(user,done){
-        done(null,user);
-});
-
-passport.deserializeUser(function(user,done){
-        done(null,user);
-});
-
 
 //Set Storage Engine For images
 var photoname ;
@@ -135,13 +127,12 @@ app.post('/checkLogin',function (req, res)         /*post data */
       req.session.isLogin = 0;
       var username = req.body.name;
       var pasword = req.body.password;
-      users.findOne({email: username,password: pasword}, function(error,result)
+      users.findOne({email: username}, function(error,result)
       {
         if(error)
         throw error;
 
         if(!result) {
-          console.log('not exits');
           res.send("not exits");
         }
         else
@@ -152,25 +143,34 @@ app.post('/checkLogin',function (req, res)         /*post data */
           }
           else 
           {
-           req.session.isLogin = 1;
-           req.session.email = req.body.name;
-           req.session.password = req.body.password;
+           bcrypt.compare(req.body.password,result.password,function(err,resi) {
+            if(resi == true)
+            {
+                req.session.isLogin = 1;
+                 req.session.email = req.body.name;
+                 req.session.password = req.body.password;
 
-           userdata.name = result.name;
-           userdata.email = result.email;         
-           userdata.city = result.city;
-           userdata.role = result.role;
-           userdata.phone = result.phone;
-           userdata.gender = result.gender;
-           userdata.dob = result.dob;
-           userdata.status = result.status;
-           userdata.ides = result._id;
-           userdata.photoname = result.photoname;
+                 userdata.name = result.name;
+                 userdata.email = result.email;         
+                 userdata.city = result.city;
+                 userdata.role = result.role;
+                 userdata.phone = result.phone;
+                 userdata.gender = result.gender;
+                 userdata.dob = result.dob;
+                 userdata.status = result.status;
+                 userdata.ides = result._id;
+                 userdata.photoname = result.photoname;
 
-           req.session.data = userdata;
-           req.session.name = result.name;
-           req.session.iding = result._id;
-           res.send("true");
+                 req.session.data = userdata;
+                 req.session.name = result.name;
+                 req.session.iding = result._id;
+                 res.send("true");
+            }
+            else {
+              console.log(resi)
+              res.send("false")
+            }
+          }) 
           }
         }
       })     
@@ -196,7 +196,6 @@ app.get('/home' , function(req,res){        /*get data */
         }         
       }
     } 
-
      else 
      {
       res.render('index');
