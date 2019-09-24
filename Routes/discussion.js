@@ -7,11 +7,11 @@ app.use(express.static(path.join(__dirname,'public/uploads')));
 
 var mongoose = require('mongoose')
 
-var users = mongoose.model('usernames');
-var t = mongoose.model('tags');
+var users = require('../Schemas/UserSchema');
+var t = require('../Schemas/TagSchema');
 var community = mongoose.model('communities');
-var discussion = mongoose.model('discussiones');
-var Comments = mongoose.model('commentes');
+var discussion = require('../Schemas/DiscussionSchema');
+var Comments = require('../Schemas/CommentSchema');
 
 /* create new discussion */
 app.post('/addnewDiscussion',function (req, res) {

@@ -55,8 +55,7 @@ adding.addEventListener("click", function() {
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify(obj))
     request.addEventListener("load",function() {
-         document.querySelector('.added').innerHTML = 'Saved'
-            document.querySelector('.added').classList.add('animate')
+         alert("User is Registered")
     });  
     window.location = "/admin/addusers";
     document.querySelector('.added').classList.remove('animate')

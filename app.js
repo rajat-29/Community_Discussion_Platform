@@ -7,7 +7,6 @@ var mongodb = require('mongodb');
 var MongoDataTable = require('mongo-datatable');
 var mailer = require('nodemailer');
 var multer = require('multer');
-var GitHubStrategy = require('passport-github').Strategy;
 var passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
@@ -18,7 +17,6 @@ var MongoClient = mongodb.MongoClient;
 var userdata = new Object();
 
 // passport calling //
-
 passport.serializeUser(function(user,done){
         done(null,user);
 });
@@ -29,12 +27,10 @@ passport.deserializeUser(function(user,done){
 
 
 //Set Storage Engine For images
-
 var photoname ;
 var community_photo = "uploads/defaultCommunity.jpg";
 
 // user photo upload //
-
 var storage = multer.diskStorage({
 destination : './public/uploads/',
     filename : function(req, file, callback)
@@ -50,7 +46,6 @@ var upload = multer({
 }).single('myFile');
 
 // community photo upload //
-
 var storagecomm = multer.diskStorage({
 destination : './public/uploads/',
     filename : function(req, file, callback)
@@ -85,6 +80,7 @@ var mongoDB = 'mongodb://localhost/user';
 
 mongoose.set('useFindAndModify', false);
 mongoose.connect(mongoDB,{ useNewUrlParser: true});
+mongoose.Promise = global.Promise;
 
 mongoose.connection.on('error',(err) => {					/*database connect*/
     console.log('DB connection Error');
@@ -94,38 +90,8 @@ mongoose.connection.on('connected',(err) => {
     console.log('DB connected');
 })
 
-mongoose.Promise = global.Promise;
-
-// user data base scehema //
-var userSchema = new mongoose.Schema({					/*define structure of database*/
-    name: String,
-    email: String,
-    password: String,
-    phone: String,
-    city: String,
-    gender: String,
-    dob: String,
-    role: String,   
-    status: String,
-    flag: Number, 
-    interest: String,
-    bitmore: String,
-    expectation: String,
-    photoname: String,
-    owned: Array,
-    joinedComm: Array,
-    asktojoincomm: Array,
-})
-
-// tag data base schema //
-var tagSchema = new mongoose.Schema({
-    tags: String,
-    createdBy: String,
-    createDate: String,
-})
-
-var users = mongoose.model('usernames', userSchema);
-var t = mongoose.model('tags', tagSchema);
+var users = require('./Schemas/UserSchema');
+var t = require('./Schemas/TagSchema');
 
 // community data base scheme //
 var communitySchema = new mongoose.Schema({
@@ -146,32 +112,10 @@ var communitySchema = new mongoose.Schema({
 
 var community = mongoose.model('communities', communitySchema);
 
-var discussionSchema = new mongoose.Schema({
-    title: String,
-    details: String,
-    tag: String,
-    communityName: String,
-    createdBy: String,
-    createdDate: String,
-    ownerId: String,
-    communityId: String,
-})
+var discussion = require('./Schemas/DiscussionSchema');
+var Comments = require('./Schemas/CommentSchema');
 
-var discussion = mongoose.model('discussiones', discussionSchema);
-
-var commentSchema = new mongoose.Schema({
-    comment: String,    
-    discussionId: String,
-    commentedBy: String,
-    ownerId: String,
-    communityId: String,
-})
-
-var Comments = mongoose.model('commentes', commentSchema);
-
-// node mailler //
-// add your email and password here for email //
-
+// node mailler add your email and password here for email //
 let transporter = mailer.createTransport({
     service: 'gmail',
     auth: {
@@ -180,6 +124,7 @@ let transporter = mailer.createTransport({
     },
 });
 
+// Routing the routes //
 app.use('/admin',require('./Routes/admin.js'));
 app.use('/community',require('./Routes/community'));
 app.use('/discussion',require('./Routes/discussion'));
@@ -195,10 +140,10 @@ app.post('/checkLogin',function (req, res)         /*post data */
         if(error)
         throw error;
 
-      if(!result) {
-        console.log('not exits');
-        res.send("not exits");
-      }
+        if(!result) {
+          console.log('not exits');
+          res.send("not exits");
+        }
         else
         {
           if(result.flag == 0)
@@ -449,18 +394,14 @@ app.post('/changePhoto',function (req, res)
   {
       req.session.photoname = req.body.name;
       res.send("true");
-            
 })
 
 io.on('connection',function(socket){
     socket.on('comment',function(data){
-      //data.ownerId = userdata.ides;
-      console.log(data)
         var commentData = new Comments(data);
         commentData.save();
         socket.broadcast.emit('comment',data);  
     });
- 
 });
 
 console.log("Running on port 8000");

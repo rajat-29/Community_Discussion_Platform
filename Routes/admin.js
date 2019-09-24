@@ -7,8 +7,8 @@ router.use(express.static(path.join(__dirname,'public/uploads')));
 
 var mongoose = require('mongoose')
 
-var users = mongoose.model('usernames');
-var t = mongoose.model('tags');
+var users = require('../Schemas/UserSchema');
+var t = require('../Schemas/TagSchema');
 var community = mongoose.model('communities');
 
 // render new user //
@@ -446,6 +446,5 @@ router.delete('/:pro',function(req,res) {
           }
       });
  })
-
 
 module.exports = router;

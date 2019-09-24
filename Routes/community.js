@@ -9,10 +9,10 @@ app.use(express.static(path.join(__dirname,'public/uploads')));
 
 var mongoose = require('mongoose')
 
-var users = mongoose.model('usernames');
-var t = mongoose.model('tags');
+var users = require('../Schemas/UserSchema');
+var t = require('../Schemas/TagSchema');
 var community = mongoose.model('communities');
-var Comments = mongoose.model('commentes');
+var Comments = require('../Schemas/CommentSchema');
 
 mongoose.Promise = global.Promise;
 
