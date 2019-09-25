@@ -160,12 +160,12 @@
 
 <div style="margin-top:20px;margin-bottom:50px">
   <div class="col-sm-3 col-md-3 col-xs-4 col-lg-2">
-    <a class="communitymembers-head-btn" onclick="AllAdminList()" id="admins-list-btn" style="font-size: 20px;"><b>
-      Managers (0)</b>
+    <a class="communitymembers-head-btn" onclick="AllAdminList()" id="admins-list-btn" style="font-size: 20px;" onclick="initaliseManagers()">
+      Managers (0)
     </a>
   </div>
   <div class="col-sm-3 col-md-3 col-xs-4 col-lg-2">
-    <a class="communitymembers-head-btn active-link-btn" onclick="initaliseusers()" id="users-list-btn" style="font-size: 20px;"><b>Members (0)</b></a>
+    <a class="communitymembers-head-btn active-link-btn" onclick="initaliseusers()" id="users-list-btn" style="font-size: 20px;">Members (0)</a>
   </div>
   <div class="col-sm-12">
       
@@ -177,22 +177,18 @@
 </div> <!--Header-->
 
 </div></div></div>
-
-                    <div>
-                      
+                    <div>                     
                  </div>
                     </div>
                 </div>
-
             </div>
-
-
         </div>
 <script type="text/javascript">
-    var hideManage = document.getElementById('hideManage');
+
+  var hideManage = document.getElementById('hideManage');
   var commid ="<%= newdata._id %>";
   var email_id ="<%= data.email %>";
-  console.log(commid)
+
 $(document).ready(function() {
     initaliseusers();
     
@@ -207,8 +203,6 @@ function initaliseusers()
   xml.addEventListener("load",function()
   {
       var data=JSON.parse(xml.responseText);
-     // console.log("---------"+xml.responseText);
-     // console.log(data)
       if(data.length==0)
       {
         noUser();
@@ -219,6 +213,7 @@ function initaliseusers()
         addtoUserDOM(data[i])
       }
       document.getElementById('users-list-btn').innerHTML="Members ("+data.length+")"
+      document.getElementById('users-list-btn').style.fontWeight = 'bold';
   })
   xml.send(JSON.stringify({"_id":commid}));
 }
@@ -279,10 +274,6 @@ function addtoUserDOM(obj)
   document.getElementById('comUsersList').appendChild(div1)
 }
 
-
-
-
 </script>
-
-	</body>
-	</html>
+</body>
+</html>

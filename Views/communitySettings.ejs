@@ -179,8 +179,7 @@
     <div class="panel-body allSidesSoft" style="background:#fff">
         <a class="manageCommunity-child-btn manageCommunity-btn-active" id="UsersShowBtn" onclick="initaliseusers()"></a>
         <br>
-        <a class="manageCommunity-child-btn" id="AdminsShowBtn">
-            Managers (0)
+        <a class="manageCommunity-child-btn" id="ManagerShowBtn" onclick="initalisemanagers()">
         </a>
         <br>
         <a class="manageCommunity-child-btn" id="invitedUserShowBtn" onclick="initaliserequests()">
@@ -225,7 +224,7 @@
 $(document).ready(function() {
     initaliseusers();
     initaliserequestsWithOutDom()
-    
+    initalisemanagersWithOutDom();
 })
 
 function initaliseusers()
@@ -247,8 +246,9 @@ function initaliseusers()
         addtoUserDOM(data[i],1)
       }
       document.getElementById('UsersShowBtn').innerHTML="Users ("+data.length+")"
-       document.getElementById('UsersShowBtn').style.fontWeight = 'bold';
-        document.getElementById('invitedUserShowBtn').style.fontWeight = 'normal';
+      document.getElementById('UsersShowBtn').style.fontWeight = 'bold';
+      document.getElementById('invitedUserShowBtn').style.fontWeight = 'normal';
+      document.getElementById('ManagerShowBtn').style.fontWeight = 'normal';
   })
   xml.send(JSON.stringify({"_id":commid}));
 }
@@ -262,8 +262,6 @@ function initaliserequests()
   xml.addEventListener("load",function()
   {
       var data=JSON.parse(xml.responseText);
-    //  console.log("---------"+xml.responseText);
-      //console.log(data)
       if(data.length==0)
       {
         noUser();
@@ -275,7 +273,34 @@ function initaliserequests()
       }
       document.getElementById('invitedUserShowBtn').innerHTML="Requests ("+data.length+")"
       document.getElementById('invitedUserShowBtn').style.fontWeight = 'bold';
-       document.getElementById('UsersShowBtn').style.fontWeight = 'normal';
+      document.getElementById('UsersShowBtn').style.fontWeight = 'normal';
+      document.getElementById('ManagerShowBtn').style.fontWeight = 'normal';
+  })
+  xml.send(JSON.stringify({"_id":commid}));
+}
+
+function initalisemanagers()
+{
+  var xml=new XMLHttpRequest();
+  xml.open("POST","/community/getManagers");
+  xml.setRequestHeader("Content-Type","application/json");
+    document.getElementById('comlist').innerHTML=""
+  xml.addEventListener("load",function()
+  {
+      var data=JSON.parse(xml.responseText);
+      if(data.length==0)
+      {
+        noUser();
+      }
+      else
+      for(i in data)
+      {
+        addtoUserDOM(data[i],3)
+      }
+     // document.getElementById('UsersShowBtn').innerHTML="Users ("+data.length+")"
+      document.getElementById('UsersShowBtn').style.fontWeight = 'normal';
+      document.getElementById('invitedUserShowBtn').style.fontWeight = 'normal';
+      document.getElementById('ManagerShowBtn').style.fontWeight = 'bold';
   })
   xml.send(JSON.stringify({"_id":commid}));
 }
@@ -290,6 +315,20 @@ function initaliserequestsWithOutDom()
   {
       var data=JSON.parse(xml.responseText);
       document.getElementById('invitedUserShowBtn').innerHTML="Requests ("+data.length+")"
+  })
+  xml.send(JSON.stringify({"_id":commid}));
+}
+
+function initalisemanagersWithOutDom()
+{
+  var xml=new XMLHttpRequest();
+  xml.open("POST","/community/getManagers");
+  xml.setRequestHeader("Content-Type","application/json");
+    document.getElementById('comlist').innerHTML=""
+  xml.addEventListener("load",function()
+  {
+      var data=JSON.parse(xml.responseText);
+      document.getElementById('ManagerShowBtn').innerHTML="Managers ("+data.length+")"
   })
   xml.send(JSON.stringify({"_id":commid}));
 }
@@ -309,8 +348,6 @@ function noUser()
   div3.appendChild(a2)
   div1.appendChild(div3)
     document.getElementById('comlist').appendChild(div1)
-
-
 }
 
 
@@ -369,7 +406,17 @@ function addtoUserDOM(obj,no)
                btnClass: 'btn-success any-other-class',
                 action: function () {
                  btnClass: 'btn-red any-other-class'
-                     
+
+                var request = new XMLHttpRequest();
+                var filename = '/community/addManagerToCommunity';
+                request.open('POST',filename);
+                request.setRequestHeader("content-Type","application/JSON");
+                request.send(JSON.stringify(obj));
+                request.onload = function()
+                {
+                    //console.log(request.responseText);
+
+                }       
             }
         },
           No: {

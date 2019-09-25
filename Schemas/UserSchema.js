@@ -20,6 +20,8 @@ var userSchema = new Schema({					/*define structure of database*/
     owned: Array,
     joinedComm: Array,
     asktojoincomm: Array,
+    commManagers: Array,
+
 })
 
 module.exports = mongoose.model('usernames', userSchema)

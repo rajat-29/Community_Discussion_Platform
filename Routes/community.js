@@ -344,6 +344,21 @@ app.post('/getRequest',function(req,res) {
     }
 })
 
+app.post('/getManagers',function(req,res) {
+   if(req.session.isLogin){
+      var abc = ObjectId(req.body._id );
+    community.findOne({ "_id" : req.body._id}).populate("commManagers"). // only return the Persons name
+     exec(function (err, result) {
+     if (err) 
+      return err;
+    else
+    {
+      res.send(JSON.stringify(result.commManagers))
+    }
+    })
+    }
+})
+
 app.post('/getUsers',function(req,res) {
    if(req.session.isLogin){
       var abc = ObjectId(req.body._id );
@@ -443,6 +458,47 @@ app.post('/requestedUserJoinCommunity',function(req,res) {
         })
 })
 
+// add managers to community
+app.post('/addManagerToCommunity',function(req,res) {
+     
+      var abc = ObjectId(req.session.iding);
+        community.updateOne({"_id" :req.body.commid},{ $push : {commManagers : req.body._id}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+             //   res.send("USER JOINED WITH COMMUNITY");
+            }
+        })
 
+        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+        users.updateOne({"_id" : req.body._id},{ $push : {commManagers : req.body.commid }},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                console.log("ENTERED IN USER DATABASE ALSO")
+            }
+        })
+
+
+        community.updateOne({"_id" :req.body.commid},{ $pull : {commuser : req.body._id}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                //res.send("USER JOINED WITH COMMUNITY");
+            }
+        })
+        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+        users.updateOne({"_id" : req.body._id},{ $pull : {joinedComm : req.body.commid }},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                console.log("ENTERED IN USER DATABASE ALSO")
+            }
+        })
+})
 
 module.exports = app;
