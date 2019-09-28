@@ -160,7 +160,7 @@
 
 <div style="margin-top:20px;margin-bottom:50px">
   <div class="col-sm-3 col-md-3 col-xs-4 col-lg-2">
-    <a class="communitymembers-head-btn" onclick="AllAdminList()" id="admins-list-btn" style="font-size: 20px;" onclick="initaliseManagers()">
+    <a class="communitymembers-head-btn" id="admins-list-btn" style="font-size: 20px;" onclick="initaliseManagers()">
       Managers (0)
     </a>
   </div>
@@ -191,7 +191,7 @@
 
 $(document).ready(function() {
     initaliseusers();
-    
+    initaliseManagersWithDom();
 })
 
 function initaliseusers()
@@ -214,10 +214,49 @@ function initaliseusers()
       }
       document.getElementById('users-list-btn').innerHTML="Members ("+data.length+")"
       document.getElementById('users-list-btn').style.fontWeight = 'bold';
+      document.getElementById('admins-list-btn').style.fontWeight = 'normal';
   })
   xml.send(JSON.stringify({"_id":commid}));
 }
 
+function initaliseManagers()
+{
+  var xml=new XMLHttpRequest();
+  xml.open("POST","/community/getManagers");
+  xml.setRequestHeader("Content-Type","application/json");
+    document.getElementById('comUsersList').innerHTML=""
+  xml.addEventListener("load",function()
+  {
+      var data=JSON.parse(xml.responseText);
+      if(data.length==0)
+      {
+        noUser();
+      }
+      else
+      for(i in data)
+      {
+        addtoUserDOM(data[i])
+      }
+      document.getElementById('admins-list-btn').innerHTML="Managers ("+data.length+")"
+      document.getElementById('admins-list-btn').style.fontWeight = 'bold';
+      document.getElementById('users-list-btn').style.fontWeight = 'normal';
+  })
+  xml.send(JSON.stringify({"_id":commid}));
+}
+
+function initaliseManagersWithDom()
+{
+  var xml=new XMLHttpRequest();
+  xml.open("POST","/community/getManagers");
+  xml.setRequestHeader("Content-Type","application/json");
+    document.getElementById('comUsersList').innerHTML=""
+  xml.addEventListener("load",function()
+  {
+      var data=JSON.parse(xml.responseText);
+      document.getElementById('admins-list-btn').innerHTML="Managers ("+data.length+")"
+  })
+  xml.send(JSON.stringify({"_id":commid}));
+}
 
 function noUser()
 {
@@ -239,10 +278,9 @@ function noUser()
 
 function addtoUserDOM(obj)
 {
-  //console.log(obj)
+  console.log(obj)
    if(obj.email == email_id)
   {
-    console.log("aya")
      hideManage.setAttribute("style", "display:none");
   }
   var div1=document.createElement('div')
@@ -267,7 +305,7 @@ function addtoUserDOM(obj)
   var a2=document.createElement('a')
   a2.setAttribute("class","comusername")
   a2.innerHTML=obj.name
-  a2.setAttribute("href","")
+  a2.setAttribute("href","/community/viewprofile/" + obj._id)
   div3.appendChild(a2)
   div1.appendChild(div3)
  

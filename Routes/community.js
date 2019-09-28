@@ -415,6 +415,26 @@ app.post('/leaveCommunityForRequestUsers',function(req,res) {
         })
 })
 
+// leave community for managers
+app.post('/leaveCommunityForManagers',function(req,res) {
+        community.updateOne({"_id" :req.body.commid},{ $pull : {commManagers : req.body._id}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                res.send("USER JOINED WITH COMMUNITY");
+            }
+        })
+        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+        users.updateOne({"_id" : req.body._id},{ $pull : {commManagers : req.body.commid }},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                console.log("ENTERED IN USER DATABASE ALSO")
+            }
+        })
+})
 
 // requested users join communities
 app.post('/requestedUserJoinCommunity',function(req,res) {
@@ -496,7 +516,47 @@ app.post('/addManagerToCommunity',function(req,res) {
             if(error)
             throw error;
             else {
+                 res.send("USER JOINED WITH COMMUNITY");
+            }
+        })
+})
+
+
+// demote community  managers
+app.post('/demoteManagerFromCommunity',function(req,res) {
+        community.updateOne({"_id" :req.body.commid},{ $pull : {commManagers : req.body._id}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+               // res.send("USER JOINED WITH COMMUNITY");
+            }
+        })
+        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+        users.updateOne({"_id" : req.body._id},{ $pull : {commManagers : req.body.commid }},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
                 console.log("ENTERED IN USER DATABASE ALSO")
+            }
+        })
+
+        community.updateOne({"_id" :req.body.commid},{ $push : {commuser : req.body._id}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+               // res.send("USER JOINED WITH COMMUNITY");
+            }
+        })
+        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+        users.updateOne({"_id" : req.body._id},{ $push : {joinedComm : req.body.commid }},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                res.send("USER JOINED WITH COMMUNITY");
             }
         })
 })

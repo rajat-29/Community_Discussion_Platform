@@ -269,7 +269,7 @@ function initaliserequests()
       else
       for(i in data)
       {
-        addtoUserDOM(data[i],2)
+        addtoUserDOM(data[i],3)
       }
       document.getElementById('invitedUserShowBtn').innerHTML="Requests ("+data.length+")"
       document.getElementById('invitedUserShowBtn').style.fontWeight = 'bold';
@@ -295,7 +295,7 @@ function initalisemanagers()
       else
       for(i in data)
       {
-        addtoUserDOM(data[i],3)
+        addtoUserDOM(data[i],2)
       }
      // document.getElementById('UsersShowBtn').innerHTML="Users ("+data.length+")"
       document.getElementById('UsersShowBtn').style.fontWeight = 'normal';
@@ -408,15 +408,13 @@ function addtoUserDOM(obj,no)
                  btnClass: 'btn-red any-other-class'
 
                 var request = new XMLHttpRequest();
-                var filename = '/community/addManagerToCommunity';
-                request.open('POST',filename);
-                request.setRequestHeader("content-Type","application/JSON");
-                request.send(JSON.stringify(obj));
-                request.onload = function()
+                request.open('POST','/community/addManagerToCommunity');
+                request.setRequestHeader("Content-Type","application/json");
+                request.send(JSON.stringify(obj))
+                request.addEventListener("load",function()
                 {
-                    //console.log(request.responseText);
-
-                }       
+                        document.location.reload();
+                });      
             }
         },
           No: {
@@ -429,6 +427,39 @@ function addtoUserDOM(obj,no)
     }
   }
   if(no == 2)
+  {
+     a3.onclick=function(){
+        console.log('ayayayaya')
+        $.confirm({
+          title: 'Confirm Demotation!',
+          content: "Do you really want demote this manager? " ,
+          draggable: true,
+          buttons: {
+            Yes: {
+                 btnClass: 'btn-success any-other-class',
+                  action: function () {
+                   btnClass: 'btn-red any-other-class'
+
+                   var request = new XMLHttpRequest()
+                    request.open('POST','/community/demoteManagerFromCommunity');
+                    request.setRequestHeader("Content-Type","application/json");
+                    request.send(JSON.stringify(obj))
+                    request.addEventListener("load",function()
+                    {
+                          document.location.reload();
+                    });
+              }
+          },
+            No: {
+                btnClass: 'btn-danger any-other-class',
+                 action: function () {      
+              }
+          },
+          }
+        });
+      } 
+  }
+  if(no == 3)
   {
     a3.onclick=function(){
       console.log('ayayayaya')
@@ -450,7 +481,7 @@ function addtoUserDOM(obj,no)
                   {
                         document.location.reload();
                   });
-                     
+                    
             }
         },
           No: {
@@ -490,8 +521,20 @@ function addtoUserDOM(obj,no)
                   {
                         document.location.reload();
                   }); 
+
                 }  
                 else if(no == 2)
+                {
+                  var request = new XMLHttpRequest()
+                  request.open('POST','/community/leaveCommunityForManagers');
+                  request.setRequestHeader("Content-Type","application/json");
+                  request.send(JSON.stringify(obj))
+                  request.addEventListener("load",function()
+                  {
+                         document.location.reload();
+                  }); 
+                }
+                else if(no == 3)
                 {
                   var request = new XMLHttpRequest()
                   request.open('POST','/community/leaveCommunityForRequestUsers');
@@ -516,9 +559,6 @@ function addtoUserDOM(obj,no)
   div1.appendChild(div4)
   document.getElementById('comlist').appendChild(div1)
 }
-
-
-
 
 </script>
 

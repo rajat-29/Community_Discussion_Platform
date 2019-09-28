@@ -125,6 +125,7 @@ app.use('/discussion',require('./Routes/discussion'));
 // login checking //
 app.post('/checkLogin',function (req, res)         /*post data */
   {
+    //console.log(req)
       req.session.isLogin = 0;
       var username = req.body.name;
       var pasword = req.body.password;
