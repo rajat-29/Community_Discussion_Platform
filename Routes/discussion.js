@@ -13,8 +13,20 @@ var community = mongoose.model('communities');
 var discussion = require('../Schemas/DiscussionSchema');
 var Comments = require('../Schemas/CommentSchema');
 
+function sessionCheck(req,res,next)
+{
+  if(req.session.isLogin)
+  {
+    next();
+  }
+  else {
+    res.redirect('/');
+  }
+}
+
+
 /* create new discussion */
-app.post('/addnewDiscussion',function (req, res) {
+app.post('/addnewDiscussion',sessionCheck,function (req, res) {
       discussion.create(req.body,function(error,result)
       {
         if(error)
@@ -26,7 +38,7 @@ app.post('/addnewDiscussion',function (req, res) {
 })
 
 // fetch all community discussions
-app.post('/getDiscussion',function(req,res) {
+app.post('/getDiscussion',sessionCheck,function(req,res) {
     discussion.find({ "communityName" : req.body.communityName}).exec(function (err, result) {
      if (err) 
       return err;
@@ -38,7 +50,7 @@ app.post('/getDiscussion',function(req,res) {
 })
 
 // fetch all community discussions comments
-app.post('/getComments',function(req,res) {
+app.post('/getComments',sessionCheck,function(req,res) {
     Comments.find({ "discussionId" : req.body.discussionId}).exec(function (err, result) {
      if (err) 
       return err;
@@ -50,7 +62,7 @@ app.post('/getComments',function(req,res) {
 })
 
 // discussion owner //
-app.get('/discussionOwner/:pros',function(req,res) {
+app.get('/discussionOwner/:pros',sessionCheck,function(req,res) {
       var id = req.params.pros.toString();
       users.findOne({ "_id": id },function(err,reses)
       {
@@ -66,7 +78,7 @@ app.get('/discussionOwner/:pros',function(req,res) {
 })
 
 // delete discussions //
-app.delete('/deleteDiscussion/:pros',function(req,res) {
+app.delete('/deleteDiscussion/:pros',sessionCheck,function(req,res) {
       var id = req.params.pros.toString();
       discussion.deleteOne({ "_id": id },function(err,reses)
       {

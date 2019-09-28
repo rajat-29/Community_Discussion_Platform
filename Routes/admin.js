@@ -13,55 +13,44 @@ var users = require('../Schemas/UserSchema');
 var t = require('../Schemas/TagSchema');
 var community = mongoose.model('communities');
 
+function sessionCheck(req,res,next)
+{
+  if(req.session.isLogin)
+  {
+    next();
+  }
+  else {
+    res.redirect('/');
+  }
+}
+
 // render new user //
-router.get('/addusers' , function(req,res){
-  	if (req.session.isLogin) {
+router.get('/addusers',sessionCheck,function(req,res){
   		res.render('adduser', {data: req.session.data});
-  	} else {
-  		res.render('index');
-  	}
 })
 
 // render user list page //
-router.get('/userlist' , function(req,res){  
-    if(req.session.isLogin) {
+router.get('/userlist',sessionCheck,function(req,res){  
       res.render('userlist', {data: req.session.data});
-   } else {
-    res.render('index');
-    }
 })
 
 // render community list page //
-router.get('/communityList' , function(req,res){  
-    if(req.session.isLogin) {
+router.get('/communityList',sessionCheck,function(req,res){  
       res.render('CommunityList', {data: req.session.data});
-   } else {
-    res.render('index');
-    }
 })
-
 
 // render user tag page //
-router.get('/userestag' , function(req,res){ 
-    if(req.session.isLogin) {
+router.get('/userestag',sessionCheck,function(req,res){ 
       res.render('Tags',{data: req.session.data});
-   } else {
-    res.render('index');
-    }
 })
 
-
 // render change password page //
-router.get('/changePassword' , function(req,res){ 
-    if(req.session.isLogin) {
+router.get('/changePassword',sessionCheck,function(req,res){ 
       res.render('changePassword', {data: req.session.data});
-   } else {
-    res.render('index');
-    }
 })
 
 // change admin password //
-router.post('/changePassword' , function(req,res){
+router.post('/changePassword',sessionCheck,function(req,res){
     password = req.body;
     if(password.oldpass != req.session.password)
     {
@@ -87,27 +76,22 @@ router.post('/changePassword' , function(req,res){
 })
 
 // check wheater email exits or not //
-router.post('/checkemail',function (req, res) {
-
-     var emailes = req.body.email;
-
-     users.findOne({email: emailes}, function(error,result)
+router.post('/checkemail',sessionCheck,function (req, res) {
+     users.findOne({email: req.body.email}, function(error,result)
       {
         if(error)
         throw error;
-
       if(!result) {
         res.send("false");
       }
-        else
-        {
+        else {
            res.send("true");
         }
       })
 })
 
 // add new user //
-router.post('/addnewuser',function (req, res) {    
+router.post('/addnewuser',sessionCheck,function (req, res) {    
   bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
     if(!err) {
       req.body.password = hash;
@@ -125,8 +109,7 @@ router.post('/addnewuser',function (req, res) {
 })
 
 // data table on user list //
-router.post('/showuser' , function(req, res) {
-
+router.post('/showuser',sessionCheck,function(req, res) {
       let query = {};
     let params = {};
     if(req.body.role === 'All' && req.body.status !== 'All')
@@ -140,7 +123,6 @@ router.post('/showuser' , function(req, res) {
     {
         query.email = {"$regex" : req.body.search.value , "$options" : "i"};
     }
-
     let sortingType;
     if(req.body.order[0].dir === 'asc')
         sortingType = 1;
@@ -155,8 +137,7 @@ router.post('/showuser' , function(req, res) {
         params = {skip : parseInt(req.body.start) , limit : parseInt(req.body.length), sort : {status : sortingType}};
     else if(req.body.order[0].column === '4')
         params = {skip : parseInt(req.body.start) , limit : parseInt(req.body.length), sort : {role : sortingType}};
-
-   
+ 
     users.find(query , {} , params , function (err , data)
         {
             if(err)
@@ -184,8 +165,7 @@ router.post('/showuser' , function(req, res) {
 });
 
 // data table on community list //
-router.post('/showcommunity' , function(req, res) {
-
+router.post('/showcommunity',sessionCheck,function(req, res) {
     let query = {};
     let params = {};
 
@@ -198,7 +178,6 @@ router.post('/showcommunity' , function(req, res) {
     {
         query.name = {"$regex" : req.body.search.value , "$options" : "i"};
     }
-
     let sortingType;
     if(req.body.order[0].dir === 'asc')
         sortingType = 1;
@@ -240,9 +219,8 @@ router.post('/showcommunity' , function(req, res) {
     });
 })  
 
-
 // data tables on tags //
-router.post('/showtags' , function(req, res) {
+router.post('/showtags',sessionCheck,function(req, res) {
 
     let query = {};
     let params = {};
@@ -288,7 +266,7 @@ router.post('/showtags' , function(req, res) {
 });
 
 // check wheater tag exits or not //
-router.post('/checktag',function (req, res) {
+router.post('/checktag',sessionCheck,function (req, res) {
 
      var tageses = req.body.tags;
 
@@ -309,7 +287,7 @@ router.post('/checktag',function (req, res) {
 
 
 // add tages to database //
-router.post('/addtagtobase',function (req, res) {
+router.post('/addtagtobase',sessionCheck,function (req, res) {
       req.body.createdBy = req.session.data.name;
       t.create(req.body,function(error,result)
       {
@@ -322,7 +300,7 @@ router.post('/addtagtobase',function (req, res) {
 })
 
 // show tags //
-router.get('/listuserstags', function(req,res) {
+router.get('/listuserstags',sessionCheck,function(req,res) {
     if(req.session.isLogin) {
       res.render('Listtags', {data: req.session.data});
        } else {
@@ -331,7 +309,7 @@ router.get('/listuserstags', function(req,res) {
 })
 
 // page to update user details //
-router.post('/updateuserdetails', function(req,res) {
+router.post('/updateuserdetails',sessionCheck,function(req,res) {
   //console.log(req.body);
         users.updateOne( { "email" : req.body.email}, {$set : req.body } , function(err,result)
         {
@@ -345,7 +323,7 @@ router.post('/updateuserdetails', function(req,res) {
 })
 
 // deactivate user //
-router.post('/deativateuserdata', function(req,res) {
+router.post('/deativateuserdata',sessionCheck,function(req,res) {
   //console.log(req.body._id);
         users.updateOne( { "_id" : req.body._id}, {$set: { "flag" : req.body.flag}} ,
          function(err,result)
@@ -360,7 +338,7 @@ router.post('/deativateuserdata', function(req,res) {
 })
 
 // reactivate user //
-router.post('/reativateuserdata', function(req,res) {
+router.post('/reativateuserdata',sessionCheck,function(req,res) {
   //console.log(req.body._id);
         users.updateOne( { "_id" : req.body._id}, {$set: { "flag" : req.body.flag}} ,
          function(err,result)
@@ -374,7 +352,7 @@ router.post('/reativateuserdata', function(req,res) {
         })
 })
 
-router.post('/updatecommunitydetails', function(req,res) {
+router.post('/updatecommunitydetails',sessionCheck,function(req,res) {
         community.updateOne( { "_id" : req.body._id}, {$set : req.body } , function(err,result)
         {
           if(err)
@@ -387,7 +365,7 @@ router.post('/updatecommunitydetails', function(req,res) {
 })
 
 // switch as user //
-router.get('/switchasuser', function(req,res) {
+router.get('/switchasuser',sessionCheck,function(req,res) {
        if(req.session.isLogin) {
 
         users.updateOne( { "_id" : req.session.iding}, {$set: { "role" : "superAdmin"}} ,
@@ -407,7 +385,7 @@ router.get('/switchasuser', function(req,res) {
        }
 })
 
-router.get('/switchUserPage', function(req,res) {
+router.get('/switchUserPage',sessionCheck,function(req,res) {
        if(req.session.isLogin) {
          res.render('editUserProfile', {data: req.session.data});
     
@@ -416,7 +394,7 @@ router.get('/switchUserPage', function(req,res) {
        }
 })
 
-router.get('/switchAdminPage', function(req,res) {
+router.get('/switchAdminPage',sessionCheck,function(req,res) {
        if(req.session.isLogin) {
 
          res.render('editUserProfile', {data: req.session.data});
@@ -426,7 +404,7 @@ router.get('/switchAdminPage', function(req,res) {
        }
 })
 
-router.get('/switchasadmin', function(req,res) {
+router.get('/switchasadmin',sessionCheck,function(req,res) {
        if(req.session.isLogin) {
 
         users.updateOne( { "_id" : req.session.iding}, {$set: { "role" : "Admin"}} ,
@@ -446,7 +424,7 @@ router.get('/switchasadmin', function(req,res) {
 })
 
 // delete tags //
-router.delete('/:pro',function(req,res) {
+router.delete('/:pro',sessionCheck,function(req,res) {
       var id = req.params.pro.toString();
       t.deleteOne({ "_id": id },function(err,result)
       {

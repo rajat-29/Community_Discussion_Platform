@@ -21,7 +21,18 @@ mongoose.Promise = global.Promise;
 var photoname ;
 var community_photo = "uploads/defaultCommunity.jpg";
 
-app.get('/addNewCommunity' , function(req,res){ 
+function sessionCheck(req,res,next)
+{
+  if(req.session.isLogin)
+  {
+    next();
+  }
+  else {
+    res.redirect('/');
+  }
+}
+
+app.get('/addNewCommunity',sessionCheck,function(req,res){ 
     if(req.session.isLogin) {
       res.render('addNewCommunity', {data: req.session.data});
    } else {
@@ -29,7 +40,7 @@ app.get('/addNewCommunity' , function(req,res){
     }
 })
 
-app.post('/addNewCommunitytobase',function (req, res) {
+app.post('/addNewCommunitytobase',sessionCheck,function (req, res) {
      
       req.body.email = req.session.email;
       req.body.owner = req.session.name;
@@ -60,7 +71,7 @@ app.post('/addNewCommunitytobase',function (req, res) {
        res.send("data saved");
 })
 
-app.get('/getOwnCommunity',function(req,res) {
+app.get('/getOwnCommunity',sessionCheck,function(req,res) {
   if(req.session.isLogin){
     community.find({'ownerId':req.session.iding}, function(err, result){
       res.send(result);
@@ -71,21 +82,21 @@ app.get('/getOwnCommunity',function(req,res) {
   }
 })
 
-app.get('/getOtherCommunity',function(req,res) {
+app.get('/getOtherCommunity',sessionCheck,function(req,res) {
     var abc = ObjectId(req.session.iding);
     community.find({ commuser: abc}, function(err, result){
       res.send(result);
     });
 })
 
-app.get('/getPendingCommunity',function(req,res) {
+app.get('/getPendingCommunity',sessionCheck,function(req,res) {
     var abc = ObjectId(req.session.iding);
     community.find({ commasktojoin: abc}, function(err, result){
       res.send(result);
     });
 })
 
-app.get('/searchingCommunity', function(req,res) {
+app.get('/searchingCommunity',sessionCheck,function(req,res) {
   if(req.session.isLogin) {
       res.render('searchingCommunity', {data: req.session.data});
    } else {
@@ -93,7 +104,7 @@ app.get('/searchingCommunity', function(req,res) {
     }
 })
 
-app.post('/getCommunityforSearch',function(req,res){
+app.post('/getCommunityforSearch',sessionCheck,function(req,res){
    var abc = ObjectId(req.session.iding);
 
     community.find({ $and: [{ ownerId : { $not : { $eq : abc }}},{"status": "Active"},{commuser : {$nin : [abc] }},{commasktojoin : {$nin : [abc] }}] }).skip(req.body.start).limit(req.body.end).exec(function(error,result){
@@ -105,10 +116,8 @@ app.post('/getCommunityforSearch',function(req,res){
     })
 })
 
-app.post('/joincommunity',function(req,res) {
-     
+app.post('/joincommunity',sessionCheck,function(req,res) {
       var abc = ObjectId(req.session.iding);
-  
       if(req.body.rule == "Direct")
       {
         community.updateOne({"_id" :req.body._id},{ $push : {commuser : abc}},function(error,result)
@@ -153,7 +162,7 @@ app.post('/joincommunity',function(req,res) {
       }
 })
 
-app.get('/info/:pros',function(req,res) {
+app.get('/info/:pros',sessionCheck,function(req,res) {
       var id = req.params.pros.toString();
       community.findOne({ "_id": id },function(err,reses)
       {
@@ -162,12 +171,11 @@ app.get('/info/:pros',function(req,res) {
           else
           {
              res.render('communityInformation', {data: req.session.data,newdata:reses});
-              //res.send("data deleted SUCCESFULLY")
           }
       });
  })
 
-app.get('/setting/:pros',function(req,res) {
+app.get('/setting/:pros',sessionCheck,function(req,res) {
       var id = req.params.pros.toString();
       community.findOne({ "_id": id },function(err,reses)
       {
@@ -176,13 +184,12 @@ app.get('/setting/:pros',function(req,res) {
           else
           {
              res.render('communitySettings', {data: req.session.data,newdata:reses});
-              //res.send("data deleted SUCCESFULLY")
           }
       });
 })
 
 // render community profile page //
-app.get('/communityProfile/:pros',function(req,res) {
+app.get('/communityProfile/:pros',sessionCheck,function(req,res) {
       var id = req.params.pros.toString();
       community.findOne({ "_id": id },function(err,reses)
       {
@@ -191,12 +198,11 @@ app.get('/communityProfile/:pros',function(req,res) {
           else
           {
              res.render('communityProfileInfo', {data: req.session.data,newdata:reses});
-              //res.send("data deleted SUCCESFULLY")
           }
       });
 })
 
-app.get('/viewprofile/:pros',function(req,res) {
+app.get('/viewprofile/:pros',sessionCheck,function(req,res) {
       var id = req.params.pros.toString();
       users.findOne({ "_id": id },function(err,reses)
       {
@@ -205,12 +211,11 @@ app.get('/viewprofile/:pros',function(req,res) {
           else
           {
               res.render('communityOwnerInfo', {data: req.session.data,newdata:reses});
-              //res.send("data deleted SUCCESFULLY")
           }
       });
 })
 
-app.get('/editCommunity/:pros',function(req,res) {
+app.get('/editCommunity/:pros',sessionCheck,function(req,res) {
       var id = req.params.pros.toString();
        community.findOne({ "_id": id },function(err,reses)
       {
@@ -219,12 +224,11 @@ app.get('/editCommunity/:pros',function(req,res) {
           else
           {
              res.render('EditcommunitySettings', {data: req.session.data,newdata:reses});
-              //res.send("data deleted SUCCESFULLY")
           }
       });
 })
 
-app.post('/updatecommdetails', function(req,res) {
+app.post('/updatecommdetails',sessionCheck,function(req,res) {
         community.updateOne( { "_id" : req.body._id}, {$set : req.body } , function(err,result)
         {
           if(err)
@@ -236,7 +240,7 @@ app.post('/updatecommdetails', function(req,res) {
         })
 })
 
-app.get('/inviteUser/:pros',function(req,res) {
+app.get('/inviteUser/:pros',sessionCheck,function(req,res) {
       var id = req.params.pros.toString();
        community.findOne({ "_id": id },function(err,reses)
       {
@@ -245,12 +249,11 @@ app.get('/inviteUser/:pros',function(req,res) {
           else
           {
              res.render('InfocommunitySettings', {data: req.session.data,newdata:reses});
-              //res.send("data deleted SUCCESFULLY")
           }
       });
 })
 
-app.get('/discussion/:pros',function(req,res) {
+app.get('/discussion/:pros',sessionCheck,function(req,res) {
       var id = req.params.pros.toString();
       console.log(id)
        community.findOne({ "_id": id },function(err,reses)
@@ -265,12 +268,11 @@ app.get('/discussion/:pros',function(req,res) {
               throw err;
                 res.render('communityDiscussions', {data: req.session.data,newdata:reses,comments:resesComm});
             });
-            
           }
       });
 })
 
-app.post('/leaveCommunityBYUser',function(req,res) {
+app.post('/leaveCommunityBYUser',sessionCheck,function(req,res) {
         community.updateOne({"_id" :req.body.commid},{ $pull : {commuser : req.session.iding}},function(error,result)
         {
             if(error)
@@ -289,33 +291,26 @@ app.post('/leaveCommunityBYUser',function(req,res) {
                 console.log("ENTERED IN USER DATABASE ALSO")
             }
         })
-
 })
 
-app.post('/leavePendingcommunity',function(req,res) {
-
+app.post('/leavePendingcommunity',sessionCheck,function(req,res) {
   var abc = ObjectId(req.session.iding);
-
   community.updateOne({"_id" :req.body._id},{ $pull : {commasktojoin : abc}},function(error,result)
         {
             if(error)
             throw error;
-            else {
-               // res.send("USER Left WITH COMMUNITY");
-            }
+            else {}
         })
 
   users.updateOne({"_id" :abc},{ $pull : {asktojoincomm : req.body._id}},function(error,result)
         {
             if(error)
             throw error;
-            else {
-                //res.send("USER Left WITH COMMUNITY");
-            }
+            else {}
         })
 })
 
-app.get('/showCommunityMembers/:pros',function(req,res) {
+app.get('/showCommunityMembers/:pros',sessionCheck,function(req,res) {
       var id = req.params.pros.toString();
       community.findOne({ "_id": id },function(err,reses)
       {
@@ -324,12 +319,11 @@ app.get('/showCommunityMembers/:pros',function(req,res) {
           else
           {
              res.render('showCommunitymembers', {data: req.session.data,newdata:reses});
-              //res.send("data deleted SUCCESFULLY")
           }
       });
 })
 
-app.post('/getRequest',function(req,res) {
+app.post('/getRequest',sessionCheck,function(req,res) {
    if(req.session.isLogin){
       var abc = ObjectId(req.body._id );
     community.findOne({ "_id" : req.body._id}).populate("commasktojoin"). // only return the Persons name
@@ -344,7 +338,7 @@ app.post('/getRequest',function(req,res) {
     }
 })
 
-app.post('/getManagers',function(req,res) {
+app.post('/getManagers',sessionCheck,function(req,res) {
    if(req.session.isLogin){
       var abc = ObjectId(req.body._id );
     community.findOne({ "_id" : req.body._id}).populate("commManagers"). // only return the Persons name
@@ -359,7 +353,7 @@ app.post('/getManagers',function(req,res) {
     }
 })
 
-app.post('/getUsers',function(req,res) {
+app.post('/getUsers',sessionCheck,function(req,res) {
    if(req.session.isLogin){
       var abc = ObjectId(req.body._id );
     community.findOne({ "_id" : abc}).populate("commuser"). // only return the Persons name
@@ -374,7 +368,7 @@ app.post('/getUsers',function(req,res) {
     }
 })
 
-app.post('/leaveCommunity',function(req,res) {
+app.post('/leaveCommunity',sessionCheck,function(req,res) {
         community.updateOne({"_id" :req.body.commid},{ $pull : {commuser : req.body._id}},function(error,result)
         {
             if(error)
@@ -395,7 +389,7 @@ app.post('/leaveCommunity',function(req,res) {
 })
 
 // leave community who requested to join
-app.post('/leaveCommunityForRequestUsers',function(req,res) {
+app.post('/leaveCommunityForRequestUsers',sessionCheck,function(req,res) {
         community.updateOne({"_id" :req.body.commid},{ $pull : {commasktojoin : req.body._id}},function(error,result)
         {
             if(error)
@@ -416,7 +410,7 @@ app.post('/leaveCommunityForRequestUsers',function(req,res) {
 })
 
 // leave community for managers
-app.post('/leaveCommunityForManagers',function(req,res) {
+app.post('/leaveCommunityForManagers',sessionCheck,function(req,res) {
         community.updateOne({"_id" :req.body.commid},{ $pull : {commManagers : req.body._id}},function(error,result)
         {
             if(error)
@@ -437,8 +431,7 @@ app.post('/leaveCommunityForManagers',function(req,res) {
 })
 
 // requested users join communities
-app.post('/requestedUserJoinCommunity',function(req,res) {
-
+app.post('/requestedUserJoinCommunity',sessionCheck,function(req,res) {
    var abc = ObjectId(req.session.iding);
         community.updateOne({"_id" :req.body.commid},{ $pull : {commasktojoin : req.body._id}},function(error,result)
         {
@@ -462,9 +455,7 @@ app.post('/requestedUserJoinCommunity',function(req,res) {
         {
             if(error)
             throw error;
-            else {
-               
-            }
+            else {}
         })
 
         //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
@@ -479,16 +470,13 @@ app.post('/requestedUserJoinCommunity',function(req,res) {
 })
 
 // add managers to community
-app.post('/addManagerToCommunity',function(req,res) {
-     
+app.post('/addManagerToCommunity',sessionCheck,function(req,res) {
       var abc = ObjectId(req.session.iding);
         community.updateOne({"_id" :req.body.commid},{ $push : {commManagers : req.body._id}},function(error,result)
         {
             if(error)
             throw error;
-            else {
-             //   res.send("USER JOINED WITH COMMUNITY");
-            }
+            else {}
         })
 
         //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
@@ -496,19 +484,14 @@ app.post('/addManagerToCommunity',function(req,res) {
         {
             if(error)
             throw error;
-            else {
-                console.log("ENTERED IN USER DATABASE ALSO")
-            }
+            else {}
         })
-
 
         community.updateOne({"_id" :req.body.commid},{ $pull : {commuser : req.body._id}},function(error,result)
         {
             if(error)
             throw error;
-            else {
-                //res.send("USER JOINED WITH COMMUNITY");
-            }
+            else {}
         })
         //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
         users.updateOne({"_id" : req.body._id},{ $pull : {joinedComm : req.body.commid }},function(error,result)
@@ -521,34 +504,27 @@ app.post('/addManagerToCommunity',function(req,res) {
         })
 })
 
-
 // demote community  managers
-app.post('/demoteManagerFromCommunity',function(req,res) {
+app.post('/demoteManagerFromCommunity',sessionCheck,function(req,res) {
         community.updateOne({"_id" :req.body.commid},{ $pull : {commManagers : req.body._id}},function(error,result)
         {
             if(error)
             throw error;
-            else {
-               // res.send("USER JOINED WITH COMMUNITY");
-            }
+            else {}
         })
         //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
         users.updateOne({"_id" : req.body._id},{ $pull : {commManagers : req.body.commid }},function(error,result)
         {
             if(error)
             throw error;
-            else {
-                console.log("ENTERED IN USER DATABASE ALSO")
-            }
+            else {}
         })
 
         community.updateOne({"_id" :req.body.commid},{ $push : {commuser : req.body._id}},function(error,result)
         {
             if(error)
             throw error;
-            else {
-               // res.send("USER JOINED WITH COMMUNITY");
-            }
+            else {}
         })
         //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
         users.updateOne({"_id" : req.body._id},{ $push : {joinedComm : req.body.commid }},function(error,result)

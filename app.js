@@ -65,6 +65,7 @@ app.use(session({
     secret: "xYzUCAchitkara",
     resave: false,
     saveUninitialized: true,
+    cookie: {maxAge: 6000}
 }))
 
 var mongoose = require('mongoose');						/*include mongo*/
