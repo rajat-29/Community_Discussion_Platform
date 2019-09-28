@@ -437,4 +437,14 @@ router.delete('/:pro',sessionCheck,function(req,res) {
       });
  })
 
+// render update details of admin profile page //
+router.get('/editUserDetails', sessionCheck,function(req,res) {
+      res.render('editUserDetails', {data: req.session.data});
+}) 
+
+// render edit button profile page for admin//
+router.get('/editUserProfile', sessionCheck,function(req,res) {
+      res.render('editUserProfile', {data: req.session.data});
+})
+
 module.exports = router;

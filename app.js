@@ -65,7 +65,7 @@ app.use(session({
     secret: "xYzUCAchitkara",
     resave: false,
     saveUninitialized: true,
-    cookie: {maxAge: 6000}
+    cookie: {maxAge: 3600000}
 }))
 
 var mongoose = require('mongoose');						/*include mongo*/
@@ -122,6 +122,18 @@ let transporter = mailer.createTransport({
 app.use('/admin',require('./Routes/admin.js'));
 app.use('/community',require('./Routes/community'));
 app.use('/discussion',require('./Routes/discussion'));
+app.use('/user',require('./Routes/user'));
+
+function sessionCheck(req,res,next)
+{
+  if(req.session.isLogin)
+  {
+    next();
+  }
+  else {
+    res.redirect('/');
+  }
+}
 
 // login checking //
 app.post('/checkLogin',function (req, res)         /*post data */
@@ -180,9 +192,8 @@ app.post('/checkLogin',function (req, res)         /*post data */
 })
 
 // admin side //
-app.get('/home' , function(req,res){        /*get data */
-    if(req.session.isLogin) 
-    {
+app.get('/home' , sessionCheck,function(req,res){        /*get data */
+
       if(req.session.data.role == 'Admin' || req.session.data.role == 'superAdmin') 
       {
         res.render('main', {data: req.session.data});
@@ -198,23 +209,11 @@ app.get('/home' , function(req,res){        /*get data */
           res.render('newUsereditProfile', {data: req.session.data});
         }         
       }
-    } 
-     else 
-     {
-      res.render('index');
-     }
  })
 
 // user deactivated //
 app.get("/404" ,function(req,res) {
    res.render("404");
-})
-
-// logout the user and admin //
-app.get('/yes', function(req,res) {
-    req.session.isLogin = 0;
-    req.session.destroy();
-    res.render('index');
 })
 
 // upload admin image //
@@ -259,7 +258,7 @@ app.post('/Userupload',(req,res) => {
       })
 });
 
-app.post('/sendMail', function(request,response) {
+app.post('/sendMail',sessionCheck, function(request,response) {
       transporter.sendMail(request.body, (error, info) => {
         if(error) {
           console.log(error)
@@ -269,38 +268,8 @@ app.post('/sendMail', function(request,response) {
       })
 })
 
-
-// render edit button profile page //
-app.get('/editUserProfile', function(req,res) {
-    if(req.session.isLogin) {
-      res.render('editUserProfile', {data: req.session.data});
-       } else {
-      res.render('index');
-     }
-})
-
-// render update details of admin profile page //
-app.get('/editUserDetails', function(req,res) {
-    if(req.session.isLogin) {
-      res.render('editUserDetails', {data: req.session.data});
-    
-       } else {
-      res.render('index');
-     }
-})
-
-// new user profile //
-// render user edit button profile page //
-app.get('/newUsereditProfile', function(req,res) {
-    if(req.session.isLogin) {
-      res.render('newUsereditProfile', {data: req.session.data});
-       } else {
-      res.render('index');
-     }
-})   
-
 // update  
-app.post('/updateeditUserDetails', function(req,res) {
+app.post('/updateeditUserDetails', sessionCheck,function(req,res) {
         users.updateOne( { "email" : req.session.email}, {$set : req.body } , function(err,result)
         {
           if(err)
@@ -320,7 +289,7 @@ app.post('/updateeditUserDetails', function(req,res) {
         })
 })
 
-app.post('/updateeditUserDob', function(req,res) {
+app.post('/updateeditUserDob',sessionCheck, function(req,res) {
         users.updateOne( { "email" : req.session.email}, {$set : req.body } , function(err,result)
         {
           if(err)
@@ -339,56 +308,6 @@ app.post('/updateeditUserDob', function(req,res) {
             res.send("DATA UPDATED SUCCESFULLY")
           }
         })
-})
-
-app.get('/newUsereditProfile', function(req,res) {
-      if(req.session.isLogin) {
-      res.render('newUsereditProfile', {data: req.session.data});
-    
-       } else {
-      res.render('index');
-     }
-})
-
-app.get('/newUserProfileDetails', function(req,res) {
-    if(req.session.isLogin) {
-      res.render('newUserProfileDetails', {data: req.session.data});
-    
-       } else {
-      res.render('index');
-     }
-})
-
-app.get('/newUserchangePassword', function(req,res) {
-    if(req.session.isLogin) {
-      res.render('newUserchangePassword', {data: req.session.data});
-    
-       } else {
-      res.render('index');
-     }
-})
-
-// community pages //
-app.get('/openCommunityPage' , function(req,res){
-    if (req.session.isLogin) 
-    {
-      if(req.session.data.role == 'User' )
-      {
-         res.render('newUserCommunityPage', {data: req.session.data});
-      } 
-      else if(req.session.data.role == 'Community Manager' )
-      {
-         res.render('communityUserCommunityPage', {data: req.session.data});
-      }
-      else if(req.session.data.role == 'superAdmin' )
-      {
-         res.render('newUserCommunityPage', {data: req.session.data});
-      }
-    }
-    else
-    {
-      res.render('index');
-    }
 })
 
  /*post data */

@@ -91,12 +91,12 @@ function changepassword()
 
 function editProfile()
 {
-    window.location = "/editUserProfile";
+    window.location = "/admin/editUserProfile";
 }
 
 function editUserDetails() 
 {
-    window.location = "/editUserDetails";
+    window.location = "/admin/editUserDetails";
 }
 
 function openlogoutpage()
@@ -109,7 +109,7 @@ function openlogoutpage()
     buttons: {
         Yes: {
             action: function () {
-             window.location = "/yes";
+             window.location = "/user/yes";
         }
     },
         No: {
@@ -123,21 +123,21 @@ function openlogoutpage()
 
 function newUsereditProfile()
 {
-    window.location = "/newUsereditProfile";
+    window.location = "/user/newUsereditProfile";
 }
 
 function newUserProfileDetails()
 {
-    window.location = "/newUserProfileDetails";
+    window.location = "/user/newUserProfileDetails";
 }
 
 function newUserchangePassword()
 {
-  window.location = "/newUserchangePassword";   
+  window.location = "/user/newUserchangePassword";   
 }
 
 function openCommunityPage()
 {
-    window.location = "/openCommunityPage";
+    window.location = "/user/openCommunityPage";
 }
 
