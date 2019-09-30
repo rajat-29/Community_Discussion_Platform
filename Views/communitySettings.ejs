@@ -124,7 +124,7 @@
       </li>
     
 
-      <li>
+      <li id="hideProfile">
           <a href="/community/info/<%=newdata._id%>" class="community-profile-option-btn">
             Community Profile
           </a>
@@ -166,8 +166,8 @@
     Invite Users
   </a>
   
-  <a class="pc" href="/community/editCommunity/<%=newdata._id%>" style="float:right;font-weight:600;margin-right:15px">
-    Edit Community
+  <a href="/community/editCommunity/<%=newdata._id%>" id="editCommunityOption" style="float:right;font-weight:600;margin-right:15px;display: block;">
+   <p> Edit Community </p>
   </a>
   
 </div>
@@ -177,12 +177,14 @@
 
     
     <div class="panel-body allSidesSoft" style="background:#fff">
-        <a class="manageCommunity-child-btn manageCommunity-btn-active" id="UsersShowBtn" onclick="initaliseusers()"></a>
+        <a class="manageCommunity-child-btn manageCommunity-btn-active" id="UsersShowBtn" onclick="initaliseusers()">Users (<%=newdata.commuser.length%>)</a>
         <br>
         <a class="manageCommunity-child-btn" id="ManagerShowBtn" onclick="initalisemanagers()">
+          Managers (<%=newdata.commManagers.length%>)
         </a>
         <br>
         <a class="manageCommunity-child-btn" id="invitedUserShowBtn" onclick="initaliserequests()">
+          Requests (<%=newdata.commasktojoin.length%>)
           </a>
         <br>
         <a class="manageCommunity-child-btn" id="invitedUserShowBtn">
@@ -219,11 +221,9 @@
   var hideManage = document.getElementById('hideManage');
   var commid ="<%= newdata._id %>";
   var email_id ="<%= data.email %>";
- // console.log(email_id);
-  //var f=1;
+
 $(document).ready(function() {
     initaliseusers();
-    initaliserequestsWithOutDom()
     initalisemanagersWithOutDom();
 })
 
@@ -245,7 +245,7 @@ function initaliseusers()
       {
         addtoUserDOM(data[i],1)
       }
-      document.getElementById('UsersShowBtn').innerHTML="Users ("+data.length+")"
+      //document.getElementById('UsersShowBtn').innerHTML="Users ("+data.length+")";
       document.getElementById('UsersShowBtn').style.fontWeight = 'bold';
       document.getElementById('invitedUserShowBtn').style.fontWeight = 'normal';
       document.getElementById('ManagerShowBtn').style.fontWeight = 'normal';
@@ -271,7 +271,7 @@ function initaliserequests()
       {
         addtoUserDOM(data[i],3)
       }
-      document.getElementById('invitedUserShowBtn').innerHTML="Requests ("+data.length+")"
+      //document.getElementById('invitedUserShowBtn').innerHTML="Requests ("+data.length+")"
       document.getElementById('invitedUserShowBtn').style.fontWeight = 'bold';
       document.getElementById('UsersShowBtn').style.fontWeight = 'normal';
       document.getElementById('ManagerShowBtn').style.fontWeight = 'normal';
@@ -297,24 +297,9 @@ function initalisemanagers()
       {
         addtoUserDOM(data[i],2)
       }
-     // document.getElementById('UsersShowBtn').innerHTML="Users ("+data.length+")"
       document.getElementById('UsersShowBtn').style.fontWeight = 'normal';
       document.getElementById('invitedUserShowBtn').style.fontWeight = 'normal';
       document.getElementById('ManagerShowBtn').style.fontWeight = 'bold';
-  })
-  xml.send(JSON.stringify({"_id":commid}));
-}
-
-function initaliserequestsWithOutDom()
-{
-  var xml=new XMLHttpRequest();
-  xml.open("POST","/community/getRequest");
-  xml.setRequestHeader("Content-Type","application/json");
-    document.getElementById('comlist').innerHTML=""
-  xml.addEventListener("load",function()
-  {
-      var data=JSON.parse(xml.responseText);
-      document.getElementById('invitedUserShowBtn').innerHTML="Requests ("+data.length+")"
   })
   xml.send(JSON.stringify({"_id":commid}));
 }
@@ -328,7 +313,16 @@ function initalisemanagersWithOutDom()
   xml.addEventListener("load",function()
   {
       var data=JSON.parse(xml.responseText);
-      document.getElementById('ManagerShowBtn').innerHTML="Managers ("+data.length+")"
+      //document.getElementById('ManagerShowBtn').innerHTML="Managers ("+data.length+")"
+      for(i in data)
+      {
+        if(email_id == data[i].email)
+        {
+          //console.log(email_id);
+          document.getElementById('hideProfile').setAttribute("style", "display:none");
+          document.getElementById('editCommunityOption').style.display = 'none';
+        }
+      }
   })
   xml.send(JSON.stringify({"_id":commid}));
 }
@@ -353,12 +347,13 @@ function noUser()
 
 function addtoUserDOM(obj,no)
 {
-  console.log(obj._id)
+  if( no == 2)
+  console.log(obj)
   obj.commid = commid;
-  if(obj.email == email_id)
-  {
-     hideManage.setAttribute("style", "display:none");
-  }
+  // if(obj.email == email_id)
+  // {
+  //    hideManage.setAttribute("style", "display:none");
+  // }
   var div1=document.createElement('div')
   div1.setAttribute("class","col-sm-12 col-xs-12 allcoms community-user-div")
   div1.setAttribute("style","margin-top:5px;display:flex;")
@@ -559,8 +554,7 @@ function addtoUserDOM(obj,no)
   div1.appendChild(div4)
   document.getElementById('comlist').appendChild(div1)
 }
-
 </script>
 
-	</body>
-	</html>
+</body>
+</html>

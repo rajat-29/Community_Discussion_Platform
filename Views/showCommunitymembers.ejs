@@ -124,7 +124,7 @@
       </li>
     
 
-      <li>
+      <li id="hideProfile">
           <a href="/community/info/<%=newdata._id%>" class="community-profile-option-btn">
             Community Profile
           </a>
@@ -254,6 +254,11 @@ function initaliseManagersWithDom()
   {
       var data=JSON.parse(xml.responseText);
       document.getElementById('admins-list-btn').innerHTML="Managers ("+data.length+")"
+      for(i in data)
+      {
+        if(email_id == data[i].email)
+           document.getElementById('hideProfile').setAttribute("style", "display:none");
+      }
   })
   xml.send(JSON.stringify({"_id":commid}));
 }

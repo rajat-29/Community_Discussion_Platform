@@ -25,7 +25,7 @@ submit.addEventListener("click", function() {
     // }
 	//console.log(pass.value);
 	var request = new XMLHttpRequest();
-    request.open('POST',"/checkLogin");
+    request.open('POST',"/login/checkLogin");
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify({name : n.value,password: pass.value}));
     request.addEventListener("load",function() {
@@ -33,12 +33,12 @@ submit.addEventListener("click", function() {
     	if(data === 'true') {
     		console.log('hello user');
             window.sessionStorage.setItem('email' , n.value);
-            window.location = "/home";
+            window.location = "/login/home";
             //window.location.href = "h.html";
         }
         else if(data === 'false')
         {
-            window.location = "/404";
+            window.location = "/login/404";
         }
     	else {
             document.getElementById("wrong_id").style.display = "block";
@@ -62,7 +62,7 @@ pass.addEventListener("keyup", function() {
     }
     //console.log(pass.value);
     var request = new XMLHttpRequest();
-    request.open('POST',"/checkLogin");
+    request.open('POST',"/login/checkLogin");
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify({name : n.value,password: pass.value}));
     request.addEventListener("load",function() {
@@ -70,12 +70,12 @@ pass.addEventListener("keyup", function() {
         if(data === 'true') {
             console.log('hello user');
             window.sessionStorage.setItem('email' , n.value);
-            window.location = "/home";
+            window.location = "/login/home";
             //window.location.href = "h.html";
         }
         else if(data === 'false')
         {
-            window.location = "/404";
+            window.location = "/login/404";
         }
         else {
             document.getElementById("wrong_id").style.display = "block";

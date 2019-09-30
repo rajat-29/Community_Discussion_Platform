@@ -72,14 +72,9 @@ app.post('/addNewCommunitytobase',sessionCheck,function (req, res) {
 })
 
 app.get('/getOwnCommunity',sessionCheck,function(req,res) {
-  if(req.session.isLogin){
     community.find({'ownerId':req.session.iding}, function(err, result){
       res.send(result);
     });
-
-  } else {
-    res.redirect('/');
-  }
 })
 
 app.get('/getOtherCommunity',sessionCheck,function(req,res) {
@@ -92,6 +87,13 @@ app.get('/getOtherCommunity',sessionCheck,function(req,res) {
 app.get('/getPendingCommunity',sessionCheck,function(req,res) {
     var abc = ObjectId(req.session.iding);
     community.find({ commasktojoin: abc}, function(err, result){
+      res.send(result);
+    });
+})
+
+app.get('/getCommunityManagers',sessionCheck,function(req,res) {
+    var abc = ObjectId(req.session.iding);
+    community.find({ commManagers: abc}, function(err, result){
       res.send(result);
     });
 })
@@ -175,6 +177,7 @@ app.get('/info/:pros',sessionCheck,function(req,res) {
       });
  })
 
+// render admin setting page //
 app.get('/setting/:pros',sessionCheck,function(req,res) {
       var id = req.params.pros.toString();
       community.findOne({ "_id": id },function(err,reses)

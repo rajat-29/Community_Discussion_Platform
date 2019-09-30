@@ -13,7 +13,7 @@ function openbar()
 
 function homepage()
 {
-    window.location = "/home";
+    window.location = "/login/home";
 }
 
 function open_adduser_page()
