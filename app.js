@@ -8,6 +8,7 @@ var MongoDataTable = require('mongo-datatable');
 var mailer = require('nodemailer');
 var multer = require('multer');
 var passport = require('passport');
+var mongoStore = require('connect-mongo')(session);
 app.use(passport.initialize());
 app.use(passport.session());
 var http = require("http").Server(app);
@@ -57,21 +58,26 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname,'/public'))) /*folder path*/
 app.use(express.static(path.join(__dirname,'public/uploads')));
 
-app.use(express.urlencoded({extended: true}))
-app.use(express.json())									/*include express*/
-app.use(session({
-    secret: "xYzUCAchitkara",
-    resave: false,
-    saveUninitialized: true,
-    cookie: {maxAge: 36000000}
-}))
-
-var mongoose = require('mongoose');						/*include mongo*/
+var mongoose = require('mongoose');           /*include mongo*/
 var mongoDB = 'mongodb://localhost/user';
 
 mongoose.set('useFindAndModify', false);
 mongoose.connect(mongoDB,{ useNewUrlParser: true});
 mongoose.Promise = global.Promise;
+
+var db = mongoose.connection;
+
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())									/*include express*/
+app.use(session({
+    secret: "xYzUCAchitkara",
+    resave: false,
+    saveUninitialized: false,
+    clear_interval: 900,
+    store : new mongoStore({mongooseConnection:db}),
+    autoRemove: 'native',
+    cookie: {maxAge: 3000000}
+}))
 
 mongoose.connection.on('error',(err) => {					/*database connect*/
     console.log('DB connection Error');
@@ -106,6 +112,7 @@ var community = mongoose.model('communities', communitySchema);
 
 var discussion = require('./Schemas/DiscussionSchema');
 var Comments = require('./Schemas/CommentSchema');
+var Replies = require('./Schemas/ReplySchema');
 
 // node mailler add your email and password here for email //
 let transporter = mailer.createTransport({
@@ -240,6 +247,12 @@ io.on('connection',function(socket){
         var commentData = new Comments(data);
         commentData.save();
         socket.broadcast.emit('comment',data);  
+    });
+
+    socket.on('reply',function(data){
+        var replyData = new Replies(data);
+        replyData.save();
+        socket.broadcast.emit('reply',data);  
     });
 });
 

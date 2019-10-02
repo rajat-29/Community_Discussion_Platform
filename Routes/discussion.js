@@ -12,6 +12,7 @@ var t = require('../Schemas/TagSchema');
 var community = mongoose.model('communities');
 var discussion = require('../Schemas/DiscussionSchema');
 var Comments = require('../Schemas/CommentSchema');
+var Replies = require('../Schemas/ReplySchema');
 
 function sessionCheck(req,res,next)
 {
@@ -52,6 +53,18 @@ app.post('/getDiscussion',sessionCheck,function(req,res) {
 // fetch all community discussions comments
 app.post('/getComments',sessionCheck,function(req,res) {
     Comments.find({ "discussionId" : req.body.discussionId}).exec(function (err, result) {
+     if (err) 
+      return err;
+    else
+    {
+      res.send(result)
+    }
+    })
+})
+
+// fetch all community discussions replies
+app.post('/getReplys',sessionCheck,function(req,res) {
+    Replies.find({ "commentId" : req.body.commentId}).exec(function (err, result) {
      if (err) 
       return err;
     else

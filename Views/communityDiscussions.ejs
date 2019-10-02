@@ -241,7 +241,8 @@
   var commid ="<%= newdata._id %>";
   var email_id ="<%= data.email %>";
   var currentUser = "<%= data.name %>"
-  //console.log(currentUser)
+  var currentId = "<%= data.ides %>"
+  //console.log(currentId)
 
 $(document).ready(function() {
     initaliseusers();   
@@ -394,8 +395,8 @@ function addtoDiscussionDOM(obj)
                     +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-content" style="font-size:16px"  onclick=displayComments("'+obj._id+'")>'+' Comments ' +'</div>'
                     +'<div class="col-sm-6 col-xs-6 col-lg-6 col-md-6 discussion-content" id="enterComments'+obj._id+'" style="visibility: hidden" ><input type="email" class="form-control" id="comment'+obj._id+'" placeholder="Enter Comment" required><br>'
                     +'</div>'
-                    +'<button type="submit" value="Add User" class="btn btn-success" id="send'+obj._id+'" onclick=doComment("'+obj._id+'","'+obj.createdBy+'","'+obj.communityId+'") style="visibility: hidden">Submit</button></div>'
-                    +'<div class="comments'+obj._id+'"></div>'  
+                    +'<button type="submit" class="btn btn-success" id="send'+obj._id+'" onclick=doComment("'+obj._id+'","'+obj.createdBy+'","'+obj.communityId+'") style="visibility: hidden">Submit</button></div>'
+                    +'<div class="comments'+obj._id+'"></div>' 
                 +'</div>'
               +'</div>';
       $('#discussionsList').append(div);
@@ -416,7 +417,7 @@ function addtoDiscussionDOM(obj)
                     +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-content" style="font-size:16px"  onclick=displayComments("'+obj._id+'")>'+' Comments ' +'</div>'
                     +'<div class="col-sm-6 col-xs-6 col-lg-6 col-md-6 discussion-content" id="enterComments'+obj._id+'" style="visibility: hidden" ><input type="email" class="form-control" id="comment'+obj._id+'" placeholder="Enter Comment" required><br>'
                     +'</div>'
-                    +'<button type="submit" value="Add User" class="btn btn-success" id="send'+obj._id+'" onclick=doComment("'+obj._id+'","'+obj.createdBy+'","'+obj.communityId+'") style="visibility: hidden">Submit</button></div>'
+                    +'<button type="submit" class="btn btn-success" id="send'+obj._id+'" onclick=doComment("'+obj._id+'","'+obj.createdBy+'","'+obj.communityId+'") style="visibility: hidden">Submit</button></div>'
                     +'<div class="comments'+obj._id+'"></div>'  
                 +'</div>'
               +'</div>';
@@ -444,21 +445,25 @@ function displayComments(disId) {
       //console.log(data)
       for(j in data)
       {
-          // console.log(data[j])
+           //console.log(data[j])
             $('.comments'+ data[j].discussionId).append('<div class="panel-body" style="padding:5px;background:#f9f9f9;">'
           +'<div class="col-sm-1 col-xs-3"><a href="">'
           +'<img src="<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
           + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
           +'<p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
         +data[j].commentedBy+'</p><p class="col-sm-11 col-xs-9 discussion-heading" style="font-size: 15px;">'
-        +data[j].comment+'</p></div>');
+        +data[j].comment+'</p>'
+        +'<div class="col-sm-1"></div>'
+        +'<div class="col-sm-3 mainDiv" onclick=displayReplies("'+data[j]._id+'")><b>Replies</b><br></div>'
+        +'<div class="col-sm-6 col-xs-6 col-lg-6 col-md-6 discussion-content"><input type="email" class="form-control" placeholder="Enter Reply" id="enterReply'+data[j]._id+'" style="visibility: hidden" required>'
+          +'</div>'
+          +'<button type="submit" class="btn btn-success" id="sendReply'+data[j]._id+'" onclick=doReply("'+data[j]._id+'","'+currentUser+'","'+currentId+'") style="visibility: hidden">Submit</button><div class="replies'+data[j]._id+'"></div></div>');
       }
     })
   xml.send(JSON.stringify(ob));
 }
-
   
-  function doComment(oa,createBy,commId) {
+function doComment(oa,createBy,commId) {
     //console.log(oa)
       var comment = $('#comment'+ oa).val();
        // var postId = $('#postId').val();
@@ -471,14 +476,19 @@ function displayComments(disId) {
           + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
           +'<p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
         +currentUser+'</p><p class="col-sm-11 col-xs-9 discussion-heading" style="font-size: 15px;">'
-        +comment+'</p></div>');
+        +comment+'</p>'
+        +'<div class="col-sm-1"></div>'
+        +'<div class="col-sm-3 mainDiv"><b>Replies</b><br></div>'
+        +'<div class="col-sm-6 col-xs-6 col-lg-6 col-md-6 discussion-content"><input type="email" class="form-control" placeholder="Enter Reply" required>'
+          +'</div>'
+          +'<button type="submit" class="btn btn-success">Submit</button></div>');
         $('#comment'+ oa).val('');
         }
         
     socket.emit('comment',data);
-  }
+}
 
-  socket.on('comment',function(data){
+socket.on('comment',function(data){
         console.log(data)
         $('.comments'+ data.discussionId).append('<div class="panel-body" style="padding:5px;background:#f9f9f9;">'
           +'<div class="col-sm-1 col-xs-3"><a href="">'
@@ -486,11 +496,77 @@ function displayComments(disId) {
           + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
           +'<p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
         +data.commentedBy+'</p><p class="col-sm-11 col-xs-9 discussion-heading" style="font-size: 15px;">'
-        +data.comment+'</p></div>');
-  });
+        +data.comment+'</p>'
+        +'<div class="col-sm-1"></div>'
+        +'<div class="col-sm-3 mainDiv"><b>Replies</b><br></div>'
+        +'<div class="col-sm-6 col-xs-6 col-lg-6 col-md-6 discussion-content"><input type="email" class="form-control" placeholder="Enter Reply" required>'
+          +'</div>'
+          +'<button type="submit" class="btn btn-success">Submit</button></div>');
+});
 
-  function deleteDiscussion(ides)
-  {
+function displayReplies(disId)
+{
+  document.getElementById('enterReply'+ disId).setAttribute("style","visibility:visible");
+  document.getElementById('sendReply'+ disId).setAttribute("style","visibility:visible");
+
+  var ob = new Object();
+  ob.commentId = disId;
+
+   $('.replies'+disId).empty();
+
+  var xml=new XMLHttpRequest();
+    xml.open("POST","/discussion/getReplys");
+    xml.setRequestHeader("Content-Type","application/json");
+    xml.addEventListener("load",function()
+    {
+      var data=JSON.parse(xml.responseText);
+      //console.log(data)
+      for(j in data)
+      {
+        $('.replies'+ disId).append('<div class="col-sm-4"></div>'
+          +'<div class="col-sm-1 col-xs-3"><a href="">'
+          +'<img src="<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+          + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
+          +'<p class="col-sm-6 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
+        +data[j].repliedBy+'</p><p class="col-sm-6 col-xs-9 discussion-heading" style="font-size: 15px;">'
+        +data[j].reply+'</p></div>');
+      }
+
+      })
+  xml.send(JSON.stringify(ob));
+}
+
+function doReply(commentId,repliedBy,ownerId) {
+      var reply = $('#enterReply'+ commentId).val();
+        if(reply != ''){
+            var data = {'reply': reply,'commentId': commentId,'repliedBy' : repliedBy,'ownerId' : ownerId};
+            console.log(data)
+        $('.replies'+ commentId).append('<div class="col-sm-4"></div>'
+          +'<div class="col-sm-1 col-xs-3"><a href="">'
+          +'<img src="<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+          + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
+          +'<p class="col-sm-6 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
+        +repliedBy+'</p><p class="col-sm-6 col-xs-9 discussion-heading" style="font-size: 15px;">'
+        +reply+'</p></div>');
+         $('#enterReply'+ commentId).val('');
+        }
+        
+    socket.emit('reply',data);
+}
+
+socket.on('reply',function(data){
+      console.log(data)
+
+        $('.replies'+ data.commentId).append('<div class="col-sm-4"></div>'
+          +'<div class="col-sm-1 col-xs-3"><a href="">'
+          +'<img src="<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+          + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
+          +'<p class="col-sm-6 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
+        +data.repliedBy+'</p><p class="col-sm-6 col-xs-9 discussion-heading" style="font-size: 15px;">'
+        +data.reply+'</p></div>');
+});
+
+function deleteDiscussion(ides) {
     var filename = ides;
     console.log(filename);
     var request = new XMLHttpRequest();
@@ -501,15 +577,14 @@ function displayComments(disId) {
       location.reload();        
        console.log(request.responseText);
     }); 
-  }
+}
 
 function getMonths(mno) {
     var month = ["Jan","Feb","March","April","May","June","July","Aug","Sep","Oct","Nov","Dec"];
     return month[mno-1];
 }
 
-
 </script>
 
-	</body>
-	</html>
+</body>
+</html>

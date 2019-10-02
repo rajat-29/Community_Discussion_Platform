@@ -13,6 +13,7 @@ var users = require('../Schemas/UserSchema');
 var t = require('../Schemas/TagSchema');
 var community = mongoose.model('communities');
 var Comments = require('../Schemas/CommentSchema');
+var Replies = require('../Schemas/ReplySchema');
 
 mongoose.Promise = global.Promise;
 
