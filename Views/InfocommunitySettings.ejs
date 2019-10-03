@@ -124,7 +124,7 @@
       </li>
     
 
-      <li>
+      <li id="hideProfile">
           <a href="/community/<%=newdata._id%>" class="community-profile-option-btn">
             Community Profile
           </a>
@@ -162,12 +162,12 @@
   <nonlink class="manageCommunity-head-btn" style="cursor: context-menu;">
     Manage Community
   </nonlink>
-  <a href="/inviteUser/<%=newdata._id%>" style="float:right;font-weight:600">
+  <a href="/community/inviteUser/<%=newdata._id%>" style="float:right;font-weight:600">
     Invite Users
   </a>
   
-  <a class="pc" href="/editCommunity/<%=newdata._id%>" style="float:right;font-weight:600;margin-right:15px">
-    Edit Community
+ <a href="/community/editCommunity/<%=newdata._id%>" id="editCommunityOption" style="float:right;font-weight:600;margin-right:15px;display: block;">
+   <p> Edit Community </p>
   </a>
   
 </div>
@@ -205,7 +205,38 @@
 
         </div>
   
+<script type="text/javascript">
 
+ var commid ="<%= newdata._id %>";
+ var email_id ="<%= data.email %>";
+
+$(document).ready(function() {
+    initalisemanagersWithOutDom();
+})
+
+function initalisemanagersWithOutDom()
+{
+  var xml=new XMLHttpRequest();
+  xml.open("POST","/community/getManagers");
+  xml.setRequestHeader("Content-Type","application/json");
+  xml.addEventListener("load",function()
+  {
+      var data=JSON.parse(xml.responseText);
+      //document.getElementById('ManagerShowBtn').innerHTML="Managers ("+data.length+")"
+      for(i in data)
+      {
+        if(email_id == data[i].email)
+        {
+          //console.log(email_id);
+          document.getElementById('hideProfile').setAttribute("style", "display:none");
+          document.getElementById('editCommunityOption').style.display = 'none';
+        }
+      }
+  })
+  xml.send(JSON.stringify({"_id":commid}));
+}
+
+</script>
 
   </body>
   </html>

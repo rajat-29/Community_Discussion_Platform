@@ -246,9 +246,11 @@ io.on('connection',function(socket){
     socket.on('comment',function(data){
         var commentData = new Comments(data);
         commentData.save();
-        socket.broadcast.emit('comment',data);  
+        socket.broadcast.emit('comment',data); 
     });
+});
 
+io.on('connection',function(socket){
     socket.on('reply',function(data){
         var replyData = new Replies(data);
         replyData.save();

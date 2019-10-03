@@ -25,7 +25,6 @@ function sessionCheck(req,res,next)
   }
 }
 
-
 /* create new discussion */
 app.post('/addnewDiscussion',sessionCheck,function (req, res) {
       discussion.create(req.body,function(error,result)
@@ -99,10 +98,53 @@ app.delete('/deleteDiscussion/:pros',sessionCheck,function(req,res) {
           throw err;
           else
           {
+            //res.send("data deleted SUCCESFULLY");
+          }
+      });
+
+      Comments.deleteMany({ "discussionId": id },function(err,reses)
+      {
+          if(err)
+          throw err;
+          else
+          {
+            //res.send("data deleted SUCCESFULLY");
+          }
+      });
+
+      Replies.deleteMany({ "discussionId": id },function(err,reses)
+      {
+          if(err)
+          throw err;
+          else
+          {
             res.send("data deleted SUCCESFULLY");
           }
       });
  })
 
+// delete comments //
+app.delete('/deleteComment/:pros',sessionCheck,function(req,res) {
+      var id = req.params.pros.toString();
+      Comments.deleteMany({ "_id": id },function(err,reses)
+      {
+          if(err)
+          throw err;
+          else
+          {
+            //res.send("data deleted SUCCESFULLY");
+          }
+      });
+
+      Replies.deleteMany({ "commentId": id },function(err,reses)
+      {
+          if(err)
+          throw err;
+          else
+          {
+            res.send("data deleted SUCCESFULLY");
+          }
+      });
+ })
 
 module.exports = app;
