@@ -125,7 +125,7 @@
     
 
       <li id="hideProfile">
-          <a href="/community/<%=newdata._id%>" class="community-profile-option-btn">
+          <a href="/community/info/<%=newdata._id%>" class="community-profile-option-btn">
             Community Profile
           </a>
       </li>
@@ -176,14 +176,19 @@
   </div>
   <div class="col-sm-3 col-lg-3 col-md-3 col-xs-7 manageCommunity-commuity-div" style="margin-left: 10%;">
 
-    <input type="text" class="form-control" id="finding-input" placeholder="Enter name..." style="margin-top:4px;" onkeyup="findUsers()">
+    <h4>Search Here:</h4>
+
+    <input type="text" class="form-control" id="searchinput" placeholder="Enter name..." style="margin-top:4px;" onkeyup="findUsers()">
+
+    <center><h4>OR</h4></center>
+
+    <input type="file" id="userfile" placeholder="Upload a file" accept=".csv">
 
   </div>
   <div class="col-sm-7 col-lg-7 col-md-7 col-xs-5" style="border-left:1px solid #CCCCCC">
-    <div id="comlist">
-
-
-      <div class="col-sm-12 allcoms well well-sm" style="margin-top:5px;font-weight:bold" id="">  <center>No any user</center>  </div>  </div>
+   
+       <div id="comlist">
+      </div>
   </div>
 </div>
 
@@ -207,11 +212,13 @@
   
 <script type="text/javascript">
 
- var commid ="<%= newdata._id %>";
- var email_id ="<%= data.email %>";
+var data;
+var commid ="<%= newdata._id %>";
+var email_id ="<%= data.email %>";
 
 $(document).ready(function() {
     initalisemanagersWithOutDom();
+    getUsersOtherThanInCommunity();
 })
 
 function initalisemanagersWithOutDom()
@@ -222,12 +229,10 @@ function initalisemanagersWithOutDom()
   xml.addEventListener("load",function()
   {
       var data=JSON.parse(xml.responseText);
-      //document.getElementById('ManagerShowBtn').innerHTML="Managers ("+data.length+")"
       for(i in data)
       {
         if(email_id == data[i].email)
         {
-          //console.log(email_id);
           document.getElementById('hideProfile').setAttribute("style", "display:none");
           document.getElementById('editCommunityOption').style.display = 'none';
         }
@@ -236,7 +241,87 @@ function initalisemanagersWithOutDom()
   xml.send(JSON.stringify({"_id":commid}));
 }
 
+function getUsersOtherThanInCommunity()
+{
+  var xml=new XMLHttpRequest();
+  xml.open("POST","/community/getUsersOtherThanInCommunity");
+  xml.setRequestHeader("Content-Type","application/json");
+  xml.addEventListener("load",function()
+  {
+      data=JSON.parse(xml.responseText);
+      for(i in data)
+      {
+        addtoDom(data[i])
+      }
+  })
+  xml.send(JSON.stringify({"_id":commid}));
+}
+
+function findUsers()
+{
+  document.getElementById('comlist').innerHTML=""
+  var val=document.getElementById('searchinput').value;
+  for(j in data)
+  {     
+    if((data[j].name).includes(val)) 
+    {
+      addtoDom(data[j]);
+    }
+  }
+}
+
+function addtoDom(obj)
+{
+  //console.log(obj)
+  var div1=document.createElement('div')
+  div1.setAttribute("class","col-sm-12 col-xs-12 allcoms community-user-div")
+  div1.setAttribute("style","margin-top:5px;display:flex;")
+  var div2=document.createElement('div')
+  div2.setAttribute("class","col-sm-2 col-xs-3")
+  div2.setAttribute("style","padding:5px;")
+  var a1=document.createElement('a')
+  a1.setAttribute("href","")
+  var img1=document.createElement('img')
+  img1.setAttribute("src",obj.photoname)
+  img1.setAttribute("class","community-member-pic")
+  img1.setAttribute("id","dpimage")
+  img1.setAttribute("style", "width:50px;height:50px;")
+  a1.appendChild(img1)
+  div2.appendChild(a1)
+  div1.appendChild(div2)
+  var div3=document.createElement('div')
+  div3.setAttribute("class","col-sm-8 col-xs-6 scrollable")
+  div3.setAttribute("style", "margin-top: 25px;");
+  var a2=document.createElement('a')
+  a2.setAttribute("class","comusername")
+  a2.innerHTML=obj.name
+  a2.setAttribute("href","/community/viewprofile/" + obj._id)
+  div3.appendChild(a2)
+  div1.appendChild(div3)
+  var div4=document.createElement('div')
+  div4.setAttribute("class","col-sm-2 col-xs-3")
+  div4.setAttribute("style", "margin-top: 25px;")
+  var btn1 = document.createElement('button')
+  btn1.setAttribute("class","btn btn-success")
+  btn1.innerHTML = "Invite"
+  btn1.onclick=function() {
+    var ob = new Object();
+    ob.commid = commid;
+    ob.userid = obj._id;
+        var request = new XMLHttpRequest();
+        request.open('POST','/community/inviteUser');
+        request.setRequestHeader("content-Type","application/JSON");
+        request.send(JSON.stringify(ob));
+        request.onload = function()
+        {}
+     document.getElementById('comlist').removeChild(div1)
+  }
+  div4.appendChild(btn1)
+  div1.appendChild(div4)
+  document.getElementById('comlist').appendChild(div1)
+}
+
 </script>
 
-  </body>
-  </html>
+</body>
+</html>

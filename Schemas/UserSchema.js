@@ -21,6 +21,7 @@ var userSchema = new Schema({					/*define structure of database*/
     joinedComm: Array,
     asktojoincomm: Array,
     commManagers: Array,
+    invited: [{'type': mongoose.Schema.Types.ObjectId}],
 
 })
 

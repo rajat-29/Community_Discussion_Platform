@@ -107,6 +107,14 @@ app.get('/searchingCommunity',sessionCheck,function(req,res) {
     }
 })
 
+app.get('/invitedCommunity',sessionCheck,function(req,res) {
+  if(req.session.isLogin) {
+      res.render('invitedCommunity', {data: req.session.data});
+   } else {
+    res.render('index');
+    }
+})
+
 app.post('/getCommunityforSearch',sessionCheck,function(req,res){
    var abc = ObjectId(req.session.iding);
 
@@ -116,6 +124,23 @@ app.post('/getCommunityforSearch',sessionCheck,function(req,res){
         else {
             res.send(result);
         }
+    })
+})
+
+app.post('/getInvitationsForUser',sessionCheck,function(req,res) {
+      //var abc = ObjectId(req.body._id );
+    users.findOne({ "_id" : req.session.iding}).populate(
+    {
+      path: "invited", model: community
+    }). // only return the Persons name
+     exec(function (err, result) {
+     if (err) 
+      return err;
+    else
+    {
+      console.log(result)
+      res.send(JSON.stringify(result.invited))
+    }
     })
 })
 
@@ -163,6 +188,47 @@ app.post('/joincommunity',sessionCheck,function(req,res) {
             }
         })
       }
+})
+
+app.post('/joinInvitedcommunity',sessionCheck,function(req,res) {
+      var abc = ObjectId(req.session.iding);
+        community.updateOne({"_id" :req.body._id},{ $push : {commuser : abc}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+               // res.send("USER JOINED WITH COMMUNITY");
+            }
+        })
+
+        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+        users.updateOne({"_id" : abc},{ $push : {joinedComm : req.body._id }},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                console.log("ENTERED IN USER DATABASE ALSO")
+            }
+        })
+
+        community.updateOne({"_id" :req.body._id},{ $pull : {invited : abc}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                
+            }
+        })
+
+        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+        users.updateOne({"_id" : abc},{ $pull : {invited : req.body._id }},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                res.send("USER JOINED WITH COMMUNITY");
+            }
+        })
 })
 
 app.get('/info/:pros',sessionCheck,function(req,res) {
@@ -343,7 +409,6 @@ app.post('/getRequest',sessionCheck,function(req,res) {
 })
 
 app.post('/getManagers',sessionCheck,function(req,res) {
-   if(req.session.isLogin){
       var abc = ObjectId(req.body._id );
     community.findOne({ "_id" : req.body._id}).populate("commManagers"). // only return the Persons name
      exec(function (err, result) {
@@ -354,7 +419,19 @@ app.post('/getManagers',sessionCheck,function(req,res) {
       res.send(JSON.stringify(result.commManagers))
     }
     })
+})
+
+app.post('/getInvited',sessionCheck,function(req,res) {
+      var abc = ObjectId(req.body._id );
+    community.findOne({ "_id" : req.body._id}).populate("invited"). // only return the Persons name
+     exec(function (err, result) {
+     if (err) 
+      return err;
+    else
+    {
+      res.send(JSON.stringify(result.invited))
     }
+    })
 })
 
 app.post('/getUsers',sessionCheck,function(req,res) {
@@ -430,6 +507,26 @@ app.post('/leaveCommunityForManagers',sessionCheck,function(req,res) {
             throw error;
             else {
                 console.log("ENTERED IN USER DATABASE ALSO")
+            }
+        })
+})
+
+app.post('/removeInvitedUser',sessionCheck,function(req,res) {
+        community.updateOne({"_id" :req.body.commid},{ $pull : {invited : req.body._id}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                
+            }
+        })
+        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+        users.updateOne({"_id" : req.body._id},{ $pull : {invited : req.body.commid }},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+                res.send("USER JOINED WITH COMMUNITY");
             }
         })
 })
@@ -537,6 +634,46 @@ app.post('/demoteManagerFromCommunity',sessionCheck,function(req,res) {
             throw error;
             else {
                 res.send("USER JOINED WITH COMMUNITY");
+            }
+        })
+})
+
+app.post('/getUsersOtherThanInCommunity',sessionCheck,function(req,res) {
+    community.findOne({ "_id" : req.body._id}).exec(function (err, communitydata) {
+      if (err) 
+        return err;
+      else {
+        //console.log(communitydata)
+        communitydata.commManagers.push(mongoose.mongo.ObjectId(communitydata.ownerId))
+        users.find({"$and" : [{"$and" : [{"$and" : [{"$and" : [{"$and" : [{"_id" :{"$nin" : communitydata.commManagers}}],"_id" :{"$nin" : communitydata.commuser}}],"_id" :{"$nin" : communitydata.invited}}],"_id" :{"$nin" : communitydata.commasktojoin}}],"_id" :{"$nin" : communitydata.ownerId}}]},function(error,result)
+        {
+          if(error)
+            throw error;
+          //console.log(result)
+          res.send(result)
+        })
+      }
+    })
+})
+
+app.post('/inviteUser',sessionCheck,function(req,res) {
+      var abc = ObjectId(req.body.userid);
+        community.updateOne({"_id" :req.body.commid},{ $push : {invited : abc}},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+               
+            }
+        })
+
+        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+        users.updateOne({"_id" : abc},{ $push : {invited : req.body.commid }},function(error,result)
+        {
+            if(error)
+            throw error;
+            else {
+              res.send("USER JOINED WITH COMMUNITY");
             }
         })
 })

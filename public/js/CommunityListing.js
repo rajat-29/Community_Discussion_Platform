@@ -253,3 +253,8 @@ function searchingCommunity()
 {
     window.location = "/community/searchingCommunity";
 }
+
+function InvitedCommunity()
+{
+    window.location = "/community/invitedCommunity";
+}

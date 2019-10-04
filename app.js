@@ -106,6 +106,7 @@ var communitySchema = new mongoose.Schema({
     commuser: [{'type': mongoose.Schema.Types.ObjectId , 'ref':users}],
     commasktojoin: [{'type': mongoose.Schema.Types.ObjectId , 'ref':users}],
     commManagers: [{'type': mongoose.Schema.Types.ObjectId , 'ref':users}],
+    invited: [{'type': mongoose.Schema.Types.ObjectId , 'ref':users}],
 })
 
 var community = mongoose.model('communities', communitySchema);

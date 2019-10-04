@@ -187,8 +187,8 @@
           Requests (<%=newdata.commasktojoin.length%>)
           </a>
         <br>
-        <a class="manageCommunity-child-btn" id="invitedUserShowBtn">
-          Invited Members (0)
+        <a class="manageCommunity-child-btn" id="invited" onclick="initaliseinvited()">
+          Invited Members (<%=newdata.invited.length%>)
         </a>
     </div>
     <br>
@@ -249,6 +249,7 @@ function initaliseusers()
       document.getElementById('UsersShowBtn').style.fontWeight = 'bold';
       document.getElementById('invitedUserShowBtn').style.fontWeight = 'normal';
       document.getElementById('ManagerShowBtn').style.fontWeight = 'normal';
+      document.getElementById('invited').style.fontWeight = 'normal';
   })
   xml.send(JSON.stringify({"_id":commid}));
 }
@@ -275,6 +276,7 @@ function initaliserequests()
       document.getElementById('invitedUserShowBtn').style.fontWeight = 'bold';
       document.getElementById('UsersShowBtn').style.fontWeight = 'normal';
       document.getElementById('ManagerShowBtn').style.fontWeight = 'normal';
+       document.getElementById('invited').style.fontWeight = 'normal';
   })
   xml.send(JSON.stringify({"_id":commid}));
 }
@@ -300,6 +302,33 @@ function initalisemanagers()
       document.getElementById('UsersShowBtn').style.fontWeight = 'normal';
       document.getElementById('invitedUserShowBtn').style.fontWeight = 'normal';
       document.getElementById('ManagerShowBtn').style.fontWeight = 'bold';
+       document.getElementById('invited').style.fontWeight = 'normal';
+  })
+  xml.send(JSON.stringify({"_id":commid}));
+}
+
+function initaliseinvited()
+{
+  var xml=new XMLHttpRequest();
+  xml.open("POST","/community/getInvited");
+  xml.setRequestHeader("Content-Type","application/json");
+    document.getElementById('comlist').innerHTML=""
+  xml.addEventListener("load",function()
+  {
+      var data=JSON.parse(xml.responseText);
+      if(data.length==0)
+      {
+        noUser();
+      }
+      else
+      for(i in data)
+      {
+        addtoUserDOM(data[i],4)
+      }
+      document.getElementById('UsersShowBtn').style.fontWeight = 'normal';
+      document.getElementById('invitedUserShowBtn').style.fontWeight = 'normal';
+      document.getElementById('ManagerShowBtn').style.fontWeight = 'normal';
+      document.getElementById('invited').style.fontWeight = 'bold';
   })
   xml.send(JSON.stringify({"_id":commid}));
 }
@@ -335,10 +364,10 @@ function noUser()
   var div3=document.createElement('div')
   div3.setAttribute("class","col-sm-8 col-xs-6 scrollable")
   div3.setAttribute("style", "margin-top: 25px;");
-  var a2=document.createElement('a')
+  var a2=document.createElement('p')
   a2.setAttribute("class","comusername")
-  a2.innerHTML="There are no Users"
-  a2.setAttribute("href","")
+  a2.innerHTML="There are no Users".bold()
+  a2.style.textAlign = 'center'
   div3.appendChild(a2)
   div1.appendChild(div3)
     document.getElementById('comlist').appendChild(div1)
@@ -347,13 +376,8 @@ function noUser()
 
 function addtoUserDOM(obj,no)
 {
-  if( no == 2)
   console.log(obj)
   obj.commid = commid;
-  // if(obj.email == email_id)
-  // {
-  //    hideManage.setAttribute("style", "display:none");
-  // }
   var div1=document.createElement('div')
   div1.setAttribute("class","col-sm-12 col-xs-12 allcoms community-user-div")
   div1.setAttribute("style","margin-top:5px;display:flex;")
@@ -488,6 +512,10 @@ function addtoUserDOM(obj,no)
       });
     }
   }
+  if(no == 4)
+  {
+    a3.setAttribute("style","display:none")
+  }
   div4.appendChild(a3)
   var a4=document.createElement('a')
   a4.setAttribute("class","community-user-short-btn")
@@ -514,7 +542,7 @@ function addtoUserDOM(obj,no)
                   request.send(JSON.stringify(obj))
                   request.addEventListener("load",function()
                   {
-                        document.location.reload();
+                        document.getElementById('comlist').removeChild(div1)
                   }); 
 
                 }  
@@ -526,7 +554,7 @@ function addtoUserDOM(obj,no)
                   request.send(JSON.stringify(obj))
                   request.addEventListener("load",function()
                   {
-                         document.location.reload();
+                        document.getElementById('comlist').removeChild(div1)
                   }); 
                 }
                 else if(no == 3)
@@ -537,8 +565,20 @@ function addtoUserDOM(obj,no)
                   request.send(JSON.stringify(obj))
                   request.addEventListener("load",function()
                   {
-                        document.location.reload();
+                       document.getElementById('comlist').removeChild(div1)
                   }); 
+                }
+                else if(no == 4)
+                {
+                  var request = new XMLHttpRequest()
+                  request.open('POST','/community/removeInvitedUser');
+                  request.setRequestHeader("Content-Type","application/json");
+                  request.send(JSON.stringify(obj))
+                  request.addEventListener("load",function()
+                  {
+                        document.getElementById('comlist').removeChild(div1)
+                  }); 
+                   
                 }
           }
       },

@@ -1,9 +1,8 @@
-var start=0,end=4;
 var tempdata = [];
 
 var refresh = document.getElementById("first-btn");
 refresh.addEventListener("click", function() {
-     window.location = "/user/openCommunityPage";
+     window.location = "/openCommunityPage";
 })
 
 var searchbtn = document.getElementById("search-btn");
@@ -22,23 +21,19 @@ $(document).ready(function() {
 
 function loadFromServer()
 {
-    let obj={
-        start:start,
-        end:end,
-    }
     var request = new XMLHttpRequest();
-    request.open('POST','/community/getCommunityforSearch');
+    request.open('POST','/community/getInvitationsForUser');
     request.onload = function()
     {
         commArr = JSON.parse(request.responseText);
-        tempdata = tempdata.concat(commArr);
-        for(var i=0;i<tempdata.length;i++)
+        console.log(commArr)
+        for(i in commArr)
         {
             addToDom(commArr[i]);
         }
     }
     request.setRequestHeader("Content-Type","application/json");
-    request.send(JSON.stringify(obj));
+    request.send();
 }
 
 document.getElementById('searchinput').onkeyup=function()
@@ -94,15 +89,11 @@ function addToDom(ob)
     var div131 = document.createElement("div");
     var btn = document.createElement("button");
     btn.setAttribute("class","btn btn-primary btn-sm pull-right");
-    if(ob.rule=="Direct")
-    btn.innerHTML = "JOIN";
-    else if(ob.rule=="Permission"){
-        btn.innerHTML = "ASK TO JOIN";
-    }
+    btn.innerHTML = "Accept";
     btn.onclick=function(){
 
         var request = new XMLHttpRequest();
-        var filename = '/community/joincommunity';
+        var filename = '/community/joinInvitedcommunity';
         request.open('POST',filename);
         request.setRequestHeader("content-Type","application/JSON");
         request.send(JSON.stringify(ob));
@@ -149,31 +140,4 @@ function addToDom(ob)
 
 }
 
-function getDocumentHeight() {
-    console.log("getDocumentHeight");
-    const body = document.body;
-    const html = document.documentElement;
-    
-    return Math.max(
-        body.scrollHeight, body.offsetHeight,
-        html.clientHeight, html.scrollHeight, html.offsetHeight
-    );
-};
 
- function getScrollTop() {
-    console.log("getScrollTop");
-    return (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-}
-
-
- window.onscroll = function() {
-        //console.log("onscroll");
-    if (getScrollTop()== getDocumentHeight() - window.innerHeight)
-        {
-             start+=4;
-             end=4;
-             loadFromServer();
-        }
-        else
-            return;
-}
