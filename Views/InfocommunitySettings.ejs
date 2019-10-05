@@ -321,6 +321,52 @@ function addtoDom(obj)
   document.getElementById('comlist').appendChild(div1)
 }
 
+document.getElementById('userfile').onchange=()=>{
+    readTextFile();
+}
+
+function readTextFile()
+{
+  var flag = 1;
+  var reader = new FileReader();
+  reader.onload=()=>{
+    document.getElementById('userfile').value="";
+    var arr=reader.result.split("\n");
+    arr.pop();
+    var head=arr[0].split(',');
+    for(var i=0;i<head.length;i++)
+    {
+      for(j in data)
+      {      
+        if((data[j].email).includes(head[i])) 
+        {
+          flag = 2;
+          console.log(data[j])
+          var ob = new Object();
+          ob.commid = commid;
+          ob.userid = data[j]._id;
+          var request = new XMLHttpRequest();
+          request.open('POST','/community/inviteUser');
+          request.setRequestHeader("content-Type","application/JSON");
+          request.send(JSON.stringify(ob));
+          request.onload = function()
+          {
+          }
+        }
+      }
+    }
+    if(flag == 2)
+    {
+      alert("Invitation Sent to All Users")
+      location.reload();
+    }
+    else if(flag == 1)
+    {
+      alert("Users are already in Community")
+    }
+  }
+  reader.readAsBinaryString(document.getElementById('userfile').files[0]);
+}
 </script>
 
 </body>

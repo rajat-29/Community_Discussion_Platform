@@ -118,7 +118,7 @@ app.get('/invitedCommunity',sessionCheck,function(req,res) {
 app.post('/getCommunityforSearch',sessionCheck,function(req,res){
    var abc = ObjectId(req.session.iding);
 
-    community.find({ $and: [{ ownerId : { $not : { $eq : abc }}},{"status": "Active"},{commuser : {$nin : [abc] }},{commasktojoin : {$nin : [abc] }}] }).skip(req.body.start).limit(req.body.end).exec(function(error,result){
+    community.find({ $and: [{ ownerId : { $not : { $eq : abc }}},{"status": "Active"},{commuser : {$nin : [abc] }},{invited : {$nin : [abc] }},{commasktojoin : {$nin : [abc] }}] }).skip(req.body.start).limit(req.body.end).exec(function(error,result){
         if(error)
         throw error;
         else {

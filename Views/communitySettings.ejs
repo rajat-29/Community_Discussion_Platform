@@ -221,6 +221,10 @@
   var hideManage = document.getElementById('hideManage');
   var commid ="<%= newdata._id %>";
   var email_id ="<%= data.email %>";
+  var userCount = "<%=newdata.commuser.length%>";
+  var managerCount = "<%=newdata.commManagers.length%>";
+  var requestCount = "<%=newdata.commasktojoin.length%>";
+  var invitedCount = "<%=newdata.invited.length%>";
 
 $(document).ready(function() {
     initaliseusers();
@@ -376,7 +380,7 @@ function noUser()
 
 function addtoUserDOM(obj,no)
 {
-  console.log(obj)
+  //console.log(obj)
   obj.commid = commid;
   var div1=document.createElement('div')
   div1.setAttribute("class","col-sm-12 col-xs-12 allcoms community-user-div")
@@ -432,7 +436,11 @@ function addtoUserDOM(obj,no)
                 request.send(JSON.stringify(obj))
                 request.addEventListener("load",function()
                 {
-                        document.location.reload();
+                    userCount--;
+                    managerCount++;
+                    document.getElementById('UsersShowBtn').innerHTML = "Users ("+userCount+")";
+                    document.getElementById('ManagerShowBtn').innerHTML = "Managers ("+managerCount+")"
+                    document.getElementById('comlist').removeChild(div1)
                 });      
             }
         },
@@ -465,7 +473,11 @@ function addtoUserDOM(obj,no)
                     request.send(JSON.stringify(obj))
                     request.addEventListener("load",function()
                     {
-                          document.location.reload();
+                        userCount++;
+                        managerCount--;
+                        document.getElementById('UsersShowBtn').innerHTML = "Users ("+userCount+")";
+                        document.getElementById('ManagerShowBtn').innerHTML = "Managers ("+managerCount+")"
+                        document.getElementById('comlist').removeChild(div1)
                     });
               }
           },
@@ -498,7 +510,11 @@ function addtoUserDOM(obj,no)
                   request.send(JSON.stringify(obj))
                   request.addEventListener("load",function()
                   {
-                        document.location.reload();
+                      userCount++;
+                      requestCount--;
+                      document.getElementById('UsersShowBtn').innerHTML = "Users ("+userCount+")";
+                      document.getElementById('invitedUserShowBtn').innerHTML = "Requests ("+requestCount+")";
+                      document.getElementById('comlist').removeChild(div1)
                   });
                     
             }
@@ -543,6 +559,8 @@ function addtoUserDOM(obj,no)
                   request.addEventListener("load",function()
                   {
                         document.getElementById('comlist').removeChild(div1)
+                        userCount--;
+                        document.getElementById('UsersShowBtn').innerHTML = "Users ("+userCount+")";
                   }); 
 
                 }  
@@ -555,6 +573,9 @@ function addtoUserDOM(obj,no)
                   request.addEventListener("load",function()
                   {
                         document.getElementById('comlist').removeChild(div1)
+                        managerCount--;
+                        document.getElementById('ManagerShowBtn').innerHTML = "Managers ("+managerCount+")";
+
                   }); 
                 }
                 else if(no == 3)
@@ -566,6 +587,8 @@ function addtoUserDOM(obj,no)
                   request.addEventListener("load",function()
                   {
                        document.getElementById('comlist').removeChild(div1)
+                        requestCount--;
+                        document.getElementById('invitedUserShowBtn').innerHTML = "Requests ("+requestCount+")";
                   }); 
                 }
                 else if(no == 4)
@@ -577,6 +600,8 @@ function addtoUserDOM(obj,no)
                   request.addEventListener("load",function()
                   {
                         document.getElementById('comlist').removeChild(div1)
+                        invitedCount--;
+                        document.getElementById('invited').innerHTML = "Invited Members ("+invitedCount+")";
                   }); 
                    
                 }

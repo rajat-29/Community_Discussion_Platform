@@ -44,7 +44,7 @@ function updateUserDetails()
         console.log("Data Posted Successfully");
 
     }); 
-    window.location = "/editUserProfile"; 
+    window.location = "/admin/editUserProfile"; 
 }
 
 function updateNewUserDetails()
