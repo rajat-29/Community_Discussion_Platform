@@ -7,23 +7,15 @@ app.use(express.static(path.join(__dirname,'public/uploads')));
 
 var mongoose = require('mongoose')
 
-var users = require('../Schemas/UserSchema');
-var t = require('../Schemas/TagSchema');
-var community = mongoose.model('communities');
+var users = require('../Models/UserSchema');
+var t = require('../Models/TagSchema');
+var community = require('../Models/communitySchema');
 
-function sessionCheck(req,res,next)
-{
-  if(req.session.isLogin)
-  {
-    next();
-  }
-  else {
-    res.redirect('/');
-  }
-}
+var auth=require('../MiddleWares/auth');
+var multer = require('../MiddleWares/multer');
 
 // community pages //
-app.get('/openCommunityPage',sessionCheck, function(req,res){
+app.get('/openCommunityPage',auth, function(req,res){
       if(req.session.data.role == 'User' )
       {
          res.render('newUserCommunityPage', {data: req.session.data});
@@ -39,18 +31,18 @@ app.get('/openCommunityPage',sessionCheck, function(req,res){
 })
 
 // change password page
-app.get('/newUserchangePassword',sessionCheck, function(req,res) {
+app.get('/newUserchangePassword',auth, function(req,res) {
       res.render('newUserchangePassword', {data: req.session.data});
 })
 
 // new user profile //
 // render user edit button profile page //
-app.get('/newUsereditProfile',sessionCheck, function(req,res) {
+app.get('/newUsereditProfile',auth, function(req,res) {
       res.render('newUsereditProfile', {data: req.session.data});
 })  
 
 // profile details page
-app.get('/newUserProfileDetails',sessionCheck, function(req,res) {
+app.get('/newUserProfileDetails',auth, function(req,res) {
       res.render('newUserProfileDetails', {data: req.session.data});
 })
 
@@ -61,6 +53,72 @@ app.get('/yes', function(req,res) {
     res.render('index');
 })
 
+// update normal user details
+app.post('/updateeditUserDetails', auth,function(req,res) {
+        users.updateOne( { "email" : req.session.email}, {$set : req.body } , function(err,result)
+        {
+          if(err)
+          throw err
+          else
+          {
+            req.session.data.name = req.body.name;
+           req.session.data.email = req.body.email;         
+           req.session.data.city = req.body.city;
+           req.session.data.phone = req.body.phone;
+           req.session.data.gender = req.body.gender;
+           req.session.data.interest = req.body.interest;
+           req.session.data.bitmore = req.body.bitmore;
+           req.session.data.expectation = req.body.expectation;
+           req.session.data.photoname = req.body.photoname;
+            res.send("DATA UPDATED SUCCESFULLY")
+          }
+        })
+})
 
+// update new user details
+app.post('/updateeditUserDob',auth, function(req,res) {
+        users.updateOne( { "email" : req.session.email}, {$set : req.body } , function(err,result)
+        {
+          if(err)
+          throw err
+          else
+          {
+            req.session.data.dob = req.body.dob;
+            req.session.data.name = req.body.name;
+           req.session.data.email = req.body.email;         
+           req.session.data.city = req.body.city;
+           req.session.data.phone = req.body.phone;
+           req.session.data.gender = req.body.gender;
+           req.session.data.interest = req.body.interest;
+           req.session.data.bitmore = req.body.bitmore;
+           req.session.data.expectation = req.body.expectation;
+            req.session.data.photoname = req.body.photoname;
+            res.send("DATA UPDATED SUCCESFULLY")
+          }
+        })
+})
+
+app.post('/upload',(req,res)=>{
+    multer.upload(req, res, (err) => {
+        if (err){ 
+            res.send({ 'msg': err})
+        }else{
+                 res.render('editUserDetails', {data: req.session.data});  
+        }
+    })
+})
+
+// upload user image //
+app.post('/Userupload',(req,res) => {
+      multer.upload(req,res,(err)=>{
+        if(err)
+        {
+           res.send({ 'msg': err})
+        }
+        else{
+          res.render('newUserProfileDetails', {data: req.session.data});         
+        }
+      })
+});
 
 module.exports = app;

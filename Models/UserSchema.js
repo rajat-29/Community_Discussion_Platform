@@ -25,4 +25,4 @@ var userSchema = new Schema({					/*define structure of database*/
 
 })
 
-module.exports = mongoose.model('usernames', userSchema)
+module.exports =  mongoose.model('usernames', userSchema);

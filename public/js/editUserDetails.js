@@ -16,6 +16,7 @@ rightadmin.innerHTML = email.value;
 function updateUserDetails()
 {
 	p = profilepic.slice(21,profilepic.length);
+	console.log(p)
 
 	if(phone.value.length<10)
 	{
@@ -34,7 +35,7 @@ function updateUserDetails()
 			obj1.photoname = p;
 
 		var request = new XMLHttpRequest();
-  		request.open('POST',"/updateeditUserDetails");
+  		request.open('POST',"/user/updateeditUserDetails");
     	request.setRequestHeader("Content-Type","application/json");
    		request.send(JSON.stringify(obj1))
     	request.addEventListener("load",function() {
@@ -72,7 +73,7 @@ function updateNewUserDetails()
 	obj1.photoname = p;
 
 		var request = new XMLHttpRequest();
-  		request.open('POST',"/updateeditUserDob");
+  		request.open('POST',"/user/updateeditUserDob");
     	request.setRequestHeader("Content-Type","application/json");
    		request.send(JSON.stringify(obj1))
     	request.addEventListener("load",function() {

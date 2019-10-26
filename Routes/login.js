@@ -9,19 +9,8 @@ app.use(express.static(path.join(__dirname,'../public')));
 app.use(express.static(path.join(__dirname,'public/uploads')));
 
 var mongoose = require('mongoose')
-
-var users = require('../Schemas/UserSchema');
-
-function sessionCheck(req,res,next)
-{
-  if(req.session.isLogin)
-  {
-    next();
-  }
-  else {
-    res.redirect('/');
-  }
-}
+var users = require('../Models/UserSchema');
+var auth=require('../MiddleWares/auth');
 
 // login checking //
 app.post('/checkLogin',function (req, res)         /*post data */
@@ -80,7 +69,7 @@ app.post('/checkLogin',function (req, res)         /*post data */
 })
 
 // admin side //
-app.get('/home' , sessionCheck,function(req,res){        /*get data */
+app.get('/home' , auth,function(req,res){        /*get data */
 
       if(req.session.data.role == 'Admin' || req.session.data.role == 'superAdmin') 
       {

@@ -1,7 +1,6 @@
 let express = require('express');
 let router = express.Router();
 let path = require('path');
-var mailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 let saltRounds = 10
 
@@ -10,57 +9,40 @@ router.use(express.static(path.join(__dirname,'public/uploads')));
 
 var mongoose = require('mongoose')
 
-var users = require('../Schemas/UserSchema');
-var t = require('../Schemas/TagSchema');
-var community = mongoose.model('communities');
+var users = require('../Models/UserSchema');
+var t = require('../Models/TagSchema');
+var community = require('../Models/communitySchema');
 
-// node mailler add your email and password here for email //
-let transporter = mailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: '',
-      pass: ''
-    },
-});
-
-function sessionCheck(req,res,next)
-{
-  if(req.session.isLogin)
-  {
-    next();
-  }
-  else {
-    res.redirect('/');
-  }
-}
+var auth=require('../MiddleWares/auth');
+var mail=require('../MiddleWares/nodemailer');
 
 // render new user //
-router.get('/addusers',sessionCheck,function(req,res){
+router.get('/addusers',auth,function(req,res){
   		res.render('adduser', {data: req.session.data});
 })
 
 // render user list page //
-router.get('/userlist',sessionCheck,function(req,res){  
+router.get('/userlist',auth,function(req,res){  
       res.render('userlist', {data: req.session.data});
 })
 
 // render community list page //
-router.get('/communityList',sessionCheck,function(req,res){  
+router.get('/communityList',auth,function(req,res){  
       res.render('CommunityList', {data: req.session.data});
 })
 
 // render user tag page //
-router.get('/userestag',sessionCheck,function(req,res){ 
+router.get('/userestag',auth,function(req,res){ 
       res.render('Tags',{data: req.session.data});
 })
 
 // render change password page //
-router.get('/changePassword',sessionCheck,function(req,res){ 
+router.get('/changePassword',auth,function(req,res){ 
       res.render('changePassword', {data: req.session.data});
 })
 
 // change admin password //
-router.post('/changePassword',sessionCheck,function(req,res){
+router.post('/changePassword',auth,function(req,res){
     password = req.body;
     if(password.oldpass != req.session.password)
     {
@@ -86,7 +68,7 @@ router.post('/changePassword',sessionCheck,function(req,res){
 })
 
 // check wheater email exits or not //
-router.post('/checkemail',sessionCheck,function (req, res) {
+router.post('/checkemail',auth,function (req, res) {
      users.findOne({email: req.body.email}, function(error,result)
       {
         if(error)
@@ -101,7 +83,7 @@ router.post('/checkemail',sessionCheck,function (req, res) {
 })
 
 // add new user //
-router.post('/addnewuser',sessionCheck,function (req, res) {    
+router.post('/addnewuser',auth,function (req, res) {    
   bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
     if(!err) {
       req.body.password = hash;
@@ -119,7 +101,7 @@ router.post('/addnewuser',sessionCheck,function (req, res) {
 })
 
 // data table on user list //
-router.post('/showuser',sessionCheck,function(req, res) {
+router.post('/showuser',auth,function(req, res) {
       let query = {};
     let params = {};
     if(req.body.role === 'All' && req.body.status !== 'All')
@@ -175,7 +157,7 @@ router.post('/showuser',sessionCheck,function(req, res) {
 });
 
 // data table on community list //
-router.post('/showcommunity',sessionCheck,function(req, res) {
+router.post('/showcommunity',auth,function(req, res) {
     let query = {};
     let params = {};
 
@@ -230,7 +212,7 @@ router.post('/showcommunity',sessionCheck,function(req, res) {
 })  
 
 // data tables on tags //
-router.post('/showtags',sessionCheck,function(req, res) {
+router.post('/showtags',auth,function(req, res) {
 
     let query = {};
     let params = {};
@@ -276,7 +258,7 @@ router.post('/showtags',sessionCheck,function(req, res) {
 });
 
 // check wheater tag exits or not //
-router.post('/checktag',sessionCheck,function (req, res) {
+router.post('/checktag',auth,function (req, res) {
 
      var tageses = req.body.tags;
 
@@ -295,9 +277,8 @@ router.post('/checktag',sessionCheck,function (req, res) {
       })
 })
 
-
 // add tages to database //
-router.post('/addtagtobase',sessionCheck,function (req, res) {
+router.post('/addtagtobase',auth,function (req, res) {
       req.body.createdBy = req.session.data.name;
       t.create(req.body,function(error,result)
       {
@@ -310,7 +291,7 @@ router.post('/addtagtobase',sessionCheck,function (req, res) {
 })
 
 // show tags //
-router.get('/listuserstags',sessionCheck,function(req,res) {
+router.get('/listuserstags',auth,function(req,res) {
     if(req.session.isLogin) {
       res.render('Listtags', {data: req.session.data});
        } else {
@@ -319,7 +300,7 @@ router.get('/listuserstags',sessionCheck,function(req,res) {
 })
 
 // page to update user details //
-router.post('/updateuserdetails',sessionCheck,function(req,res) {
+router.post('/updateuserdetails',auth,function(req,res) {
   //console.log(req.body);
         users.updateOne( { "email" : req.body.email}, {$set : req.body } , function(err,result)
         {
@@ -333,7 +314,7 @@ router.post('/updateuserdetails',sessionCheck,function(req,res) {
 })
 
 // deactivate user //
-router.post('/deativateuserdata',sessionCheck,function(req,res) {
+router.post('/deativateuserdata',auth,function(req,res) {
   //console.log(req.body._id);
         users.updateOne( { "_id" : req.body._id}, {$set: { "flag" : req.body.flag}} ,
          function(err,result)
@@ -348,7 +329,7 @@ router.post('/deativateuserdata',sessionCheck,function(req,res) {
 })
 
 // reactivate user //
-router.post('/reativateuserdata',sessionCheck,function(req,res) {
+router.post('/reativateuserdata',auth,function(req,res) {
   //console.log(req.body._id);
         users.updateOne( { "_id" : req.body._id}, {$set: { "flag" : req.body.flag}} ,
          function(err,result)
@@ -362,7 +343,7 @@ router.post('/reativateuserdata',sessionCheck,function(req,res) {
         })
 })
 
-router.post('/updatecommunitydetails',sessionCheck,function(req,res) {
+router.post('/updatecommunitydetails',auth,function(req,res) {
         community.updateOne( { "_id" : req.body._id}, {$set : req.body } , function(err,result)
         {
           if(err)
@@ -375,7 +356,7 @@ router.post('/updatecommunitydetails',sessionCheck,function(req,res) {
 })
 
 // switch as user //
-router.get('/switchasuser',sessionCheck,function(req,res) {
+router.get('/switchasuser',auth,function(req,res) {
        if(req.session.isLogin) {
 
         users.updateOne( { "_id" : req.session.iding}, {$set: { "role" : "superAdmin"}} ,
@@ -395,7 +376,7 @@ router.get('/switchasuser',sessionCheck,function(req,res) {
        }
 })
 
-router.get('/switchUserPage',sessionCheck,function(req,res) {
+router.get('/switchUserPage',auth,function(req,res) {
        if(req.session.isLogin) {
          res.render('editUserProfile', {data: req.session.data});
     
@@ -404,7 +385,7 @@ router.get('/switchUserPage',sessionCheck,function(req,res) {
        }
 })
 
-router.get('/switchAdminPage',sessionCheck,function(req,res) {
+router.get('/switchAdminPage',auth,function(req,res) {
        if(req.session.isLogin) {
 
          res.render('editUserProfile', {data: req.session.data});
@@ -414,7 +395,7 @@ router.get('/switchAdminPage',sessionCheck,function(req,res) {
        }
 })
 
-router.get('/switchasadmin',sessionCheck,function(req,res) {
+router.get('/switchasadmin',auth,function(req,res) {
        if(req.session.isLogin) {
 
         users.updateOne( { "_id" : req.session.iding}, {$set: { "role" : "Admin"}} ,
@@ -434,7 +415,7 @@ router.get('/switchasadmin',sessionCheck,function(req,res) {
 })
 
 // delete tags //
-router.delete('/:pro',sessionCheck,function(req,res) {
+router.delete('/:pro',auth,function(req,res) {
       var id = req.params.pro.toString();
       t.deleteOne({ "_id": id },function(err,result)
       {
@@ -448,23 +429,29 @@ router.delete('/:pro',sessionCheck,function(req,res) {
  })
 
 // render update details of admin profile page //
-router.get('/editUserDetails', sessionCheck,function(req,res) {
+router.get('/editUserDetails', auth,function(req,res) {
       res.render('editUserDetails', {data: req.session.data});
 }) 
 
 // render edit button profile page for admin//
-router.get('/editUserProfile', sessionCheck,function(req,res) {
+router.get('/editUserProfile', auth,function(req,res) {
       res.render('editUserProfile', {data: req.session.data});
 })
 
-router.post('/sendMail',sessionCheck, function(request,response) {
-      transporter.sendMail(request.body, (error, info) => {
-        if(error) {
-          console.log(error)
-        } else {
-          console.log("Mail sent");
-        }
-      })
+router.post('/sendMail',auth, function(request,response) {
+
+  var mailOptions={
+    from: req.body.from,
+    to: req.body.to,
+    subject: req.body.subject,
+    html: req.body.text
+  };
+
+  mail.sendMail(mailOptions,(error, info)=>{
+    if (error)
+      res.send(error);
+    res.send("success");
+  });
 })
 
 module.exports = router;

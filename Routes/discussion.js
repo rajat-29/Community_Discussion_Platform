@@ -7,26 +7,17 @@ app.use(express.static(path.join(__dirname,'public/uploads')));
 
 var mongoose = require('mongoose')
 
-var users = require('../Schemas/UserSchema');
-var t = require('../Schemas/TagSchema');
-var community = mongoose.model('communities');
-var discussion = require('../Schemas/DiscussionSchema');
-var Comments = require('../Schemas/CommentSchema');
-var Replies = require('../Schemas/ReplySchema');
+var users = require('../Models/UserSchema');
+var t = require('../Models/TagSchema');
+var community = require('../Models/communitySchema');
+var discussion = require('../Models/DiscussionSchema');
+var Comments = require('../Models/CommentSchema');
+var Replies = require('../Models/ReplySchema');
 
-function sessionCheck(req,res,next)
-{
-  if(req.session.isLogin)
-  {
-    next();
-  }
-  else {
-    res.redirect('/');
-  }
-}
+var auth=require('../MiddleWares/auth');
 
 /* create new discussion */
-app.post('/addnewDiscussion',sessionCheck,function (req, res) {
+app.post('/addnewDiscussion',auth,function (req, res) {
       discussion.create(req.body,function(error,result)
       {
         if(error)
@@ -38,7 +29,7 @@ app.post('/addnewDiscussion',sessionCheck,function (req, res) {
 })
 
 // fetch all community discussions
-app.post('/getDiscussion',sessionCheck,function(req,res) {
+app.post('/getDiscussion',auth,function(req,res) {
     discussion.find({ "communityName" : req.body.communityName}).exec(function (err, result) {
      if (err) 
       return err;
@@ -50,7 +41,7 @@ app.post('/getDiscussion',sessionCheck,function(req,res) {
 })
 
 // fetch all community discussions comments
-app.post('/getComments',sessionCheck,function(req,res) {
+app.post('/getComments',auth,function(req,res) {
     Comments.find({ "discussionId" : req.body.discussionId}).exec(function (err, result) {
      if (err) 
       return err;
@@ -62,7 +53,7 @@ app.post('/getComments',sessionCheck,function(req,res) {
 })
 
 // fetch all community discussions replies
-app.post('/getReplys',sessionCheck,function(req,res) {
+app.post('/getReplys',auth,function(req,res) {
     Replies.find({ "commentId" : req.body.commentId}).exec(function (err, result) {
      if (err) 
       return err;
@@ -74,7 +65,7 @@ app.post('/getReplys',sessionCheck,function(req,res) {
 })
 
 // discussion owner //
-app.get('/discussionOwner/:pros',sessionCheck,function(req,res) {
+app.get('/discussionOwner/:pros',auth,function(req,res) {
       var id = req.params.pros.toString();
       users.findOne({ "_id": id },function(err,reses)
       {
@@ -90,7 +81,7 @@ app.get('/discussionOwner/:pros',sessionCheck,function(req,res) {
 })
 
 // delete discussions //
-app.delete('/deleteDiscussion/:pros',sessionCheck,function(req,res) {
+app.delete('/deleteDiscussion/:pros',auth,function(req,res) {
       var id = req.params.pros.toString();
       discussion.deleteOne({ "_id": id },function(err,reses)
       {
@@ -124,7 +115,7 @@ app.delete('/deleteDiscussion/:pros',sessionCheck,function(req,res) {
  })
 
 // delete comments //
-app.delete('/deleteComment/:pros',sessionCheck,function(req,res) {
+app.delete('/deleteComment/:pros',auth,function(req,res) {
       var id = req.params.pros.toString();
       Comments.deleteMany({ "_id": id },function(err,reses)
       {
