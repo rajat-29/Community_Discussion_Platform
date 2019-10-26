@@ -18,7 +18,6 @@ var Replies = require('../Schemas/ReplySchema');
 mongoose.Promise = global.Promise;
 
 //Set Storage Engine For images
-
 var photoname ;
 var community_photo = "uploads/defaultCommunity.jpg";
 

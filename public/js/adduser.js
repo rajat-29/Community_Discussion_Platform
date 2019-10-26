@@ -99,23 +99,23 @@ function email_avail()
     });  
 }
 
-	// function sendmail()
-	// {
-	// 	console.log('m');
-	// 			var data = new Object()
-	// 		data.to=email.value;
-	// 		data.from="codemailler12@gmail.com";
-	// 		data.subject="Confirmation Mail";
-	// 		data.text= "Hi " + n.value + " Please Confirm your Email-Id! and kindly enter this password to login = " + pass.value;
+	function sendmail()
+	{
+		console.log('m');
+				var data = new Object()
+			data.to=email.value;
+			data.from="codemailler12@gmail.com";
+			data.subject="Confirmation Mail";
+			data.text= "Hi " + n.value + " Please Confirm your Email-Id! and kindly enter this password to login = " + pass.value;
 		
-	// 	console.log(data);
-	// 	var request = new XMLHttpRequest();
-	// 		request.open('POST', '/sendMail');
-	// 		request.setRequestHeader("Content-Type","application/json");
-	// 		request.send(JSON.stringify(data))
-	// 		request.addEventListener("load",function()
- //        	{
- //         		 console.log(request.responseText);
- //        	});
+		console.log(data);
+		var request = new XMLHttpRequest();
+			request.open('POST', '/admin/sendMail');
+			request.setRequestHeader("Content-Type","application/json");
+			request.send(JSON.stringify(data))
+			request.addEventListener("load",function()
+        	{
+         		 console.log(request.responseText);
+        	});
 
-	// }
+	}

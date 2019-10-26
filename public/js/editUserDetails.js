@@ -9,15 +9,14 @@ var expectation = document.getElementById('expectation');
 var rightadmin = document.getElementById('rightadmin');
 var dateses = document.getElementById('dateses');
 var dateques = document.getElementById("date");
-var profilepic = document.getElementById("profilepic");
-
-
+var profilepic = document.getElementById("profilepic").src;
 
 rightadmin.innerHTML = email.value;
-
+ 
 function updateUserDetails()
 {
-	//console.log('d')
+	p = profilepic.slice(21,profilepic.length);
+
 	if(phone.value.length<10)
 	{
 		alert('Phone No should be of length 10');
@@ -32,9 +31,7 @@ function updateUserDetails()
 			obj1.interest = interest.value;
 			obj1.bitmore = journey.value;
 			obj1.expectation = expectation.value;
-			obj1.photoname = profilepic.src;
-
-			console.log(obj1);
+			obj1.photoname = p;
 
 		var request = new XMLHttpRequest();
   		request.open('POST',"/updateeditUserDetails");
@@ -49,6 +46,8 @@ function updateUserDetails()
 
 function updateNewUserDetails()
 {
+	p = profilepic.slice(21,profilepic.length);
+
 	if(dateses.value == '')
 	{
 		alert("ENTER DOB");
@@ -70,9 +69,7 @@ function updateNewUserDetails()
 	obj1.interest = interest.value;
 	obj1.bitmore = journey.value;
 	obj1.expectation = expectation.value;
-	obj1.photoname = profilepic.src;
-	
-	console.log(obj1);
+	obj1.photoname = p;
 
 		var request = new XMLHttpRequest();
   		request.open('POST',"/updateeditUserDob");
@@ -82,5 +79,5 @@ function updateNewUserDetails()
         console.log("Data Posted Successfully");
 
     }); 
- window.location = "/newUsereditProfile"; 
+ window.location = "/user/newUsereditProfile"; 
 }

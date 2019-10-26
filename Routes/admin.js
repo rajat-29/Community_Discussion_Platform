@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let path = require('path');
+var mailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 let saltRounds = 10
 
@@ -12,6 +13,15 @@ var mongoose = require('mongoose')
 var users = require('../Schemas/UserSchema');
 var t = require('../Schemas/TagSchema');
 var community = mongoose.model('communities');
+
+// node mailler add your email and password here for email //
+let transporter = mailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: '',
+      pass: ''
+    },
+});
 
 function sessionCheck(req,res,next)
 {
@@ -445,6 +455,16 @@ router.get('/editUserDetails', sessionCheck,function(req,res) {
 // render edit button profile page for admin//
 router.get('/editUserProfile', sessionCheck,function(req,res) {
       res.render('editUserProfile', {data: req.session.data});
+})
+
+router.post('/sendMail',sessionCheck, function(request,response) {
+      transporter.sendMail(request.body, (error, info) => {
+        if(error) {
+          console.log(error)
+        } else {
+          console.log("Mail sent");
+        }
+      })
 })
 
 module.exports = router;

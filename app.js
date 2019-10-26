@@ -5,7 +5,6 @@ var session = require('express-session');
 var ejs = require('ejs');
 var mongodb = require('mongodb');
 var MongoDataTable = require('mongo-datatable');
-var mailer = require('nodemailer');
 var multer = require('multer');
 var passport = require('passport');
 var mongoStore = require('connect-mongo')(session);
@@ -22,19 +21,42 @@ var photoname ;
 var community_photo = "uploads/defaultCommunity.jpg";
 
 // user photo upload //
-var storage = multer.diskStorage({
-destination : './public/uploads/',
-    filename : function(req, file, callback)
-      {
-        photoname=file.fieldname + '-' + Date.now() + '@' +path.extname(file.originalname)
-        req.session.imagePath = photoname;
-        callback(null,photoname);
-      }
-})
+function sanitizeFile(file, cb) {
+    // Define the allowed extension
+    let fileExts = ['png', 'jpg', 'jpeg', 'gif']
+    // Check allowed extensions
+    let isAllowedExt = fileExts.includes(file.originalname.split('.')[1].toLowerCase());
+    // Mime type must be an image
+    let isAllowedMimeType = file.mimetype.startsWith("image/")
+    if(isAllowedExt && isAllowedMimeType){
+        return cb(null ,true) // no errors
+    }
+    else{
+        // pass error msg to callback, which can be displaye in frontend
+        cb('Error: File type not allowed!')
+    }
+}
 
-var upload = multer({
-      storage : storage,
-}).single('myFile');
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './public/uploads/')
+    },
+    filename: function (req, file, cb) {
+      photoname = Date.now()+ file.fieldname+'.'+file.originalname.split('.')[1].toLowerCase();
+      console.log(photoname) 
+      cb(null, Date.now()+ file.fieldname+'.'+file.originalname.split('.')[1].toLowerCase())
+    }
+  })
+   
+  var upload = multer({ storage: storage ,
+    limits: {
+        fileSize: 1000000
+    },
+    fileFilter: function (req, file, cb) {
+        sanitizeFile(file, cb);
+    }
+}).single('myFile')
+
 
 // community photo upload //
 var storagecomm = multer.diskStorage({
@@ -115,15 +137,6 @@ var discussion = require('./Schemas/DiscussionSchema');
 var Comments = require('./Schemas/CommentSchema');
 var Replies = require('./Schemas/ReplySchema');
 
-// node mailler add your email and password here for email //
-let transporter = mailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: '',
-      pass: ''
-    },
-});
-
 // Routing the routes //
 app.use('/login',require('./Routes/login'));
 app.use('/admin',require('./Routes/admin.js'));
@@ -143,19 +156,20 @@ function sessionCheck(req,res,next)
 }
 
 // upload admin image //
-app.post('/upload',(req,res) => {
-      upload(req,res,(err)=>{
-        if(err)
-        {
-          throw error;
-        }
-        else{
-          req.session.data.photoname = photoname;   
-          res.render('editUserDetails', {data: req.session.data});
+
+app.post('/upload',(req,res)=>{
+    upload(req, res, (err) => {
+        if (err){ 
+            res.send({ 'msg': err})
+        }else{
+                 req.session.data.photoname = photoname;   
+                 res.render('editUserDetails', {data: req.session.data});
             
         }
-      })
-});
+    
+    })
+
+})
 
 // upload community image //
 app.post('/uploadcomm',(req,res) => {
@@ -174,7 +188,7 @@ app.post('/Userupload',(req,res) => {
       upload(req,res,(err)=>{
         if(err)
         {
-          throw error;
+           res.send({ 'msg': err})
         }
         else{
           req.session.data.photoname = photoname;
@@ -183,16 +197,6 @@ app.post('/Userupload',(req,res) => {
         }
       })
 });
-
-app.post('/sendMail',sessionCheck, function(request,response) {
-      transporter.sendMail(request.body, (error, info) => {
-        if(error) {
-          console.log(error)
-        } else {
-          console.log("Mail sent");
-        }
-      })
-})
 
 // update  
 app.post('/updateeditUserDetails', sessionCheck,function(req,res) {
@@ -210,6 +214,7 @@ app.post('/updateeditUserDetails', sessionCheck,function(req,res) {
            req.session.data.interest = req.body.interest;
            req.session.data.bitmore = req.body.bitmore;
            req.session.data.expectation = req.body.expectation;
+           req.session.data.photoname = req.body.photoname;
             res.send("DATA UPDATED SUCCESFULLY")
           }
         })
@@ -231,6 +236,7 @@ app.post('/updateeditUserDob',sessionCheck, function(req,res) {
            req.session.data.interest = req.body.interest;
            req.session.data.bitmore = req.body.bitmore;
            req.session.data.expectation = req.body.expectation;
+            req.session.data.photoname = req.body.photoname;
             res.send("DATA UPDATED SUCCESFULLY")
           }
         })
