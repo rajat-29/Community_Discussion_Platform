@@ -59,9 +59,8 @@ app.post('/updateeditUserDetails', auth,function(req,res) {
         {
           if(err)
           throw err
-          else
-          {
-            req.session.data.name = req.body.name;
+          else {
+           req.session.data.name = req.body.name;
            req.session.data.email = req.body.email;         
            req.session.data.city = req.body.city;
            req.session.data.phone = req.body.phone;
@@ -81,8 +80,7 @@ app.post('/updateeditUserDob',auth, function(req,res) {
         {
           if(err)
           throw err
-          else
-          {
+          else {
             req.session.data.dob = req.body.dob;
             req.session.data.name = req.body.name;
            req.session.data.email = req.body.email;         
@@ -103,7 +101,7 @@ app.post('/upload',(req,res)=>{
         if (err){ 
             res.send({ 'msg': err})
         }else{
-                 res.render('editUserDetails', {data: req.session.data});  
+            res.render('editUserDetails', {data: req.session.data});  
         }
     })
 })
@@ -111,11 +109,9 @@ app.post('/upload',(req,res)=>{
 // upload user image //
 app.post('/Userupload',(req,res) => {
       multer.upload(req,res,(err)=>{
-        if(err)
-        {
+        if(err) {
            res.send({ 'msg': err})
-        }
-        else{
+        } else { 
           res.render('newUserProfileDetails', {data: req.session.data});         
         }
       })

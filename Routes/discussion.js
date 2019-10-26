@@ -1,6 +1,8 @@
 let express = require('express');
 var app = require('express').Router();
 let path = require('path');
+var http = require("http").Server(app);
+var io = require("socket.io")(http);
 
 app.use(express.static(path.join(__dirname,'../public')));
 app.use(express.static(path.join(__dirname,'public/uploads')));
@@ -33,8 +35,7 @@ app.post('/getDiscussion',auth,function(req,res) {
     discussion.find({ "communityName" : req.body.communityName}).exec(function (err, result) {
      if (err) 
       return err;
-    else
-    {
+    else {
       res.send(result)
     }
     })
@@ -45,8 +46,7 @@ app.post('/getComments',auth,function(req,res) {
     Comments.find({ "discussionId" : req.body.discussionId}).exec(function (err, result) {
      if (err) 
       return err;
-    else
-    {
+    else {
       res.send(result)
     }
     })
@@ -57,8 +57,7 @@ app.post('/getReplys',auth,function(req,res) {
     Replies.find({ "commentId" : req.body.commentId}).exec(function (err, result) {
      if (err) 
       return err;
-    else
-    {
+    else {
       res.send(result)
     }
     })
@@ -71,11 +70,8 @@ app.get('/discussionOwner/:pros',auth,function(req,res) {
       {
           if(err)
           throw err;
-          else
-          {
+          else {
               res.render('discussionOwnerInfo', {data: req.session.data,newdata:reses});
-              //res.send("data deleted SUCCESFULLY")
-
           }
       });
 })
@@ -87,28 +83,21 @@ app.delete('/deleteDiscussion/:pros',auth,function(req,res) {
       {
           if(err)
           throw err;
-          else
-          {
-            //res.send("data deleted SUCCESFULLY");
-          }
+          else{}
       });
 
       Comments.deleteMany({ "discussionId": id },function(err,reses)
       {
           if(err)
           throw err;
-          else
-          {
-            //res.send("data deleted SUCCESFULLY");
-          }
+          else{}
       });
 
       Replies.deleteMany({ "discussionId": id },function(err,reses)
       {
           if(err)
           throw err;
-          else
-          {
+          else {
             res.send("data deleted SUCCESFULLY");
           }
       });
@@ -121,18 +110,14 @@ app.delete('/deleteComment/:pros',auth,function(req,res) {
       {
           if(err)
           throw err;
-          else
-          {
-            //res.send("data deleted SUCCESFULLY");
-          }
+          else{}
       });
 
       Replies.deleteMany({ "commentId": id },function(err,reses)
       {
           if(err)
           throw err;
-          else
-          {
+          else {
             res.send("data deleted SUCCESFULLY");
           }
       });

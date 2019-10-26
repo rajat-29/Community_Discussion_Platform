@@ -1,6 +1,8 @@
 let express = require('express');
 var app = require('express').Router();
 let path = require('path');
+var http = require("http").Server(app);
+var io = require("socket.io")(http);
 
 app.use(express.static(path.join(__dirname,'../public')));
 
@@ -16,20 +18,14 @@ var auth=require('../MiddleWares/auth');
 
 mongoose.Promise = global.Promise;
 
-//Set Storage Engine For images
 var photoname ;
 var community_photo = "uploads/defaultCommunity.jpg";
 
 app.get('/addNewCommunity',auth,function(req,res){ 
-    if(req.session.isLogin) {
       res.render('addNewCommunity', {data: req.session.data});
-   } else {
-    res.render('index');
-    }
 })
 
 app.post('/addNewCommunitytobase',auth,function (req, res) {
-     
       req.body.email = req.session.email;
       req.body.owner = req.session.name;
       req.body.ownerId = req.session.iding;
@@ -43,17 +39,13 @@ app.post('/addNewCommunitytobase',auth,function (req, res) {
         throw error;
         else
         {
-         
           var cid = result._id;
           users.updateOne(  { "_id" : req.session.iding } , { $push : { owned : cid } } , function(err,result)
           {
             if(err)
             throw err;
-            else {
-          
-            }
+            else {}
           })
-
         }
       })
        res.send("data saved");
@@ -87,24 +79,15 @@ app.get('/getCommunityManagers',auth,function(req,res) {
 })
 
 app.get('/searchingCommunity',auth,function(req,res) {
-  if(req.session.isLogin) {
       res.render('searchingCommunity', {data: req.session.data});
-   } else {
-    res.render('index');
-    }
 })
 
 app.get('/invitedCommunity',auth,function(req,res) {
-  if(req.session.isLogin) {
       res.render('invitedCommunity', {data: req.session.data});
-   } else {
-    res.render('index');
-    }
 })
 
 app.post('/getCommunityforSearch',auth,function(req,res){
    var abc = ObjectId(req.session.iding);
-
     community.find({ $and: [{ ownerId : { $not : { $eq : abc }}},{"status": "Active"},{commuser : {$nin : [abc] }},{invited : {$nin : [abc] }},{commasktojoin : {$nin : [abc] }}] }).skip(req.body.start).limit(req.body.end).exec(function(error,result){
         if(error)
         throw error;
@@ -115,11 +98,10 @@ app.post('/getCommunityforSearch',auth,function(req,res){
 })
 
 app.post('/getInvitationsForUser',auth,function(req,res) {
-      //var abc = ObjectId(req.body._id );
     users.findOne({ "_id" : req.session.iding}).populate(
     {
       path: "invited", model: community
-    }). // only return the Persons name
+    }). 
      exec(function (err, result) {
      if (err) 
       return err;
@@ -149,9 +131,7 @@ app.post('/joincommunity',auth,function(req,res) {
         {
             if(error)
             throw error;
-            else {
-                console.log("ENTERED IN USER DATABASE ALSO")
-            }
+            else {}
         })
       }
 
@@ -170,9 +150,7 @@ app.post('/joincommunity',auth,function(req,res) {
         {
             if(error)
             throw error;
-            else {
-                console.log("ENTERED IN USER DATABASE ALSO")
-            }
+            else {}
         })
       }
 })
@@ -183,9 +161,7 @@ app.post('/joinInvitedcommunity',auth,function(req,res) {
         {
             if(error)
             throw error;
-            else {
-               // res.send("USER JOINED WITH COMMUNITY");
-            }
+            else {}
         })
 
         //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
@@ -193,18 +169,14 @@ app.post('/joinInvitedcommunity',auth,function(req,res) {
         {
             if(error)
             throw error;
-            else {
-                console.log("ENTERED IN USER DATABASE ALSO")
-            }
+            else {}
         })
 
         community.updateOne({"_id" :req.body._id},{ $pull : {invited : abc}},function(error,result)
         {
             if(error)
             throw error;
-            else {
-                
-            }
+            else {}
         })
 
         //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
@@ -224,8 +196,7 @@ app.get('/info/:pros',auth,function(req,res) {
       {
           if(err)
           throw err;
-          else
-          {
+          else {
              res.render('communityInformation', {data: req.session.data,newdata:reses});
           }
       });
@@ -238,8 +209,7 @@ app.get('/setting/:pros',auth,function(req,res) {
       {
           if(err)
           throw err;
-          else
-          {
+          else {
              res.render('communitySettings', {data: req.session.data,newdata:reses});
           }
       });
@@ -252,8 +222,7 @@ app.get('/communityProfile/:pros',auth,function(req,res) {
       {
           if(err)
           throw err;
-          else
-          {
+          else {
              res.render('communityProfileInfo', {data: req.session.data,newdata:reses});
           }
       });
@@ -265,8 +234,7 @@ app.get('/viewprofile/:pros',auth,function(req,res) {
       {
           if(err)
           throw err;
-          else
-          {
+          else {
               res.render('communityOwnerInfo', {data: req.session.data,newdata:reses});
           }
       });
@@ -278,8 +246,7 @@ app.get('/editCommunity/:pros',auth,function(req,res) {
       {
           if(err)
           throw err;
-          else
-          {
+          else {
              res.render('EditcommunitySettings', {data: req.session.data,newdata:reses});
           }
       });
@@ -290,8 +257,7 @@ app.post('/updatecommdetails',auth,function(req,res) {
         {
           if(err)
           throw err
-          else
-          {
+          else {
             res.send("DATA UPDATED SUCCESFULLY")
           }
         })
@@ -300,11 +266,10 @@ app.post('/updatecommdetails',auth,function(req,res) {
 app.get('/inviteUser/:pros',auth,function(req,res) {
       var id = req.params.pros.toString();
        community.findOne({ "_id": id },function(err,reses)
-      {
+       {
           if(err)
           throw err;
-          else
-          {
+          else {
              res.render('InfocommunitySettings', {data: req.session.data,newdata:reses});
           }
       });
@@ -312,13 +277,11 @@ app.get('/inviteUser/:pros',auth,function(req,res) {
 
 app.get('/discussion/:pros',auth,function(req,res) {
       var id = req.params.pros.toString();
-      console.log(id)
-       community.findOne({ "_id": id },function(err,reses)
+      community.findOne({ "_id": id },function(err,reses)
       {
           if(err)
           throw err;
-          else
-          {
+          else {
             Comments.findOne({ "communityId": id },function(err,resesComm)
             {
               if(err)
@@ -344,27 +307,25 @@ app.post('/leaveCommunityBYUser',auth,function(req,res) {
         {
             if(error)
             throw error;
-            else {
-                console.log("ENTERED IN USER DATABASE ALSO")
-            }
+            else {}
         })
 })
 
 app.post('/leavePendingcommunity',auth,function(req,res) {
   var abc = ObjectId(req.session.iding);
   community.updateOne({"_id" :req.body._id},{ $pull : {commasktojoin : abc}},function(error,result)
-        {
+  {
             if(error)
             throw error;
             else {}
-        })
+  })
 
   users.updateOne({"_id" :abc},{ $pull : {asktojoincomm : req.body._id}},function(error,result)
-        {
+  {
             if(error)
             throw error;
             else {}
-        })
+  })
 })
 
 app.get('/showCommunityMembers/:pros',auth,function(req,res) {
@@ -373,67 +334,58 @@ app.get('/showCommunityMembers/:pros',auth,function(req,res) {
       {
           if(err)
           throw err;
-          else
-          {
+          else {
              res.render('showCommunitymembers', {data: req.session.data,newdata:reses});
           }
       });
 })
 
 app.post('/getRequest',auth,function(req,res) {
-   if(req.session.isLogin){
       var abc = ObjectId(req.body._id );
     community.findOne({ "_id" : req.body._id}).populate("commasktojoin"). // only return the Persons name
      exec(function (err, result) {
      if (err) 
       return err;
-    else
-    {
-      res.send(JSON.stringify(result.commasktojoin))
-    }
+      else {
+        res.send(JSON.stringify(result.commasktojoin))
+      }
     })
-    }
 })
 
 app.post('/getManagers',auth,function(req,res) {
-      var abc = ObjectId(req.body._id );
+    var abc = ObjectId(req.body._id );
     community.findOne({ "_id" : req.body._id}).populate("commManagers"). // only return the Persons name
      exec(function (err, result) {
      if (err) 
       return err;
-    else
-    {
-      res.send(JSON.stringify(result.commManagers))
-    }
+      else {
+        res.send(JSON.stringify(result.commManagers))
+      }
     })
 })
 
 app.post('/getInvited',auth,function(req,res) {
-      var abc = ObjectId(req.body._id );
+    var abc = ObjectId(req.body._id );
     community.findOne({ "_id" : req.body._id}).populate("invited"). // only return the Persons name
      exec(function (err, result) {
      if (err) 
       return err;
-    else
-    {
+    else {
       res.send(JSON.stringify(result.invited))
     }
     })
 })
 
 app.post('/getUsers',auth,function(req,res) {
-   if(req.session.isLogin){
       var abc = ObjectId(req.body._id );
     community.findOne({ "_id" : abc}).populate("commuser"). // only return the Persons name
      exec(function (err, result) {
      if (err) 
       return err;
-    else
-    {
+    else {
       res.send(JSON.stringify(result.commuser))
     }
     })
-    }
 })
 
 app.post('/leaveCommunity',auth,function(req,res) {
@@ -450,9 +402,7 @@ app.post('/leaveCommunity',auth,function(req,res) {
         {
             if(error)
             throw error;
-            else {
-                console.log("ENTERED IN USER DATABASE ALSO")
-            }
+            else {}
         })
 })
 
@@ -471,9 +421,7 @@ app.post('/leaveCommunityForRequestUsers',auth,function(req,res) {
         {
             if(error)
             throw error;
-            else {
-                console.log("ENTERED IN USER DATABASE ALSO")
-            }
+            else {}
         })
 })
 
@@ -492,9 +440,7 @@ app.post('/leaveCommunityForManagers',auth,function(req,res) {
         {
             if(error)
             throw error;
-            else {
-                console.log("ENTERED IN USER DATABASE ALSO")
-            }
+            else {}
         })
 })
 
@@ -503,9 +449,7 @@ app.post('/removeInvitedUser',auth,function(req,res) {
         {
             if(error)
             throw error;
-            else {
-                
-            }
+            else {}
         })
         //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
         users.updateOne({"_id" : req.body._id},{ $pull : {invited : req.body.commid }},function(error,result)
@@ -525,18 +469,14 @@ app.post('/requestedUserJoinCommunity',auth,function(req,res) {
         {
             if(error)
             throw error;
-            else {
-               // res.send("USER JOINED WITH COMMUNITY");
-            }
+            else {}
         })
         //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
         users.updateOne({"_id" : req.body._id},{ $pull : {asktojoincomm : req.body.commid }},function(error,result)
         {
             if(error)
             throw error;
-            else {
-                console.log("ENTERED IN USER DATABASE ALSO")
-            }
+            else {}
         })
 
         community.updateOne({"_id" :req.body.commid},{ $push : {commuser : req.body._id}},function(error,result)
@@ -630,13 +570,11 @@ app.post('/getUsersOtherThanInCommunity',auth,function(req,res) {
       if (err) 
         return err;
       else {
-        //console.log(communitydata)
         communitydata.commManagers.push(mongoose.mongo.ObjectId(communitydata.ownerId))
         users.find({"$and" : [{"$and" : [{"$and" : [{"$and" : [{"$and" : [{"_id" :{"$nin" : communitydata.commManagers}}],"_id" :{"$nin" : communitydata.commuser}}],"_id" :{"$nin" : communitydata.invited}}],"_id" :{"$nin" : communitydata.commasktojoin}}],"_id" :{"$nin" : communitydata.ownerId}}]},function(error,result)
         {
           if(error)
             throw error;
-          //console.log(result)
           res.send(result)
         })
       }
@@ -649,9 +587,7 @@ app.post('/inviteUser',auth,function(req,res) {
         {
             if(error)
             throw error;
-            else {
-               
-            }
+            else {}
         })
 
         //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED

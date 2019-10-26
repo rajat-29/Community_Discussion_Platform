@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt');
 let saltRounds = 10
 
 router.use(express.static(path.join(__dirname,'../public')));
-router.use(express.static(path.join(__dirname,'public/uploads')));
 
 var mongoose = require('mongoose')
 
@@ -259,10 +258,7 @@ router.post('/showtags',auth,function(req, res) {
 
 // check wheater tag exits or not //
 router.post('/checktag',auth,function (req, res) {
-
-     var tageses = req.body.tags;
-
-     t.findOne({tags: tageses}, function(error,result)
+     t.findOne({tags: req.body.tags}, function(error,result)
       {
         if(error)
         throw error;
@@ -292,16 +288,11 @@ router.post('/addtagtobase',auth,function (req, res) {
 
 // show tags //
 router.get('/listuserstags',auth,function(req,res) {
-    if(req.session.isLogin) {
       res.render('Listtags', {data: req.session.data});
-       } else {
-      res.render('index');
-     }
 })
 
 // page to update user details //
 router.post('/updateuserdetails',auth,function(req,res) {
-  //console.log(req.body);
         users.updateOne( { "email" : req.body.email}, {$set : req.body } , function(err,result)
         {
           if(err)
@@ -315,10 +306,9 @@ router.post('/updateuserdetails',auth,function(req,res) {
 
 // deactivate user //
 router.post('/deativateuserdata',auth,function(req,res) {
-  //console.log(req.body._id);
         users.updateOne( { "_id" : req.body._id}, {$set: { "flag" : req.body.flag}} ,
          function(err,result)
-        {
+         {
           if(err)
           throw err
           else
@@ -330,10 +320,9 @@ router.post('/deativateuserdata',auth,function(req,res) {
 
 // reactivate user //
 router.post('/reativateuserdata',auth,function(req,res) {
-  //console.log(req.body._id);
         users.updateOne( { "_id" : req.body._id}, {$set: { "flag" : req.body.flag}} ,
          function(err,result)
-        {
+         {
           if(err)
           throw err
           else
@@ -357,11 +346,9 @@ router.post('/updatecommunitydetails',auth,function(req,res) {
 
 // switch as user //
 router.get('/switchasuser',auth,function(req,res) {
-       if(req.session.isLogin) {
-
-        users.updateOne( { "_id" : req.session.iding}, {$set: { "role" : "superAdmin"}} ,
+  users.updateOne( { "_id" : req.session.iding}, {$set: { "role" : "superAdmin"}} ,
          function(err,result)
-        {
+         {
           if(err)
           throw err
           else
@@ -370,37 +357,20 @@ router.get('/switchasuser',auth,function(req,res) {
             res.render('switchasUser', {data: req.session.data});
           }
         })
-    
-       } else {
-          res.render('index');
-       }
 })
 
 router.get('/switchUserPage',auth,function(req,res) {
-       if(req.session.isLogin) {
          res.render('editUserProfile', {data: req.session.data});
-    
-       } else {
-          res.render('index');
-       }
 })
 
 router.get('/switchAdminPage',auth,function(req,res) {
-       if(req.session.isLogin) {
-
          res.render('editUserProfile', {data: req.session.data});
-    
-       } else {
-          res.render('index');
-       }
 })
 
 router.get('/switchasadmin',auth,function(req,res) {
-       if(req.session.isLogin) {
-
-        users.updateOne( { "_id" : req.session.iding}, {$set: { "role" : "Admin"}} ,
+  users.updateOne( { "_id" : req.session.iding}, {$set: { "role" : "Admin"}} ,
          function(err,result)
-        {
+         {
           if(err)
           throw err
           else
@@ -408,10 +378,7 @@ router.get('/switchasadmin',auth,function(req,res) {
            req.session.data.role = "Admin"
            res.render('switchasAdmin', {data: req.session.data});
           }
-        })   
-       } else {
-          res.render('index');
-       }
+  })   
 })
 
 // delete tags //
@@ -438,8 +405,7 @@ router.get('/editUserProfile', auth,function(req,res) {
       res.render('editUserProfile', {data: req.session.data});
 })
 
-router.post('/sendMail',auth, function(request,response) {
-
+router.post('/sendMail',auth, function(req,response) {
   var mailOptions={
     from: req.body.from,
     to: req.body.to,

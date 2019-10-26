@@ -13,9 +13,8 @@ var users = require('../Models/UserSchema');
 var auth=require('../MiddleWares/auth');
 
 // login checking //
-app.post('/checkLogin',function (req, res)         /*post data */
+app.post('/checkLogin',function (req, res)   
   {
-    //console.log(req)
       req.session.isLogin = 0;
       var username = req.body.name;
       var pasword = req.body.password;
@@ -27,8 +26,7 @@ app.post('/checkLogin',function (req, res)         /*post data */
         if(!result) {
           res.send("not exits");
         }
-        else
-        {
+        else {
           if(result.flag == 0)
           {
            res.send("false");
@@ -36,8 +34,7 @@ app.post('/checkLogin',function (req, res)         /*post data */
           else 
           {
            bcrypt.compare(req.body.password,result.password,function(err,resi) {
-            if(resi == true)
-            {
+            if(resi == true) {
                 req.session.isLogin = 1;
                  req.session.email = req.body.name;
                  req.session.password = req.body.password;
@@ -59,7 +56,6 @@ app.post('/checkLogin',function (req, res)         /*post data */
                  res.send("true");
             }
             else {
-              console.log(resi)
               res.send("false")
             }
           }) 
@@ -69,7 +65,7 @@ app.post('/checkLogin',function (req, res)         /*post data */
 })
 
 // admin side //
-app.get('/home' , auth,function(req,res){        /*get data */
+app.get('/home' , auth,function(req,res){      
 
       if(req.session.data.role == 'Admin' || req.session.data.role == 'superAdmin') 
       {

@@ -2,10 +2,8 @@
 
 # dependencies
 /node_modules
-/myapp
 /.pnp
 .pnp.js
-
 
 # testing
 /coverage

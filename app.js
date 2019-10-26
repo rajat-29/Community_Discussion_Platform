@@ -4,27 +4,19 @@ var app = express()
 var session = require('express-session');
 var ejs = require('ejs');
 var mongodb = require('mongodb');
-var MongoDataTable = require('mongo-datatable');
-var multer = require('multer');
-var passport = require('passport');
 var mongoStore = require('connect-mongo')(session);
-app.use(passport.initialize());
-app.use(passport.session());
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
 ObjectId = require('mongodb').ObjectID;
 var MongoClient = mongodb.MongoClient;
 var port=8000;
 
-//Set Storage Engine For images
-var community_photo = "uploads/defaultCommunity.jpg";
-
 // view engine setup
 app.set('views', path.join(__dirname, 'Views'));
 app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname,'/public'))) /*folder path*/
-app.use(express.static(path.join(__dirname,'public/uploads')));
+app.use(express.static(path.join(__dirname,'/public/uploads'))) 
 
 var mongoose = require('mongoose');           /*include mongo*/
 var mongoDB = 'mongodb://localhost/user';
@@ -69,13 +61,6 @@ app.use('/community',require('./Routes/community'));
 app.use('/discussion',require('./Routes/discussion'));
 app.use('/user',require('./Routes/user'));
 
- /*post data */
-app.post('/changePhoto',function (req, res)        
-  {
-      req.session.photoname = req.body.name;
-      res.send("true");
-})
-
 io.on('connection',function(socket){
     socket.on('comment',function(data){
         var commentData = new Comments(data);
@@ -92,4 +77,4 @@ io.on('connection',function(socket){
     });
 });
 
-app.listen(port,()=>{console.log("Running on port "+port);});
+http.listen(port,()=>{console.log("Running on port "+port);});
