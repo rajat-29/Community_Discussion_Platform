@@ -18,11 +18,11 @@ submit.addEventListener("click", function() {
         return;
     }
 
-    // if(vercode.value != rajat)
-    // {
-    //     alert("Verification code doesn't match");
-    //     return;
-    // }
+    if(vercode.value != rajat)
+    {
+        alert("Verification code doesn't match");
+        return;
+    }
 	//console.log(pass.value);
 	var request = new XMLHttpRequest();
     request.open('POST',"/login/checkLogin");

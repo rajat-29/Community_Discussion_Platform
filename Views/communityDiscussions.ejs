@@ -447,7 +447,7 @@ function displayComments(disId) {
       {
           $('.comments'+ data[j].discussionId).append('<div class="panel-body" style="padding:5px;background:#f9f9f9;">'
           +'<div class="col-sm-1 col-xs-3"><a href="">'
-          +'<img src="<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+          +'<img src="<%=data.photoname%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
           + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
           +'<div class="comment-container">'
           +'<p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
@@ -511,7 +511,7 @@ function doComment(oa,createBy,commId) {
               console.log(commentId)
             $('.comments'+ oa).append('<div class="panel-body" style="padding:5px;background:#f9f9f9;">'
             +'<div class="col-sm-1 col-xs-3"><a href="">'
-            +'<img src="<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+            +'<img src="<%=data.photoname%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
             + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
             +'<p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
             +currentUser+' '+'<span style="font-size: 17px;">&nbsp<b>'+getDays(data1[j].createdDate)+'</b></span><span style="font-size: 18px;" onclick=deleteComment("'+data1[j]._id+'")>&nbsp<i class="fas fa-trash"></i></span></p>'
@@ -555,7 +555,7 @@ socket.on('comment',function(data){
              // console.log(commentId)
             $('.comments'+ data.discussionId).append('<div class="panel-body" style="padding:5px;background:#f9f9f9;">'
             +'<div class="col-sm-1 col-xs-3"><a href="">'
-            +'<img src="<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+            +'<img src="<%=data.photoname%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
             + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
             +'<p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
             +data.commentedBy+' '+'<span style="font-size: 17px;">&nbsp<b>'+getDays(data1[j].createdDate)+'</b></span><span style="font-size: 18px;" onclick=deleteComment("'+data1[j]._id+'")>&nbsp<i class="fas fa-trash"></i></span></p>'
@@ -596,7 +596,7 @@ function displayReplies(disId)
       {
         $('.replies'+ disId).append('<div class="col-sm-4"></div>'
           +'<div class="col-sm-1 col-xs-3"><a href="">'
-          +'<img src="<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+          +'<img src="<%=data.photoname%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
           + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
           +'<p class="col-sm-6 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
           +data[j].repliedBy+' '+'<span style="font-size: 17px;">&nbsp<b>'+getDays(data[j].createdDate)+'</b></span></p>'
@@ -633,7 +633,7 @@ function doReply(commentId,repliedBy,ownerId,discussionId) {
             console.log(data)
         $('.replies'+ commentId).append('<div class="col-sm-4"></div>'
           +'<div class="col-sm-1 col-xs-3"><a href="">'
-          +'<img src="<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+          +'<img src="<%=data.photoname%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
           + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
           +'<p class="col-sm-6 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
         +repliedBy+' '+'<span style="font-size: 17px;">&nbsp<b>0d</b></span></p>'
@@ -650,7 +650,7 @@ socket.on('reply',function(data){
 
         $('.replies'+ data.commentId).append('<div class="col-sm-4"></div>'
           +'<div class="col-sm-1 col-xs-3"><a href="">'
-          +'<img src="<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+          +'<img src="<%=data.photoname%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
           + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
           +'<p class="col-sm-6 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
         +data.repliedBy+' '+'<span style="font-size: 17px;">&nbsp<b>'+getDays(data.createdDate)+'</b></span></p>'
