@@ -112,7 +112,20 @@ router.post('/showuser',auth,function(req, res) {
 
     if(req.body.search.value)
     {
-        query.email = {"$regex" : req.body.search.value , "$options" : "i"};
+        //query.email = {"$regex" : req.body.search.value , "$options" : "i"};
+        query["$or"]= [{
+            "email":  { '$regex' : req.body.search.value, '$options' : 'i' }
+        }, {
+            "phone":{ '$regex' : req.body.search.value, '$options' : 'i' }
+        },{
+            "city": { '$regex' : req.body.search.value, '$options' : 'i' }
+        }
+        ,{
+            "status":  { '$regex' : req.body.search.value, '$options' : 'i' }
+        }
+        ,{
+            "role": { '$regex' : req.body.search.value, '$options' : 'i' }
+        }]
     }
     let sortingType;
     if(req.body.order[0].dir === 'asc')
@@ -167,7 +180,20 @@ router.post('/showcommunity',auth,function(req, res) {
 
     if(req.body.search.value)
     {
-        query.name = {"$regex" : req.body.search.value , "$options" : "i"};
+       // query.name = {"$regex" : req.body.search.value , "$options" : "i"};
+       query["$or"]= [{
+            "name":  { '$regex' : req.body.search.value, '$options' : 'i' }
+        }, {
+            "rule":{ '$regex' : req.body.search.value, '$options' : 'i' }
+        },{
+            "location": { '$regex' : req.body.search.value, '$options' : 'i' }
+        }
+        ,{
+            "owner":  { '$regex' : req.body.search.value, '$options' : 'i' }
+        }
+        ,{
+            "createDate": { '$regex' : req.body.search.value, '$options' : 'i' }
+        }]
     }
     let sortingType;
     if(req.body.order[0].dir === 'asc')
@@ -212,13 +238,18 @@ router.post('/showcommunity',auth,function(req, res) {
 
 // data tables on tags //
 router.post('/showtags',auth,function(req, res) {
-
     let query = {};
     let params = {};
-
     if(req.body.search.value)
     {
-        query.tags = {"$regex" : req.body.search.value , "$options" : "i"};
+        //query.tags = {"$regex" : req.body.search.value , "$options" : "i"};
+        query["$or"]= [{
+            "tags":  { '$regex' : req.body.search.value, '$options' : 'i' }
+        }, {
+            "createDate":{ '$regex' : req.body.search.value, '$options' : 'i' }
+        },{
+            "createdBy": { '$regex' : req.body.search.value, '$options' : 'i' }
+        }]
     }
 
     let sortingType;
@@ -418,6 +449,16 @@ router.post('/sendMail',auth, function(req,response) {
       res.send(error);
     res.send("success");
   });
+})
+
+router.get('/categoryOptions',auth,function (req, res)  {
+    t.find(function(error,result)
+    {
+        if(error)
+        throw error;
+        else
+          res.send(JSON.stringify(result));
+    })
 })
 
 module.exports = router;

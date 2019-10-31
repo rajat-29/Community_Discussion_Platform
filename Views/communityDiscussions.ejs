@@ -69,7 +69,7 @@
 </style>
 </head>
 
-<body class="body">
+<body class="body" onload="fetchselectoptions()">
   <% include partials/usertop-bar.ejs %>
     <div id="viewscreen" >
     <% include partials/side-navbar.ejs %>
@@ -130,12 +130,9 @@
     </ul>
 </div>
 </div>
-
-
 </div>
 
 <!-- third -->
-
 <center>
     <hr style="border-top:2px solid #E6E6E6;width:85%;margin-top:0">
 </center>
@@ -145,11 +142,7 @@
   }
 </style>
 
-<!--  for -->
-
-
-<div class="container" style="width:90% !important">
-  
+<div class="container" style="width:90% !important">  
 </div>
 <div class="container discussion-input discussion-container">
   <div class="panel panel-default allSidesSoft" style="border-radius:0;border:1px solid rgb(182, 182, 182) !important;">
@@ -163,7 +156,6 @@
         Start a discussion
       </p>
     </div>
-
 
     <div class="panel-body discussion-panel-body">
       <div class="col-sm-12 col-xs-12" style="padding:0;border-top: 1px solid white;">
@@ -182,27 +174,13 @@
           <!-- preview here -->
         </div>
         <div class="tag-conatiner-custom-div">
-          <select id="tagEditor" name="tags" class="form-control input-sm select2-multiple select2-hidden-accessible" style="width:100%"  >
-            <!--Tags option appended here-->
-              <option class="tagSuggestInput">Hello</option>
-              <option class="tagSuggestInput">Hey</option>
-              <option class="tagSuggestInput">Rid</option>
-              <option class="tagSuggestInput">Ram</option>
-              <option class="tagSuggestInput">Ji</option>
-              <option class="tagSuggestInput">QWE</option>
-              <option class="tagSuggestInput">Looo</option>
-              <option class="tagSuggestInput">Bye</option>
-              <option class="tagSuggestInput">Bro</option>
-              <option class="tagSuggestInput">Li</option>
+          <select class="form-control" required="required" id="tagList">   
           </select>
         </div>
 
-
-        <div class="col-sm-12 col-xs-12" style="padding:0; ">
-          
+        <div class="col-sm-12 col-xs-12" style="padding:0; ">  
           <button class="btn btn-primary" type="submit" style="float:right" id="discussion_post">
             <p class="discussion-post-btn-txt">Post</p>
-          
           </button>
         </div>
     </div>
@@ -211,32 +189,20 @@
   </div>
 </div> <!--Header-->  
 
-  <div id="discussionsList">
-
-                    </div>
+  <div id="discussionsList"></div>
 
 </div></div></div>
-
-
-                    <div>
-                      
-                 </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+<div></div>
+</div></div></div></div>
 
 <script type="text/javascript">
-
   var socket = io();
-
   var hideManage = document.getElementById('hideManage');
   var commid ="<%= newdata._id %>";
   var email_id ="<%= data.email %>";
   var currentUser = "<%= data.name %>"
   var currentId = "<%= data.ides %>"
-  //console.log(currentId)
+  var tagList = document.getElementById('tagList');
 
 $(document).ready(function() {
     initaliseusers();   
@@ -244,15 +210,13 @@ $(document).ready(function() {
     initaliseManagersWithOutDom();
 })
 
-function initaliseusers()
-{
+function initaliseusers() {
   var xml=new XMLHttpRequest();
   xml.open("POST","/community/getUsers");
   xml.setRequestHeader("Content-Type","application/json");
   xml.addEventListener("load",function()
   {
       var data=JSON.parse(xml.responseText);
-     
       for(i in data)
       {
         addtoUserDOM(data[i])
@@ -261,19 +225,17 @@ function initaliseusers()
   xml.send(JSON.stringify({"_id":commid}));
 }
 
-function initaliseDiscussions()
-{
+function initaliseDiscussions() {
     var n = "<%=data.name%>";
     var ob = new Object();
     ob.communityName = "<%=newdata.name%>";
 
-     var xml=new XMLHttpRequest();
+  var xml=new XMLHttpRequest();
   xml.open("POST","/discussion/getDiscussion");
   xml.setRequestHeader("Content-Type","application/json");
   xml.addEventListener("load",function()
   {
       var data=JSON.parse(xml.responseText);
-     //console.log(data)
       for(j in data)
       {
         if(data[j].createdBy == n)
@@ -289,17 +251,14 @@ function initaliseDiscussions()
   xml.send(JSON.stringify(ob));
 }
 
-
-function addtoUserDOM(obj)
-{
+function addtoUserDOM(obj) {
   if(obj.email == email_id)
   {
      hideManage.setAttribute("style", "display:none");
   }
 }
 
-function initaliseManagersWithOutDom()
-{
+function initaliseManagersWithOutDom() {
   var xml=new XMLHttpRequest();
   xml.open("POST","/community/getManagers");
   xml.setRequestHeader("Content-Type","application/json");
@@ -352,9 +311,8 @@ discussion_post.addEventListener("click",function() {
   obj.createdDate = today;
   obj.ownerId = "<%= data.ides %>";
   obj.communityId = commid;
-  console.log(obj);
-
-  var request = new XMLHttpRequest();
+  
+    var request = new XMLHttpRequest();
     request.open('POST',"/discussion/addnewDiscussion");
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify(obj))
@@ -367,7 +325,6 @@ discussion_post.addEventListener("click",function() {
 
 function addtoDiscussionDOM(obj)
 {
-  //console.log(obj)
      var div = '<div class="container discussion-container">'
                 +'<div class="panel panel-default allSidesSoft" style="background:white;">'
                   +'<div class="dropup" style="margin-right: 10px;">'
@@ -425,7 +382,6 @@ function addtoDiscussionDOM(obj)
   }
 
 function displayComments(disId) {
-    //console.log(disId)
     var inp = document.getElementById('enterComments'+ disId)
     inp.setAttribute("style","visibility:visible");
     var subButton = document.getElementById('send'+ disId)
@@ -442,29 +398,32 @@ function displayComments(disId) {
     xml.addEventListener("load",function()
     {
       var data=JSON.parse(xml.responseText);
-      console.log(data)
       for(j in data)
       {
-          $('.comments'+ data[j].discussionId).append('<div class="panel-body" style="padding:5px;background:#f9f9f9;">'
-          +'<div class="col-sm-1 col-xs-3"><a href="">'
-          +'<img src="<%=data.photoname%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
-          + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
-          +'<div class="comment-container">'
-          +'<p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
-        +data[j].commentedBy+' '+'<span style="font-size: 17px;">&nbsp<b>'+getDays(data[j].createdDate)+'</b></span><span style="font-size: 18px;" onclick=deleteComment("'+data[j]._id+'")>&nbsp<i class="fas fa-trash"></i></span></p>'
-        +'<p class="col-sm-11 col-xs-9 discussion-heading" id="comment-div" style="font-size: 15px;">'
-        +data[j].comment+'</p>'
-        +'</div>'
-        +'<div class="col-sm-1"></div>'
-        +'<div class="col-sm-11 mainDiv">'
-        +'<span onclick=displayReplies("'+data[j]._id+'")><b>Replies&nbsp</b></span>'
-        +'<span onclick=hideReplies("'+data[j]._id+'")><b>&nbspHide</b></span>'
-        +'</div>'
-        +'<div class="col-sm-4 mainDiv"></div>'
-        +'<div class="col-sm-6 col-xs-6 col-lg-6 col-md-6 discussion-content"><input type="email" class="form-control" placeholder="Enter Reply" id="enterReply'+data[j]._id+'" style="visibility: hidden" required>'
+            $('.comments'+ data[j].discussionId).append('<div class="panel-body" style="padding:5px;background:#f9f9f9;">'
+            +'<div class="col-sm-1 col-xs-3"><a href="">'
+            +'<img src="'+data[j].photoname+'" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+            + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
+            +'<div class="comment-container">'
+            +'<p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
+          +data[j].commentedBy+' '+'<span style="font-size: 17px;">&nbsp<b>'+getDays(data[j].createdDate)+'</b></span><span style="font-size: 18px;" id="deleteCommentes'+data[j]._id+'" onclick=deleteComment("'+data[j]._id+'")>&nbsp<i class="fas fa-trash"></i></span></p>'
+          +'<p class="col-sm-11 col-xs-9 discussion-heading" id="comment-div" style="font-size: 15px;">'
+          +data[j].comment+'</p>'
           +'</div>'
-          +'<button type="submit" class="btn btn-success" id="sendReply'+data[j]._id+'" onclick=doReply("'+data[j]._id+'","'+currentUser+'","'+currentId+'","'+data[j].discussionId+'") style="visibility: hidden">Submit</button><div class="replies'+data[j]._id+'"></div></div>');
-      }
+          +'<div class="col-sm-1"></div>'
+          +'<div class="col-sm-11 mainDiv">'
+          +'<span onclick=displayReplies("'+data[j]._id+'")><b>Replies&nbsp</b></span>'
+          +'<span onclick=hideReplies("'+data[j]._id+'")><b>&nbspHide</b></span>'
+          +'</div>'
+          +'<div class="col-sm-4 mainDiv"></div>'
+          +'<div class="col-sm-6 col-xs-6 col-lg-6 col-md-6 discussion-content"><input type="email" class="form-control" placeholder="Enter Reply" id="enterReply'+data[j]._id+'" style="visibility: hidden" required>'
+            +'</div>'
+            +'<button type="submit" class="btn btn-success" id="sendReply'+data[j]._id+'" onclick=doReply("'+data[j]._id+'","'+currentUser+'","'+currentId+'","'+data[j].discussionId+'") style="visibility: hidden">Submit</button><div class="replies'+data[j]._id+'"></div></div>');
+            if(data[j].commentedBy != "<%= data.name %>")
+            {
+              document.getElementById('deleteCommentes'+data[j]._id+'').style.display = "none";
+            }
+        }
     })
   xml.send(JSON.stringify(ob));
 }
@@ -493,7 +452,7 @@ function doComment(oa,createBy,commId) {
     var data1;
     var commentId;
 
-    var data = {'comment': comment,'discussionId': oa,'commentedBy' : currentUser,'communityId' : commId,'createdDate' : today};
+    var data = {'comment': comment,'discussionId': oa,'commentedBy' : currentUser,'communityId' : commId,'createdDate' : today,'photoname' : "<%= data.photoname %>"};
       socket.emit('comment',data);
       var ob = new Object();
       ob.discussionId = oa;
@@ -508,7 +467,6 @@ function doComment(oa,createBy,commId) {
           if(data1[j].comment == comment)
           {
               commentId = data1[j]._id;
-              console.log(commentId)
             $('.comments'+ oa).append('<div class="panel-body" style="padding:5px;background:#f9f9f9;">'
             +'<div class="col-sm-1 col-xs-3"><a href="">'
             +'<img src="<%=data.photoname%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
@@ -534,9 +492,8 @@ function doComment(oa,createBy,commId) {
 }
 
 socket.on('comment',function(data){
-        //console.log(data)
-        var data1;
-    var commentId;
+      var data1;
+      var commentId;
       var comment = $('#comment'+ data.discussionId).val();
       var ob = new Object();
       ob.discussionId = data.discussionId;
@@ -546,19 +503,17 @@ socket.on('comment',function(data){
       xml.addEventListener("load",function()
       {
         data1=JSON.parse(xml.responseText);
-       // console.log('l')
         for(j in data1)
         {
           if(data1[j].comment == data.comment)
           {
               commentId = data1[j]._id;
-             // console.log(commentId)
             $('.comments'+ data.discussionId).append('<div class="panel-body" style="padding:5px;background:#f9f9f9;">'
             +'<div class="col-sm-1 col-xs-3"><a href="">'
-            +'<img src="<%=data.photoname%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+            +'<img src="'+data.photoname+'" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
             + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
             +'<p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
-            +data.commentedBy+' '+'<span style="font-size: 17px;">&nbsp<b>'+getDays(data1[j].createdDate)+'</b></span><span style="font-size: 18px;" onclick=deleteComment("'+data1[j]._id+'")>&nbsp<i class="fas fa-trash"></i></span></p>'
+            +data.commentedBy+' '+'<span style="font-size: 17px;">&nbsp<b>'+getDays(data1[j].createdDate)+'</b></span><span style="font-size: 18px;" id="deleteCommentes'+data1[j]._id+'" onclick=deleteComment("'+data1[j]._id+'")>&nbsp<i class="fas fa-trash"></i></span></p>'
             +'<p class="col-sm-11 col-xs-9 discussion-heading" id="comment-div" style="font-size: 15px;">'
             +data.comment+'</p>'
             +'<div class="col-sm-1"></div>'
@@ -571,6 +526,10 @@ socket.on('comment',function(data){
             +'</div>'
             +'<button type="submit" class="btn btn-success" id="sendReply'+data1[j]._id+'" onclick=doReply("'+data1[j]._id+'","'+currentUser+'","'+currentId+'") style="visibility: hidden">Submit</button><div class="replies'+data1[j]._id+'"></div></div>');
           }
+          if(data.commentedBy != "<%= data.name %>")
+            {
+              document.getElementById('deleteCommentes'+data1[j]._id+'').style.display = "none";
+            }
         }
       })
       xml.send(JSON.stringify(ob));  
@@ -596,7 +555,7 @@ function displayReplies(disId)
       {
         $('.replies'+ disId).append('<div class="col-sm-4"></div>'
           +'<div class="col-sm-1 col-xs-3"><a href="">'
-          +'<img src="<%=data.photoname%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+          +'<img src="'+data[j].photoname+'" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
           + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
           +'<p class="col-sm-6 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
           +data[j].repliedBy+' '+'<span style="font-size: 17px;">&nbsp<b>'+getDays(data[j].createdDate)+'</b></span></p>'
@@ -629,7 +588,7 @@ function doReply(commentId,repliedBy,ownerId,discussionId) {
     today = + dd + '-' + getMonths(mm) + '-' + yyyy;
 
       if(reply != ''){
-            var data = {'reply': reply,'commentId': commentId,'repliedBy' : repliedBy,'ownerId' : ownerId,'discussionId' : discussionId,'createdDate' : today};
+            var data = {'reply': reply,'commentId': commentId,'repliedBy' : repliedBy,'ownerId' : ownerId,'discussionId' : discussionId,'createdDate' : today,'photoname' : "<%= data.photoname %>"};
             console.log(data)
         $('.replies'+ commentId).append('<div class="col-sm-4"></div>'
           +'<div class="col-sm-1 col-xs-3"><a href="">'
@@ -650,7 +609,7 @@ socket.on('reply',function(data){
 
         $('.replies'+ data.commentId).append('<div class="col-sm-4"></div>'
           +'<div class="col-sm-1 col-xs-3"><a href="">'
-          +'<img src="<%=data.photoname%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
+          +'<img src="'+data.photoname+'" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
           + 'style="border:2px solid #fff;width: 50px;height: 50px;"></a></div>'
           +'<p class="col-sm-6 col-xs-9 discussion-heading" style="margin-top: 10px;font-size: 18px;">'
         +data.repliedBy+' '+'<span style="font-size: 17px;">&nbsp<b>'+getDays(data.createdDate)+'</b></span></p>'
@@ -729,6 +688,23 @@ function getDays(x) {
     Difference_In_Days = Difference_In_Days + "d";
     return Difference_In_Days;
 }
+
+function fetchselectoptions()
+{
+  var commArr;
+  var request = new XMLHttpRequest();
+    request.open('GET','/admin/categoryOptions');
+    request.send();
+    request.onload = function()
+    {
+        commArr = JSON.parse(request.responseText);
+       for(i in commArr)
+       {
+        tagList.options[tagList.options.length] = new Option(commArr[i].tags,commArr[i].tags);
+       }
+    }
+}
+
 
 </script>
 </body>

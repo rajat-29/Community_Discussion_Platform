@@ -9,6 +9,7 @@ var commentSchema = new mongoose.Schema({
     ownerId: String,
     communityId: String,
     createdDate: String,
+    photoname : String,
 })
 
 module.exports = mongoose.model('commentes', commentSchema)

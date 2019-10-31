@@ -11,24 +11,22 @@ ObjectId = require('mongodb').ObjectID;
 var MongoClient = mongodb.MongoClient;
 var port=8000;
 
-// view engine setup
-app.set('views', path.join(__dirname, 'Views'));
+app.set('views', path.join(__dirname, 'Views'));                   // view engine setup //
 app.set('view engine', 'ejs');
 
-app.use(express.static(path.join(__dirname,'/public'))) /*folder path*/
+app.use(express.static(path.join(__dirname,'/public')))           // folder path  //
 app.use(express.static(path.join(__dirname,'/public/uploads'))) 
 
-var mongoose = require('mongoose');           /*include mongo*/
+var mongoose = require('mongoose');                               //  include mongo //
 var mongoDB = 'mongodb://localhost/user';
 
 mongoose.set('useFindAndModify', false);
 mongoose.connect(mongoDB,{ useNewUrlParser: true});
 mongoose.Promise = global.Promise;
-
 var db = mongoose.connection;
 
 app.use(express.urlencoded({extended: true}))
-app.use(express.json())									/*include express*/
+app.use(express.json())									         //  include express  //
 app.use(session({
     secret: "xYzUCAchitkara",
     resave: false,
@@ -39,7 +37,7 @@ app.use(session({
     cookie: {maxAge: 3000000}
 }))
 
-mongoose.connection.on('error',(err) => {					/*database connect*/
+mongoose.connection.on('error',(err) => {					    // database connect  //
     console.log('DB connection Error');
 })
 
@@ -47,15 +45,10 @@ mongoose.connection.on('connected',(err) => {
     console.log('DB connected');
 })
 
-var users = require('./Models/UserSchema');
-var t = require('./Models/TagSchema');
-var community = require('./Models/communitySchema');
-var discussion = require('./Models/DiscussionSchema');
 var Comments = require('./Models/CommentSchema');
 var Replies = require('./Models/ReplySchema');
 
-// Routing the routes //
-app.use('/login',require('./Routes/login'));
+app.use('/login',require('./Routes/login'));                   // Routing the routes //
 app.use('/admin',require('./Routes/admin.js'));
 app.use('/community',require('./Routes/community'));
 app.use('/discussion',require('./Routes/discussion'));

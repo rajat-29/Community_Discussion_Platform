@@ -9,6 +9,7 @@ var replySchema = new mongoose.Schema({
     repliedBy: String,
     ownerId: String,
     createdDate: String,
+    photoname : String,
 })
 
 module.exports = mongoose.model('replyes', replySchema)
