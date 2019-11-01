@@ -86,12 +86,24 @@ router.post('/addnewuser',auth,function (req, res) {
   bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
     if(!err) {
       req.body.password = hash;
-      users.create(req.body,function(error,result)
+      users.create(req.body,function(error,res)
         {
           if(error)
           throw error;
           else
-          {}
+          {
+            //   var mailOptions={
+            //     from: 'codemailler12@gmail.com',
+            //     to: req.body.email,
+            //     subject: 'Invitation to CQ',
+            //     text: 'You are invited to join our new platform CQ. Username: '+req.body.email+' Password: '+req.body.password
+            // };
+            // mail.sendMail(mailOptions,(error, info)=>{
+            //   if (error)
+            //     res.send(error);
+            //   res.send(data);
+            // });
+        }
         })         
     }
     else {}
@@ -436,20 +448,20 @@ router.get('/editUserProfile', auth,function(req,res) {
       res.render('editUserProfile', {data: req.session.data});
 })
 
-router.post('/sendMail',auth, function(req,response) {
-  var mailOptions={
-    from: req.body.from,
-    to: req.body.to,
-    subject: req.body.subject,
-    html: req.body.text
-  };
+// router.post('/sendMail',auth, function(req,response) {
+//   var mailOptions={
+//     from: req.body.from,
+//     to: req.body.to,
+//     subject: req.body.subject,
+//     html: req.body.text
+//   };
 
-  mail.sendMail(mailOptions,(error, info)=>{
-    if (error)
-      res.send(error);
-    res.send("success");
-  });
-})
+//   mail.sendMail(mailOptions,(error, info)=>{
+//     if (error)
+//       res.send(error);
+//     res.send("success");
+//   });
+// })
 
 router.get('/categoryOptions',auth,function (req, res)  {
     t.find(function(error,result)
