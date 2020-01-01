@@ -305,7 +305,7 @@ discussion_post.addEventListener("click",function() {
   var obj = new Object();
   obj.title = discussion_title.value;
   obj.details = discussion_details.value;
-  obj.tag = tagEditor.value;
+  obj.tag = tagList.value;
   obj.communityName = "<%=newdata.name%>";
   obj.createdBy = "<%= data.name %>";
   obj.createdDate = today;
