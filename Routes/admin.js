@@ -92,17 +92,6 @@ router.post('/addnewuser',auth,function (req, res) {
           throw error;
           else
           {
-            //   var mailOptions={
-            //     from: 'codemailler12@gmail.com',
-            //     to: req.body.email,
-            //     subject: 'Invitation to CQ',
-            //     text: 'You are invited to join our new platform CQ. Username: '+req.body.email+' Password: '+req.body.password
-            // };
-            // mail.sendMail(mailOptions,(error, info)=>{
-            //   if (error)
-            //     res.send(error);
-            //   res.send(data);
-            // });
         }
         })         
     }
@@ -124,7 +113,6 @@ router.post('/showuser',auth,function(req, res) {
 
     if(req.body.search.value)
     {
-        //query.email = {"$regex" : req.body.search.value , "$options" : "i"};
         query["$or"]= [{
             "email":  { '$regex' : req.body.search.value, '$options' : 'i' }
         }, {

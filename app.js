@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname,'/public')))           // folder path
 app.use(express.static(path.join(__dirname,'/public/uploads'))) 
 
 var mongoose = require('mongoose');                               //  include mongo //
-var mongoDB = 'mongodb://localhost/user';
+var mongoDB = 'mongodb://localhost/communityPlatform';
 
 mongoose.set('useFindAndModify', false);
 mongoose.connect(mongoDB,{ useNewUrlParser: true});
@@ -48,11 +48,7 @@ mongoose.connection.on('connected',(err) => {
 var Comments = require('./Models/CommentSchema');
 var Replies = require('./Models/ReplySchema');
 
-app.use('/login',require('./Routes/login'));                   // Routing the routes //
-app.use('/admin',require('./Routes/admin.js'));
-app.use('/community',require('./Routes/community'));
-app.use('/discussion',require('./Routes/discussion'));
-app.use('/user',require('./Routes/user'));
+app.use('/',require('./Routes/'));
 
 io.on('connection',function(socket){
     socket.on('comment',function(data){

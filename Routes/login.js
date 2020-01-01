@@ -1,71 +1,15 @@
 let express = require('express');
 var app = require('express').Router();
 let path = require('path');
-const bcrypt = require('bcrypt');
-let saltRounds = 10
-var userdata = new Object();
 
 app.use(express.static(path.join(__dirname,'../public')));
 app.use(express.static(path.join(__dirname,'public/uploads')));
 
-var mongoose = require('mongoose')
-var users = require('../Models/UserSchema');
 var auth=require('../MiddleWares/auth');
 
-// login checking //
-app.post('/checkLogin',function (req, res)   
-  {
-      req.session.isLogin = 0;
-      var username = req.body.name;
-      var pasword = req.body.password;
-      users.findOne({email: username}, function(error,result)
-      {
-        if(error)
-        throw error;
+let loginController = require('../Controllers/login');
 
-        if(!result) {
-          res.send("not exits");
-        }
-        else {
-          if(result.flag == 0)
-          {
-           res.send("false");
-          }
-          else 
-          {
-           bcrypt.compare(req.body.password,result.password,function(err,resi) {
-            if(resi == true) {
-                req.session.isLogin = 1;
-                 req.session.email = req.body.name;
-                 req.session.password = req.body.password;
-
-                 userdata.name = result.name;
-                 userdata.email = result.email;         
-                 userdata.city = result.city;
-                 userdata.role = result.role;
-                 userdata.phone = result.phone;
-                 userdata.gender = result.gender;
-                 userdata.dob = result.dob;
-                 userdata.status = result.status;
-                 userdata.ides = result._id;
-                 userdata.photoname = result.photoname;
-
-                 req.session.data = userdata;
-                 req.session.name = result.name;
-                 req.session.iding = result._id;
-                 res.send("true");
-            }
-            else {
-              res.send("false")
-            }
-          }) 
-          }
-        }
-      })     
-})
-
-// admin side //
-app.get('/home' , auth,function(req,res){      
+app.get('/home', auth,function(req,res){      
 
       if(req.session.data.role == 'Admin' || req.session.data.role == 'superAdmin') 
       {
@@ -84,9 +28,12 @@ app.get('/home' , auth,function(req,res){
       }
  })
 
-// user deactivated //
 app.get("/404" ,function(req,res) {
    res.render("404");
 })
+
+// controllers //
+
+app.use('/checkLogin',auth,loginController.checkLogin);
 
 module.exports = app;
