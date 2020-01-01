@@ -34,6 +34,6 @@ app.get("/404" ,function(req,res) {
 
 // controllers //
 
-app.use('/checkLogin',auth,loginController.checkLogin);
+app.use('/checkLogin',loginController.checkLogin);
 
 module.exports = app;

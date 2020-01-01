@@ -18,7 +18,7 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
 			"serverSide": true,
 			"dataSrc":"",
 			"ajax": {
-				"url": "/admin/showuser",
+				"url": "/admin/listusers",
 				"type": "POST",
 				"data": function ( d )
             	{

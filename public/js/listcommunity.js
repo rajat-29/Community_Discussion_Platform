@@ -7,7 +7,7 @@ $(document).ready(function() {
 			"processing": true,
 			"serverSide": true,
 			"ajax": {
-				"url": "/admin/showcommunity",
+				"url": "/admin/listcommunity",
 				"type": "POST",
 				"data": function ( d )
             	{

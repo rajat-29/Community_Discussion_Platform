@@ -43,6 +43,7 @@ exports.checkLogin = (req, res)  => {
                  req.session.data = userdata;
                  req.session.name = result.name;
                  req.session.iding = result._id;
+
                  res.send("true");
             }
             else {
