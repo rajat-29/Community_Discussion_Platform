@@ -5,16 +5,18 @@ let path = require('path');
 app.use(express.static(path.join(__dirname,'../public')));
 app.use(express.static(path.join(__dirname,'public/uploads')));
 
-var mongoose = require('mongoose')
-
-var users = require('../Models/UserSchema');
-var t = require('../Models/TagSchema');
-var community = require('../Models/communitySchema');
-
 var auth=require('../MiddleWares/auth');
-var multer = require('../MiddleWares/multer');
 
-// community pages //
+let userController = require('../Controllers/user');
+
+app.get('/newUsereditProfile',auth, function(req,res) {
+      res.render('newUsereditProfile', {data: req.session.data});
+}) 
+
+app.get('/newUserProfileDetails',auth, function(req,res) {
+      res.render('newUserProfileDetails', {data: req.session.data});
+})
+
 app.get('/openCommunityPage',auth, function(req,res){
       if(req.session.data.role == 'User' )
       {
@@ -30,91 +32,18 @@ app.get('/openCommunityPage',auth, function(req,res){
       }
 })
 
-// change password page
 app.get('/newUserchangePassword',auth, function(req,res) {
       res.render('newUserchangePassword', {data: req.session.data});
 })
 
-// new user profile //
-// render user edit button profile page //
-app.get('/newUsereditProfile',auth, function(req,res) {
-      res.render('newUsereditProfile', {data: req.session.data});
-})  
+// controllers //
 
-// profile details page
-app.get('/newUserProfileDetails',auth, function(req,res) {
-      res.render('newUserProfileDetails', {data: req.session.data});
-})
+app.use('/updateeditUserDetails',userController.updateeditUserDetails);
 
-// logout the user and admin //
-app.get('/yes', function(req,res) {
-    req.session.isLogin = 0;
-    req.session.destroy();
-    res.render('index');
-})
+app.use('/updateeditUserDob',userController.updateeditUserDob);
 
-// update normal user details
-app.post('/updateeditUserDetails', auth,function(req,res) {
-        users.updateOne( { "email" : req.session.email}, {$set : req.body } , function(err,result)
-        {
-          if(err)
-          throw err
-          else {
-           req.session.data.name = req.body.name;
-           req.session.data.email = req.body.email;         
-           req.session.data.city = req.body.city;
-           req.session.data.phone = req.body.phone;
-           req.session.data.gender = req.body.gender;
-           req.session.data.interest = req.body.interest;
-           req.session.data.bitmore = req.body.bitmore;
-           req.session.data.expectation = req.body.expectation;
-           req.session.data.photoname = req.body.photoname;
-            res.send("DATA UPDATED SUCCESFULLY")
-          }
-        })
-})
+app.use('/upload',userController.upload);
 
-// update new user details
-app.post('/updateeditUserDob',auth, function(req,res) {
-        users.updateOne( { "email" : req.session.email}, {$set : req.body } , function(err,result)
-        {
-          if(err)
-          throw err
-          else {
-            req.session.data.dob = req.body.dob;
-            req.session.data.name = req.body.name;
-           req.session.data.email = req.body.email;         
-           req.session.data.city = req.body.city;
-           req.session.data.phone = req.body.phone;
-           req.session.data.gender = req.body.gender;
-           req.session.data.interest = req.body.interest;
-           req.session.data.bitmore = req.body.bitmore;
-           req.session.data.expectation = req.body.expectation;
-            req.session.data.photoname = req.body.photoname;
-            res.send("DATA UPDATED SUCCESFULLY")
-          }
-        })
-})
-
-app.post('/upload',(req,res)=>{
-    multer.upload(req, res, (err) => {
-        if (err){ 
-            res.send({ 'msg': err})
-        }else{
-            res.render('editUserDetails', {data: req.session.data});  
-        }
-    })
-})
-
-// upload user image //
-app.post('/Userupload',(req,res) => {
-      multer.upload(req,res,(err)=>{
-        if(err) {
-           res.send({ 'msg': err})
-        } else { 
-          res.render('newUserProfileDetails', {data: req.session.data});         
-        }
-      })
-});
+app.use('/Userupload',userController.Userupload);
 
 module.exports = app;

@@ -32,6 +32,12 @@ app.get("/404" ,function(req,res) {
    res.render("404");
 })
 
+app.get('/logutUser', function(req,res) {
+    req.session.isLogin = 0;
+    req.session.destroy();
+    res.render('index');
+})
+
 // controllers //
 
 app.use('/checkLogin',loginController.checkLogin);

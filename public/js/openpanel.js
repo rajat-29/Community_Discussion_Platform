@@ -109,7 +109,7 @@ function openlogoutpage()
     buttons: {
         Yes: {
             action: function () {
-             window.location = "/user/yes";
+             window.location = "/login/logutUser";
         }
     },
         No: {

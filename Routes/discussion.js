@@ -10,8 +10,6 @@ app.use(express.static(path.join(__dirname,'public/uploads')));
 var mongoose = require('mongoose')
 
 var users = require('../Models/UserSchema');
-var t = require('../Models/TagSchema');
-var community = require('../Models/communitySchema');
 var discussion = require('../Models/DiscussionSchema');
 var Comments = require('../Models/CommentSchema');
 var Replies = require('../Models/ReplySchema');
