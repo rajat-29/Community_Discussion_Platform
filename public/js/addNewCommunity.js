@@ -20,7 +20,18 @@ addinges.addEventListener("click", function() {
 
     if(commName.value == '' || description.value == '')
     {
-        alert("Field is Empty");
+        $.confirm({
+            title: 'Fields ?',
+            content: "Fields can't be Empty ",
+            draggable: true,
+            buttons: {
+            OK: {
+                btnClass: 'btn-danger any-other-class',
+                 action: function () {      
+                }
+            },
+            }
+        });
         return false;
     }
 
@@ -61,8 +72,18 @@ addinges.addEventListener("click", function() {
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify(obj1))
     request.addEventListener("load",function() {
-        console.log("Community Posted Successfully");
-        alert("New Community Is Registred");
+        $.confirm({
+            title: 'New Community ?',
+            content: "New Community Is Registred",
+            draggable: true,
+            buttons: {
+            OK: {
+                btnClass: 'btn-danger any-other-class',
+                 action: function () {      
+                }
+            },
+            }
+        });
     }); 
 
     

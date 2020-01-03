@@ -20,7 +20,18 @@ function updateUserDetails()
 
 	if(phone.value.length<10)
 	{
-		alert('Phone No should be of length 10');
+		$.confirm({
+            title: 'Phone No ?',
+            content: "Phone No should be of length 10",
+            draggable: true,
+            buttons: {
+            OK: {
+                btnClass: 'btn-danger any-other-class',
+                 action: function () {      
+                }
+            },
+            }
+        });
 		return;
 	}
 	var obj1 = Object()
@@ -51,12 +62,34 @@ function updateNewUserDetails()
 
 	if(dateses.value == '')
 	{
-		alert("ENTER DOB");
+		$.confirm({
+            title: 'DOB ?',
+            content: "ENTER DOB",
+            draggable: true,
+            buttons: {
+            OK: {
+                btnClass: 'btn-danger any-other-class',
+                 action: function () {      
+                }
+            },
+            }
+        });
 		return false;
 	}
 	else if(phone.value.length<10)
 	{
-		alert('Phone No should be of length 10');
+		$.confirm({
+            title: 'Phone No ?',
+            content: "Phone No should be of length 10",
+            draggable: true,
+            buttons: {
+            OK: {
+                btnClass: 'btn-danger any-other-class',
+                 action: function () {      
+                }
+            },
+            }
+        });
 		return false;
 	}
 	var obj1 = Object()

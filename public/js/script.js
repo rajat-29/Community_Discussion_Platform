@@ -14,13 +14,35 @@ submit.addEventListener("click", function() {
 
     if(n.value == '' || pass.value == '')
     {
-        alert("Fields can't be Empty");
+       $.confirm({
+            title: 'Fields ?',
+            content: "Fields can't be Empty ",
+            draggable: true,
+            buttons: {
+            OK: {
+                btnClass: 'btn-danger any-other-class',
+                 action: function () {      
+                }
+            },
+            }
+        });
         return;
     }
 
     // if(vercode.value != rajat)
     // {
-    //     alert("Verification code doesn't match");
+            // $.confirm({
+            //         title: 'Verification code ?',
+            //         content: "Verification code doesn't match ",
+            //         draggable: true,
+            //         buttons: {
+            //         OK: {
+            //             btnClass: 'btn-danger any-other-class',
+            //              action: function () {      
+            //             }
+            //         },
+            //     }
+            // });
     //     return;
     // }
 	//console.log(pass.value);
@@ -32,7 +54,6 @@ submit.addEventListener("click", function() {
     	var data = request.responseText;
     	if(data === 'true') {
     		console.log('hello user');
-            window.sessionStorage.setItem('email' , n.value);
             window.location = "/login/home";
             //window.location.href = "h.html";
         }
@@ -57,7 +78,18 @@ pass.addEventListener("keyup", function() {
     //console.log(pass.value);
       if(n.value == '' || pass.value == '')
     {
-        alert("Fields can't be Empty");
+        $.confirm({
+            title: 'Fields ?',
+            content: "Fields can't be Empty ",
+            draggable: true,
+            buttons: {
+            OK: {
+                btnClass: 'btn-danger any-other-class',
+                 action: function () {      
+                }
+            },
+            }
+        });
         return;
     }
     //console.log(pass.value);
