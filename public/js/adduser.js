@@ -19,18 +19,51 @@ adding.addEventListener("click", function() {
 	if(name.value == '' || email.value == '' || phone.value == '' || city.value == '')
 	{
 		
-			alert("Field can't be Empty");
+		$.confirm({
+	    	title: 'Fields ?',
+	    	content: "Fields can't be Empty ",
+	    	draggable: true,
+	   		buttons: {
+	        OK: {
+	            btnClass: 'btn-danger any-other-class',
+	             action: function () {      
+	        	}
+	   		},
+	    	}
+		});
 			return false;
 	}
 	else if(ph.length<10 || ph.length>10)
 	{
-		alert('Phone No should be of length 10');
+		$.confirm({
+	    	title: 'Phone No ?',
+	    	content: "Phone No should be of length 10 ",
+	    	draggable: true,
+	   		buttons: {
+	        OK: {
+	            btnClass: 'btn-danger any-other-class',
+	             action: function () {      
+	        	}
+	   		},
+	    	}
+		});
 		return;
 	}
 
 	if(!ValidateEmail(email.value))
 	{
-		alert('Email format is not valid')
+		$.confirm({
+	    	title: 'Email format ?',
+	    	content: "Email format is not valid ",
+	    	draggable: true,
+	   		buttons: {
+	        OK: {
+	            btnClass: 'btn-danger any-other-class',
+	             action: function () {      
+	        	}
+	   		},
+	    	}
+		});
 		return;
 	}
 	
@@ -55,10 +88,20 @@ adding.addEventListener("click", function() {
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify(obj))
     request.addEventListener("load",function() {
-         alert("User is Registered")
+         $.confirm({
+	    	title: 'New User ?',
+	    	content: "User is Registered ",
+	    	draggable: true,
+	   		buttons: {
+	        OK: {
+	            btnClass: 'btn-danger any-other-class',
+	             action: function () { 
+	             	location.reload();     
+	        	}
+	   		},
+	    	}
+		});
     });  
-    window.location = "/admin/addusers";
-    document.querySelector('.added').classList.remove('animate')
 })
 
 function ValidateEmail(mail) 
@@ -72,7 +115,7 @@ function ValidateEmail(mail)
 }
 
 cancelling.addEventListener("click", function(){
-	window.location = "/admin/addusers";
+	location.reload();
 })
 
 function email_avail()
