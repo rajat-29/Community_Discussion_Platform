@@ -18,7 +18,6 @@ adding.addEventListener("click", function() {
 
 	if(name.value == '' || email.value == '' || phone.value == '' || city.value == '')
 	{
-		
 		$.confirm({
 	    	title: 'Fields ?',
 	    	content: "Fields can't be Empty ",

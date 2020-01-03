@@ -10,12 +10,20 @@ showtags.addEventListener("click", function() {
 
 submit.addEventListener("click", function() {
 
-
-
     if(tagvalue.value == '')
     {
-        alert("Tag can't be empty");
-       location.reload();
+        $.confirm({
+            title: 'Tag ?',
+            content: "Tag can't be empty ",
+            draggable: true,
+            buttons: {
+            OK: {
+                btnClass: 'btn-danger any-other-class',
+                 action: function () {      
+                }
+            },
+            }
+        });
         return false;
     }
 
@@ -34,16 +42,12 @@ submit.addEventListener("click", function() {
     today = + dd + '-' + getMonths(mm) + '-' + yyyy;
     today = today + " ";
     today = today + "(" + hrs + ':' + mins + '' + format + ")";
-    //console.log(today);
 
     var obj = new Object();
     obj.tags = tagvalue.value;
-
     tagvalue.value="";
-    
     obj.createDate = today;
 
-    //console.log(obj);
     if(flag == 1)
     {
 
@@ -52,21 +56,38 @@ submit.addEventListener("click", function() {
         request.setRequestHeader("Content-Type","application/json");
         request.send(JSON.stringify(obj))
         request.addEventListener("load",function() {
-            console.log("Data Posted Successfully");
-             document.querySelector('.added').innerHTML = 'Saved'
-            document.querySelector('.added').classList.add('animate')
-          //  alert("Tag Added Successfully")
-            document.getElementById("tag_info").style.display = 'none';
+            $.confirm({
+            title: 'New Tag ?',
+            content: "Tag is Registered ",
+            draggable: true,
+            buttons: {
+            OK: {
+                btnClass: 'btn-danger any-other-class',
+                 action: function () { 
+                    location.reload();     
+                }
+             },
+             }
+            });
         });  
 
     }
     else
     {
-        alert("Tag Exist");
-        document.getElementById("tag_info").style.display = 'none';
-
+        $.confirm({
+            title: 'New Tag ?',
+            content: "Tag Exist ",
+            draggable: true,
+            buttons: {
+            OK: {
+                btnClass: 'btn-danger any-other-class',
+                 action: function () { 
+                    location.reload();     
+                }
+             },
+             }
+        });
     }
-       document.querySelector('.added').classList.remove('animate')
 })
 
 

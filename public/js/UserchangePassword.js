@@ -9,7 +9,18 @@ adding.addEventListener("click", function() {
 
     if(oldpass.value == '' || newpass.value == '')
     {
-        alert("Field is Empty")
+        $.confirm({
+            title: 'Field ?',
+            content: "Field is empty ",
+            draggable: true,
+            buttons: {
+            OK: {
+                btnClass: 'btn-danger any-other-class',
+                 action: function () {      
+                }
+            },
+            }
+        });
         return;
     }
 
@@ -19,8 +30,18 @@ adding.addEventListener("click", function() {
     request.send(JSON.stringify(obj))
     request.onload = function ()
     {
-    	console.log("Password changed Successfully");
-    	alert(request.responseText);
+    	$.confirm({
+            title: 'Password ?',
+            content: request.responseText,
+            draggable: true,
+            buttons: {
+            OK: {
+                btnClass: 'btn-danger any-other-class',
+                 action: function () {      
+                }
+            },
+            }
+        });
     }  
     window.location = "/newUserchangePassword";
 })
