@@ -36,5 +36,11 @@ It will run under the url http://127.0.0.1:8000/
   <li>Node Mailer</li>
   <li>Multer</li>
   <li>Passport-GitHub</li>
-<ul>
+</ul>
 
+## Login :
+
+<ul>
+  <li> ID - admin@cq.com </li>
+  <li> Password - admincq </li>
+</ul>
