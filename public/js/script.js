@@ -52,23 +52,27 @@ submit.addEventListener("click", function() {
     request.send(JSON.stringify({name : n.value,password: pass.value}));
     request.addEventListener("load",function() {
     	var data = request.responseText;
-    	if(data === 'true') {
-    		console.log('hello user');
-            window.location = "/login/home";
-            //window.location.href = "h.html";
+    	if(data === 'notexits') {
+    		$.confirm({
+            title: 'User ?',
+            content: "User Don't Exits ",
+            draggable: true,
+            buttons: {
+            OK: {
+                btnClass: 'btn-danger any-other-class',
+                 action: function () {      
+                }
+            },
+            }
+        });
         }
         else if(data === 'false')
         {
             window.location = "/login/404";
         }
     	else {
-            document.getElementById("wrong_id").style.display = "block";
-            document.getElementById("forming").style.height = "340px";
-    		console.log('getout');
-            n.value = "";
-            pass.value = "";
+            window.location = data;
     	}
-      //  console.log(data);
     });
 })
 

@@ -14,7 +14,7 @@ exports.checkLogin = (req, res)  => {
         throw error;
 
         if(!result) {
-          res.send("not exits");
+          res.send("notexits");
         }
         else {
           if(result.flag == 0)
@@ -44,7 +44,8 @@ exports.checkLogin = (req, res)  => {
                  req.session.name = result.name;
                  req.session.iding = result._id;
 
-                 res.send("true");
+                var re = req.session.redirectUrl || '/login/home';
+                res.send(re);
             }
             else {
               res.send("false")
