@@ -2,12 +2,12 @@ let express = require('express');
 var app = require('express').Router();
 let path = require('path');
 
-app.use(express.static(path.join(__dirname,'../public')));
+app.use(express.static(path.join(__dirname,'../../public')));
 app.use(express.static(path.join(__dirname,'public/uploads')));
 
-var auth=require('../MiddleWares/auth');
+var auth=require('../../MiddleWares/auth');
 
-let userController = require('../Controllers/user');
+let userController = require('../../Controllers/user');
 
 app.get('/newUsereditProfile',auth, function(req,res) {
       res.render('newUsereditProfile', {data: req.session.data});

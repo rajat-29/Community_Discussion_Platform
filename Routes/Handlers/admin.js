@@ -2,11 +2,11 @@ let express = require('express');
 var app = require('express').Router();
 let path = require('path');
 
-app.use(express.static(path.join(__dirname,'../public')));
+app.use(express.static(path.join(__dirname,'../../public')));
 
-var auth=require('../MiddleWares/auth');
+var auth=require('../../MiddleWares/auth');
 
-let adminController = require('../Controllers/admin');
+let adminController = require('../../Controllers/admin');
 
 app.get('/addusers',auth,function(req,res){
   		res.render('adduser', {data: req.session.data});

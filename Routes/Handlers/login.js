@@ -2,12 +2,12 @@ let express = require('express');
 var app = require('express').Router();
 let path = require('path');
 
-app.use(express.static(path.join(__dirname,'../public')));
+app.use(express.static(path.join(__dirname,'../../public')));
 app.use(express.static(path.join(__dirname,'public/uploads')));
 
-var auth=require('../MiddleWares/auth');
+var auth=require('../../MiddleWares/auth');
 
-let loginController = require('../Controllers/login');
+let loginController = require('../../Controllers/login');
 
 app.get('/home', auth,function(req,res){      
 
