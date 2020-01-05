@@ -8,6 +8,7 @@ var gender = document.getElementById('genderid')
 var adding = document.getElementById('submit-btn');
 var cancelling = document.getElementById('cancel-btn');
 var display_email = document.getElementById("display_email");
+var flag = 0;
 
 var colorLi = document.getElementById("sidebar-adduser");
 colorLi.setAttribute("style", "background-color:#337ab7");
@@ -82,25 +83,44 @@ adding.addEventListener("click", function() {
 	obj.expectation = '';
 	obj.photoname = '/default.png'
 
-   	var request = new XMLHttpRequest();
-    request.open('POST',"/admin/addnewuser");
-    request.setRequestHeader("Content-Type","application/json");
-    request.send(JSON.stringify(obj))
-    request.addEventListener("load",function() {
-         $.confirm({
-	    	title: 'New User ?',
-	    	content: "User is Registered ",
-	    	draggable: true,
-	   		buttons: {
-	        OK: {
-	            btnClass: 'btn-danger any-other-class',
-	             action: function () { 
-	             	location.reload();     
-	        	}
-	   		},
-	    	}
+	if(flag == 1)
+	{
+		$.confirm({
+		    	title: 'Email ?',
+		    	content: "Email is already Registered ",
+		    	draggable: true,
+		   		buttons: {
+		        OK: {
+		            btnClass: 'btn-danger any-other-class',
+		             action: function () { 
+		        
+		        	}
+		   		},
+		    	}
 		});
-    });  
+	}
+	else
+	{
+		var request = new XMLHttpRequest();
+	    request.open('POST',"/admin/addnewuser");
+	    request.setRequestHeader("Content-Type","application/json");
+	    request.send(JSON.stringify(obj))
+	    request.addEventListener("load",function() {
+	         $.confirm({
+		    	title: 'New User ?',
+		    	content: "User is Registered ",
+		    	draggable: true,
+		   		buttons: {
+		        OK: {
+		            btnClass: 'btn-danger any-other-class',
+		             action: function () { 
+		             	location.reload();     
+		        	}
+		   		},
+		    	}
+			});
+	    });  
+	}
 })
 
 function ValidateEmail(mail) 
@@ -134,9 +154,11 @@ function email_avail()
     	var data = request.responseText;
     	if(data === 'true') {
     		display_email.innerHTML= "User " + obj1.email + " is already exist";
+    		flag = 1;
     	}
     	else {
             display_email.innerHTML= obj1.email + " is available";
+            flag = 0;
     	}
     });  
 }
