@@ -37,4 +37,9 @@ It will run under the url http://127.0.0.1:8000/
   <li>Multer</li>
   <li>Passport-GitHub</li>
 <ul>
+## Login :
 
+<ul>
+  <li> ID - admin@cq.com </li>
+  <li> Password - admincq </li>
+</ul>
