@@ -4,7 +4,7 @@ let path = require('path');
 
 app.use(express.static(path.join(__dirname,'../../public')));
 
-var auth=require('../../MiddleWares/auth');
+var auth=require('../../MiddleWares/adminauth');
 
 let adminController = require('../../Controllers/admin');
 
