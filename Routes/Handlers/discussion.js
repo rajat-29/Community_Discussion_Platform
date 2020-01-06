@@ -11,18 +11,18 @@ let discussionController = require('../../Controllers/discussion');
 
 // controllers //
 
-app.use('/addnewDiscussion',discussionController.addnewDiscussion);
+app.use('/addnewDiscussion',auth,discussionController.addnewDiscussion);
 
-app.use('/getDiscussion',discussionController.getDiscussion);
+app.use('/getDiscussion',auth,discussionController.getDiscussion);
 
-app.use('/getComments',discussionController.getComments);
+app.use('/getComments',auth,discussionController.getComments);
 
-app.use('/getReplys',discussionController.getReplys);
+app.use('/getReplys',auth,discussionController.getReplys);
 
-app.use('/discussionOwner/:pros',discussionController.discussionOwner);
+app.use('/discussionOwner/:pros',auth,discussionController.discussionOwner);
 
-app.use('/deleteDiscussion/:pros',discussionController.deleteDiscussion);
+app.use('/deleteDiscussion/:pros',auth,discussionController.deleteDiscussion);
 
-app.use('/deleteComment/:pros',discussionController.deleteComment);
+app.use('/deleteComment/:pros',auth,discussionController.deleteComment);
 
 module.exports = app;

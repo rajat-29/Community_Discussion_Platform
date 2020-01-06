@@ -22,70 +22,70 @@ app.get('/invitedCommunity',auth,function(req,res) {
 
 // controllers //
 
-app.use('/addNewCommunitytobase',communityController.addNewCommunitytobase);
+app.use('/addNewCommunitytobase',auth,communityController.addNewCommunitytobase);
 
-app.use('/getOwnCommunity',communityController.getOwnCommunity);
+app.use('/getOwnCommunity',auth,communityController.getOwnCommunity);
 
-app.use('/getOtherCommunity',communityController.getOtherCommunity);
+app.use('/getOtherCommunity',auth,communityController.getOtherCommunity);
 
-app.use('/getPendingCommunity',communityController.getPendingCommunity);
+app.use('/getPendingCommunity',auth,communityController.getPendingCommunity);
 
-app.use('/getCommunityManagers',communityController.getCommunityManagers);
+app.use('/getCommunityManagers',auth,communityController.getCommunityManagers);
 
-app.use('/getCommunityforSearch',communityController.getCommunityforSearch);
+app.use('/getCommunityforSearch',auth,communityController.getCommunityforSearch);
 
-app.use('/getInvitationsForUser',communityController.getInvitationsForUser);
+app.use('/getInvitationsForUser',auth,communityController.getInvitationsForUser);
 
-app.use('/joincommunity',communityController.joincommunity);
+app.use('/joincommunity',auth,communityController.joincommunity);
 
-app.use('/joinInvitedcommunity',communityController.joinInvitedcommunity);
+app.use('/joinInvitedcommunity',auth,communityController.joinInvitedcommunity);
 
-app.use('/info/:pros',communityController.info);
+app.use('/info/:pros',auth,communityController.info);
 
-app.use('/setting/:pros',communityController.setting);
+app.use('/setting/:pros',auth,communityController.setting);
 
-app.use('/communityProfile/:pros',communityController.communityProfile);
+app.use('/communityProfile/:pros',auth,communityController.communityProfile);
 
-app.use('/viewprofile/:pros',communityController.viewprofile);
+app.use('/viewprofile/:pros',auth,communityController.viewprofile);
 
-app.use('/editCommunity/:pros',communityController.editCommunity);
+app.use('/editCommunity/:pros',auth,communityController.editCommunity);
 
-app.use('/updatecommdetails',communityController.updatecommdetails);
+app.use('/updatecommdetails',auth,communityController.updatecommdetails);
 
-app.use('/inviteUser/:pros',communityController.inviteUser);
+app.use('/inviteUser/:pros',auth,communityController.inviteUser);
 
-app.use('/discussion/:pros',communityController.discussion);
+app.use('/discussion/:pros',auth,communityController.discussion);
 
-app.use('/leaveCommunityBYUser',communityController.leaveCommunityBYUser);
+app.use('/leaveCommunityBYUser',auth,communityController.leaveCommunityBYUser);
 
-app.use('/leavePendingcommunity',communityController.leavePendingcommunity);
+app.use('/leavePendingcommunity',auth,communityController.leavePendingcommunity);
 
-app.use('/showCommunityMembers/:pros',communityController.showCommunityMembers);
+app.use('/showCommunityMembers/:pros',auth,communityController.showCommunityMembers);
 
-app.use('/getRequest',communityController.getRequest);
+app.use('/getRequest',auth,communityController.getRequest);
 
-app.use('/getManagers',communityController.getManagers);
+app.use('/getManagers',auth,communityController.getManagers);
 
-app.use('/getInvited',communityController.getInvited);
+app.use('/getInvited',auth,communityController.getInvited);
 
-app.use('/getUsers',communityController.getUsers);
+app.use('/getUsers',auth,communityController.getUsers);
 
-app.use('/leaveCommunity',communityController.leaveCommunity);
+app.use('/leaveCommunity',auth,communityController.leaveCommunity);
 
-app.use('/leaveCommunityForRequestUsers',communityController.leaveCommunityForRequestUsers);
+app.use('/leaveCommunityForRequestUsers',auth,communityController.leaveCommunityForRequestUsers);
 
-app.use('/leaveCommunityForManagers',communityController.leaveCommunityForManagers);
+app.use('/leaveCommunityForManagers',auth,communityController.leaveCommunityForManagers);
 
-app.use('/removeInvitedUser',communityController.removeInvitedUser);
+app.use('/removeInvitedUser',auth,communityController.removeInvitedUser);
 
-app.use('/requestedUserJoinCommunity',communityController.requestedUserJoinCommunity);
+app.use('/requestedUserJoinCommunity',auth,communityController.requestedUserJoinCommunity);
 
-app.use('/addManagerToCommunity',communityController.addManagerToCommunity);
+app.use('/addManagerToCommunity',auth,communityController.addManagerToCommunity);
 
-app.use('/demoteManagerFromCommunity',communityController.demoteManagerFromCommunity);
+app.use('/demoteManagerFromCommunity',auth,communityController.demoteManagerFromCommunity);
 
-app.use('/getUsersOtherThanInCommunity',communityController.getUsersOtherThanInCommunity);
+app.use('/getUsersOtherThanInCommunity',auth,communityController.getUsersOtherThanInCommunity);
 
-app.use('/inviteUser',communityController.inviteUser);
+app.use('/inviteUser',auth,communityController.inviteUser);
 
 module.exports = app;

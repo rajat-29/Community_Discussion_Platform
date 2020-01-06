@@ -50,36 +50,36 @@ app.get('/editUserDetails', auth,function(req,res) {
 
 // controllers //
 
-app.use('/addnewuser',adminController.addnewuser);
+app.use('/addnewuser',auth,adminController.addnewuser);
 
-app.use('/listusers',adminController.listusers);
+app.use('/listusers',auth,adminController.listusers);
 
-app.use('/updateuserdetails',adminController.updateuserdetails);
+app.use('/updateuserdetails',auth,adminController.updateuserdetails);
 
-app.use('/deativateuserdata',adminController.deativateuserdata);
+app.use('/deativateuserdata',auth,adminController.deativateuserdata);
 
-app.use('/reativateuserdata',adminController.reativateuserdata);
+app.use('/reativateuserdata',auth,adminController.reativateuserdata);
 
-app.use('/listcommunity',adminController.listcommunity);
+app.use('/listcommunity',auth,adminController.listcommunity);
 
-app.use('/updatecommunitydetails',adminController.updatecommunitydetails);
+app.use('/updatecommunitydetails',auth,adminController.updatecommunitydetails);
 
-app.use('/switchasuser',adminController.switchasuser);
+app.use('/switchasuser',auth,adminController.switchasuser);
 
-app.use('/switchasadmin',adminController.switchasadmin);
+app.use('/switchasadmin',auth,adminController.switchasadmin);
 
-app.use('/checktag',adminController.checktag);
+app.use('/checktag',auth,adminController.checktag);
 
-app.use('/addtagtobase',adminController.addtagtobase);
+app.use('/addtagtobase',auth,adminController.addtagtobase);
 
-app.use('/showtags',adminController.showtags);
+app.use('/showtags',auth,adminController.showtags);
 
-app.use('/deleteTag/:pro',adminController.deleteTag);
+app.use('/deleteTag/:pro',auth,adminController.deleteTag);
 
-app.use('/changePassword',adminController.changePassword);
+app.use('/changePassword',auth,adminController.changePassword);
 
-app.use('/categoryOptions',adminController.categoryOptions);
+app.use('/categoryOptions',auth,adminController.categoryOptions);
 
-app.use('/checkemail',adminController.checkemail);
+app.use('/checkemail',auth,adminController.checkemail);
 
 module.exports = app;

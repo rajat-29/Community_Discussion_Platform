@@ -38,12 +38,12 @@ app.get('/newUserchangePassword',auth, function(req,res) {
 
 // controllers //
 
-app.use('/updateeditUserDetails',userController.updateeditUserDetails);
+app.use('/updateeditUserDetails',auth,userController.updateeditUserDetails);
 
-app.use('/updateeditUserDob',userController.updateeditUserDob);
+app.use('/updateeditUserDob',auth,userController.updateeditUserDob);
 
-app.use('/upload',userController.upload);
+app.use('/upload',auth,userController.upload);
 
-app.use('/Userupload',userController.Userupload);
+app.use('/Userupload',auth,userController.Userupload);
 
 module.exports = app;
