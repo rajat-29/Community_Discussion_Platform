@@ -3,14 +3,30 @@ var Schema = mongoose.Schema,
 ObjectId = Schema.ObjectId;
 
 var discussionSchema = new mongoose.Schema({
-    title: String,
-    details: String,
-    tag: String,
-    communityName: String,
-    createdBy: String,
-    createdDate: String,
-    ownerId: String,
-    communityId: String,
+    title: {
+    	type: String,
+    },
+    details: {
+    	type: String,
+    },
+    tag: {
+    	type: String,
+    },
+    communityName: {
+    	type: String,
+    },
+    createdBy: {
+    	type: String,
+    },
+    createdDate: {
+    	type: String,
+    },
+    ownerId: {
+    	type: String,
+    },
+    communityId: {
+    	type: String,
+    },
 })
 
 module.exports = mongoose.model('discussiones', discussionSchema)

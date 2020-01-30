@@ -3,13 +3,27 @@ var Schema = mongoose.Schema,
 ObjectId = Schema.ObjectId;
 
 var commentSchema = new mongoose.Schema({
-    comment: String,    
-    discussionId: String,
-    commentedBy: String,
-    ownerId: String,
-    communityId: String,
-    createdDate: String,
-    photoname : String,
+    comment: {
+    	type: String,
+    },    
+    discussionId: {
+    	type: String,
+    },
+    commentedBy: {
+    	type: String,
+    },
+    ownerId: {
+    	type: String,
+    },
+    communityId: {
+    	type: String,
+    },
+    createdDate: {
+    	type: String,
+    },
+    photoname : {
+    	type: String,
+    },
 })
 
 module.exports = mongoose.model('commentes', commentSchema)

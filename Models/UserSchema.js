@@ -3,20 +3,48 @@ var Schema = mongoose.Schema,
 ObjectId = Schema.ObjectId;
 
 var userSchema = new Schema({					/*define structure of database*/
-    name: String,
-    email: String,
-    password: String,
-    phone: String,
-    city: String,
-    gender: String,
-    dob: String,
-    role: String,   
-    status: String,
-    flag: Number, 
-    interest: String,
-    bitmore: String,
-    expectation: String,
-    photoname: String,
+    name: {
+        type: String,
+    },
+    email: {
+        type: String,
+    },
+    password: {
+        type: String,
+    },
+    phone: {
+        type: String,
+    },
+    city: {
+        type: String,
+    },
+    gender: {
+        type: String,
+    },
+    dob: {
+        type: String,
+    },
+    role: {
+        type: String,
+    },   
+    status: {
+        type: String,
+    },
+    flag: {
+        type: Number,
+    }, 
+    interest: {
+        type: String,
+    },
+    bitmore: {
+        type: String,
+    },
+    expectation: {
+        type: String,
+    },
+    photoname: {
+        type: String,
+    },
     owned: Array,
     joinedComm: Array,
     asktojoincomm: Array,

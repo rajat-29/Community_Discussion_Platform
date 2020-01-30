@@ -3,9 +3,15 @@ var Schema = mongoose.Schema,
 ObjectId = Schema.ObjectId;
 
 var tagSchema = new mongoose.Schema({
-    tags: String,
-    createdBy: String,
-    createDate: String,
+    tags: {
+    	type: String,
+    },
+    createdBy: {
+    	type: String,
+    },
+    createDate: {
+    	type: String,
+    },
 })
 
 module.exports = mongoose.model('tags', tagSchema)
