@@ -1,6 +1,5 @@
 var users = require('../Models/UserSchema');
 
-var multer = require('../MiddleWares/multer');
 
 exports.updateeditUserDetails = (req,res) => {
         users.updateOne( { "email" : req.session.email}, {$set : req.body } , function(err,result)
@@ -41,24 +40,4 @@ exports.updateeditUserDob = (req,res) => {
             res.send("DATA UPDATED SUCCESFULLY")
           }
         })
-}
-
-exports.upload = (req,res)=>{
-    multer.upload(req, res, (err) => {
-        if (err){ 
-            res.send({ 'msg': err})
-        }else{
-            res.render('editUserDetails', {data: req.session.data});  
-        }
-    })
-}
-
-exports.Userupload = (req,res) => {
-      multer.upload(req,res,(err)=>{
-        if(err) {
-           res.send({ 'msg': err})
-        } else { 
-          res.render('newUserProfileDetails', {data: req.session.data});         
-        }
-      })
 }

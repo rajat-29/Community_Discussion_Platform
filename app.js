@@ -4,25 +4,33 @@ var app = express()
 var session = require('express-session');
 var ejs = require('ejs');
 var mongodb = require('mongodb');
-var mongoStore = require('connect-mongo')(session);
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
 ObjectId = require('mongodb').ObjectID;
 var MongoClient = mongodb.MongoClient;
-var port=8000;
+var port = process.env.PORT || 3000;
+var bodyParser = require("body-parser");
+var mongoStore = require("connect-mongo")(session);
+
+require("dotenv").config();
+
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 
 app.set('views', path.join(__dirname, 'Views'));                   // view engine setup //
 app.set('view engine', 'ejs');
-
 app.use(express.static(path.join(__dirname,'/public')))           // folder path  //
 app.use(express.static(path.join(__dirname,'/public/uploads'))) 
 
-var mongoose = require('mongoose');                               //  include mongo //
-var mongoDB = 'mongodb://localhost/communityPlatform';
+// DB //
+require("./static/db");
 
-mongoose.set('useFindAndModify', false);
-mongoose.connect(mongoDB,{ useNewUrlParser: true});
-mongoose.Promise = global.Promise;
+/* Mongoose Connectopn */
+var mongoose = require("mongoose");
 var db = mongoose.connection;
 
 app.use(express.urlencoded({extended: true}))
@@ -31,19 +39,10 @@ app.use(session({
     secret: "xYzUCAchitkara",
     resave: false,
     saveUninitialized: false,
-    clear_interval: 900,
-    store : new mongoStore({mongooseConnection:db}),
-    autoRemove: 'native',
-    cookie: {maxAge: 3000000}
+    store: new mongoStore({
+      mongooseConnection: db
+    })
 }))
-
-mongoose.connection.on('error',(err) => {					    // database connect  //
-    console.log('DB connection Error');
-})
-
-mongoose.connection.on('connected',(err) => {
-    console.log('DB connected');
-})
 
 var Comments = require('./Models/CommentSchema');
 var Replies = require('./Models/ReplySchema');

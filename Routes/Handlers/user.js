@@ -42,8 +42,4 @@ app.use('/updateeditUserDetails',auth,userController.updateeditUserDetails);
 
 app.use('/updateeditUserDob',auth,userController.updateeditUserDob);
 
-app.use('/upload',auth,userController.upload);
-
-app.use('/Userupload',auth,userController.Userupload);
-
 module.exports = app;
