@@ -4,7 +4,7 @@ let path = require('path');
 
 app.use(express.static(path.join(__dirname,'../../public')));
 
-var auth=require('../../MiddleWares/adminauth');
+var auth=require('../../MiddleWares/auth');
 
 let adminController = require('../../Controllers/admin');
 
@@ -20,11 +20,11 @@ app.get('/communityList',auth,function(req,res){
       res.render('communityList', {data: req.session.data});
 })
 
-app.get('/switchUserPage',auth,function(req,res) {
+app.get('/switchUserPage',function(req,res) {
          res.render('editUserProfile', {data: req.session.data});
 })
 
-app.get('/switchAdminPage',auth,function(req,res) {
+app.get('/switchAdminPage',function(req,res) {
          res.render('editUserProfile', {data: req.session.data});
 })
 

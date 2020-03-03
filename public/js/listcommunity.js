@@ -45,7 +45,6 @@ $(document).ready(function() {
                 "render": function (data, type, row, meta) {
                 	//console.log(data.desc);
                 	 let info = "info(\'" + data.desc + "\')";
-                	 console
                   return '<span class="actionbut editbut" id="editbut" onclick=updateCommunity("'+row._id+'","'+row.name+'","'+row.status+'") data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut emailbut" id="infobut" onclick=\"' + info +'\" data-toggle="modal" data-target="#infoModal"><i class="fas fa-info"></i></span>';
                 }
             },

@@ -2,7 +2,7 @@ var tempdata = [];
 
 var refresh = document.getElementById("first-btn");
 refresh.addEventListener("click", function() {
-     window.location = "/openCommunityPage";
+     window.location = "/user/openCommunityPage";
 })
 
 var searchbtn = document.getElementById("search-btn");
