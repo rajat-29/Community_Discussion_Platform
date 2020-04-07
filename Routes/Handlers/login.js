@@ -35,7 +35,7 @@ app.get("/404" ,function(req,res) {
 app.get('/logutUser', function(req,res) {
     req.session.isLogin = 0;
     req.session.destroy();
-    res.render('index');
+    res.render('login');
 })
 
 // controllers //
