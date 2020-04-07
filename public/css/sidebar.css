@@ -3,11 +3,15 @@
   overflow: hidden;
 }
 
+#viewscreen.toggle-pc {
+    padding-left: 250px;
+    overflow: hidden;
+}
 #sidebar{
     z-index: 1000;
     position: fixed;
     left: 250px;
-    width:50px;
+    width: 0px;;
     height: 100%;
     margin-left: -250px;
     overflow:hidden;
@@ -30,6 +34,10 @@
 .sidebar-list {
     padding:0px;
     width:250px;
+    margin-top: 2px;
+    margin-left: 0px;
+    margin-right:0px;
+    list-style: none;
 }
 
 .list {
@@ -50,10 +58,20 @@ li a {
     display:block;
     cursor: pointer;
     color: #999999;
+    background-color: transparent;
+    text-decoration: none;
 }
 
 li a:hover{
     text-decoration: none;
     color : white;
     background: rgba(255, 255, 255, 0.2);
+    border-left: 1px solid red;
+}
+
+@media (min-width: 768px) {
+   
+    #sidebar {
+    width:50px;
+    }
 }

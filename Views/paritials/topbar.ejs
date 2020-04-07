@@ -1,19 +1,13 @@
 <nav id="navbar">
-
-        <div class="container-fluid">
-            <div id="leftpanel" style="float:left;">
-                 <a id="cq" class="navbar-brand" href="#">cq</a>
-
-
+        <div class="container">
+            <div id="leftpanel">
+                <a id="cq" class="navbar-brand" href="#">cq</a>
                     <a onclick="openbar()" id="openbox">
                         <span class="glyphicon glyphicon-th-large"></span>
                     </a>
-                    <span class="label label-success" id="leftadmin">
-                        Admin
-                    </span>
             </div>
 
-            <div id="rightpanel" style="float:right;">
+            <div id="rightpanel">
 
         
                 <img src="<%= data.photoname %>" id="dpimage" onclick="editProfile()" style="height:40px;width: 40px;float:right;">
@@ -23,7 +17,7 @@
                     <%=data.name%>
                 </span>
 
-                <span class="label label-warning" id="sadmin" style="float:right;">
+                <span class="label label-warning" id="rightadmin" style="float:right;">
                     superadmin
                 </span>
 
