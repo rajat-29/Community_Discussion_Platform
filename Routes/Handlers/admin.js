@@ -12,8 +12,8 @@ app.get('/add_user',auth,function(req,res){
   		res.render('add_user', {data: req.session.data});
 })
 
-app.get('/listusers',auth,function(req,res){  
-      res.render('listusers', {data: req.session.data});
+app.get('/manage_users',auth,function(req,res){  
+      res.render('manage_users', {data: req.session.data});
 })
 
 app.get('/communityList',auth,function(req,res){  

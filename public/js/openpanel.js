@@ -23,7 +23,7 @@ function open_adduser_page()
 
 function openuserlist()
 {
-    window.location = "/admin/listusers";
+    window.location = "/admin/manage_users";
 }
 
 function communitypage()

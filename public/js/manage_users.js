@@ -67,7 +67,6 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
         table.ajax.reload(null, false);
    		 });
 
-
         $('#selectoption').on('click', function () {
         table.ajax.reload(null, false);
     	});
@@ -76,9 +75,6 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
         table.ajax.reload(null, false);
     });
 	});
-
-
-    
 
 	$(document).on("click", "#editbut", function() {
 		d = $(this).parent().parent().parent()[0].children;
@@ -97,71 +93,63 @@ $.trumbowyg.svgPath = '/css/trumbowgy.svg';
 		$('#to').val(d[0].innerHTML);
 	})
 
-	function updateuserdetails()
-	{
-		console.log('d')
-		if(phone.value.length < 10 || phone.value.length > 10)
-		{
+function updateuserdetails() {
+		if(phone.value.length < 10 || phone.value.length > 10) {
 			$.confirm({
-    	title: 'Invalid! Phone Number',
-    	content: "Phone number is not valid",
-    	draggable: true,
-    	zIndex: 99999,
-   		buttons: {
-        OK: {
-            btnClass: 'btn-danger any-other-class',
-             action: function () {      
-        	}
-   		},
-    	}
-		});
-			return false;
+	    	title: 'Invalid! Phone Number',
+	    	content: "Phone number is not valid",
+	    	draggable: true,
+	    	zIndex: 99999,
+	   		buttons: {
+	        OK: {
+	            btnClass: 'btn-danger any-other-class',
+	             action: function () {      
+	        	}
+	   		},
+	    	}
+			});
+				return false;
 		}
-		var obj1 = Object()
+
+			var obj1 = Object()
 			obj1.email = username.value;
 			obj1.phone = phone.value;
 			obj1.city = city.value;
 			obj1.status = document.getElementById("status").value;
 			obj1.role = role.value;
-			console.log(obj1)
+			
 			var request = new XMLHttpRequest();
 			request.open('POST', '/admin/updateuserdetails');
 			request.setRequestHeader("Content-Type","application/json");
 			request.send(JSON.stringify(obj1))
-			request.addEventListener("load",function()
-        	{
-         		 console.log(request.responseText);
-        	});
-        	table.ajax.reload(null, false);
-	}
+			request.addEventListener("load",function() {
+         		table.ajax.reload(null, false);
+        	});        	
+}
 
-	function sendmail()
-	{
-		console.log('m');
-		var data = new Object()
-			data.to=to.value;
-			data.from="codemailler12@gmail.com";
-			data.subject=subject.value;
-			data.html= $("#comment").val();
+function sendmail() {
 		
-		console.log(data);
+		var data = new Object()
+		data.to=to.value;
+		data.from="codemailler12@gmail.com";
+		data.subject=subject.value;
+		data.html= $("#comment").val();
+		
 		var request = new XMLHttpRequest();
-			request.open('POST', '/sendMail');
-			request.setRequestHeader("Content-Type","application/json");
-			request.send(JSON.stringify(data))
-			request.addEventListener("load",function()
-        	{
-         		 console.log(request.responseText);
-        	});
+		request.open('POST', '/sendMail');
+		request.setRequestHeader("Content-Type","application/json");
+		request.send(JSON.stringify(data))
+		request.addEventListener("load",function(){
+        });
 	}
 
 
-function deactivateUser(ides,namess,flages)
-{
-		var obj1 = new Object();
-				obj1._id = ides;
-				obj1.flag = 0;
-				console.log(obj1._id);
+function deactivateUser(ides,namess,flages) {
+	
+	var obj1 = new Object();
+	obj1._id = ides;
+	obj1.flag = 0;
+				
 	$.confirm({
     	title: 'Deactivate User ?',
     	content: "Are you sure to Deactivate " + namess,
@@ -188,15 +176,15 @@ function deactivateUser(ides,namess,flages)
         	}
    		},
     	}
-		});
+	});
 }
 
-function reactivateUser(ides,namess,flages)
-{
-		var obj1 = new Object();
-				obj1._id = ides;
-				obj1.flag = 1;
-				console.log(obj1._id);
+function reactivateUser(ides,namess,flages) {
+	
+	var obj1 = new Object();
+	obj1._id = ides;
+	obj1.flag = 1;
+				
 	$.confirm({
     	title: 'Reactivate User ?',
     	content: "Are you sure to Reactivate " + namess,
@@ -223,6 +211,5 @@ function reactivateUser(ides,namess,flages)
         	}
    		},
     	}
-		});
+	});
 }
-
