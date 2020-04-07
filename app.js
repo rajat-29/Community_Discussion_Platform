@@ -49,6 +49,10 @@ var Replies = require('./Models/ReplySchema');
 
 app.use('/',require('./Routes/'));
 
+app.get('/', function(req,res) {
+  res.render('login');
+})
+
 io.on('connection',function(socket){
     socket.on('comment',function(data){
         var commentData = new Comments(data);
