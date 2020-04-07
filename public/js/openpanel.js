@@ -18,7 +18,7 @@ function homepage()
 
 function open_adduser_page()
 {
-     window.location = "/admin/addusers";
+     window.location = "/admin/add_user";
 }
 
 function openuserlist()

@@ -8,8 +8,8 @@ var auth=require('../../MiddleWares/auth');
 
 let adminController = require('../../Controllers/admin');
 
-app.get('/addusers',auth,function(req,res){
-  		res.render('adduser', {data: req.session.data});
+app.get('/add_user',auth,function(req,res){
+  		res.render('add_user', {data: req.session.data});
 })
 
 app.get('/listusers',auth,function(req,res){  
