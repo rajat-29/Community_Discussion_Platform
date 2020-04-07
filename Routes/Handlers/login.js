@@ -13,7 +13,7 @@ app.get('/home', auth,function(req,res){
 
       if(req.session.data.role == 'Admin' || req.session.data.role == 'superAdmin') 
       {
-        res.render('main', {data: req.session.data});
+        res.render('dashboard', {data: req.session.data});
       }
       else if(req.session.data.role == 'User' || req.session.data.role == 'Community Manager')
       {
