@@ -43,8 +43,7 @@ $(document).ready(function() {
                 "targets": -2,
 
                 "render": function (data, type, row, meta) {
-                	//console.log(data.desc);
-                	 let info = "info(\'" + data.desc + "\')";
+                	let info = "info(\'" + data.desc + "\')";
                   return '<span class="actionbut editbut" id="editbut" onclick=updateCommunity("'+row._id+'","'+row.name+'","'+row.status+'") data-toggle="modal" data-target="#updateModal"><i class="fas fa-edit"></i></span><span class="actionbut emailbut" id="infobut" onclick=\"' + info +'\" data-toggle="modal" data-target="#infoModal"><i class="fas fa-info"></i></span>';
                 }
             },
@@ -63,21 +62,16 @@ $(document).ready(function() {
 
 		});
 
-		 $('#refresh').on('click', function () {
-		 //	console.log('cd')
-        table.ajax.reload(null, false);
-   		 });
-
+		$('#refresh').on('click', function () {
+        	table.ajax.reload(null, false);
+   		});
 
         $('#selectoption').on('click', function () {
-        table.ajax.reload(null, false);
+        	table.ajax.reload(null, false);
     	});
 });
 
-
-
-function updateCommunity(ides,namess,statuses)
-{
+function updateCommunity(ides,namess,statuses) {
 		var nameses = document.getElementById("nameses");
 		nameses.innerHTML = namess;
 
@@ -89,24 +83,18 @@ function updateCommunity(ides,namess,statuses)
 		 obj2._id = ides;
 }
 
-function updateCommunitydetails()
-{
+function updateCommunitydetails() {
 	obj2.status = document.getElementById('role').value;
 	var request = new XMLHttpRequest();
-			request.open('POST', '/admin/updatecommunitydetails');
-			request.setRequestHeader("Content-Type","application/json");
-			request.send(JSON.stringify(obj2))
-			request.addEventListener("load",function()
-        	{
-         		 console.log(request.responseText);
-         		 
-        	});
-	table.ajax.reload(null, false);
+	request.open('POST', '/admin/updatecommunitydetails');
+	request.setRequestHeader("Content-Type","application/json");
+	request.send(JSON.stringify(obj2))
+	request.addEventListener("load",function() {
+        table.ajax.reload(null, false); 
+    });
 }
 
-function info(desc)
-{
-
+function info(desc) {
 	$(document).on("click", "#infobut", function() {
 	  	d = $(this).parent().parent()[0].children;
 	  	var html = d[6].innerHTML;
@@ -118,5 +106,4 @@ function info(desc)
 
 		document.getElementById("CommunityProfilePic").src = d[6].lastChild.currentSrc;
    })
-
 }

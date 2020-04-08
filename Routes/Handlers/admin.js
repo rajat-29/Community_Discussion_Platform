@@ -16,8 +16,8 @@ app.get('/manage_users',auth,function(req,res){
       res.render('manage_users', {data: req.session.data});
 })
 
-app.get('/communityList',auth,function(req,res){  
-      res.render('communityList', {data: req.session.data});
+app.get('/manage_community',auth,function(req,res){  
+      res.render('manage_community', {data: req.session.data});
 })
 
 app.get('/switchUserPage',function(req,res) {

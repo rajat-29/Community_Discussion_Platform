@@ -28,7 +28,7 @@ function openuserlist()
 
 function communitypage()
 {
-    window.location = "/admin/communityList"
+    window.location = "/admin/manage_community"
 }
 
 function switchasuser()
