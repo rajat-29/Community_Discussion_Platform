@@ -4,7 +4,7 @@ var tagvalue = document.getElementById('taging');
 var flag = 1;
 
 showtags.addEventListener("click", function() {
-    window.location = "/admin/listuserstags"
+    window.location = "/admin/manage_tags"
 })
 
 submit.addEventListener("click", function() {

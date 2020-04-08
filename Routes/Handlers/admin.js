@@ -32,8 +32,8 @@ app.get('/create_tag',auth,function(req,res){
       res.render('create_tag',{data: req.session.data});
 })
 
-app.get('/listuserstags',auth,function(req,res) {
-      res.render('Listtags', {data: req.session.data});
+app.get('/manage_tags',auth,function(req,res) {
+      res.render('manage_tags', {data: req.session.data});
 })
 
 app.get('/changePassword',auth,function(req,res){ 
