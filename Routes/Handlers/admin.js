@@ -28,8 +28,8 @@ app.get('/switchAdminPage',function(req,res) {
          res.render('editUserProfile', {data: req.session.data});
 })
 
-app.get('/userestag',auth,function(req,res){ 
-      res.render('Tags',{data: req.session.data});
+app.get('/create_tag',auth,function(req,res){ 
+      res.render('create_tag',{data: req.session.data});
 })
 
 app.get('/listuserstags',auth,function(req,res) {

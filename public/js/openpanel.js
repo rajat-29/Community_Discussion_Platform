@@ -81,7 +81,7 @@ function switchasAdmin()
 
 function opentagpage()
 {
-    window.location = "/admin/userestag";
+    window.location = "/admin/create_tag";
 }
 
 function changepassword()

@@ -9,8 +9,7 @@ showtags.addEventListener("click", function() {
 
 submit.addEventListener("click", function() {
 
-    if(tagvalue.value == '')
-    {
+    if(tagvalue.value == '') {
         $.confirm({
             title: 'Tag ?',
             content: "Tag can't be empty ",
@@ -33,8 +32,7 @@ submit.addEventListener("click", function() {
     var hrs = today.getHours();
     var mins = today.getMinutes();
     var format = "AM";
-    if(hrs>12)
-    {
+    if(hrs>12) {
         hrs=hrs-12;
         format="PM";
     }
@@ -47,9 +45,7 @@ submit.addEventListener("click", function() {
     tagvalue.value="";
     obj.createDate = today;
 
-    if(flag == 1)
-    {
-
+    if(flag == 1) {
         var request = new XMLHttpRequest();
         request.open('POST',"/admin/addtagtobase");
         request.setRequestHeader("Content-Type","application/json");
@@ -69,10 +65,8 @@ submit.addEventListener("click", function() {
              }
             });
         });  
-
     }
-    else
-    {
+    else{
         $.confirm({
             title: 'New Tag ?',
             content: "Tag Exist ",
@@ -88,14 +82,12 @@ submit.addEventListener("click", function() {
     }
 })
 
-
 function getMonths(mno) {
     var month = ["Jan","Feb","March","April","May","June","July","Aug","Sep","Oct","Nov","Dec"];
     return month[mno-1];
 }
 
-function checkTagAvail()
-{
+function checkTagAvail() {
     flag = 1;
     document.getElementById("tag_info").style.display = 'block';
     
