@@ -1,59 +1,6 @@
-function openbar()
-{
-    var element = document.getElementById("viewscreen");
-    element.classList.toggle("toggle-pc");
-
-    var element = document.getElementById("sidebar");
-    element.classList.toggle("sidebar-width");
 
 
-    var element = document.getElementById("rightview");
-    element.classList.toggle("set-rightview");
-}
 
-function homepage()
-{
-    window.location = "/login/home";
-}
-
-function open_adduser_page()
-{
-     window.location = "/admin/add_user";
-}
-
-function openuserlist()
-{
-    window.location = "/admin/manage_users";
-}
-
-function communitypage()
-{
-    window.location = "/admin/manage_community"
-}
-
-function switchasuser()
-{
-      $.confirm({
-    title: 'Switch as User',
-    content: 'Do you really want switch state...',
-    draggable: true,
-    buttons: {
-        Yes: {
-             btnClass: 'btn-success any-other-class',
-            action: function () {
-             btnClass: 'btn-red any-other-class'
-            window.location = "/admin/switchasuser";
-        }
-    },
-        No: {
-            btnClass: 'btn-danger any-other-class',
-             action: function () {
-            
-        }
-    },
-    }
-    });
-}
 
 function switchasAdmin()
 {
@@ -77,12 +24,7 @@ function switchasAdmin()
     },
     }
     });
-}
 
-function opentagpage()
-{
-    window.location = "/admin/create_tag";
-}
 
 function changepassword()
 {
@@ -99,27 +41,7 @@ function editUserDetails()
     window.location = "/admin/editUserDetails";
 }
 
-function openlogoutpage()
-{
-    $.confirm({
-    theme: 'supervan',
-    title: 'Confirm Logout!',
-    content: 'Do you really want logout?',
-    draggable: true,
-    buttons: {
-        Yes: {
-            action: function () {
-             window.location = "/login/logutUser";
-        }
-    },
-        No: {
-             action: function () {
-            
-        }
-    },
-    }
-    });
-}
+
 
 function newUsereditProfile()
 {

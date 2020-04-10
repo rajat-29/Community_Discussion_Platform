@@ -12,14 +12,102 @@
 
         <% if(data.role == "Admin"){ %>       
         <li class="list" id="sidebar-home">
-            <a onclick="homepage()">
+            <a href="/login/home">
                 <span class="list-span">
                     <i class="fas fa-home" id="icon"></i>
                 </span>
                 Home
             </a>
         </li>
-        <% } %>   
+        <% } %>  
+
+        <% if(data.role == "Admin"){ %>         
+            <li class="list" id="sidebar-adduser">
+                <a href="/admin/add_user">
+                    <span class="list-span">
+                        <i class="fas fa-plus-square" id="icon"></i>
+                    </span>
+                    Add User
+                </a>
+             </li>
+        <% } %>
+
+         <% if(data.role == "Admin"){ %> 
+            <li class="list" id="sidebar-userlist">
+                <a href="/admin/manage_users">
+                    <span class="list-span">
+                        <i class="fas fa-list" id="icon"></i>
+                    </span>
+                    Manager Users
+                </a>
+           </li>            
+        <% } %> 
+
+        <% if(data.role == "Admin"){ %>         
+             <li class="list">
+                <a href="/admin/manage_community">
+                    <span class="list-span">
+                        <i class =" fas fa-list-alt" id="icon"></i>
+                    </span>
+                    Manage Community 
+                </a>
+             </li>
+        <% } %>
+
+        <% if(data.role == "Admin"){ %>         
+            <li class="list">
+                <a onclick="switchasuser()">
+                    <span class="list-span">
+                        <i class="fas fa-toggle-off" id="icon"></i>
+                    </span>
+                    Switch As User
+                </a>
+           </li>
+        <% } %>
+
+        <% if(data.role == "Admin"){ %>         
+           <li class="list" id="sidebar-tags">
+                <a href="/admin/create_tag">
+                    <span class="list-span">
+                        <i class="fas fa-tags" id="icon"></i>
+                    </span>
+                    Tag Panel
+               </a>
+           </li>
+        <% } %>
+
+        <li class="list">
+            <a onclick="openlogoutpage()">
+                <span class="list-span">
+                    <i class="fas fa-sign-out-alt" id="icon"></i>
+                </span>
+                Logout
+            </a>
+        </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <% if(data.role == "superAdmin"){ %>         
         <li class="list">
@@ -120,60 +208,9 @@
         </li>
         <% } %> 
 
-        <% if(data.role == "Admin"){ %>         
-            <li class="list" id="sidebar-adduser">
-                <a onclick="open_adduser_page()">
-                    <span class="list-span">
-                        <i class="fas fa-plus-square" id="icon"></i>
-                    </span>
-                    Add User
-                </a>
-             </li>
-        <% } %>
+        
 
-         <% if(data.role == "Admin"){ %> 
-            <li class="list" id="sidebar-userlist">
-                <a onclick="openuserlist()">
-                    <span class="list-span">
-                        <i class="fas fa-list" id="icon"></i>
-                    </span>
-                    Users List
-                </a>
-           </li>            
-        <% } %>
-
-        <% if(data.role == "Admin"){ %>         
-             <li class="list">
-                <a onclick="communitypage()">
-                    <span class="list-span">
-                        <i class =" fas fa-list-alt" id="icon"></i>
-                    </span>
-                    Community List
-                </a>
-             </li>
-        <% } %>
-
-        <% if(data.role == "Admin"){ %>         
-            <li class="list">
-                <a onclick="switchasuser()">
-                    <span class="list-span">
-                        <i class="fas fa-toggle-off" id="icon"></i>
-                    </span>
-                    Switch As User
-                </a>
-           </li>
-        <% } %>
-
-        <% if(data.role == "Admin"){ %>         
-           <li class="list" id="sidebar-tags">
-                <a onclick="opentagpage()">
-                    <span class="list-span">
-                        <i class="fas fa-tags" id="icon"></i>
-                    </span>
-                    Tag Panel
-               </a>
-           </li>
-        <% } %>
+        
 
         <% if(data.role == "Admin"){ %>         
         <li class="list" id="sidebar-changePassword">
@@ -186,15 +223,64 @@
         </li>
         <% } %>
 
-        <% if(data.role == "Admin"){ %>         
-        <li class="list">
-            <a onclick="openlogoutpage()">
-                <span class="list-span">
-                    <i class="fas fa-sign-out-alt" id="icon"></i>
-                </span>
-                Logout
-            </a>
-        </li>
-        <% } %>
+        
     </ul>
 </div>
+
+<script>
+
+function openbar() {
+    var element = document.getElementById("viewscreen");
+    element.classList.toggle("toggle-pc");
+
+    var element = document.getElementById("sidebar");
+    element.classList.toggle("sidebar-width");
+
+
+    var element = document.getElementById("rightview");
+    element.classList.toggle("set-rightview");
+}
+
+function switchasuser() {
+    $.confirm({
+    title: 'Switch as User',
+    content: 'Do you really want switch state...',
+    draggable: true,
+    buttons: {
+        Yes: {
+             btnClass: 'btn-success any-other-class',
+            action: function () {
+             btnClass: 'btn-red any-other-class'
+            window.location = "/admin/switchasuser";
+        }
+    },
+        No: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {}
+        },
+    }
+    });
+}
+
+function openlogoutpage() {
+    $.confirm({
+    theme: 'supervan',
+    title: 'Confirm Logout!',
+    content: 'Do you really want logout?',
+    draggable: true,
+    buttons: {
+        Yes: {
+            action: function () {
+             window.location = "/login/logutUser";
+        }
+    },
+        No: {
+             action: function () {
+            
+        }
+    },
+    }
+    });
+}
+
+</script>
