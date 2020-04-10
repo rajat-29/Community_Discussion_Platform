@@ -86,7 +86,7 @@ function opentagpage()
 
 function changepassword()
 {
-    window.location = "/admin/changePassword";
+    window.location = "/login/changePassword";
 }
 
 function editProfile()

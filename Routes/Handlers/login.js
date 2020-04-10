@@ -26,7 +26,11 @@ app.get('/home', auth,function(req,res){
           res.render('newUsereditProfile', {data: req.session.data});
         }         
       }
- })
+})
+
+app.get('/changePassword',auth,function(req,res){ 
+      res.render('changePassword', {data: req.session.data});
+})
 
 app.get("/404" ,function(req,res) {
    res.render("404");
@@ -41,5 +45,7 @@ app.get('/logutUser', function(req,res) {
 // controllers //
 
 app.use('/checkLogin',loginController.checkLogin);
+
+app.use('/changePassword',auth,loginController.changePassword);
 
 module.exports = app;

@@ -1,18 +1,14 @@
-var adding = document.getElementById('submit-btn');
+var submit_password = document.getElementById('submit-btn');
 
-var colorLi = document.getElementById("sidebar-changePassword");
-colorLi.setAttribute("style", "background-color:#337ab7");
-
-
-adding.addEventListener("click", function() {
+submit_password.addEventListener("click", function() {
 	var oldpass = document.getElementById('oldpass');
 	var newpass = document.getElementById('newpass');
+
 	var obj = new Object();
 	obj.oldpass = oldpass.value;
 	obj.newpass = newpass.value;
 
-    if(oldpass.value == '' || newpass.value == '')
-    {
+    if(oldpass.value == '' || newpass.value == '') {
         $.confirm({
             title: 'Field ?',
             content: "Field is empty ",
@@ -29,11 +25,10 @@ adding.addEventListener("click", function() {
     }
 
 	var request = new XMLHttpRequest();
-	request.open('POST', '/admin/changePassword');
+	request.open('POST', '/login/changePassword');
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify(obj))
-    request.onload = function ()
-    {
+    request.onload = function () {
         $.confirm({
             title: 'Password ?',
             content: request.responseText,
@@ -41,11 +36,11 @@ adding.addEventListener("click", function() {
             buttons: {
             OK: {
                 btnClass: 'btn-danger any-other-class',
-                 action: function () {      
+                 action: function () {  
+                    location.reload();    
                 }
             },
             }
         });
     }  
-    window.location = "/admin/changePassword";
 })

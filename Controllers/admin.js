@@ -320,30 +320,6 @@ exports.deleteTag = (req,res) => {
       });
  }
 
-exports.changePassword = (req,res) => {
-    password = req.body;
-    if(password.oldpass != req.session.password)
-    {
-      res.send("Incorrect Old Password");
-    } 
-    else
-    {
-          bcrypt.hash(password.newpass, saltRounds, (err, hash) => {
-              if(!err) {
-                users.updateOne({"email" : req.session.email},{$set: { "password" : hash}} ,
-                  function(error,result)
-                  {
-                    if(error)
-                      throw error;
-                    else
-                      req.session.password = password.newpass;
-                  })   
-              }
-              else {}
-          }) 
-          res.send("Password Changed Successfully")
-    }
-}
 
 exports.categoryOptions = (req, res) => {
     t.find(function(error,result)
