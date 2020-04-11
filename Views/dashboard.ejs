@@ -4,6 +4,7 @@
         <title>Dashboard</title>
         <meta name="viewport" content="width=device-width" initial-scale="1.0">
         <link href="css/partials.css" rel="stylesheet" type = "text/css">
+        <link href="css/style.css" rel="stylesheet" type = "text/css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -26,6 +27,11 @@
                                                     <img src="<%= data.photoname %>" id="profilepic">
                                                 </div>
                                             </div>
+
+                                            <div>
+                                                <button type="button" class="btn btn-info" onclick="editUserDetails()" style="float: right;margin-right: 2%">Edit</button>
+                                            </div>
+                                            
                                             <br>
                                             <br>
                                             <div class="col-sm-6">

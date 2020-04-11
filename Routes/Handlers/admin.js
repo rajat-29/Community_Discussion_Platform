@@ -21,11 +21,11 @@ app.get('/manage_community',auth,function(req,res){
 })
 
 app.get('/switchUserPage',function(req,res) {
-         res.render('editUserProfile', {data: req.session.data});
+         res.render('dashboard', {data: req.session.data});
 })
 
 app.get('/switchAdminPage',function(req,res) {
-         res.render('editUserProfile', {data: req.session.data});
+         res.render('dashboard', {data: req.session.data});
 })
 
 app.get('/create_tag',auth,function(req,res){ 

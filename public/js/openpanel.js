@@ -24,6 +24,7 @@ function switchasAdmin()
     },
     }
     });
+  }
 
 
 function changepassword()
@@ -31,10 +32,7 @@ function changepassword()
     window.location = "/login/changePassword";
 }
 
-function editProfile()
-{
-    window.location = "/admin/editUserProfile";
-}
+
 
 function editUserDetails() 
 {
