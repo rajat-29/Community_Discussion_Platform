@@ -32,9 +32,6 @@ app.get('/openCommunityPage',auth, function(req,res){
       }
 })
 
-app.get('/newUserchangePassword',auth, function(req,res) {
-      res.render('newUserchangePassword', {data: req.session.data});
-})
 
 // controllers //
 

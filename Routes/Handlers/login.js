@@ -11,21 +11,12 @@ let loginController = require('../../Controllers/login');
 
 app.get('/home', auth,function(req,res){      
 
-      if(req.session.data.role == 'Admin' || req.session.data.role == 'superAdmin') 
-      {
-        res.render('dashboard', {data: req.session.data});
-      }
-      else if(req.session.data.role == 'User' || req.session.data.role == 'Community Manager')
-      {
-        if(req.session.data.dob == '')
-        {
-          res.render('newUserDetails', {data: req.session.data});
-        }
-        else
-        {
-          res.render('newUsereditProfile', {data: req.session.data});
-        }         
-      }
+  if(req.session.data.dob == ''){
+    res.render('newUserDetails', {data: req.session.data});
+  }
+  else{
+    res.render('dashboard', {data: req.session.data});
+   }         
 })
 
 app.get('/changePassword',auth,function(req,res){ 

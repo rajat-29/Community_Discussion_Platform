@@ -9,8 +9,7 @@
                     Cq
             </a>
         </li>
-
-        <% if(data.role == "Admin"){ %>       
+  
         <li class="list" id="sidebar-home">
             <a href="/login/home">
                 <span class="list-span">
@@ -19,7 +18,6 @@
                 Home
             </a>
         </li>
-        <% } %>  
 
         <% if(data.role == "Admin"){ %>         
             <li class="list" id="sidebar-adduser">
@@ -76,51 +74,9 @@
            </li>
         <% } %>
 
-        <li class="list">
-            <a onclick="openlogoutpage()">
-                <span class="list-span">
-                    <i class="fas fa-sign-out-alt" id="icon"></i>
-                </span>
-                Logout
-            </a>
-        </li>
+        <!-- super admin tags -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <% if(data.role == "superAdmin"){ %>         
-        <li class="list">
-            <a onclick="newUsereditProfile()">
-                <span class="list-span">
-                    <i class="fas fa-user" id="icon"></i>
-                </span>
-                <%=data.name%>
-            </a>
-        </li>
-        <% } %>
-
-        <% if(data.role == "superAdmin"){ %>         
+        <% if(data.role == "superAdmin" || data.role == "User" || data.role == "Community Manager"){ %>       
         <li class="list">
             <a onclick="openCommunityPage()">
                 <span class="list-span">
@@ -129,7 +85,7 @@
                 Communities
             </a>
         </li>
-        <% } %>
+        <% } %> 
 
         <% if(data.role == "superAdmin"){ %>         
         <li class="list">
@@ -142,88 +98,24 @@
         </li>
         <% } %>
 
-        <% if(data.role == "superAdmin"){ %>         
-        <li class="list">
-            <a onclick="newUserchangePassword()">
-                <span class="list-span">
-                    <i class="fas fa-lock" id="icon"></i>
-                </span>
-                Change Password
-            </a>
-        </li>
-        <% } %>
-
-        <% if(data.role == "superAdmin"){ %>         
-        <li class="list">
-            <a onclick="openlogoutpage()">
-                <span class="list-span">
-                    <i class="fas fa-sign-out-alt" id="icon"></i>
-                </span>
-                Logout
-            </a>
-        </li>
-        <% } %>
-
-        <% if(data.role == "User" || data.role == "Community Manager"){ %>       
-        <li class="list">
-            <a onclick="newUsereditProfile()">
-                <span class="list-span">
-                    <i class="fas fa-user" id="icon"></i>
-                </span>
-                <%=data.name%>
-            </a>
-        </li>
-        <% } %> 
-
-        <% if(data.role == "User" || data.role == "Community Manager"){ %>       
-        <li class="list">
-            <a onclick="openCommunityPage()">
-                <span class="list-span">
-                    <i class="fas fa-users" id="icon"></i>
-                </span>
-                Communities
-            </a>
-        </li>
-        <% } %> 
-
-        <% if(data.role == "User" || data.role == "Community Manager"){ %>       
-        <li class="list">
-            <a onclick="newUserchangePassword()">
-                <span class="list-span">
-                    <i class="fas fa-lock" id="icon"></i>
-                </span>
-                Change Password
-            </a>
-        </li>
-        <% } %> 
-
-        <% if(data.role == "User" || data.role == "Community Manager"){ %>       
-        <li class="list">
-            <a onclick="openlogoutpage()">
-                <span class="list-span">
-                    <i class="fas fa-sign-out-alt" id="icon"></i>
-                </span>
-                Logout
-            </a>
-        </li>
-        <% } %> 
-
-        
-
-        
-
-        <% if(data.role == "Admin"){ %>         
         <li class="list" id="sidebar-changePassword">
-            <a onclick="changepassword()">
+            <a href="/login/changePassword">
                 <span class="list-span">
                     <i class="fas fa-lock" id="icon"></i>
                 </span>
                 Change Password
             </a>
         </li>
-        <% } %>
 
-        
+        <li class="list">
+            <a onclick="openlogoutpage()">
+                <span class="list-span">
+                    <i class="fas fa-sign-out-alt" id="icon"></i>
+                </span>
+                Logout
+            </a>
+        </li>
+     
     </ul>
 </div>
 
@@ -282,5 +174,29 @@ function openlogoutpage() {
     }
     });
 }
+
+function switchasAdmin()
+{
+      $.confirm({
+    title: 'Switch as Admin',
+    content: 'Do you really want switch state...',
+    draggable: true,
+    buttons: {
+        Yes: {
+             btnClass: 'btn-success any-other-class',
+            action: function () {
+             btnClass: 'btn-red any-other-class'
+            window.location = "/admin/switchasadmin";
+        }
+    },
+        No: {
+            btnClass: 'btn-danger any-other-class',
+             action: function () {
+            
+        }
+    },
+    }
+    });
+  }
 
 </script>
