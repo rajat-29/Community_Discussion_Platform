@@ -213,9 +213,9 @@ exports.switchasuser = (req,res) => {
           throw err
           else {
            req.session.data.role = "superAdmin"
-            res.render('switchasUser', {data: req.session.data});
+            res.render('switchAsUserAdmin', {data: req.session.data});
           }
-        })
+  })
 }
 
 exports.switchasadmin = (req,res) => {
@@ -225,7 +225,7 @@ exports.switchasadmin = (req,res) => {
           throw err
           else {
            req.session.data.role = "Admin"
-           res.render('switchasAdmin', {data: req.session.data});
+           res.render('switchAsUserAdmin', {data: req.session.data});
           }
   })   
 }

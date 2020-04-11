@@ -74,8 +74,6 @@
            </li>
         <% } %>
 
-        <!-- super admin tags -->
-
         <% if(data.role == "superAdmin" || data.role == "User" || data.role == "Community Manager"){ %>       
         <li class="list">
             <a onclick="openCommunityPage()">
@@ -154,29 +152,7 @@ function switchasuser() {
     });
 }
 
-function openlogoutpage() {
-    $.confirm({
-    theme: 'supervan',
-    title: 'Confirm Logout!',
-    content: 'Do you really want logout?',
-    draggable: true,
-    buttons: {
-        Yes: {
-            action: function () {
-             window.location = "/login/logutUser";
-        }
-    },
-        No: {
-             action: function () {
-            
-        }
-    },
-    }
-    });
-}
-
-function switchasAdmin()
-{
+function switchasAdmin() {
       $.confirm({
     title: 'Switch as Admin',
     content: 'Do you really want switch state...',
@@ -197,6 +173,27 @@ function switchasAdmin()
     },
     }
     });
-  }
+}
+
+function openlogoutpage() {
+    $.confirm({
+    theme: 'supervan',
+    title: 'Confirm Logout!',
+    content: 'Do you really want logout?',
+    draggable: true,
+    buttons: {
+        Yes: {
+            action: function () {
+             window.location = "/login/logutUser";
+        }
+    },
+        No: {
+             action: function () {
+            
+        }
+    },
+    }
+    });
+}
 
 </script>

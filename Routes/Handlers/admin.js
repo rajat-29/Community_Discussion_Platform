@@ -20,14 +20,6 @@ app.get('/manage_community',auth,function(req,res){
       res.render('manage_community', {data: req.session.data});
 })
 
-app.get('/switchUserPage',function(req,res) {
-         res.render('dashboard', {data: req.session.data});
-})
-
-app.get('/switchAdminPage',function(req,res) {
-         res.render('dashboard', {data: req.session.data});
-})
-
 app.get('/create_tag',auth,function(req,res){ 
       res.render('create_tag',{data: req.session.data});
 })
