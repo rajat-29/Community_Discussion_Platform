@@ -30,13 +30,20 @@ exports.addNewCommunitytobase = (req, res) => {
        res.send("data saved");
 }
 
-exports.getOwnCommunity = (req,res) => {
+exports.getOwnedCommunity = (req,res) => {
     community.find({'ownerId':req.session.iding}, function(err, result){
       res.send(result);
     });
 }
 
-exports.getOtherCommunity = (req,res) => {
+exports.getCommunityManagers = (req,res) => {
+    var abc = ObjectId(req.session.iding);
+    community.find({ commManagers: abc}, function(err, result){
+      res.send(result);
+    });
+}
+
+exports.getJoinedCommunity = (req,res) => {
     var abc = ObjectId(req.session.iding);
     community.find({ commuser: abc}, function(err, result){
       res.send(result);
@@ -46,13 +53,6 @@ exports.getOtherCommunity = (req,res) => {
 exports.getPendingCommunity = (req,res) => {
     var abc = ObjectId(req.session.iding);
     community.find({ commasktojoin: abc}, function(err, result){
-      res.send(result);
-    });
-}
-
-exports.getCommunityManagers = (req,res) => {
-    var abc = ObjectId(req.session.iding);
-    community.find({ commManagers: abc}, function(err, result){
       res.send(result);
     });
 }

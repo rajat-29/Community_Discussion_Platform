@@ -7,29 +7,14 @@ app.use(express.static(path.join(__dirname,'public/uploads')));
 
 var auth=require('../../MiddleWares/auth');
 
-let userController = require('../../Controllers/user');
-
-app.get('/newUsereditProfile',auth, function(req,res) {
-      res.render('newUsereditProfile', {data: req.session.data});
-}) 
+let userController = require('../../Controllers/user'); 
 
 app.get('/newUserProfileDetails',auth, function(req,res) {
       res.render('newUserProfileDetails', {data: req.session.data});
 })
 
-app.get('/openCommunityPage',auth, function(req,res){
-      if(req.session.data.role == 'User' )
-      {
-         res.render('newUserCommunityPage', {data: req.session.data});
-      } 
-      else if(req.session.data.role == 'Community Manager' )
-      {
-         res.render('communityUserCommunityPage', {data: req.session.data});
-      }
-      else if(req.session.data.role == 'superAdmin' )
-      {
-         res.render('newUserCommunityPage', {data: req.session.data});
-      }
+app.get('/joinedCommunities',auth, function(req,res){
+   res.render('joinedCommunities', {data: req.session.data});
 })
 
 

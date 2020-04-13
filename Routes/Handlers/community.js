@@ -24,13 +24,13 @@ app.get('/invitedCommunity',auth,function(req,res) {
 
 app.use('/addNewCommunitytobase',auth,communityController.addNewCommunitytobase);
 
-app.use('/getOwnCommunity',auth,communityController.getOwnCommunity);
-
-app.use('/getOtherCommunity',auth,communityController.getOtherCommunity);
-
-app.use('/getPendingCommunity',auth,communityController.getPendingCommunity);
+app.use('/getOwnedCommunity',auth,communityController.getOwnedCommunity);
 
 app.use('/getCommunityManagers',auth,communityController.getCommunityManagers);
+
+app.use('/getJoinedCommunity',auth,communityController.getJoinedCommunity);
+
+app.use('/getPendingCommunity',auth,communityController.getPendingCommunity);
 
 app.use('/getCommunityforSearch',auth,communityController.getCommunityforSearch);
 

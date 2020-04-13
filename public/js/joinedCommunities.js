@@ -1,77 +1,64 @@
 $(document).ready(function() {
-  initaliseTable();
-  groupManagers();
-  groupmembers();
-  pendingmembers();
+  getOwnedCommunity();
+  setTimeout(function(){  getCommunityManagers(); }, 1000);
+  setTimeout(function(){  getJoinedCommunity(); }, 2000);
+  setTimeout(function(){  getPendingCommunity(); }, 3000);  
 })
 
-function initaliseTable() {
-    var s="true"
+function getOwnedCommunity() {
+    var s="getOwnedCommunity"
     var xml=new XMLHttpRequest();
-    xml.open("GET","/community/getOwnCommunity");
+    xml.open("GET","/community/getOwnedCommunity");
     xml.setRequestHeader("Content-Type","application/json");
-    xml.addEventListener("load",function()
-    {  
+    xml.addEventListener("load",function() {  
      var data=JSON.parse(xml.responseText);
       for(var i=0;i<data.length;i++)
-      {
        addToDOM(data[i],s)
-      }
-     })
+    })
     xml.send();
 }
 
-function groupmembers() {
-    var s="false"
-    var xml=new XMLHttpRequest();
-    xml.open("GET","/community/getOtherCommunity");
-    xml.setRequestHeader("Content-Type","application/json");
-    xml.addEventListener("load",function()
-    {
-     var data=JSON.parse(xml.responseText);
-      for(var i=0;i<data.length;i++)
-      {
-       addToDOM(data[i],s)
-      }
-     })
-    xml.send();
-}
-
-function pendingmembers() {
-    var s="trueflase";
-    var xml=new XMLHttpRequest();
-    xml.open("GET","/community/getPendingCommunity");
-    xml.setRequestHeader("Content-Type","application/json");
-    xml.addEventListener("load",function()
-    {
-     var data=JSON.parse(xml.responseText);
-      for(var i=0;i<data.length;i++)
-      {
-       addToDOM(data[i],s)
-      }
-     })
-    xml.send();
-}
-
-function groupManagers() {
-    var s="managers";
+function getCommunityManagers() {
+    var s="getCommunityManagers";
     var xml=new XMLHttpRequest();
     xml.open("GET","/community/getCommunityManagers");
     xml.setRequestHeader("Content-Type","application/json");
-    xml.addEventListener("load",function()
-    {
+    xml.addEventListener("load",function() {
+    var data=JSON.parse(xml.responseText);
+      for(var i=0;i<data.length;i++)
+       addToDOM(data[i],s)
+    })
+    xml.send();
+}
+
+function getJoinedCommunity() {
+    var s="getJoinedCommunity";
+    var xml=new XMLHttpRequest();
+    xml.open("GET","/community/getJoinedCommunity");
+    xml.setRequestHeader("Content-Type","application/json");
+    xml.addEventListener("load",function() {
+      var data=JSON.parse(xml.responseText);
+      for(var i=0;i<data.length;i++)
+       addToDOM(data[i],s)
+    })
+    xml.send();
+}
+
+function getPendingCommunity() {
+    var s="getPendingCommunity";
+    var xml=new XMLHttpRequest();
+    xml.open("GET","/community/getPendingCommunity");
+    xml.setRequestHeader("Content-Type","application/json");
+    xml.addEventListener("load",function() {
      var data=JSON.parse(xml.responseText);
       for(var i=0;i<data.length;i++)
-      {
        addToDOM(data[i],s)
-      }
      })
     xml.send();
 }
 
-function addToDOM(obj,s)
-{
- // console.log(obj)
+function addToDOM(obj,s) {
+
     var filenaming = obj._id;
     var div1=document.createElement('div');
     div1.setAttribute("class","col-sm-12 col-xs-12 myCommunity community-div");
@@ -81,15 +68,12 @@ function addToDOM(obj,s)
     div2.setAttribute("class","col-sm-1 col-xs-3");
     div2.setAttribute("style", "padding:10px;z-index:1;");
     
-    var a1=document.createElement('a');
-    a1.setAttribute("href","")
     var img=document.createElement('img');
     img.setAttribute("src",obj.commphoto);
     img.setAttribute("class","cpic");
     img.setAttribute("style", "width:40px;height:40px;");
 
-    a1.appendChild(img)
-    div2.appendChild(a1)
+    div2.appendChild(img)
     div1.appendChild(div2)
 
     var div3=document.createElement('div')
@@ -101,6 +85,8 @@ function addToDOM(obj,s)
     a2.setAttribute("class","comnametxt")
     a2.href = "/community/discussion/" + filenaming;
     a2.innerHTML=obj.name + "     ";
+
+
 
     var a3=document.createElement('a')
     a3.setAttribute("class","comnametxt-user")
@@ -129,13 +115,9 @@ function addToDOM(obj,s)
     div3.appendChild(p)
     div1.appendChild(div3)
 
-    a3.href = '/community/info/' + filenaming;
+    if(s=="getOwnedCommunity") {
+        a2.href = '/community/setting/' + filenaming;
 
-    if(s=="true")
-    {
-        a3.href = '/community/setting/' + filenaming;
-        a4.href = '/community/setting/' + filenaming;
-        a5.href = '/community/setting/' + filenaming;
         a4.setAttribute("style", "visibility: visible")
         a5.setAttribute("style", "visibility: visible")
         
@@ -143,9 +125,10 @@ function addToDOM(obj,s)
         div4.setAttribute("class","col-sm-1 col-xs-2")
         div4.setAttribute("style", "padding:0;margin-top: 15px;")
 
-        var a4=document.createElement('a')
-        a4.setAttribute("class","community-short-btn")
-        a4.setAttribute("style","float:right;")
+        var a6=document.createElement('a')
+        a6.setAttribute("class","community-short-btn")
+        a6.setAttribute("style","float:right;")
+        a6.href = '/community/setting/' + filenaming;
 
         var l1=document.createElement('label')
         l1.setAttribute("class","label label-success")
@@ -153,18 +136,14 @@ function addToDOM(obj,s)
         var i1=document.createElement('i')
         i1.setAttribute("class","fa fa-cogs")
         l1.appendChild(i1)
-        a4.appendChild(l1)
-        div4.appendChild(a4)
-        div1.appendChild(div4)
-        div4.onclick=function(){
-            window.location = '/community/setting/' + filenaming;
-        }  
+        a6.appendChild(l1)
+        div4.appendChild(a6)
+        div1.appendChild(div4) 
     }
 
-    if(s=="managers")
-    {
-        a3.href = '/community/setting/' + filenaming;
-        a4.href = '/community/setting/' + filenaming;
+    if(s=="getCommunityManagers") {
+        a2.href = '/community/setting/' + filenaming;
+
         a4.setAttribute("style", "visibility: visible")
         a5.setAttribute("style", "visibility: hidden")
         
@@ -172,9 +151,10 @@ function addToDOM(obj,s)
         div4.setAttribute("class","col-sm-1 col-xs-2")
         div4.setAttribute("style", "padding:0;margin-top: 15px;")
 
-        var a4=document.createElement('a')
-        a4.setAttribute("class","community-short-btn")
-        a4.setAttribute("style","float:right;")
+        var a6=document.createElement('a')
+        a6.setAttribute("class","community-short-btn")
+        a6.setAttribute("style","float:right;")
+        a6.href = '/community/setting/' + filenaming;
 
         var l1=document.createElement('label')
         l1.setAttribute("class","label label-primary")
@@ -182,18 +162,14 @@ function addToDOM(obj,s)
         var i1=document.createElement('i')
         i1.setAttribute("class","fa fa-cogs")
         l1.appendChild(i1)
-        a4.appendChild(l1)
-        div4.appendChild(a4)
+        a6.appendChild(l1)
+        div4.appendChild(a6)
         div1.appendChild(div4)
-        div4.onclick=function(){
-            window.location = '/community/setting/' + filenaming;
-        }  
     }
 
-    if(s=="trueflase")
-    {
+    if(s=="getPendingCommunity") {
         a2.href = "";
-        a3.href = "";
+
         a4.setAttribute("style", "visibility: hidden")
         a5.setAttribute("style", "visibility: hidden")
 
@@ -212,49 +188,39 @@ function addToDOM(obj,s)
         i1.setAttribute("class","fa fa-times")
         l1.appendChild(i1)
         l1.onclick=function(){
-          $.confirm({
-        title: 'Cancel Request?',
-        content: "Do you really want cancel request... " ,
-        draggable: true,
-        buttons: {
-          Yes: {
-             btnClass: 'btn-success any-other-class',
-              action: function () {
-               btnClass: 'btn-red any-other-class'
+            $.confirm({
+            title: 'Cancel Request?',
+            content: "Do you really want cancel request... " ,
+            draggable: true,
+            buttons: {
+                  Yes: {
+                 btnClass: 'btn-success any-other-class',
+                  action: function () {
+                   btnClass: 'btn-red any-other-class'
 
-                var request = new XMLHttpRequest();
-                var filename = '/community/leavePendingcommunity';
-                request.open('POST',filename);
-                request.setRequestHeader("content-Type","application/JSON");
-                request.send(JSON.stringify(obj));
-                request.onload = function()
-                {
-                    console.log(request.responseText);
-                }
-                document.getElementById('can-create-community').removeChild(div1)                  
-          }
-      },
-        No: {
-            btnClass: 'btn-danger any-other-class',
-             action: function () {      
-          }
-      },
-      }
-    });
+                    var request = new XMLHttpRequest();
+                    var filename = '/community/leavePendingcommunity';
+                    request.open('POST',filename);
+                    request.setRequestHeader("content-Type","application/JSON");
+                    request.send(JSON.stringify(obj));
+                    request.onload = function() {
+                        document.getElementById('can-create-community').removeChild(div1) 
+                    }                    
+                 } 
+              },
+                No: {
+                    btnClass: 'btn-danger any-other-class',
+                     action: function () {      
+                  }
+              },
+              }
+            });
         }
+
         a4.appendChild(l1)
         div4.appendChild(a4)
         div1.appendChild(div4)
     }
-document.getElementById('can-create-community').appendChild(div1)    
-}
 
-function searchingCommunity()
-{
-    window.location = "/community/searchingCommunity";
-}
-
-function InvitedCommunity()
-{
-    window.location = "/community/invitedCommunity";
+    document.getElementById('can-create-community').appendChild(div1)    
 }

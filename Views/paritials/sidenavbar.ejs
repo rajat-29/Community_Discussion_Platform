@@ -74,9 +74,9 @@
            </li>
         <% } %>
 
-        <% if(data.role == "superAdmin" || data.role == "User" || data.role == "Community Manager"){ %>       
+        <% if(data.role != "Admin"){ %>       
         <li class="list">
-            <a onclick="openCommunityPage()">
+            <a href="/user/joinedCommunities">
                 <span class="list-span">
                     <i class="fas fa-users" id="icon"></i>
                 </span>
