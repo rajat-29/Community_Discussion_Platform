@@ -8,6 +8,10 @@ var auth=require('../../MiddleWares/auth');
 
 let communityController = require('../../Controllers/community');
 
+app.get('/joinedCommunities',auth, function(req,res){
+   res.render('joinedCommunities', {data: req.session.data});
+})
+
 app.get('/addNewCommunity',auth,function(req,res){ 
       res.render('addNewCommunity', {data: req.session.data});
 })

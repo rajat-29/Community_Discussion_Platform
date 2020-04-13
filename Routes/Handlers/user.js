@@ -13,11 +13,6 @@ app.get('/newUserProfileDetails',auth, function(req,res) {
       res.render('newUserProfileDetails', {data: req.session.data});
 })
 
-app.get('/joinedCommunities',auth, function(req,res){
-   res.render('joinedCommunities', {data: req.session.data});
-})
-
-
 // controllers //
 
 app.use('/updateeditUserDob',auth,userController.updateeditUserDob);

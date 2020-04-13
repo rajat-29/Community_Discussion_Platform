@@ -204,7 +204,7 @@ function addToDOM(obj,s) {
                     request.setRequestHeader("content-Type","application/JSON");
                     request.send(JSON.stringify(obj));
                     request.onload = function() {
-                        document.getElementById('can-create-community').removeChild(div1) 
+                        document.getElementById('displayAllCommunity').removeChild(div1) 
                     }                    
                  } 
               },
@@ -222,5 +222,5 @@ function addToDOM(obj,s) {
         div1.appendChild(div4)
     }
 
-    document.getElementById('can-create-community').appendChild(div1)    
+    document.getElementById('displayAllCommunity').appendChild(div1)    
 }
