@@ -33,10 +33,16 @@ app.get('/logutUser', function(req,res) {
     res.render('login');
 })
 
+app.get('/editUserDetails', auth,function(req,res) {
+      res.render('editUserDetails', {data: req.session.data});
+}) 
+
 // controllers //
 
 app.use('/checkLogin',loginController.checkLogin);
 
 app.use('/changePassword',auth,loginController.changePassword);
+
+app.use('/editUserDetails',auth,loginController.editUserDetails);
 
 module.exports = app;

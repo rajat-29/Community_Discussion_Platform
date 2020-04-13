@@ -1,25 +1,30 @@
-var email = document.getElementById('email');
-var usernaming = document.getElementById('usernaming');
+var birth_date = document.getElementById("birth_date");
 var gender = document.getElementById('gender');
 var phone = document.getElementById('phone');
 var city = document.getElementById('city');
 var interest = document.getElementById('interest');
 var journey = document.getElementById('journey');
 var expectation = document.getElementById('expectation');
-var rightadmin = document.getElementById('rightadmin');
-var dateses = document.getElementById('dateses');
-var dateques = document.getElementById("date");
-var profilepic = document.getElementById("profilepic").src;
 
-rightadmin.innerHTML = email.value;
- 
-function updateUserDetails()
-{
-	p = profilepic.slice(21,profilepic.length);
-	console.log(p)
+function updateUserDetails() {
 
-	if(phone.value.length<10)
-	{
+    if(birth_date.value == '') {
+        $.confirm({
+            title: 'DOB ?',
+            content: "ENTER DOB",
+            draggable: true,
+            buttons: {
+            OK: {
+                btnClass: 'btn-danger any-other-class',
+                 action: function () {      
+                }
+            },
+            }
+        });
+        return false;
+    }
+
+	if(phone.value.length<10) {
 		$.confirm({
             title: 'Phone No ?',
             content: "Phone No should be of length 10",
@@ -34,26 +39,22 @@ function updateUserDetails()
         });
 		return;
 	}
-	var obj1 = Object()
-			obj1.email = email.value;
-			obj1.name = usernaming.value;
-			obj1.gender = gender.value;
-			obj1.phone = phone.value;
-			obj1.city = city.value;
-			obj1.interest = interest.value;
-			obj1.bitmore = journey.value;
-			obj1.expectation = expectation.value;
-			obj1.photoname = p;
+	var obj = Object()
+    obj.dob = birth_date.value;
+	obj.gender = gender.value;
+	obj.phone = phone.value;
+	obj.city = city.value;
+	obj.interest = interest.value;
+	obj.bitmore = journey.value;
+	obj.expectation = expectation.value;
 
-		var request = new XMLHttpRequest();
-  		request.open('POST',"/user/updateeditUserDetails");
-    	request.setRequestHeader("Content-Type","application/json");
-   		request.send(JSON.stringify(obj1))
-    	request.addEventListener("load",function() {
-        console.log("Data Posted Successfully");
-
+	var request = new XMLHttpRequest();
+    request.open('POST',"/login/editUserDetails");
+    request.setRequestHeader("Content-Type","application/json");
+   	request.send(JSON.stringify(obj))
+    request.addEventListener("load",function() {
+        window.location = '/login/home';
     }); 
-    window.location = "/admin/editUserProfile"; 
 }
 
 function updateNewUserDetails()

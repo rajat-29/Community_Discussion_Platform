@@ -22,14 +22,16 @@
                                 <div class="container childDiv">
                                     <div class="panel panel-default" style="background: rgb(249, 249, 249);box-shadow: 0 3px 10px 0 rgba(115,143,147,.3);">
                                         <div class="panel-body">
-                                            <div class="d-flex imageDiv">
+                                            <div class="d-flex">
                                                 <div class="image-container">
                                                     <img src="<%= data.photoname %>" id="profilepic">
                                                 </div>
                                             </div>
 
                                             <div>
-                                                <button type="button" class="btn btn-info" onclick="editUserDetails()" style="float: right;margin-right: 2%">Edit</button>
+                                                <a href="/login/editUserDetails">
+                                                <button type="button" class="btn btn-info" style="float: right;margin-right: 2%">Edit</button>
+                                                </a>
                                             </div>
                                             
                                             <br>

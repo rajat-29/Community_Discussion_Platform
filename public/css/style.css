@@ -1,3 +1,20 @@
+#viewscreen {
+  padding-left: 0px;
+  overflow: hidden;
+}
+
+#viewscreen.toggle-pc {
+    padding-left: 250px;
+    overflow: hidden;
+}
+
+#rightview {
+    width: 100%;
+    overflow-x: hidden;
+    transition: 0.5s;
+    margin-top: 60px;
+}
+
 #profilepic
 {
     width: 150px;

@@ -3,20 +3,6 @@
 
 
 
-
-
-
-
-
-function editUserDetails() 
-{
-    window.location = "/admin/editUserDetails";
-}
-
-
-
-
-
 function newUserProfileDetails()
 {
     window.location = "/user/newUserProfileDetails";

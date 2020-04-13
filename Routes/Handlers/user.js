@@ -35,8 +35,6 @@ app.get('/openCommunityPage',auth, function(req,res){
 
 // controllers //
 
-app.use('/updateeditUserDetails',auth,userController.updateeditUserDetails);
-
 app.use('/updateeditUserDob',auth,userController.updateeditUserDob);
 
 module.exports = app;

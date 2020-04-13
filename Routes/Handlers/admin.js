@@ -28,10 +28,6 @@ app.get('/manage_tags',auth,function(req,res) {
       res.render('manage_tags', {data: req.session.data});
 })
 
-app.get('/editUserDetails', auth,function(req,res) {
-      res.render('editUserDetails', {data: req.session.data});
-}) 
-
 // controllers //
 
 app.use('/addnewuser',auth,adminController.addnewuser);

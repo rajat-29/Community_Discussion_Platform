@@ -37,7 +37,6 @@ exports.checkLogin = (req, res)  => {
                  userdata.gender = result.gender;
                  userdata.dob = result.dob;
                  userdata.status = result.status;
-                 userdata.ides = result._id;
                  userdata.photoname = result.photoname;
 
                  req.session.data = userdata;
@@ -79,4 +78,20 @@ exports.changePassword = (req,res) => {
           }) 
           res.send("Password Changed Successfully")
     }
+}
+
+exports.editUserDetails = (req,res) => {
+        users.updateOne( { "email" : req.session.email}, 
+          {$set : req.body } , 
+          function(err,result) {
+            if(err)
+            throw err
+            else {       
+            req.session.data.dob = req.body.dob;
+             req.session.data.gender = req.body.gender;
+            req.session.data.phone = req.body.phone;
+             req.session.data.city = req.body.city;
+              res.send("DATA UPDATED SUCCESFULLY")
+          }
+        })
 }
