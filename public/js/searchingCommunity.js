@@ -1,66 +1,26 @@
-var start=0,end=4;
-var tempdata = [];
-
-var refresh = document.getElementById("first-btn");
-refresh.addEventListener("click", function() {
-     window.location = "/user/openCommunityPage";
-})
-
-var searchbtn = document.getElementById("search-btn");
-searchbtn.onclick = function()
-{
-    window.location = '/community/searchingCommunity';
-}
-
-var bigDiv = document.getElementById("bigDiv");
-
 var commArr;
 
 $(document).ready(function() {
     loadFromServer();
 })
 
-function loadFromServer()
-{
-    let obj={
-        start:start,
-        end:end,
-    }
+function loadFromServer() {
+    let obj={}
     var request = new XMLHttpRequest();
     request.open('POST','/community/getCommunityforSearch');
-    request.onload = function()
-    {
+    request.onload = function()  {
         commArr = JSON.parse(request.responseText);
-        tempdata = tempdata.concat(commArr);
-        for(var i=0;i<tempdata.length;i++)
-        {
+        for(var i=0;i<commArr.length;i++)
             addToDom(commArr[i]);
-        }
     }
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify(obj));
 }
 
-document.getElementById('searchinput').onkeyup=function()
-{
-        document.getElementById('bigDiv').innerHTML=""
-        var val=document.getElementById('searchinput').value;
-        console.log(val)
-        for(j in commArr)
-        {     
-            if((commArr[j].name).includes(val)) 
-            {
-                 console.log("klkl")
-               // console.log(commArr[j])
-                addToDom(commArr[j]);
-            }
-        }
-}
+function addToDom(ob) {
 
-function addToDom(ob)
-{
     var filenaming = ob._id;
-   // console.log(ob._id);
+
     var parentDiv = document.createElement("div");
     parentDiv.setAttribute("class","container");
 
@@ -94,11 +54,12 @@ function addToDom(ob)
     var div131 = document.createElement("div");
     var btn = document.createElement("button");
     btn.setAttribute("class","btn btn-primary btn-sm pull-right");
+
     if(ob.rule=="Direct")
-    btn.innerHTML = "JOIN";
-    else if(ob.rule=="Permission"){
+        btn.innerHTML = "JOIN";
+    else if(ob.rule=="Permission")
         btn.innerHTML = "ASK TO JOIN";
-    }
+    
     btn.onclick=function(){
 
         var request = new XMLHttpRequest();
@@ -106,13 +67,11 @@ function addToDom(ob)
         request.open('POST',filename);
         request.setRequestHeader("content-Type","application/JSON");
         request.send(JSON.stringify(ob));
-        request.onload = function()
-        {
-            //console.log(request.responseText);
-
+        request.onload = function() {
+            parentDiv.removeChild(wrapperdiv);
         }
-        parentDiv.removeChild(wrapperdiv);
     }
+
     div131.appendChild(btn);
     div13.appendChild(div131);
     div1.appendChild(div13);
@@ -139,41 +98,19 @@ function addToDom(ob)
     div22.appendChild(p22);
     div2.appendChild(div22);
 
-
     wrapperdiv.appendChild(div1);
     wrapperdiv.appendChild(div2);
 
     parentDiv.appendChild(wrapperdiv);
-    bigDiv.appendChild(parentDiv);
-   // console.log(parentDiv)
-
+    document.getElementById("bigDiv").appendChild(parentDiv);
 }
 
-function getDocumentHeight() {
-    console.log("getDocumentHeight");
-    const body = document.body;
-    const html = document.documentElement;
+document.getElementById('searchinput').onkeyup=function() {
     
-    return Math.max(
-        body.scrollHeight, body.offsetHeight,
-        html.clientHeight, html.scrollHeight, html.offsetHeight
-    );
-};
-
- function getScrollTop() {
-    console.log("getScrollTop");
-    return (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-}
-
-
- window.onscroll = function() {
-        //console.log("onscroll");
-    if (getScrollTop()== getDocumentHeight() - window.innerHeight)
-        {
-             start+=4;
-             end=4;
-             loadFromServer();
+        document.getElementById('bigDiv').innerHTML=""
+        var val=document.getElementById('searchinput').value;
+        for(j in commArr) {     
+            if((commArr[j].name).includes(val)) 
+                addToDom(commArr[j]);
         }
-        else
-            return;
 }

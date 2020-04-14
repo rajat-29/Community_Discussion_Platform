@@ -403,3 +403,55 @@ element.style {
     /* overflow: scroll; */
     white-space: nowrap;
 }
+
+    #commHeader
+    {
+        background-image: linear-gradient(to bottom, #4ba2b7, #42a6be, #38aac6, #29adcd, #0fb1d5);
+
+    }
+    #first-btn
+    {
+        border: 1px solid #fff !important;
+        color: #fff !important;
+        border-bottom: 4px solid #fff !important;
+        background-color: rgba(255,255,255,0.1) !important;
+        margin-left: 100px;
+    }
+    #search-btn
+    {
+        background-color: rgba(255,255,255,0.1);
+        color: #fff;
+        border: 1px solid #fff;
+    }
+    #commPanel
+    {
+        border: 0;
+        border-radius: 0;
+        margin-top: 50px;
+        box-shadow: 0 3px 10px 0 rgba(115,143,147,.3)
+    }
+    #panelHeading
+    {
+        border-radius: 0;
+        background-image: linear-gradient(to top, #4ba2b7, #42a6be, #38aac6, #29adcd, #0fb1d5);
+    }
+    #memeberpara
+    {
+        padding: 0;
+    margin: 0;
+    font-weight: 600;
+    color: #7D7D7D;
+    text-decoration: none;
+    word-wrap: break-word;
+    text-transform: capitalize;
+    }
+    #descpara
+    {
+        border: 0;
+    font-family: 'Open Sans', sans-serif;
+    word-wrap: break-word;
+    font-size: 16px;
+    color: #000;
+    outline: none !important;
+    background-color: rgba(0, 0, 0, 0);
+    }
