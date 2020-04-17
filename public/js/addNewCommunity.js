@@ -1,25 +1,19 @@
 $.trumbowyg.svgPath = '/css/trumbowgy.svg';
-    $('#description').trumbowyg();
+$('#description').trumbowyg();
 
 var commName = document.getElementById("commName");
 var description = document.getElementById("description");
 var directadmin = document.getElementById("directadmin");
 var permisadmin = document.getElementById("permisadmin");
-//var filename = document.getElementById("filename");
-var addinges = document.getElementById("adding");
-var refresh = document.getElementById("first-btn");
+var submit_community = document.getElementById("submit_community");
 
-// console.log(directadmin.checked);
-// console.log(permisadmin.checked);
-
-addinges.addEventListener("click", function() { 
+submit_community.addEventListener("click", function() { 
 
     var obj1 = new Object();
     obj1.name = commName.value;
     obj1.desc = strip_html_tags(description.value);
 
-    if(commName.value == '' || description.value == '')
-    {
+    if(commName.value == '' || description.value == '')  {
         $.confirm({
             title: 'Fields ?',
             content: "Fields can't be Empty ",
@@ -35,14 +29,13 @@ addinges.addEventListener("click", function() {
         return false;
     }
 
-    if(directadmin.checked)
-    {
+    if(directadmin.checked) {
         obj1.rule = directadmin.value;
     }
-    else
-    {
+    else {
         obj1.rule = permisadmin.value;
     }
+
     obj1.commphoto = "/defaultCommunity.jpg";
     obj1.location = "Not Added";
     obj1.status = "Active";
@@ -62,10 +55,8 @@ addinges.addEventListener("click", function() {
     today = + dd + '-' + getMonths(mm) + '-' + yyyy;
     today = today + " ";
     today = today + "(" + hrs + ':' + mins + '' + format + ")";
-    console.log(today);
 
     obj1.createDate = today;
-    console.log(obj1);
 
     var request = new XMLHttpRequest();
     request.open('POST',"/community/addNewCommunitytobase");
@@ -79,16 +70,13 @@ addinges.addEventListener("click", function() {
             buttons: {
             OK: {
                 btnClass: 'btn-danger any-other-class',
-                 action: function () {      
+                 action: function () {  
+                    location.reload();    
                 }
             },
             }
         });
     }); 
-
-    
-    window.location = "/community/addNewCommunity";
-
 })
 
 function getMonths(mno) {
@@ -96,17 +84,11 @@ function getMonths(mno) {
     return month[mno-1];
 }
 
-refresh.addEventListener("click", function() {
-     window.location = "/openCommunityPage";
-})
-
-function searchingCommunity()
-{
+function searchingCommunity() {
     window.location = "/searchingCommunity";
 }
 
-function strip_html_tags(str)
-{
+function strip_html_tags(str) {
    if ((str===null) || (str===''))
        return false;
   else

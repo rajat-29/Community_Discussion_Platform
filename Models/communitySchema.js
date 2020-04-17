@@ -18,7 +18,7 @@ var communitySchema = new mongoose.Schema({
         type: String,
     },
     owner: {
-        String,
+        type: String,
     },
     createDate: {
         type: String,
