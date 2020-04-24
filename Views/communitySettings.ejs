@@ -1,223 +1,129 @@
 <!DOCTYPE html>
 <html >
-    <head>
-        <title>CQ</title>
-        <meta name="viewport" content="width=device-width" initial-scale="1.0">
-        <link href="/css/partials.css" rel="stylesheet" type = "text/css">
-        <link href="/css/addNewCommunity.css" rel="stylesheet" type = "text/css">
-        <link href="/css/communityInfo.css" rel="stylesheet" type = "text/css">
+<head>
+    <title>Community Settings</title>
+    <meta name="viewport" content="width=device-width" initial-scale="1.0">
+    <link href="/css/partials.css" rel="stylesheet" type = "text/css">
+    <link href="/css/style.css" rel="stylesheet" type = "text/css">
+    <link href="/css/communityInfo.css" rel="stylesheet" type = "text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/openpanel.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+</head>
 
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
-        <!-- BOOTSTRAP 3-->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="/js/openpanel.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-        
-        <link rel="stylesheet" type="text/css" href="/css/trumbowgy.css">
+<body>
+<%- include('paritials/topbar.ejs') %>
+  <div id="viewscreen" >
+  <%- include('paritials/sidenavbar.ejs') %>
+    <div id="rightview">
+        <div class="row">
+          <div class="community-header-top" ></div>    
 
-         <style>
+          <div class="container">
+            <div class="col-sm-2 ">
+              <img src="<%=newdata.commphoto%>" class="img-communityprofile-pic" >
+          </div>
 
-    #commHeader
-{
-    background-image: linear-gradient(to bottom, #4ba2b7, #42a6be, #38aac6, #29adcd, #0fb1d5);
-
-}
-#first-btn
-{
-    border: 1px solid #fff !important;
-    color: #fff !important;
-    border-bottom: 4px solid #fff !important;
-    background-color: rgba(255,255,255,0.1) !important;
-    margin-left: 100px;
-}
-#search-btn
-{
-    background-color: rgba(255,255,255,0.1);
-    color: #fff;
-    border: 1px solid #fff;
-}
-
-#dpimage
-{
-    cursor: pointer !important;
-    width: 40px;
-    margin-left: 30px;
-    margin-top: 10px;
-    margin-right: 10px;
-    float: right;
-    border-radius: 50%;
-    vertical-align: middle;
-    border: 0;
-}
-
-  </style>
-
-
-    </head>
-
-    <body class="body">
-         <%- include('paritials/usertopbar.ejs') %>
-        <div id="viewscreen" >
-            <%- include('paritials/sidenavbar.ejs') %>
-  
-            <div id="rightview">
-                <div class="container-fluid div-min-width" style="padding:0">
-                    <div class="row">
-                        <div class="col-lg-12" style="padding:0;">
-
-
-<div class="community-header-top communityheader-profile-mobile" style="padding-top:6px;position:relative;">
-  
-    <center>
-        <div class="communityprofile-name-mobile" style="max-height:40px;overflow:scroll">
-          <a href="" style="color:white">
-            
+          <a href="/community/communityProfile/<%=newdata._id%>" class="communityprofile-name-pc">
+               <p><%=newdata.name%></p>
           </a>
-        </div>
-    </center>
 
-   
+  <div class="col-sm-2" style="padding-top:5px;float:right">
+    <div class="dropdown">
+      <button class="btn btn-default commuity-profile-menu-btn" data-toggle="dropdown">
+        <i class="fa fa-bars"></i>
+      </button>
 
-</div>
+      <ul class="dropdown-menu dropdown-menu-right" style="margin-top:40px">
 
-<!-- second -->
-
-
-<div class="container community-profile-conatiner">
-<div class="col-sm-2 col-xs-12 center-mobile pc">
-<a href="">
-  <img src="<%=newdata.commphoto%>" class="img-communityprofile-pic allSides" style="background:#fff">
-</a>
-</div>
-
-<div class="col-sm-8 communityprofile-name-pc communityprofile-system">
-  <a href="/community/communityProfile/<%=newdata._id%>" class="communityprofile-name-pc">
-     <p><%=newdata.name%></p>
-  </a>
-</div>
-
-<div class="col-sm-2 col-xs-12 center-mobile" style="padding-top:10px;float:right">
-<div class="dropdown">
-  <button class="btn btn-default dropdown-toggle commuity-profile-menu-btn" type="button" data-toggle="dropdown">
-    <i class="fa fa-bars"></i>
-  </button>
-  <ul class="dropdown-menu custom-commuity-dropdown dropdown-menu-right" style="margin-top:40px">
-
-    
-      <li>
-          <a href="/community/discussion/<%=newdata._id%>" class="community-profile-option-btn">
+        <li>
+          <a href="/community/discussion/<%=newdata._id%>">
             Discussions
           </a>
-      </li>
-    
-
-    
-      <li id="hideManage">
-          <a href="/community/setting/<%=newdata._id%>" class="community-profile-option-btn">
+        </li>
+        <li>
+          <a href="/community/setting/<%=newdata._id%>">
             Manage Community
           </a>
-      </li>
-    
+        </li>
+        <li id="hideProfile">
+            <a href="/community/info/<%=newdata._id%>">
+              Community Profile
+            </a>
+        </li>
+        <li>
+            <a href="/community/showCommunityMembers/<%=newdata._id%>">
+              Community Members
+            </a>
+        </li>
 
-      <li id="hideProfile">
-          <a href="/community/info/<%=newdata._id%>" class="community-profile-option-btn">
-            Community Profile
-          </a>
-      </li>
-
-      <li>
-          <a href="/community/showCommunityMembers/<%=newdata._id%>" class="community-profile-option-btn">
-            Community Members
-          </a>
-      </li>
-
-    </ul>
-</div>
+      </ul>
+    </div>
+  </div>
 </div>
 
-
-</div>
-
-<!-- third -->
-
-<center>
-    <hr style="border-top:2px solid #E6E6E6;width:85%;margin-top:0">
-</center>
-<style>
-  .child-reply-input{
-    display: none !important;
-  }
-</style>
-
-<!--  for -->
-
+  <center>
+      <hr style="border-top:2px solid #E6E6E6;width:85%;margin-top:1%;">
+  </center>
 
 <div class="container">
-<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12" style="padding-bottom:5px;border-bottom:1px solid #c4c4c4">
-  <nonlink class="manageCommunity-head-btn" style="cursor: context-menu;">
-    Manage Community
-  </nonlink>
-  <a href="/community/inviteUser/<%=newdata._id%>" style="float:right;font-weight:600">
-    Invite Users
-  </a>
-  
-  <a href="/community/editCommunity/<%=newdata._id%>" id="editCommunityOption" style="float:right;font-weight:600;margin-right:15px;display: block;">
-   <p> Edit Community </p>
-  </a>
-  
-</div>
-<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12" style="padding:10px 0 0 0;">
+  <div style="border-bottom:1px solid #c4c4c4">
+    <label style="font-size: 15px;margin-left: 2%;">
+      Manage Community
+    </label>
 
-  <div class="col-sm-3 manageCommunity-commuity-div" style="padding:0">
+    <a href="/community/inviteUser/<%=newdata._id%>" style="float:right;font-weight:600">
+      Invite Users
+    </a>
+  
+    <a href="/community/editCommunity/<%=newdata._id%>" id="editCommunityOption" style="float:right;font-weight:600;margin-right:15px;display: block;">
+     <p> Edit Community </p>
+    </a>
+  </div>
 
-    
-    <div class="panel-body allSidesSoft" style="background:#fff">
-        <a class="manageCommunity-child-btn manageCommunity-btn-active" id="UsersShowBtn" onclick="initaliseusers()">Users (<%=newdata.commuser.length%>)</a>
+  <div class="col-sm-12" >
+    <div class="col-sm-3" >
+
+    <div class="panel-body allSidesSoft">
+
+        <a id="UsersShowBtn" onclick="initaliseusers()">
+          Users (<%=newdata.commuser.length%>)
+        </a>
         <br>
-        <a class="manageCommunity-child-btn" id="ManagerShowBtn" onclick="initalisemanagers()">
+
+        <a id="ManagerShowBtn" onclick="initalisemanagers()">
           Managers (<%=newdata.commManagers.length%>)
         </a>
         <br>
-        <a class="manageCommunity-child-btn" id="invitedUserShowBtn" onclick="initaliserequests()">
+
+        <a id="invitedUserShowBtn" onclick="initaliserequests()">
           Requests (<%=newdata.commasktojoin.length%>)
           </a>
         <br>
-        <a class="manageCommunity-child-btn" id="invited" onclick="initaliseinvited()">
+
+        <a id="invited" onclick="initaliseinvited()">
           Invited Members (<%=newdata.invited.length%>)
         </a>
+
     </div>
     <br>
   </div>
+
   <div class="col-sm-9">
-    <div id="comlist">
-
-
-    <div class="col-sm-12 col-xs-12 allcoms community-user-div" style="margin-top:5px;"><div class="col-sm-2 col-xs-3" style="padding:5px;"><a href=""><img src="/uploads/default.png" style="width: 50px;height: 50px;" id="dpimage" class="community-member-pic"></a></div><div class="col-sm-8 col-xs-6 scrollable" style="margin-top: 25px;"><a class="comusername" href=""><%=newdata.owner%></a></div><div class="col-sm-2 col-xs-3" style="margin-top: 25px;"><a class="community-user-short-btn"  style="float:left"><i class="fa fa-chevron-up"></i></a><a class="community-user-short-btn" style="float:right"><i class="fa fa-times"></i></a></div></div></div>
+    <div id="comlist"></div>
   </div>
-</div>
 
+  </div></div></div>
 
-</div> <!--Header-->
+  <div></div></div></div>
 
-</div></div></div>
+<script>
 
-                    <div>
-                      
-                 </div>
-                    </div>
-                </div>
-
-            </div>
-
-
-        </div>
-<script type="text/javascript">
-
-  var hideManage = document.getElementById('hideManage');
   var commid ="<%= newdata._id %>";
   var email_id ="<%= data.email %>";
   var userCount = "<%=newdata.commuser.length%>";
@@ -230,25 +136,20 @@ $(document).ready(function() {
     initalisemanagersWithOutDom();
 })
 
-function initaliseusers()
-{
+function initaliseusers() {
+
   var xml=new XMLHttpRequest();
   xml.open("POST","/community/getUsers");
   xml.setRequestHeader("Content-Type","application/json");
-    document.getElementById('comlist').innerHTML=""
-  xml.addEventListener("load",function()
-  {
+  document.getElementById('comlist').innerHTML=""
+  xml.addEventListener("load",function() {
       var data=JSON.parse(xml.responseText);
       if(data.length==0)
-      {
         noUser();
-      }
       else
-      for(i in data)
-      {
-        addtoUserDOM(data[i],1)
-      }
-      //document.getElementById('UsersShowBtn').innerHTML="Users ("+data.length+")";
+        for(i in data)
+          addtoUserDOM(data[i],1)
+
       document.getElementById('UsersShowBtn').style.fontWeight = 'bold';
       document.getElementById('invitedUserShowBtn').style.fontWeight = 'normal';
       document.getElementById('ManagerShowBtn').style.fontWeight = 'normal';
@@ -257,77 +158,63 @@ function initaliseusers()
   xml.send(JSON.stringify({"_id":commid}));
 }
 
-function initaliserequests()
-{
+function initaliserequests() {
   var xml=new XMLHttpRequest();
   xml.open("POST","/community/getRequest");
   xml.setRequestHeader("Content-Type","application/json");
-    document.getElementById('comlist').innerHTML=""
-  xml.addEventListener("load",function()
-  {
-      var data=JSON.parse(xml.responseText);
-      if(data.length==0)
-      {
-        noUser();
-      }
-      else
+  document.getElementById('comlist').innerHTML=""
+  xml.addEventListener("load",function()  {
+    var data=JSON.parse(xml.responseText);
+    if(data.length==0)
+      noUser();
+    else
       for(i in data)
-      {
         addtoUserDOM(data[i],3)
-      }
-      //document.getElementById('invitedUserShowBtn').innerHTML="Requests ("+data.length+")"
-      document.getElementById('invitedUserShowBtn').style.fontWeight = 'bold';
-      document.getElementById('UsersShowBtn').style.fontWeight = 'normal';
-      document.getElementById('ManagerShowBtn').style.fontWeight = 'normal';
-       document.getElementById('invited').style.fontWeight = 'normal';
+      
+    document.getElementById('invitedUserShowBtn').style.fontWeight = 'bold';
+    document.getElementById('UsersShowBtn').style.fontWeight = 'normal';
+    document.getElementById('ManagerShowBtn').style.fontWeight = 'normal';
+    document.getElementById('invited').style.fontWeight = 'normal';
   })
   xml.send(JSON.stringify({"_id":commid}));
 }
 
-function initalisemanagers()
-{
+function initalisemanagers() {
+
   var xml=new XMLHttpRequest();
   xml.open("POST","/community/getManagers");
   xml.setRequestHeader("Content-Type","application/json");
-    document.getElementById('comlist').innerHTML=""
-  xml.addEventListener("load",function()
-  {
-      var data=JSON.parse(xml.responseText);
-      if(data.length==0)
-      {
-        noUser();
-      }
-      else
+  document.getElementById('comlist').innerHTML=""
+  xml.addEventListener("load",function() {
+    var data=JSON.parse(xml.responseText);
+    if(data.length==0)
+      noUser();
+    else
       for(i in data)
-      {
         addtoUserDOM(data[i],2)
-      }
-      document.getElementById('UsersShowBtn').style.fontWeight = 'normal';
-      document.getElementById('invitedUserShowBtn').style.fontWeight = 'normal';
-      document.getElementById('ManagerShowBtn').style.fontWeight = 'bold';
-       document.getElementById('invited').style.fontWeight = 'normal';
+      
+    document.getElementById('UsersShowBtn').style.fontWeight = 'normal';
+    document.getElementById('invitedUserShowBtn').style.fontWeight = 'normal';
+    document.getElementById('ManagerShowBtn').style.fontWeight = 'bold';
+    document.getElementById('invited').style.fontWeight = 'normal';
   })
   xml.send(JSON.stringify({"_id":commid}));
 }
 
-function initaliseinvited()
-{
+function initaliseinvited() {
+
   var xml=new XMLHttpRequest();
   xml.open("POST","/community/getInvited");
   xml.setRequestHeader("Content-Type","application/json");
-    document.getElementById('comlist').innerHTML=""
-  xml.addEventListener("load",function()
-  {
-      var data=JSON.parse(xml.responseText);
-      if(data.length==0)
-      {
-        noUser();
-      }
-      else
+  document.getElementById('comlist').innerHTML=""
+  xml.addEventListener("load",function() {
+    var data=JSON.parse(xml.responseText);
+    if(data.length==0)
+      noUser();
+    else
       for(i in data)
-      {
         addtoUserDOM(data[i],4)
-      }
+      
       document.getElementById('UsersShowBtn').style.fontWeight = 'normal';
       document.getElementById('invitedUserShowBtn').style.fontWeight = 'normal';
       document.getElementById('ManagerShowBtn').style.fontWeight = 'normal';
@@ -336,31 +223,26 @@ function initaliseinvited()
   xml.send(JSON.stringify({"_id":commid}));
 }
 
-function initalisemanagersWithOutDom()
-{
+function initalisemanagersWithOutDom() {
+
   var xml=new XMLHttpRequest();
   xml.open("POST","/community/getManagers");
   xml.setRequestHeader("Content-Type","application/json");
-    document.getElementById('comlist').innerHTML=""
-  xml.addEventListener("load",function()
-  {
-      var data=JSON.parse(xml.responseText);
-      //document.getElementById('ManagerShowBtn').innerHTML="Managers ("+data.length+")"
-      for(i in data)
-      {
-        if(email_id == data[i].email)
-        {
-          //console.log(email_id);
-          document.getElementById('hideProfile').setAttribute("style", "display:none");
-          document.getElementById('editCommunityOption').style.display = 'none';
-        }
+  document.getElementById('comlist').innerHTML=""
+  xml.addEventListener("load",function() {
+    var data=JSON.parse(xml.responseText);
+    for(i in data) {
+      if(email_id == data[i].email){
+        document.getElementById('hideProfile').setAttribute("style", "display:none");
+        document.getElementById('editCommunityOption').style.display = 'none';
       }
+    }
   })
   xml.send(JSON.stringify({"_id":commid}));
 }
 
-function noUser()
-{
+function noUser() {
+
   var div1=document.createElement('div')
   div1.setAttribute("class","col-sm-12 col-xs-12 allcoms community-user-div")
   div1.setAttribute("style","margin-top:5px;display:flex;")
@@ -376,10 +258,8 @@ function noUser()
     document.getElementById('comlist').appendChild(div1)
 }
 
+function addtoUserDOM(obj,no) {
 
-function addtoUserDOM(obj,no)
-{
-  //console.log(obj)
   obj.commid = commid;
   var div1=document.createElement('div')
   div1.setAttribute("class","col-sm-12 col-xs-12 allcoms community-user-div")
@@ -415,10 +295,9 @@ function addtoUserDOM(obj,no)
   var i1=document.createElement('i')
   i1.setAttribute("class","fa fa-chevron-up")
   a3.appendChild(i1);
-  if(no == 1)
-  {
+  if(no == 1) {
+
     a3.onclick=function(){
-      console.log('ayayayaya')
       $.confirm({
         title: 'Confirm Promote!',
         content: "Do you really want promote this user? " ,
@@ -433,29 +312,26 @@ function addtoUserDOM(obj,no)
                 request.open('POST','/community/addManagerToCommunity');
                 request.setRequestHeader("Content-Type","application/json");
                 request.send(JSON.stringify(obj))
-                request.addEventListener("load",function()
-                {
-                    userCount--;
-                    managerCount++;
-                    document.getElementById('UsersShowBtn').innerHTML = "Users ("+userCount+")";
-                    document.getElementById('ManagerShowBtn').innerHTML = "Managers ("+managerCount+")"
-                    document.getElementById('comlist').removeChild(div1)
+                request.addEventListener("load",function() {
+                  userCount--;
+                  managerCount++;
+                  document.getElementById('UsersShowBtn').innerHTML = "Users ("+userCount+")";
+                  document.getElementById('ManagerShowBtn').innerHTML = "Managers ("+managerCount+")"
+                  document.getElementById('comlist').removeChild(div1)
                 });      
             }
         },
           No: {
               btnClass: 'btn-danger any-other-class',
-               action: function () {      
-            }
+               action: function () {}
         },
         }
       });
     }
   }
-  if(no == 2)
-  {
+  if(no == 2) {
+
      a3.onclick=function(){
-        console.log('ayayayaya')
         $.confirm({
           title: 'Confirm Demotation!',
           content: "Do you really want demote this manager? " ,
@@ -464,73 +340,69 @@ function addtoUserDOM(obj,no)
             Yes: {
                  btnClass: 'btn-success any-other-class',
                   action: function () {
-                   btnClass: 'btn-red any-other-class'
+                  btnClass: 'btn-red any-other-class'
 
-                   var request = new XMLHttpRequest()
-                    request.open('POST','/community/demoteManagerFromCommunity');
-                    request.setRequestHeader("Content-Type","application/json");
-                    request.send(JSON.stringify(obj))
-                    request.addEventListener("load",function()
-                    {
-                        userCount++;
-                        managerCount--;
-                        document.getElementById('UsersShowBtn').innerHTML = "Users ("+userCount+")";
-                        document.getElementById('ManagerShowBtn').innerHTML = "Managers ("+managerCount+")"
-                        document.getElementById('comlist').removeChild(div1)
-                    });
+                  var request = new XMLHttpRequest()
+                  request.open('POST','/community/demoteManagerFromCommunity');
+                  request.setRequestHeader("Content-Type","application/json");
+                  request.send(JSON.stringify(obj))
+                  request.addEventListener("load",function() {
+                  userCount++;
+                  managerCount--;
+                  document.getElementById('UsersShowBtn').innerHTML = "Users ("+userCount+")";
+                  document.getElementById('ManagerShowBtn').innerHTML = "Managers ("+managerCount+")"
+                  document.getElementById('comlist').removeChild(div1)
+                  });
               }
           },
             No: {
                 btnClass: 'btn-danger any-other-class',
-                 action: function () {      
-              }
+                 action: function () {}
           },
           }
         });
       } 
   }
-  if(no == 3)
-  {
-    a3.onclick=function(){
-      console.log('ayayayaya')
-      $.confirm({
-        title: 'Confirm Addition!',
-        content: "Do you really want add this user? " ,
-        draggable: true,
-        buttons: {
-          Yes: {
-               btnClass: 'btn-success any-other-class',
-                action: function () {
-                 btnClass: 'btn-red any-other-class'
+  if(no == 3) {
 
-                 var request = new XMLHttpRequest()
-                  request.open('POST','/community/requestedUserJoinCommunity');
-                  request.setRequestHeader("Content-Type","application/json");
-                  request.send(JSON.stringify(obj))
-                  request.addEventListener("load",function()
-                  {
-                      userCount++;
-                      requestCount--;
-                      document.getElementById('UsersShowBtn').innerHTML = "Users ("+userCount+")";
-                      document.getElementById('invitedUserShowBtn').innerHTML = "Requests ("+requestCount+")";
-                      document.getElementById('comlist').removeChild(div1)
-                  });
-                    
+    a3.onclick=function(){
+    $.confirm({
+      title: 'Confirm Addition!',
+      content: "Do you really want add this user? " ,
+      draggable: true,
+      buttons: {
+        Yes: {
+              btnClass: 'btn-success any-other-class',
+              action: function () {
+              btnClass: 'btn-red any-other-class'
+
+              var request = new XMLHttpRequest()
+              request.open('POST','/community/requestedUserJoinCommunity');
+              request.setRequestHeader("Content-Type","application/json");
+              request.send(JSON.stringify(obj))
+              request.addEventListener("load",function() {
+                userCount++;
+                requestCount--;
+                document.getElementById('UsersShowBtn').innerHTML = "Users ("+userCount+")";
+                document.getElementById('invitedUserShowBtn').innerHTML = "Requests ("+requestCount+")";
+                document.getElementById('comlist').removeChild(div1)
+              });
             }
         },
           No: {
               btnClass: 'btn-danger any-other-class',
-               action: function () {      
-            }
+               action: function () {}
         },
         }
       });
     }
   }
+
   if(no == 4)
   {
     a3.setAttribute("style","display:none")
   }
+
   div4.appendChild(a3)
   var a4=document.createElement('a')
   a4.setAttribute("class","community-user-short-btn")
@@ -538,8 +410,9 @@ function addtoUserDOM(obj,no)
   var i2=document.createElement('i')
   i2.setAttribute("class","fa fa-times")
   a4.appendChild(i2);
+
   a4.onclick=function(){
-        $.confirm({
+      $.confirm({
       title: 'Really want to Remove?',
       content: "Do you really want remove this user? " ,
       draggable: true,
@@ -549,74 +422,68 @@ function addtoUserDOM(obj,no)
               action: function () {
                btnClass: 'btn-red any-other-class'
 
-                if(no == 1)
-                {
+                if(no == 1) {
+
                   var request = new XMLHttpRequest()
                   request.open('POST','/community/leaveCommunity');
                   request.setRequestHeader("Content-Type","application/json");
                   request.send(JSON.stringify(obj))
-                  request.addEventListener("load",function()
-                  {
-                        document.getElementById('comlist').removeChild(div1)
-                        userCount--;
-                        document.getElementById('UsersShowBtn').innerHTML = "Users ("+userCount+")";
-                  }); 
-
+                  request.addEventListener("load",function()  {
+                    document.getElementById('comlist').removeChild(div1)
+                    userCount--;
+                    document.getElementById('UsersShowBtn').innerHTML = "Users ("+userCount+")";
+                  });
                 }  
-                else if(no == 2)
-                {
+                else if(no == 2)  {
+
                   var request = new XMLHttpRequest()
                   request.open('POST','/community/leaveCommunityForManagers');
                   request.setRequestHeader("Content-Type","application/json");
                   request.send(JSON.stringify(obj))
-                  request.addEventListener("load",function()
-                  {
-                        document.getElementById('comlist').removeChild(div1)
-                        managerCount--;
-                        document.getElementById('ManagerShowBtn').innerHTML = "Managers ("+managerCount+")";
-
+                  request.addEventListener("load",function()  {
+                    document.getElementById('comlist').removeChild(div1)
+                    managerCount--;
+                    document.getElementById('ManagerShowBtn').innerHTML = "Managers ("+managerCount+")";
                   }); 
                 }
-                else if(no == 3)
-                {
+                else if(no == 3) {
+
                   var request = new XMLHttpRequest()
                   request.open('POST','/community/leaveCommunityForRequestUsers');
                   request.setRequestHeader("Content-Type","application/json");
                   request.send(JSON.stringify(obj))
-                  request.addEventListener("load",function()
-                  {
-                       document.getElementById('comlist').removeChild(div1)
-                        requestCount--;
-                        document.getElementById('invitedUserShowBtn').innerHTML = "Requests ("+requestCount+")";
+                  request.addEventListener("load",function()  {
+                    document.getElementById('comlist').removeChild(div1)
+                    requestCount--;
+                    document.getElementById('invitedUserShowBtn').innerHTML = "Requests ("+requestCount+")";
                   }); 
                 }
-                else if(no == 4)
-                {
+                else if(no == 4) {
+
                   var request = new XMLHttpRequest()
                   request.open('POST','/community/removeInvitedUser');
                   request.setRequestHeader("Content-Type","application/json");
                   request.send(JSON.stringify(obj))
-                  request.addEventListener("load",function()
-                  {
-                        document.getElementById('comlist').removeChild(div1)
-                        invitedCount--;
-                        document.getElementById('invited').innerHTML = "Invited Members ("+invitedCount+")";
+                  request.addEventListener("load",function() {
+                    document.getElementById('comlist').removeChild(div1)
+                    invitedCount--;
+                    document.getElementById('invited').innerHTML = "Invited Members ("+invitedCount+")";
                   }); 
-                   
                 }
           }
       },
         No: {
             btnClass: 'btn-danger any-other-class',
-             action: function () {      
-          }
+             action: function () {}
       },
       }
     });
   }
+
   div4.appendChild(a4)
   div1.appendChild(div4)
-  document.getElementById('comlist').appendChild(div1)
+  document.getElementById('comlist').appendChild(div1);
+
 }
 </script>
 
