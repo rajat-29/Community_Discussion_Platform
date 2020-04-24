@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html >
     <head>
-        <title>CQ</title>
+        <title>Community Discussion</title>
         <meta name="viewport" content="width=device-width" initial-scale="1.0">
         <link href="/css/partials.css" rel="stylesheet" type = "text/css">
         <link href="/css/style.css" rel="stylesheet" type = "text/css">
@@ -15,7 +15,6 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-        <link rel="stylesheet" type="text/css" href="/css/trumbowgy.css">
  <style>
 
 #commHeader
@@ -68,132 +67,114 @@
 </head>
 
 <body class="body" onload="fetchselectoptions()">
-  <%- include('paritials/usertopbar.ejs') %>
+  <%- include('paritials/topbar.ejs') %>
     <div id="viewscreen" >
     <%- include('paritials/sidenavbar.ejs') %>
         <div id="rightview">
-            <div class="container-fluid div-min-width" style="padding:0">
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-12" style="padding:0;">
-                        <div class="community-header-top communityheader-profile-mobile" style="padding-top:6px;position:relative;">
-                            <center>
-                                <div class="communityprofile-name-mobile" style="max-height:40px;overflow:scroll">
-                                  <a href="" style="color:white"></a>
-                                </div>
-                            </center>
+                  <div class="community-header-top" ></div> 
+
+                    <div class="container">
+                        <div class="col-sm-2 ">
+                          <img src="<%=newdata.commphoto%>" class="img-communityprofile-pic" >
                         </div>
-<!-- second -->
-                        <div class="container community-profile-conatiner">
-                            <div class="col-sm-2 col-xs-12 center-mobile pc">
-                              <a href="">
-                                <img src="<%=newdata.commphoto%>" class="img-communityprofile-pic allSides" style="background:#fff"></a>
-                            </div>
 
-                            <div class="col-sm-8 communityprofile-name-pc communityprofile-system">
-                              <a href="/community/communityProfile/<%=newdata._id%>" class="communityprofile-name-pc">
-                                 <p><%=newdata.name%></p></a>
-                            </div>
+                        <a href="/community/communityProfile/<%=newdata._id%>" class="communityprofile-name-pc">
+                             <p><%=newdata.name%></p>
+                        </a>
 
-                            <div class="col-sm-2 col-xs-12 center-mobile" style="padding-top:10px;float:right">
-                                <div class="dropdown">
-                                  <button class="btn btn-default dropdown-toggle commuity-profile-menu-btn" type="button" data-toggle="dropdown">
-                                    <i class="fa fa-bars"></i>
-                                  </button>
-                                  <ul class="dropdown-menu custom-commuity-dropdown dropdown-menu-right" style="margin-top:40px">
-                                      <li>
-                                          <a href="" class="community-profile-option-btn">
-                                            Discussions
-                                          </a>
-                                      </li>
+        <div class="col-sm-2" style="padding-top:5px;float:right">
+          <div class="dropdown">
+            <button class="btn btn-default commuity-profile-menu-btn" data-toggle="dropdown">
+              <i class="fa fa-bars"></i>
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-right" style="margin-top:40px">
+                                     
+                <li>
+                  <a href="">
+                    Discussions
+                  </a>
+                </li>
                                       
-                                      <li id="hideManage">
-                                          <a href="/community/setting/<%=newdata._id%>" class="community-profile-option-btn">
-                                            Manage Community
-                                          </a>
-                                      </li>
+                <li id="hideManage">
+                  <a href="/community/setting/<%=newdata._id%>">
+                    Manage Community
+                  </a>
+                </li>
                                     
+                <li id="hideProfile">
+                  <a href="/community/info/<%=newdata._id%>">
+                    Community Profile
+                  </a>
+                </li>
 
-                                      <li id="hideProfile">
-                                          <a href="/community/info/<%=newdata._id%>" class="community-profile-option-btn">
-                                            Community Profile
-                                          </a>
-                                      </li>
+                <li>
+                    <a href="/community/showCommunityMembers/<%=newdata._id%>">
+                      Community Members
+                    </a>
+                </li>
 
-      <li>
-          <a href="/community/showCommunityMembers/<%=newdata._id%>" class="community-profile-option-btn">
-            Community Members
-          </a>
-      </li>
-
-    </ul>
-</div>
-</div>
-</div>
-
-<!-- third -->
-<center>
-    <hr style="border-top:2px solid #E6E6E6;width:85%;margin-top:0">
-</center>
-<style>
-  .child-reply-input{
-    display: none !important;
-  }
-</style>
-
-<div class="container" style="width:90% !important">  
-</div>
-<div class="container discussion-input discussion-container">
-  <div class="panel panel-default allSidesSoft" style="border-radius:0;border:1px solid rgb(182, 182, 182) !important;">
-    <div class="panel-body" style="padding:5px;background:#f9f9f9;">
-      <div class="col-sm-1 col-xs-3">
-        <a href="">
-          <img src="<%=newdata.commphoto%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage" style="border:2px solid #fff;width: 50px;height: 50px;">
-        </a>
+            </ul>
+        </div>
       </div>
-      <p class="col-sm-11 col-xs-9 discussion-heading" style="margin-top: 20px;font-size: 20px;">
+    </div>
+
+    <center>
+        <hr style="border-top:2px solid #E6E6E6;width:85%;margin-top:1%;">
+    </center>
+
+
+<div class="container">
+  <div class="panel" style="border-radius:0;border:1px solid rgb(182, 182, 182);margin-left: 2%;">
+    <div class="panel-body">
+
+      <div class="col-sm-1 col-xs-3">
+          <img src="<%=newdata.commphoto%>" style="border:2px solid #fff;width: 50px;height: 50px;">
+      </div>
+
+      <p style="margin-top: 20px;font-size: 20px;">
         Start a discussion
       </p>
     </div>
 
-    <div class="panel-body discussion-panel-body">
-      <div class="col-sm-12 col-xs-12" style="padding:0;border-top: 1px solid white;">
-        <input type="text" style="width:100%" class="discussion-input-title" name="title" placeholder="Enter a discussion title....." id="discussion_title" autocomplete="off" required="">
+    <div class="panel-body">
+
+      <div class="col-sm-12">
+
+        <input type="text" style="width:100%" class="discussion-input-title" placeholder="Enter a discussion title....." id="discussion_title" autocomplete="off" required="">
       </div>
+
     </div>
 
     <div class="panel-body discussion-body" style="display: block;width: 100%;">
-        <div class="col-sm-12 col-xs-12" style="padding:0;border-top: 1px solid white;">
-          <!--Textarea-->
-            <textarea class="discussion-body-textarea" name="details" placeholder="Enter discussion details" id="discussion_details" autocomplete="off" required=""></textarea>
-          <!------------>
+
+        <div style="padding:0;border-top: 1px solid white;">
+            <textarea class="discussion-body-textarea" placeholder="Enter discussion details" id="discussion_details" autocomplete="off" required=""></textarea>
         </div>
 
-        <div class="link-preview-main col-sm-12 col-xs-12">
-          <!-- preview here -->
-        </div>
         <div class="tag-conatiner-custom-div">
-          <select class="form-control" required="required" id="tagList">   
-          </select>
+          <select class="form-control" id="tagList"></select>
         </div>
 
-        <div class="col-sm-12 col-xs-12" style="padding:0; ">  
-          <button class="btn btn-primary" type="submit" style="float:right" id="discussion_post">
-            <p class="discussion-post-btn-txt">Post</p>
-          </button>
-        </div>
+        <button class="btn btn-primary" type="submit" style="float:right" id="discussion_post">
+           <p class="discussion-post-btn-txt">Post</p>
+        </button>
     </div>
-  
-  <div class="panel-footer"></div>
   </div>
-</div> <!--Header-->  
+  
+</div>
+</div>
 
-  <div id="discussionsList"></div>
+<div id="discussionsList"></div>
 
-</div></div></div>
+</div></div>
 <div></div>
 </div></div></div></div>
 
-<script type="text/javascript">
+<script>
+
   var socket = io();
   var hideManage = document.getElementById('hideManage');
   var commid ="<%= newdata._id %>";
@@ -250,8 +231,7 @@ function initaliseDiscussions() {
 }
 
 function addtoUserDOM(obj) {
-  if(obj.email == email_id)
-  {
+  if(obj.email == email_id) {
      hideManage.setAttribute("style", "display:none");
   }
 }
@@ -279,9 +259,9 @@ var discussion_post = document.getElementById('discussion_post');
 
 discussion_post.addEventListener("click",function() {
 
-  if(discussion_title.value == '' || discussion_details.value  == '')
-  {
+  if(discussion_title.value == '' || discussion_details.value  == '') {
     alert("Field can't be Empty");
+    return;
   }
 
     var today = new Date();
@@ -291,8 +271,7 @@ discussion_post.addEventListener("click",function() {
     var hrs = today.getHours();
     var mins = today.getMinutes();
     var format = "AM";
-    if(hrs>12)
-    {
+    if(hrs>12) {
         hrs=hrs-12;
         format="PM";
     }
@@ -315,22 +294,19 @@ discussion_post.addEventListener("click",function() {
     request.setRequestHeader("Content-Type","application/json");
     request.send(JSON.stringify(obj))
     request.addEventListener("load",function() {
-        console.log("Data Posted Successfully");
         alert("New Discussion Is Registred");
+        location.reload();
   });  
-    location.reload();
 })
 
 function addtoDiscussionDOM(obj)
 {
-     var div = '<div class="container discussion-container">'
-                +'<div class="panel panel-default allSidesSoft" style="background:white;">'
+     var div = '<div class="container ">'
+                +'<div class="panel panel-default" style="background:white;margin-left: 2%;">'
                   +'<div class="dropup" style="margin-right: 10px;">'
                     +'<a class="discussion-dropdown-menu" data-toggle="dropdown" style="float:right !important" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>'
                     +'<ul class="dropdown-menu dropdown-menu-right dropdown-menu-discussion">'
                       +'<li><a class="request-dropdown-options" onclick=deleteDiscussion("'+obj._id+'")>Delete</a></li>'
-                      +'<li id=""><a class="request-dropdown-options" onclick="" id="">Feature</a></li>'
-                      +'<li id=""><a class="request-dropdown-options" onclick="" id="">Publish to CQ</a></li>'
                     +'</ul>'
                   +'</div>'
                   +'<div class="panel-body" style="padding:0; padding-top:10px;">'
@@ -357,7 +333,7 @@ function addtoDiscussionDOM(obj)
   function addtoDiscussionDOMwithOutOptions(obj)
   {
     var div = '<div class="container discussion-container">'
-                +'<div class="panel panel-default allSidesSoft" style="background:white;">'
+                +'<div class="panel panel-default allSidesSoft" style="background:white;margin-left: 2%;">'
                   +'<div class="panel-body" style="padding:0; padding-top:10px;">'
                     +'<div class="col-sm-12 col-xs-12 col-lg-12 col-md-12 discussion-title">'
                       +'<a class="discussion-title" href="#" target="">'+obj.title+'</a>'
@@ -427,7 +403,6 @@ function displayComments(disId) {
 }
 
 function hideComments(disId) {
-console.log('d')
     document.getElementById('enterComments'+ disId).setAttribute("style","visibility:hidden");
     document.getElementById('send'+ disId).setAttribute("style","visibility:hidden");
     $('.comments'+disId).empty();
@@ -436,8 +411,7 @@ console.log('d')
 function doComment(oa,createBy,commId) {
 
     var comment = $('#comment'+ oa).val();
-    if(comment == '')
-    {
+    if(comment == '')  {
       alert("Comment is Empty");
       return;
     }
@@ -573,8 +547,7 @@ function hideReplies(disId) {
 function doReply(commentId,repliedBy,ownerId,discussionId) {
 
     var reply = $('#enterReply'+ commentId).val();
-    if(reply == '')
-    {
+    if(reply == '')  {
         alert("Reply is Empty");
         return;
     }
@@ -587,7 +560,6 @@ function doReply(commentId,repliedBy,ownerId,discussionId) {
 
       if(reply != ''){
             var data = {'reply': reply,'commentId': commentId,'repliedBy' : repliedBy,'ownerId' : ownerId,'discussionId' : discussionId,'createdDate' : today,'photoname' : "<%= data.photoname %>"};
-            console.log(data)
         $('.replies'+ commentId).append('<div class="col-sm-4"></div>'
           +'<div class="col-sm-1 col-xs-3"><a href="">'
           +'<img src="<%=data.photoname%>" class="discussion-com-profile-pic allSidesSoft" id="dpimage"'
@@ -603,7 +575,6 @@ function doReply(commentId,repliedBy,ownerId,discussionId) {
 }
 
 socket.on('reply',function(data){
-    //  console.log(data)
 
         $('.replies'+ data.commentId).append('<div class="col-sm-4"></div>'
           +'<div class="col-sm-1 col-xs-3"><a href="">'
@@ -623,7 +594,6 @@ function deleteDiscussion(ides) {
     {
       alert("Discussion Deleted")
       location.reload();        
-       //console.log(request.responseText);
     }); 
 }
 
@@ -649,8 +619,7 @@ function deleteComment(ides) {
       },
         No: {
             btnClass: 'btn-danger any-other-class',
-             action: function () {      
-          }
+             action: function () {}
       },
       }
     });
@@ -674,8 +643,6 @@ function getDays(x) {
     var Difference_In_Time = date2.getTime() - date1.getTime();
     var Difference_In_Days = Difference_In_Time / (1000*3600*24);
 
-    //console.log(Difference_In_Days)
-
     if(Difference_In_Days > 31)
     {
       Difference_In_Days = Math.round(Difference_In_Days/30);
@@ -687,22 +654,17 @@ function getDays(x) {
     return Difference_In_Days;
 }
 
-function fetchselectoptions()
-{
+function fetchselectoptions() {
   var commArr;
   var request = new XMLHttpRequest();
-    request.open('GET','/admin/categoryOptions');
-    request.send();
-    request.onload = function()
-    {
-        commArr = JSON.parse(request.responseText);
-       for(i in commArr)
-       {
-        tagList.options[tagList.options.length] = new Option(commArr[i].tags,commArr[i].tags);
-       }
-    }
+  request.open('GET','/admin/categoryOptions');
+  request.send();
+  request.onload = function() {
+    commArr = JSON.parse(request.responseText);
+    for(i in commArr)
+      tagList.options[tagList.options.length] = new Option(commArr[i].tags,commArr[i].tags);
+  }
 }
-
 
 </script>
 </body>
