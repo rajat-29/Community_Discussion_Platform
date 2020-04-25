@@ -1,90 +1,32 @@
 <!DOCTYPE html>
 <html >
     <head>
-        <title>CQ</title>
-        <meta name="viewport" content="width=device-width" initial-scale="1.0">
-        <link href="/css/partials.css" rel="stylesheet" type = "text/css">
-        <link href="/css/addNewCommunity.css" rel="stylesheet" type = "text/css">
-        <link href="/css/communityInfo.css" rel="stylesheet" type = "text/css">
+      <title>CQ</title>
+      <meta name="viewport" content="width=device-width" initial-scale="1.0">
+      <link href="/css/partials.css" rel="stylesheet" type = "text/css">
+      <link href="/css/style.css" rel="stylesheet" type = "text/css">
+      <link href="/css/communityInfo.css" rel="stylesheet" type = "text/css">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="/js/openpanel.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+      <link rel="stylesheet" type="text/css" href="/css/trumbowgy.css">
+</head>
 
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
-        <!-- BOOTSTRAP 3-->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="/js/openpanel.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-        
-        <link rel="stylesheet" type="text/css" href="/css/trumbowgy.css">
+<body class="body">
+  <%- include('paritials/usertopbar.ejs') %>
+  <div id="viewscreen" >
+    <%- include('paritials/sidenavbar.ejs') %>
+    <div id="rightview">
+      <div class="container-fluid" style="padding:0">
+        <div class="row">
+          <div class="col-lg-12" style="padding:0;">
 
-         <style>
-
-    #commHeader
-{
-    background-image: linear-gradient(to bottom, #4ba2b7, #42a6be, #38aac6, #29adcd, #0fb1d5);
-
-}
-#first-btn
-{
-    border: 1px solid #fff !important;
-    color: #fff !important;
-    border-bottom: 4px solid #fff !important;
-    background-color: rgba(255,255,255,0.1) !important;
-    margin-left: 100px;
-}
-#search-btn
-{
-    background-color: rgba(255,255,255,0.1);
-    color: #fff;
-    border: 1px solid #fff;
-}
-
-#dpimage
-{
-    cursor: pointer !important;
-    width: 40px;
-    margin-left: 30px;
-    margin-top: 10px;
-    margin-right: 10px;
-    float: right;
-    border-radius: 50%;
-    vertical-align: middle;
-    border: 0;
-}
-
-  </style>
-
-
-    </head>
-
-    <body class="body">
-         <%- include('paritials/usertopbar.ejs') %>
-        <div id="viewscreen" >
-            <%- include('paritials/sidenavbar.ejs') %>
-  
-            <div id="rightview">
-                <div class="container-fluid div-min-width" style="padding:0">
-                    <div class="row">
-                        <div class="col-lg-12" style="padding:0;">
-
-
-<div class="community-header-top communityheader-profile-mobile" style="padding-top:6px;position:relative;">
-  
-    <center>
-        <div class="communityprofile-name-mobile" style="max-height:40px;overflow:scroll">
-          <a href="" style="color:white">
-            
-          </a>
-        </div>
-    </center>
-
-   
-
-</div>
-
-<!-- second -->
+          <div class="community-header-top" ></div>    
 
 
 <div class="container community-profile-conatiner">
@@ -99,90 +41,34 @@
      <p><%=newdata.name%></p>
   </a>
 </div>
-
-<div class="col-sm-2 col-xs-12 center-mobile" style="padding-top:10px;float:right">
-<div class="dropdown">
-  <button class="btn btn-default dropdown-toggle commuity-profile-menu-btn" type="button" data-toggle="dropdown">
-    <i class="fa fa-bars"></i>
-  </button>
-  <ul class="dropdown-menu custom-commuity-dropdown dropdown-menu-right" style="margin-top:40px">
-
-    
-      <li>
-          <a href="/community/discussion/<%=newdata._id%>" class="community-profile-option-btn">
-            Discussions
-          </a>
-      </li>
-    
-
-    
-      <li id="hideManage">
-          <a href="/community/setting/<%=newdata._id%>" class="community-profile-option-btn">
-            Manage Community
-          </a>
-      </li>
-    
-
-      <li id="hideProfile">
-          <a href="/community/info/<%=newdata._id%>" class="community-profile-option-btn">
-            Community Profile
-          </a>
-      </li>
-
-      <li>
-          <a href="/community/showCommunityMembers/<%=newdata._id%>" class="community-profile-option-btn">
-            Community Members
-          </a>
-      </li>
-
-    </ul>
 </div>
-</div>
-
-
-</div>
-
-<!-- third -->
 
 <center>
     <hr style="border-top:2px solid #E6E6E6;width:85%;margin-top:0">
 </center>
-<style>
-  .child-reply-input{
-    display: none !important;
-  }
-</style>
 
-<!--  for -->
 
 <div class="container">
+  <div style="margin-top:20px;margin-bottom:50px">
+    <div class="col-sm-3 col-md-3 col-xs-4 col-lg-2">
 
-<div style="margin-top:20px;margin-bottom:50px">
-  <div class="col-sm-3 col-md-3 col-xs-4 col-lg-2">
-    <a class="communitymembers-head-btn" id="admins-list-btn" style="font-size: 20px;" onclick="initaliseManagers()">
-      Managers (0)
-    </a>
-  </div>
-  <div class="col-sm-3 col-md-3 col-xs-4 col-lg-2">
-    <a class="communitymembers-head-btn active-link-btn" onclick="initaliseusers()" id="users-list-btn" style="font-size: 20px;">Members (0)</a>
-  </div>
-  <div class="col-sm-12">
-      
-      <div id="comUsersList">
+      <a style="font-size: 20px;" onclick="initaliseManagers()">
+        Managers (0)
+      </a>
+    </div>
 
- </div>
+    <div class="col-sm-3 col-md-3 col-xs-4 col-lg-2">
+      <a onclick="initaliseusers()" style="font-size: 20px;">Members (0)</a>
+    </div>
+
+    <div class="col-sm-12"> 
+        <div id="comUsersList"></div>
     </div>
   </div>
-</div> <!--Header-->
 
-</div></div></div>
-                    <div>                     
-                 </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-<script type="text/javascript">
+</div></div></div></div><div></div></div></div>
+         
+<script>
 
   var hideManage = document.getElementById('hideManage');
   var commid ="<%= newdata._id %>";
