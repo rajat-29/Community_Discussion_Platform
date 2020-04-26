@@ -86,8 +86,6 @@ function addToDOM(obj,s) {
     a2.href = "/community/discussion/" + filenaming;
     a2.innerHTML=obj.name + "     ";
 
-
-
     var a3=document.createElement('a')
     a3.setAttribute("class","comnametxt-user")
     a3.setAttribute("href","")
@@ -188,6 +186,7 @@ function addToDOM(obj,s) {
         i1.setAttribute("class","fa fa-times")
         l1.appendChild(i1)
         l1.onclick=function(){
+
             $.confirm({
             title: 'Cancel Request?',
             content: "Do you really want cancel request... " ,

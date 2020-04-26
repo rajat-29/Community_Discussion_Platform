@@ -93,6 +93,7 @@ add_student.addEventListener("click", function() {
 		});
 	}
 	else {
+		console.log('s')
 		var request = new XMLHttpRequest();
 	    request.open('POST',"/admin/addnewuser");
 	    request.setRequestHeader("Content-Type","application/json");

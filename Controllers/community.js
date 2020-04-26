@@ -232,7 +232,6 @@ exports.updatecommdetails = (req,res) => {
 
 exports.inviteUser = (req,res) => {
       var id = req.params.pros.toString();
-      console.log('j')
        community.findOne({ "_id": id },function(err,reses)
        {
           if(err)
@@ -286,7 +285,9 @@ exports.leavePendingcommunity = (req,res) => {
   {
             if(error)
             throw error;
-            else {}
+            else {
+              res.send("USER JOINED WITH COMMUNITY");
+            }
   })
 
   users.updateOne({"_id" :abc},{ $pull : {asktojoincomm : req.body._id}},function(error,result)

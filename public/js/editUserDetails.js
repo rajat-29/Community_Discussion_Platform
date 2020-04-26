@@ -57,12 +57,9 @@ function updateUserDetails() {
     }); 
 }
 
-function updateNewUserDetails()
-{
-	p = profilepic.slice(21,profilepic.length);
+function updateNewUserDetails() {
 
-	if(dateses.value == '')
-	{
+	if(dateses.value == '') {
 		$.confirm({
             title: 'DOB ?',
             content: "ENTER DOB",
@@ -77,8 +74,7 @@ function updateNewUserDetails()
         });
 		return false;
 	}
-	else if(phone.value.length<10)
-	{
+	else if(phone.value.length<10) {
 		$.confirm({
             title: 'Phone No ?',
             content: "Phone No should be of length 10",
@@ -93,6 +89,7 @@ function updateNewUserDetails()
         });
 		return false;
 	}
+
 	var obj1 = Object()
 	obj1.dob = dateses.value;
 	obj1.email = email.value;
@@ -104,15 +101,12 @@ function updateNewUserDetails()
 	obj1.interest = interest.value;
 	obj1.bitmore = journey.value;
 	obj1.expectation = expectation.value;
-	obj1.photoname = p;
 
-		var request = new XMLHttpRequest();
-  		request.open('POST',"/user/updateeditUserDob");
-    	request.setRequestHeader("Content-Type","application/json");
-   		request.send(JSON.stringify(obj1))
-    	request.addEventListener("load",function() {
-        console.log("Data Posted Successfully");
-
+	var request = new XMLHttpRequest();
+  	request.open('POST',"/login/updateNewUserDetails");
+    request.setRequestHeader("Content-Type","application/json");
+   	request.send(JSON.stringify(obj1))
+    request.addEventListener("load",function() {
+        window.location = "/login/home"; 
     }); 
- window.location = "/user/newUsereditProfile"; 
 }

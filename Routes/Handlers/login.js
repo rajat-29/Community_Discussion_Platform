@@ -45,4 +45,6 @@ app.use('/changePassword',auth,loginController.changePassword);
 
 app.use('/editUserDetails',auth,loginController.editUserDetails);
 
+app.use('/updateNewUserDetails',auth,loginController.updateNewUserDetails);
+
 module.exports = app;

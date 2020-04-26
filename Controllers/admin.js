@@ -12,12 +12,17 @@ exports.addnewuser = (req, res) => {
       users.create(req.body,function(error,res) {
           if(error)
           throw error;
-          else
-            res.send("data saved");
+          else{
+            
+          }
+           
         })         
     }
-    else {}
+    else {
+      
+    }
   }) 
+   res.send("data saved");
 }
 
 exports.listusers = (req, res) => {
