@@ -90,6 +90,6 @@ app.use('/demoteManagerFromCommunity',auth,communityController.demoteManagerFrom
 
 app.use('/getUsersOtherThanInCommunity',auth,communityController.getUsersOtherThanInCommunity);
 
-app.use('/inviteUser',auth,communityController.inviteUser);
+app.use('/inviteUserComm',auth,communityController.inviteUserComm);
 
 module.exports = app;

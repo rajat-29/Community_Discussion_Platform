@@ -1,7 +1,7 @@
 var users = require('../Models/UserSchema');
 var community = require('../Models/communitySchema');
 var Comments = require('../Models/CommentSchema');
-
+var mongoose = require("mongoose");
 var community_photo = "uploads/defaultCommunity.jpg";
 
 exports.addNewCommunitytobase = (req, res) => {
@@ -232,11 +232,13 @@ exports.updatecommdetails = (req,res) => {
 
 exports.inviteUser = (req,res) => {
       var id = req.params.pros.toString();
+      console.log('j')
        community.findOne({ "_id": id },function(err,reses)
        {
           if(err)
           throw err;
           else {
+
              res.render('InfocommunitySettings', {data: req.session.data,newdata:reses});
           }
       });
@@ -543,7 +545,7 @@ exports.getUsersOtherThanInCommunity = (req,res) => {
     })
 }
 
-exports.inviteUser = (req,res) => {
+exports.inviteUserComm = (req,res) => {
       var abc = ObjectId(req.body.userid);
         community.updateOne({"_id" :req.body.commid},{ $push : {invited : abc}},function(error,result)
         {
