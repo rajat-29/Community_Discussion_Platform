@@ -202,7 +202,7 @@ exports.viewprofile = (req,res) => {
           if(err)
           throw err;
           else {
-              res.render('communityOwnerInfo', {data: req.session.data,newdata:reses});
+              res.render('viewProfile', {data: req.session.data,newdata:reses});
           }
       });
 }
@@ -214,7 +214,7 @@ exports.editCommunity = (req,res) => {
           if(err)
           throw err;
           else {
-             res.render('EditcommunitySettings', {data: req.session.data,newdata:reses});
+             res.render('editcommunity', {data: req.session.data,newdata:reses});
           }
       });
 }
