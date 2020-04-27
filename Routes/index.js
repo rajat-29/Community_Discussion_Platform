@@ -9,6 +9,5 @@ app.use('/login',require('./Handlers/login.js'));
 app.use('/admin',require('./Handlers/admin.js'));
 app.use('/community',require('./Handlers/community.js'));
 app.use('/discussion',require('./Handlers/discussion.js'));
-app.use('/user',require('./Handlers/user.js'));
 
 module.exports = app;

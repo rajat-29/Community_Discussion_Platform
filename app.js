@@ -7,7 +7,6 @@ var mongodb = require('mongodb');
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
 ObjectId = require('mongodb').ObjectID;
-var MongoClient = mongodb.MongoClient;
 var port = process.env.PORT || 3000;
 var bodyParser = require("body-parser");
 var mongoStore = require("connect-mongo")(session);
