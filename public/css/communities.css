@@ -34,3 +34,45 @@
     border-bottom: 1px solid transparent;
     border-color: #CCCCCC;
 }
+
+.community-header-top {
+    width: 100%;
+    background-image: linear-gradient(to bottom, #4ba2b7, #42a6be, #38aac6, #29adcd, #0fb1d5);
+    height: 50px;
+}
+
+.communityprofile-name-pc {
+    overflow: auto;
+    z-index: 1;
+    height: 60px;
+    margin-top: 15px;
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: capitalize;
+    font-weight: bold;
+}
+
+.img-communityprofile-pic {
+    background: rgb(255, 255, 255) !important;
+    height: 100px;
+    width: 100px;
+    z-index: 2;
+    position: absolute;
+    margin-top: -40px;
+    border: 4px solid #fff;
+}
+
+.commuity-profile-menu-btn {
+    margin-bottom: 5px;
+    float: right;
+    border: 2px solid #D1CFCF;
+}
+
+.allSidesSoft {
+    box-shadow: 0 3px 10px 0 rgba(115,143,147,.3);
+}
+
+.community-user-div {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
