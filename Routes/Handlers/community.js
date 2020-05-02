@@ -9,19 +9,19 @@ var auth=require('../../MiddleWares/auth');
 let communityController = require('../../Controllers/community');
 
 app.get('/joinedCommunities',auth, function(req,res){
-   res.render('joinedCommunities', {data: req.session.data});
+   res.render('joinedCommunities', {data: req.session.data,title : 'Joined Communities'});
 })
 
 app.get('/addNewCommunity',auth,function(req,res){ 
-      res.render('addNewCommunity', {data: req.session.data});
+      res.render('addNewCommunity', {data: req.session.data,title : 'Add Community'});
 })
 
 app.get('/searchingCommunity',auth,function(req,res) {
-      res.render('searchingCommunity', {data: req.session.data});
+      res.render('searchingCommunity', {data: req.session.data,title : 'Search Community'});
 })
 
 app.get('/invitedCommunity',auth,function(req,res) {
-      res.render('invitedCommunity', {data: req.session.data});
+      res.render('invitedCommunity', {data: req.session.data,title : 'Invite Community'});
 })
 
 // controllers //

@@ -9,23 +9,23 @@ var auth=require('../../MiddleWares/auth');
 let adminController = require('../../Controllers/admin');
 
 app.get('/add_user',auth,function(req,res){
-  		res.render('add_user', {data: req.session.data});
+  		res.render('add_user', {data: req.session.data,title : 'Add User'});
 })
 
 app.get('/manage_users',auth,function(req,res){  
-      res.render('manage_users', {data: req.session.data});
+      res.render('manage_users', {data: req.session.data,title : 'Manage User'});
 })
 
 app.get('/manage_community',auth,function(req,res){  
-      res.render('manage_community', {data: req.session.data});
+      res.render('manage_community', {data: req.session.data,title : 'Manage Community'});
 })
 
 app.get('/create_tag',auth,function(req,res){ 
-      res.render('create_tag',{data: req.session.data});
+      res.render('create_tag',{data: req.session.data,title : 'Create Tags'});
 })
 
 app.get('/manage_tags',auth,function(req,res) {
-      res.render('manage_tags', {data: req.session.data});
+      res.render('manage_tags', {data: req.session.data,title : 'Manage Tags'});
 })
 
 // controllers //

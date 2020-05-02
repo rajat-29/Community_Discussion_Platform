@@ -12,15 +12,15 @@ let loginController = require('../../Controllers/login');
 app.get('/home', auth,function(req,res){      
 
   if(req.session.data.dob == ''){
-    res.render('newUserDetails', {data: req.session.data});
+    res.render('newUserDetails', {data: req.session.data,title : 'User Details'});
   }
   else{
-    res.render('dashboard', {data: req.session.data});
+    res.render('home', {data: req.session.data,title : 'Home'});
    }         
 })
 
 app.get('/changePassword',auth,function(req,res){ 
-      res.render('changePassword', {data: req.session.data});
+      res.render('changePassword', {data: req.session.data,title : 'Change Password'});
 })
 
 app.get("/404" ,function(req,res) {
@@ -34,7 +34,7 @@ app.get('/logutUser', function(req,res) {
 })
 
 app.get('/editUserDetails', auth,function(req,res) {
-      res.render('editUserDetails', {data: req.session.data});
+      res.render('editUserDetails', {data: req.session.data,title : 'Edit Details'});
 }) 
 
 // controllers //
