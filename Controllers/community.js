@@ -155,7 +155,7 @@ exports.info = (req,res) => {
           if(err)
           throw err;
           else {
-             res.render('communityInformation', {data: req.session.data,newdata:reses});
+             res.render('communityInformation', {data: req.session.data,newdata:reses,title : 'Community Information'});
           }
       });
 }
@@ -167,7 +167,7 @@ exports.setting = (req,res) => {
           if(err)
           throw err;
           else {
-             res.render('communitySettings', {data: req.session.data,newdata:reses});
+             res.render('communitySettings', {data: req.session.data,newdata:reses,title : 'Community Settings'});
           }
       });
 }
@@ -179,7 +179,7 @@ exports.communityProfile = (req,res) => {
           if(err)
           throw err;
           else {
-             res.render('communityProfileInfo', {data: req.session.data,newdata:reses});
+             res.render('communityProfileInfo', {data: req.session.data,newdata:reses,title : 'Community Profile Info'});
           }
       });
 }
@@ -191,7 +191,7 @@ exports.viewprofile = (req,res) => {
           if(err)
           throw err;
           else {
-              res.render('viewProfile', {data: req.session.data,newdata:reses});
+              res.render('viewProfile', {data: req.session.data,newdata:reses,title : 'View Profile'});
           }
       });
 }
@@ -203,7 +203,7 @@ exports.editCommunity = (req,res) => {
           if(err)
           throw err;
           else {
-             res.render('editcommunity', {data: req.session.data,newdata:reses});
+             res.render('editcommunity', {data: req.session.data,newdata:reses,title : 'Edit Community'});
           }
       });
 }
@@ -227,7 +227,7 @@ exports.inviteUser = (req,res) => {
           throw err;
           else {
 
-             res.render('InfocommunitySettings', {data: req.session.data,newdata:reses});
+             res.render('inviteUser', {data: req.session.data,newdata:reses,title : 'Invite User'});
           }
       });
 }
@@ -243,7 +243,7 @@ exports.discussion = (req,res) => {
             {
               if(err)
               throw err;
-                res.render('communityDiscussions', {data: req.session.data,newdata:reses,comments:resesComm});
+                res.render('communityDiscussions', {data: req.session.data,newdata:reses,comments:resesComm,title : 'Community Discussion'});
             });
           }
       });
@@ -294,7 +294,7 @@ exports.showCommunityMembers = (req,res) => {
           if(err)
           throw err;
           else {
-             res.render('showCommunitymembers', {data: req.session.data,newdata:reses});
+             res.render('showCommunitymembers', {data: req.session.data,newdata:reses,title : 'Show Community Members'});
           }
       });
 }

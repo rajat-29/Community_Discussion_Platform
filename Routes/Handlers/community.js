@@ -20,8 +20,8 @@ app.get('/searchingCommunity',auth,function(req,res) {
       res.render('searchingCommunity', {data: req.session.data,title : 'Search Community'});
 })
 
-app.get('/invitedCommunity',auth,function(req,res) {
-      res.render('invitedCommunity', {data: req.session.data,title : 'Invite Community'});
+app.get('/acceptInvitation',auth,function(req,res) {
+      res.render('acceptInvitation', {data: req.session.data,title : 'Accept Invitation'});
 })
 
 // controllers //
