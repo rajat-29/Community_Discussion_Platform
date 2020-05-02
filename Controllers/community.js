@@ -5,19 +5,19 @@ var mongoose = require("mongoose");
 var community_photo = "/uploads/defaultCommunity.jpg";
 
 exports.addNewCommunitytobase = (req, res) => {
-      req.body.email = req.session.email;
-      req.body.owner = req.session.name;
-      req.body.ownerId = req.session.iding;
-      req.body.memberno = '1';
-      req.body.commphoto = community_photo;
-      community_photo = "/uploads/defaultCommunity.jpg";
+
+    req.body.email = req.session.email;
+    req.body.owner = req.session.name;
+    req.body.ownerId = req.session.iding;
+    req.body.memberno = '1';
+    req.body.commphoto = community_photo;
+    community_photo = "/uploads/defaultCommunity.jpg";
       
-      community.create(req.body,function(error,result)
-      {
-        if(error)
+    community.create(req.body,function(error,result){
+      
+      if(error)
         throw error;
-        else
-        {
+      else{
           var cid = result._id;
           users.updateOne(  { "_id" : req.session.iding } , { $push : { owned : cid } } , function(err,result)
           {
@@ -27,7 +27,7 @@ exports.addNewCommunitytobase = (req, res) => {
           })
         }
       })
-       res.send("data saved");
+  res.send("data saved");
 }
 
 exports.getOwnedCommunity = (req,res) => {
@@ -84,10 +84,8 @@ exports.getInvitationsForUser = (req,res) => {
 
 exports.joincommunity = (req,res) => {
       var abc = ObjectId(req.session.iding);
-      if(req.body.rule == "Direct")
-      {
-        community.updateOne({"_id" :req.body._id},{ $push : {commuser : abc}},function(error,result)
-        {
+      if(req.body.rule == "Direct") {
+        community.updateOne({"_id" :req.body._id},{ $push : {commuser : abc}},function(error,result)  {
             if(error)
             throw error;
             else {
@@ -96,16 +94,14 @@ exports.joincommunity = (req,res) => {
         })
 
         //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
-        users.updateOne({"_id" : abc},{ $push : {joinedComm : req.body._id }},function(error,result)
-        {
+        users.updateOne({"_id" : abc},{ $push : {joinedComm : req.body._id }},function(error,result)  {
             if(error)
             throw error;
             else {}
         })
       }
 
-       else if(req.body.rule == "Permission")
-      {
+      else if(req.body.rule == "Permission") {
         community.updateOne({"_id" : req.body._id},{ $push : {commasktojoin : abc}},function(error,result)
         {
             if(error)
@@ -125,38 +121,31 @@ exports.joincommunity = (req,res) => {
 }
 
 exports.joinInvitedcommunity = (req,res) => {
-      var abc = ObjectId(req.session.iding);
-        community.updateOne({"_id" :req.body._id},{ $push : {commuser : abc}},function(error,result)
-        {
-            if(error)
-            throw error;
-            else {}
-        })
+  var abc = ObjectId(req.session.iding);
+  community.updateOne({"_id" :req.body._id},{ $push : {commuser : abc}},function(error,result) {
+    if(error)
+       throw error;
+  })
 
-        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
-        users.updateOne({"_id" : abc},{ $push : {joinedComm : req.body._id }},function(error,result)
-        {
-            if(error)
-            throw error;
-            else {}
-        })
+  //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+  users.updateOne({"_id" : abc},{ $push : {joinedComm : req.body._id }},function(error,result) {
+    if(error)
+      throw error;
+  })
 
-        community.updateOne({"_id" :req.body._id},{ $pull : {invited : abc}},function(error,result)
-        {
-            if(error)
-            throw error;
-            else {}
-        })
+  community.updateOne({"_id" :req.body._id},{ $pull : {invited : abc}},function(error,result) {
+    if(error)
+      throw error;
+    else {}
+  })
 
-        //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
-        users.updateOne({"_id" : abc},{ $pull : {invited : req.body._id }},function(error,result)
-        {
-            if(error)
-            throw error;
-            else {
-                res.send("USER JOINED WITH COMMUNITY");
-            }
-        })
+  //MAKE CHANGES IN USER ALSO THAT WHICH COMMUNITIES IT HAS JOINED
+  users.updateOne({"_id" : abc},{ $pull : {invited : req.body._id }},function(error,result) {
+    if(error)
+      throw error;
+    else 
+      res.send("USER JOINED WITH COMMUNITY");
+  })
 }
 
 exports.info = (req,res) => {

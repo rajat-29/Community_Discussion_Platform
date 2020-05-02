@@ -2,8 +2,7 @@
 
 <script src="/socket.io/socket.io.js"></script>
         
-       
-  <%- include('paritials/topbar.ejs') %>
+<%- include('paritials/topbar.ejs') %>
     <div id="viewscreen" >
     <%- include('paritials/sidenavbar.ejs') %>
         <div id="rightview">
@@ -61,7 +60,6 @@
         <hr style="border-top:2px solid #E6E6E6;width:85%;margin-top:1%;">
     </center>
 
-
 <div class="container">
   <div class="panel" style="border-radius:0;border:1px solid rgb(182, 182, 182);margin-left: 2%;">
     <div class="panel-body">
@@ -111,13 +109,13 @@
 
 <script>
 
-  var socket = io();
-  var hideManage = document.getElementById('hideManage');
-  var commid ="<%= newdata._id %>";
-  var email_id ="<%= data.email %>";
-  var currentUser = "<%= data.name %>"
-  var currentId = "<%= data.ides %>"
-  var tagList = document.getElementById('tagList');
+var socket = io();
+var hideManage = document.getElementById('hideManage');
+var commid ="<%= newdata._id %>";
+var email_id ="<%= data.email %>";
+var currentUser = "<%= data.name %>"
+var currentId = "<%= data.ides %>"
+var tagList = document.getElementById('tagList');
 
 $(document).ready(function() {
     initaliseusers();   

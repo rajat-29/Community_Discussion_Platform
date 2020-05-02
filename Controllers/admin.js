@@ -12,15 +12,10 @@ exports.addnewuser = (req, res) => {
       users.create(req.body,function(error,res) {
           if(error)
           throw error;
-          else{
-            
-          }
-           
-        })         
+          else{}
+      })         
     }
-    else {
-      
-    }
+    else {}
   }) 
    res.send("data saved");
 }
@@ -58,13 +53,7 @@ exports.listusers = (req, res) => {
 
     if(req.body.order[0].column === '0')
         params = {skip : parseInt(req.body.start) , limit : parseInt(req.body.length), sort : {email : sortingType}};
-    else if(req.body.order[0].column === '2')
-        params = {skip : parseInt(req.body.start) , limit : parseInt(req.body.length), sort : {city : sortingType}};
-    else if(req.body.order[0].column === '3')
-        params = {skip : parseInt(req.body.start) , limit : parseInt(req.body.length), sort : {status : sortingType}};
-    else if(req.body.order[0].column === '4')
-        params = {skip : parseInt(req.body.start) , limit : parseInt(req.body.length), sort : {role : sortingType}};
- 
+
     users.find(query , {} , params , function (err , data) {
       if(err)
         console.log(err);
@@ -146,12 +135,6 @@ exports.listcommunity = (req, res) => {
 
     if(req.body.order[0].column === '0')
         params = {skip : parseInt(req.body.start), limit : parseInt(req.body.length), sort : {name : sortingType}};
-    else if(req.body.order[0].column === '2')
-        params = {skip : parseInt(req.body.start), limit : parseInt(req.body.length), sort : {location : sortingType}};
-    else if(req.body.order[0].column === '3')
-        params = {skip : parseInt(req.body.start), limit : parseInt(req.body.length), sort : {owner : sortingType}};
-    else if(req.body.order[0].column === '4')
-        params = {skip : parseInt(req.body.start), limit : parseInt(req.body.length), sort : {createDate : sortingType}};
 
     community.find(query, {}, params, function (err, data) {
         if(err)
@@ -216,7 +199,6 @@ exports.checktag = (req, res) => {
         res.send("false");
       else
         res.send("true");
-        
     })
 }
 
@@ -270,7 +252,7 @@ exports.showtags = (req, res) => {
                     }
                 });
             }
-        })
+      })
 }
 
 exports.deleteTag = (req,res) => {

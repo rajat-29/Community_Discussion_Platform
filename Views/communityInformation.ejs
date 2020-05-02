@@ -1,8 +1,6 @@
 <%- layout('layout/layout.ejs') %> 
-
-
         
-  <%- include('paritials/topbar.ejs') %>
+<%- include('paritials/topbar.ejs') %>
   <div id="viewscreen" >
     <%- include('paritials/sidenavbar.ejs') %>
     <div id="rightview">
@@ -27,7 +25,6 @@
           <center>
               <hr style="border-top:2px solid #E6E6E6;width:85%;">
           </center>
-
 
 <div class="container">
     <div class="col-sm-3">
@@ -93,11 +90,13 @@
 <div></div></div></div></div></div>
         
 <script src="/js/joinNewCommunity.js"></script>
+
 <script>
-  var a = "<%= data.name %>";
-  var b = "<%= newdata.owner %>"
-  var leaveComm = document.getElementById('leaveComm');
-  var commid ="<%= newdata._id %>";
+
+var a = "<%= data.name %>";
+var b = "<%= newdata.owner %>"
+var leaveComm = document.getElementById('leaveComm');
+var commid ="<%= newdata._id %>";
   
 if(a != b) {
   leaveComm.setAttribute("style", "visibility: visibile")
