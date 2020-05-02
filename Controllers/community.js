@@ -2,7 +2,7 @@ var users = require('../Models/UserSchema');
 var community = require('../Models/communitySchema');
 var Comments = require('../Models/CommentSchema');
 var mongoose = require("mongoose");
-var community_photo = "uploads/defaultCommunity.jpg";
+var community_photo = "/uploads/defaultCommunity.jpg";
 
 exports.addNewCommunitytobase = (req, res) => {
       req.body.email = req.session.email;
@@ -10,7 +10,7 @@ exports.addNewCommunitytobase = (req, res) => {
       req.body.ownerId = req.session.iding;
       req.body.memberno = '1';
       req.body.commphoto = community_photo;
-      community_photo = "uploads/defaultCommunity.jpg";
+      community_photo = "/uploads/defaultCommunity.jpg";
       
       community.create(req.body,function(error,result)
       {

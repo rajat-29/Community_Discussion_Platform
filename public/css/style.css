@@ -54,3 +54,38 @@
     }
 
 }
+
+.actionbut {
+    padding: 5px 8px 5px 8px;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 14px;
+    color: white;
+    display: inline-block;
+}
+
+.emailbut {
+    background-color: black;
+}
+
+.editbut {
+    background-color: blue;
+}
+
+.deactivatebut {
+    background-color: rgb(255, 196, 0);
+}
+
+.activatebut {
+    background-color: rgb(81, 255, 0);
+}
+
+.to-center-div {
+    margin-top: 2%;
+}
+
+@media (min-width: 768px) {
+    .to-center-div {
+        margin-left:60px;
+    }
+}

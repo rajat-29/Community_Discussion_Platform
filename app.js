@@ -1,4 +1,5 @@
 var express = require('express')
+var engine = require("ejs-mate");
 var path = require('path')
 var app = express()
 var session = require('express-session');
@@ -20,8 +21,10 @@ app.use(
   })
 );
 
-app.set('views', path.join(__dirname, 'Views'));                   // view engine setup //
+app.engine("ejs", engine);
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'Views'));                   // view engine setup //
+
 app.use(express.static(path.join(__dirname,'/public')))           // folder path  //
 app.use(express.static(path.join(__dirname,'/public/uploads'))) 
 

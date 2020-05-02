@@ -1,57 +1,15 @@
-<!DOCTYPE html>
-<html >
-<head>
-    <title>Manage Community</title>
-    <meta name="viewport" content="width=device-width" initial-scale="1.0">
-    <link href="css/partials.css" rel="stylesheet" type = "text/css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<%- layout('layout/layout.ejs') %>
+
+
+   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
     <link rel="stylesheet" type="text/css" href="css/datatables.css">
     <link type="text/css" href="css/datatables.min.css">
     <link rel="stylesheet" type="text/css" href="css/trumbowgy.css">
-<style>
-  .actionbut {
-        padding: 5px 8px 5px 8px;
-        cursor: pointer;
-        margin: 5px;
-        font-size: 14px;
-        color: white;
-        display: inline-block;
-    }
 
-    .emailbut {
-        background-color: black;
-    }
 
-    .editbut {
-        background-color: blue;
-    }
-
-    .deactivatebut {
-        background-color: rgb(255, 196, 0);
-    }
-
-    .activatebut {
-        background-color: rgb(81, 255, 0);
-    }
-
-    .to-center-div {
-        margin-top: 2%;
-    }
-
-    @media (min-width: 768px) {
-        .to-center-div {
-            margin-left:60px;
-        }
-    }
-
-</style>
-</head>
-<body class="body">
     <%- include('paritials/topbar.ejs') %>
     <div id="viewscreen" >
         <%- include('paritials/sidenavbar.ejs') %>
@@ -184,5 +142,4 @@
 <script type="text/javascript" src="/js/datatables.min.js"></script>
 <script type="text/javascript" src="/js/manage_community.js"></script>
 	
-</body>
 </html>
