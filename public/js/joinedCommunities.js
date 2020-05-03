@@ -82,9 +82,10 @@ function addToDOM(obj,s) {
 
     var p=document.createElement('p')
     var a2=document.createElement('a');
-    a2.setAttribute("class","comnametxt")
+    a2.setAttribute("class","comnametxt");
+    a2.setAttribute("style","font-size:15px;")
     a2.href = "/community/discussion/" + filenaming;
-    a2.innerHTML=obj.name + "     ";
+    a2.innerHTML=obj.name.bold() + "     ";
 
     var a3=document.createElement('a')
     a3.setAttribute("class","comnametxt-user")
@@ -132,7 +133,8 @@ function addToDOM(obj,s) {
         l1.setAttribute("class","label label-success")
         l1.setAttribute("style","cursor:pointer !important;")
         var i1=document.createElement('i')
-        i1.setAttribute("class","fa fa-cogs")
+        i1.setAttribute("class","fa fa-cogs fa-lg")
+     
         l1.appendChild(i1)
         a6.appendChild(l1)
         div4.appendChild(a6)
@@ -158,7 +160,7 @@ function addToDOM(obj,s) {
         l1.setAttribute("class","label label-primary")
         l1.setAttribute("style","cursor:pointer !important;")
         var i1=document.createElement('i')
-        i1.setAttribute("class","fa fa-cogs")
+        i1.setAttribute("class","fa fa-cogs fa-lg")
         l1.appendChild(i1)
         a6.appendChild(l1)
         div4.appendChild(a6)
@@ -183,7 +185,7 @@ function addToDOM(obj,s) {
         l1.setAttribute("class","label label-danger")
         l1.setAttribute("style","cursor:pointer !important;")
         var i1=document.createElement('i')
-        i1.setAttribute("class","fa fa-times")
+        i1.setAttribute("class","fa fa-times fa-lg")
         l1.appendChild(i1)
         l1.onclick=function(){
 
