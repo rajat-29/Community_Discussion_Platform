@@ -1,10 +1,16 @@
 {
-  "name": "myapp",
+  "name": "community_discussion_platform",
   "version": "1.0.0",
-  "description": "",
+  "description": "It is a Website developed under UCA class for our Web Project.\r To run this website run this command on command prompt on root folder.\r ```\r npm start\r ```\r It will run under the url http://127.0.0.1:3000/",
   "main": "index.js",
+  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rajat-29/Community_Discussion_Platform.git"
   },
   "author": "",
   "license": "ISC",
@@ -22,5 +28,9 @@
     "nodemon": "^2.0.3",
     "path": "^0.12.7",
     "socket.io": "^2.3.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/rajat-29/Community_Discussion_Platform/issues"
+  },
+  "homepage": "https://github.com/rajat-29/Community_Discussion_Platform#readme"
 }
