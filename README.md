@@ -129,3 +129,162 @@ npm install bcrpty  / npm i bcrpty
 ```
 npm install socket
 ```
+
+## Schema
+
+<h4><b>User Schema</b></h4>
+
+| Name         | Type   | Required | Unique | Encrpyted |
+| ------------ | ------ | -------- | ------ | --------- |
+| Name         | String | Yes      | No     | No        |
+| Email        | String | Yes      | Yes    | No        |
+| Password     | String | Yes      | No     | Yes       |
+| Phone No.    | String | Yes      | No     | No        |
+| City         | String | Yes      | No     | No        |
+| Gender       | String | Yes      | No     | No        |
+| DOB          | String | Yes      | No     | No        |
+| Role         | String | Yes      | No     | No        |
+| Status       | String | Yes      | No     | No        |
+| Flag         | String | No       | No     | No        |
+| Interests    | String | No       | No     | No        |
+| Bitmore      | String | No       | No     | No        |
+| Expectations | String | No       | No     | No        |
+| Photoname    | String | No       | No     | No        |
+
+<h4><b>Community Schema</b></h4>
+
+| Name         | Type                           | Required | Unique |
+| ------------ | ------------------------------ | -------- | ------ |
+| Name         | String                         | Yes      | Yes    |
+| Rule         | String                         | Yes      | No     |
+| Location     | String                         | No       | No     |
+| Email        | String                         | No       | No     |
+| Owner        | String                         | Yes      | No     |
+| CreateDate   | String                         | No       | No     |
+| Status       | String                         | No       | No     |
+| Desc         | String                         | Yes      | No     |
+| Commphoto    | String                         | Yes      | No     |
+| OwnerId      | String                         | No       | No     |
+| Memberno     | String                         | No       | No     |
+| Commuser     | Array of ObjectId('User')      | No       | No     |
+| Commasktojoin| Array of ObjectId('User')      | No       | No     |
+| CommManagers | Array of ObjectId('User')      | No       | No     |
+| Invited      | Array of ObjectId('User')      | No       | No     |
+
+<h4><b>Tag Schema</b></h4>
+
+| Name        | Type   | Required | Unique |
+| ----------- | ------ | -------- | ------ |
+| Tags        | String | Yes      | No     |
+| Createdby   | String | Yes      | No     |
+| Createddate | String | Yes      | No     |
+
+<h4><b>Discussion Schema</b></h4>
+
+| Name          | Type   |
+| ------------- | ------ |
+| Title         | String |
+| Details       | String |
+| Tag           | String |
+| CommunityName | String |
+| CreatedBy     | String |
+| CreatedDate   | String |
+| OwnerId       | String |
+| CommunityId   | String |
+
+<h4><b>Comment Schema</b></h4>
+
+| Name         | Type   |
+| ------------ | ------ | 
+| Comment      | String | 
+| DiscussionId | String |
+| CommentedBy  | String | 
+| OwnerId      | String |
+| CommunityId  | String | 
+| CreatedDate  | String |
+| Photoname    | String | 
+
+ <h4><b>Reply Schema</b></h4>
+
+| Name         | Type   |
+| ------------ | ------ |
+| Reply        | String |
+| CommentId    | String |
+| DiscussionId | String |
+| RepliedBy    | String |
+| OwnerId      | String |
+| CreatedDate  | String |
+| Photoname    | String |
+
+
+## Directory
+
+```bash
+|___ Root
+|   |--- app.js
+|   |
+|   |--- Controller
+|   |    |--- admin.js
+|   |    |--- community.js
+|   |    |--- discussion.js
+|   |    |--- discussion.js
+|   |    |--- login.js
+|   |
+|   |--- Dump (Mongoose Dump) (Dump)
+|   |
+|   |--- Middlewares
+|   |    |--- middleware.js
+|   |
+|   |--- Models
+|   |    |--- CommentSchema.js
+|   |    |--- CommunitySchema.js
+|   |    |--- DiscussionSchema.js
+|   |    |--- ReplySchema.js
+|   |    |--- TagSchema.js
+|   |    |--- UserSchema.js
+|   |
+|   |--- Public
+|   |    |--- css (Static)
+|   |    |--- images (Staic and Dynamic)
+|   |    |--- script (Static)
+|   |
+|   |--- Routes
+|   |    |--- Handlers
+|   |    |    |--- admin.ejs
+|   |    |    |--- community.ejs
+|   |    |    |--- discussion.ejs
+|   |    |    |--- login.ejs
+|   |    |--- index.js
+|   |
+|   |--- viwes
+|   |    |--- layout
+|   |    |    |--- layout.ejs
+|   |    |--- partials
+|   |    |    |--- header.ejs
+|   |    |    |--- sidenavbar.ejs
+|   |    |    |--- topar.ejs
+|   |    |--- acceptInvitation.ejs
+|   |    |--- addNewCommunity.ejs
+|   |    |--- add_user.ejs
+|   |    |--- changePassword.ejs
+|   |    |--- communityDiscussions.ejs
+|   |    |--- communityInformation.ejs
+|   |    |--- communityProfileInfo.ejs
+|   |    |--- communitySettings.ejs
+|   |    |--- create_tag.ejs
+|   |    |--- discussionOwnerInfo.ejs
+|   |    |--- editcommunity.ejs
+|   |    |--- editUserDetails.ejs
+|   |    |--- home.ejs
+|   |    |--- inviteUser.ejs
+|   |    |--- joinedCommunities.ejs
+|   |    |--- login.ejs
+|   |    |--- manage_community.ejs
+|   |    |--- manage_tags.ejs
+|   |    |--- manage_users.ejs
+|   |    |--- newUserDetails.ejs
+|   |    |--- searchingCommunity.ejs
+|   |    |--- showCommunitymembers.ejs
+|   |    |--- switchAsUserAdmin.ejs
+|   |    |--- viewProfile.ejs
+```
