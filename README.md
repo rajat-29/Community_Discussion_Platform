@@ -1,17 +1,46 @@
 # Community_Website_Project
-A web project done in UCA Batch using bootstrap,Nodejs,MongoDb!!
 
-## Features
-<ul>
-  <li> Mongoose Database</li>
-  <li>Different View For User, Admin and Super Admin</li>
-  <li>Uploading Photos using Multer</li>  
-  <li>Send Mail using NodeMailler</li>
-  <li>Github Passport</li>
-</ul>
+Website in which community can interact with each other.It is a Website developed under UCA class for our Web Project !!
 
 ## How To Run?
-It will run under the url http://127.0.0.1:8000/
+
+To run this website run this command on command prompt on root folder.
+
+```
+npm start or node app.js
+```
+
+It will run under the url http://127.0.0.1:3000/
+
+## Login Details
+
+Email and Password for Website:<br>
+
+Admin :<br>
+Email :admin@cq.com<br>
+Password: admincq<br>
+
+Community Builder :<br>
+Email :community@cq.com<br>
+Password: admincq<br>
+
+Email :community1@cq.com<br>
+Password: admincq<br>
+
+User:<br>
+Email : bro@gmail.com<br>
+Password: admincq<br>
+
+## Features
+
+- Dynamic Data by mongoose database
+- Different View For User, Admin and Super Admin
+- Capable for uploading photo or setting photo of User
+- Capable of sending Mail using NodeMailer
+- Responsive Layout
+- Mobile Friendly
+- Open Source
+
 
 ## How to Use ?
 <ol type="number">
