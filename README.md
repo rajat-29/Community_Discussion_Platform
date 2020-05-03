@@ -129,3 +129,24 @@ npm install bcrpty  / npm i bcrpty
 ```
 npm install socket
 ```
+
+## Schema
+
+<h4><b>User Schema</b></h4>
+
+| Name         | Type   | Required | Unique | Encrpyted |
+| ------------ | ------ | -------- | ------ | --------- |
+| Name         | String | Yes      | No     | No        |
+| Email        | String | Yes      | Yes    | No        |
+| Password     | String | Yes      | No     | Yes       |
+| Phone No.    | String | Yes      | No     | No        |
+| City         | String | Yes      | No     | No        |
+| Gender       | String | Yes      | No     | No        |
+| DOB          | String | Yes      | No     | No        |
+| Role         | String | Yes      | No     | No        |
+| Status       | String | Yes      | No     | No        |
+| Flag         | String | No       | No     | No        |
+| Interests    | String | No       | No     | No        |
+| Bitmore      | String | No       | No     | No        |
+| Expectations | String | No       | No     | No        |
+| Photoname    | String | No       | No     | No        |
