@@ -155,18 +155,40 @@ npm install socket
 
 | Name         | Type                           | Required | Unique |
 | ------------ | ------------------------------ | -------- | ------ |
-| name         | String                         | Yes      | Yes    |
-| rule         | String                         | Yes      | No     |
+| Name         | String                         | Yes      | Yes    |
+| Rule         | String                         | Yes      | No     |
 | Location     | String                         | No       | No     |
 | Email        | String                         | No       | No     |
-| owner        | String                         | Yes      | No     |
-| createDate   | String                         | No       | No     |
-| status       | String                         | No       | No     |
-| desc         | String                         | Yes      | No     |
-| commphoto    | String                         | Yes      | No     |
-| ownerId      | String                         | No       | No     |
-| memberno     | String                         | No       | No     |
-| commuser     | Array of ObjectId('User')      | No       | No     |
-| commasktojoin| Array of ObjectId('User')      | No       | No     |
-| commManagers | Array of ObjectId('User')      | No       | No     |
-| invited      | Array of ObjectId('User')      | No       | No     |
+| Owner        | String                         | Yes      | No     |
+| CreateDate   | String                         | No       | No     |
+| Status       | String                         | No       | No     |
+| Desc         | String                         | Yes      | No     |
+| Commphoto    | String                         | Yes      | No     |
+| OwnerId      | String                         | No       | No     |
+| Memberno     | String                         | No       | No     |
+| Commuser     | Array of ObjectId('User')      | No       | No     |
+| Commasktojoin| Array of ObjectId('User')      | No       | No     |
+| CommManagers | Array of ObjectId('User')      | No       | No     |
+| Invited      | Array of ObjectId('User')      | No       | No     |
+
+<h4><b>Tag Schema</b></h4>
+
+| Name        | Type   | Required | Unique |
+| ----------- | ------ | -------- | ------ |
+| Tags        | String | Yes      | No     |
+| Createdby   | String | Yes      | No     |
+| Createddate | String | Yes      | No     |
+
+<h4><b>Discussion Schema</b></h4>
+
+| Name          | Type   |
+| ------------- | ------ |
+| title         | String |
+| details       | String |
+| tag           | String |
+| communityName | String |
+| createdBy     | String |
+| createdDate   | String |
+| ownerId       | String |
+| communityId   | String |
+
