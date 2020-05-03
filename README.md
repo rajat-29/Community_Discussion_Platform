@@ -150,3 +150,23 @@ npm install socket
 | Bitmore      | String | No       | No     | No        |
 | Expectations | String | No       | No     | No        |
 | Photoname    | String | No       | No     | No        |
+
+<h4><b>Community Schema</b></h4>
+
+| Name         | Type                           | Required | Unique |
+| ------------ | ------------------------------ | -------- | ------ |
+| name         | String                         | Yes      | Yes    |
+| rule         | String                         | Yes      | No     |
+| Location     | String                         | No       | No     |
+| Email        | String                         | No       | No     |
+| owner        | String                         | Yes      | No     |
+| createDate   | String                         | No       | No     |
+| status       | String                         | No       | No     |
+| desc         | String                         | Yes      | No     |
+| commphoto    | String                         | Yes      | No     |
+| ownerId      | String                         | No       | No     |
+| memberno     | String                         | No       | No     |
+| commuser     | Array of ObjectId('User')      | No       | No     |
+| commasktojoin| Array of ObjectId('User')      | No       | No     |
+| commManagers | Array of ObjectId('User')      | No       | No     |
+| invited      | Array of ObjectId('User')      | No       | No     |
