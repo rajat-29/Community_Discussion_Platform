@@ -1,4 +1,4 @@
-# Community_Website_Project
+# Community_Discussion_Platform
 
 Website in which community can interact with each other.It is a Website developed under UCA class for our Web Project !!
 
@@ -35,12 +35,11 @@ Password: admincq<br>
 
 - Dynamic Data by mongoose database
 - Different View For User, Admin and Super Admin
-- Capable for uploading photo or setting photo of User
+- Capable for real time chatting in different communities
 - Capable of sending Mail using NodeMailer
 - Responsive Layout
 - Mobile Friendly
 - Open Source
-
 
 ## How to Use ?
 <ol type="number">
@@ -55,21 +54,78 @@ Password: admincq<br>
 <li>Manages Users</li>
 </ol>
 
-## Extra Dependencies :
+## Pre-requisites
+
+- Node JS (Tested on v12.14.0)
+- Mongoose
+- Pre-requisites or Dependencies(Below)
+
+## Dependencies :
 
 <ul>
   <li>Mongoose</li>
   <li>Express</li>
   <li>Express-Session</li>
+  <li>PATH</li>
   <li>EJS</li>
+  <li>EJS Mate</li>
   <li>Node Mailer</li>
   <li>Multer</li>
   <li>Passport-GitHub</li>
+  <li>Bcrypt</li>
+  <li>HTTP</li>
 </ul>
 
-## Login :
+- Express
 
-<ul>
-  <li> ID - admin@cq.com </li>
-  <li> Password - admincq </li>
-</ul>
+```
+npm install express
+```
+
+- EJS
+
+```
+npm install ejs
+```
+
+- Express-Session
+
+```
+npm install express-session
+```
+
+- Multer
+
+```
+npm install multer
+```
+
+- Mongoose
+
+```
+npm install mongoose
+```
+
+- Node Mailer
+
+```
+npm install nodemailer
+```
+
+- Dotenv
+
+```
+npm install dotenv
+```
+
+- Bcrpty
+
+```
+npm install bcrpty  / npm i bcrpty
+```
+
+- Socket
+
+```
+npm install socket
+```
