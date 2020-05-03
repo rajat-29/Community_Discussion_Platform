@@ -208,11 +208,83 @@ npm install socket
 
 | Name         | Type   |
 | ------------ | ------ |
-| reply        | String |
-| commentId    | String |
-| discussionId | String |
-| repliedBy    | String |
-| ownerId      | String |
-| createdDate  | String |
-| photoname    | String |
+| Reply        | String |
+| CommentId    | String |
+| DiscussionId | String |
+| RepliedBy    | String |
+| OwnerId      | String |
+| CreatedDate  | String |
+| Photoname    | String |
 
+
+## Directory
+
+```bash
+|___ Root
+|   |--- app.js
+|   |
+|   |--- Controller
+|   |    |--- admin.js
+|   |    |--- community.js
+|   |    |--- discussion.js
+|   |    |--- discussion.js
+|   |    |--- login.js
+|   |
+|   |--- Dump (Mongoose Dump) (Dump)
+|   |
+|   |--- Middlewares
+|   |    |--- middleware.js
+|   |
+|   |--- Models
+|   |    |--- CommentSchema.js
+|   |    |--- CommunitySchema.js
+|   |    |--- DiscussionSchema.js
+|   |    |--- ReplySchema.js
+|   |    |--- TagSchema.js
+|   |    |--- UserSchema.js
+|   |
+|   |--- Public
+|   |    |--- css (Static)
+|   |    |--- images (Staic and Dynamic)
+|   |    |--- script (Static)
+|   |
+|   |--- Routes
+|   |    |--- Handlers
+|   |    |    |--- admin.ejs
+|   |    |    |--- community.ejs
+|   |    |    |--- discussion.ejs
+|   |    |    |--- login.ejs
+|   |    |--- index.js
+|   |
+|   |--- viwes
+|   |    |--- layout
+|   |    |    |--- layout.ejs
+|   |    |--- partials
+|   |    |    |--- header.ejs
+|   |    |    |--- sidenavbar.ejs
+|   |    |    |--- topar.ejs
+|   |    |--- acceptInvitation.ejs
+|   |    |--- addNewCommunity.ejs
+|   |    |--- add_user.ejs
+|   |    |--- changePassword.ejs
+|   |    |--- communityDiscussions.ejs
+|   |    |--- communityInformation.ejs
+|   |    |--- communityProfileInfo.ejs
+|   |    |--- communitySettings.ejs
+|   |    |--- create_tag.ejs
+|   |    |--- discussionOwnerInfo.ejs
+|   |    |--- editcommunity.ejs
+|   |    |--- editUserDetails.ejs
+|   |    |--- home.ejs
+|   |    |--- inviteUser.ejs
+|   |    |--- joinedCommunities.ejs
+|   |    |--- login.ejs
+|   |    |--- manage_community.ejs
+|   |    |--- manage_tags.ejs
+|   |    |--- manage_users.ejs
+|   |    |--- newUserDetails.ejs
+|   |    |--- searchingCommunity.ejs
+|   |    |--- showCommunitymembers.ejs
+|   |    |--- switchAsUserAdmin.ejs
+|   |    |--- viewProfile.ejs
+```
