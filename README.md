@@ -183,12 +183,36 @@ npm install socket
 
 | Name          | Type   |
 | ------------- | ------ |
-| title         | String |
-| details       | String |
-| tag           | String |
-| communityName | String |
-| createdBy     | String |
-| createdDate   | String |
-| ownerId       | String |
-| communityId   | String |
+| Title         | String |
+| Details       | String |
+| Tag           | String |
+| CommunityName | String |
+| CreatedBy     | String |
+| CreatedDate   | String |
+| OwnerId       | String |
+| CommunityId   | String |
+
+<h4><b>Comment Schema</b></h4>
+
+| Name         | Type   |
+| ------------ | ------ | 
+| Comment      | String | 
+| DiscussionId | String |
+| CommentedBy  | String | 
+| OwnerId      | String |
+| CommunityId  | String | 
+| CreatedDate  | String |
+| Photoname    | String | 
+
+ <h4><b>Reply Schema</b></h4>
+
+| Name         | Type   |
+| ------------ | ------ |
+| reply        | String |
+| commentId    | String |
+| discussionId | String |
+| repliedBy    | String |
+| ownerId      | String |
+| createdDate  | String |
+| photoname    | String |
 
