@@ -9,7 +9,7 @@ var auth=require('../../MiddleWares/auth');
 
 let loginController = require('../../Controllers/login');
 
-app.get('/home', auth,function(req,res){      
+app.get('/home',auth.checkSession,function(req,res){      
 
   if(req.session.data.dob == ''){
     res.render('newUserDetails', {data: req.session.data,title : 'User Details'});
@@ -19,7 +19,7 @@ app.get('/home', auth,function(req,res){
    }         
 })
 
-app.get('/changePassword',auth,function(req,res){ 
+app.get('/changePassword',auth.checkSession,function(req,res){ 
       res.render('changePassword', {data: req.session.data,title : 'Change Password'});
 })
 
@@ -33,7 +33,7 @@ app.get('/logutUser', function(req,res) {
     res.render('login');
 })
 
-app.get('/editUserDetails', auth,function(req,res) {
+app.get('/editUserDetails', auth.checkSession,function(req,res) {
       res.render('editUserDetails', {data: req.session.data,title : 'Edit Details'});
 }) 
 
@@ -41,10 +41,10 @@ app.get('/editUserDetails', auth,function(req,res) {
 
 app.use('/checkLogin',loginController.checkLogin);
 
-app.use('/changePassword',auth,loginController.changePassword);
+app.use('/changePassword', auth.checkSession,loginController.changePassword);
 
-app.use('/editUserDetails',auth,loginController.editUserDetails);
+app.use('/editUserDetails', auth.checkSession,loginController.editUserDetails);
 
-app.use('/updateNewUserDetails',auth,loginController.updateNewUserDetails);
+app.use('/updateNewUserDetails', auth.checkSession,loginController.updateNewUserDetails);
 
 module.exports = app;

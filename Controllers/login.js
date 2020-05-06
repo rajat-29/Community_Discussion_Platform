@@ -42,6 +42,7 @@ exports.checkLogin = (req, res)  => {
                  req.session.data = userdata;
                  req.session.name = result.name;
                  req.session.iding = result._id;
+                 req.session.role = result.role;
 
                 var re = req.session.redirectUrl || '/login/home';
                 res.send(re);
