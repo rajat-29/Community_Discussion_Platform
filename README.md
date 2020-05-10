@@ -118,10 +118,10 @@ npm install nodemailer
 npm install dotenv
 ```
 
-- Bcrpty
+- Bcrypt
 
 ```
-npm install bcrpty  / npm i bcrpty
+npm install bcrypt  / npm i bcrypt
 ```
 
 - Socket
