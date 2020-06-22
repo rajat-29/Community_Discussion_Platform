@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname,'/public')))           // folder path
 app.use(express.static(path.join(__dirname,'/public/uploads'))) 
 
 // DB //
-require("./static/db");
+require("./config/db");
 
 /* Mongoose Connectopn */
 var mongoose = require("mongoose");
